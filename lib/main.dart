@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
               MaterialPageRoute(builder: (context) => MainScreen()),
             );
           },
-          child: Text('Go to MainScreen'),
+          child: const Text('Go to MainScreen'),
         ),
       ),
     );
