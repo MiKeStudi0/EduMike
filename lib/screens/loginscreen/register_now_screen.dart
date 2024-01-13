@@ -24,151 +24,152 @@ class RegisterNowScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Center(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Form(
-              key: _formKey,
-              child: Container(
-                width: double.maxFinite,
-                padding: EdgeInsets.symmetric(horizontal: 34.h),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgTelevision,
-                          height: 70.adaptSize,
-                          width: 70.adaptSize,
+          child: Form(
+            key: _formKey,
+            child: Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.symmetric(horizontal: 34.h),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomImageView(
+                        imagePath: ImageConstant.imgTelevision,
+                        height: 70.adaptSize,
+                        width: 70.adaptSize,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 12.h,
+                          top: 5.v,
+                          bottom: 20.v,
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 12.h,
-                            top: 5.v,
-                            bottom: 20.v,
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                "EDUPRO",
-                                style: theme.textTheme.headlineLarge,
-                              ),
-                              Text(
-                                "Learn From Home".toUpperCase(),
-                                style: theme.textTheme.labelMedium,
-                              ),
-                            ],
-                          ),
+                        child: Column(
+                          children: [
+                            Text(
+                              "EDUPRO",
+                              style: theme.textTheme.headlineLarge,
+                            ),
+                            Text(
+                              "Learn From Home".toUpperCase(),
+                              style: theme.textTheme.labelMedium,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 61.v),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Getting Started.!",
+                      style: theme.textTheme.headlineSmall,
                     ),
-                    SizedBox(height: 61.v),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Getting Started.!",
-                        style: theme.textTheme.headlineSmall,
+                  ),
+                  SizedBox(height: 9.v),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Create an Account to Continue your allCourses",
+                      style: theme.textTheme.titleSmall,
+                    ),
+                  ),
+                  SizedBox(height: 48.v),
+                  CustomTextFormField(
+                    controller: emailController,
+                    hintText: "Email",
+                    textInputType: TextInputType.emailAddress,
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(20.h, 22.v, 7.h, 23.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.imgLock,
+                        height: 14.v,
+                        width: 18.h,
                       ),
                     ),
-                    SizedBox(height: 9.v),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Create an Account to Continue your allCourses",
-                        style: theme.textTheme.titleSmall,
+                    prefixConstraints: BoxConstraints(
+                      maxHeight: 60.v,
+                    ),
+                  ),
+                  SizedBox(height: 20.v),
+                  CustomTextFormField(
+                    controller: passwordController,
+                    hintText: "Password",
+                    textInputAction: TextInputAction.done,
+                    textInputType: TextInputType.visiblePassword,
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(22.h, 20.v, 9.h, 20.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.imgLocation,
+                        height: 19.v,
+                        width: 14.h,
                       ),
                     ),
-                    SizedBox(height: 48.v),
-                    CustomTextFormField(
-                      controller: emailController,
-                      hintText: "Email",
-                      textInputType: TextInputType.emailAddress,
-                      prefix: Container(
-                        margin: EdgeInsets.fromLTRB(20.h, 22.v, 7.h, 23.v),
+                    prefixConstraints: BoxConstraints(
+                      maxHeight: 60.v,
+                    ),
+                    suffix: Container(
+                      margin: EdgeInsets.fromLTRB(30.h, 21.v, 24.h, 21.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.imgThumbsup,
+                        height: 15.adaptSize,
+                        width: 15.adaptSize,
+                      ),
+                    ),
+                    suffixConstraints: BoxConstraints(
+                      maxHeight: 60.v,
+                    ),
+                    obscureText: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 21.v),
+                  ),
+                  SizedBox(height: 20.v),
+                  _buildTermsAgreement(context),
+                  SizedBox(height: 35.v),
+                  _buildRegistrationForm(context),
+                  SizedBox(height: 24.v),
+                  Text(
+                    "Or Continue With",
+                    style: CustomTextStyles.titleSmallExtraBold_1,
+                  ),
+                  SizedBox(height: 25.v),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomIconButton(
+                        height: 48.adaptSize,
+                        width: 48.adaptSize,
+                        padding: EdgeInsets.all(13.h),
                         child: CustomImageView(
-                          imagePath: ImageConstant.imgLock,
-                          height: 14.v,
-                          width: 18.h,
+                          imagePath: ImageConstant.imgCircle,
                         ),
                       ),
-                      prefixConstraints: BoxConstraints(
-                        maxHeight: 60.v,
-                      ),
-                    ),
-                    SizedBox(height: 20.v),
-                    CustomTextFormField(
-                      controller: passwordController,
-                      hintText: "Password",
-                      textInputAction: TextInputAction.done,
-                      textInputType: TextInputType.visiblePassword,
-                      prefix: Container(
-                        margin: EdgeInsets.fromLTRB(22.h, 20.v, 9.h, 20.v),
-                        child: CustomImageView(
-                          imagePath: ImageConstant.imgLocation,
-                          height: 19.v,
-                          width: 14.h,
-                        ),
-                      ),
-                      prefixConstraints: BoxConstraints(
-                        maxHeight: 60.v,
-                      ),
-                      suffix: Container(
-                        margin: EdgeInsets.fromLTRB(30.h, 21.v, 24.h, 21.v),
-                        child: CustomImageView(
-                          imagePath: ImageConstant.imgThumbsup,
-                          height: 15.adaptSize,
-                          width: 15.adaptSize,
-                        ),
-                      ),
-                      suffixConstraints: BoxConstraints(
-                        maxHeight: 60.v,
-                      ),
-                      obscureText: true,
-                      contentPadding: EdgeInsets.symmetric(vertical: 21.v),
-                    ),
-                    SizedBox(height: 20.v),
-                    _buildTermsAgreement(context),
-                    SizedBox(height: 35.v),
-                    _buildRegistrationForm(context),
-                    SizedBox(height: 24.v),
-                    Text(
-                      "Or Continue With",
-                      style: CustomTextStyles.titleSmallExtraBold_1,
-                    ),
-                    SizedBox(height: 25.v),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomIconButton(
+                      Padding(
+                        padding: EdgeInsets.only(left: 50.h),
+                        child: CustomIconButton(
                           height: 48.adaptSize,
                           width: 48.adaptSize,
-                          padding: EdgeInsets.all(13.h),
+                          padding: EdgeInsets.all(14.h),
                           child: CustomImageView(
-                            imagePath: ImageConstant.imgCircle,
+                            imagePath:
+                                ImageConstant.imgCirclePrimarycontainer,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 50.h),
-                          child: CustomIconButton(
-                            height: 48.adaptSize,
-                            width: 48.adaptSize,
-                            padding: EdgeInsets.all(14.h),
-                            child: CustomImageView(
-                              imagePath:
-                                  ImageConstant.imgCirclePrimarycontainer,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 52.v),
-                    SizedBox(
-                      height: 18.v,
-                      width: 232.h,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 52.v),
+                  SizedBox(
+                    height: 18.v,
+                    width: 232.h,
+                    child: GestureDetector(
+                       onTap: () {
+                       onTapSignInWithYourAccount;
+                       
+                    },
                       child: Stack(
                         alignment: Alignment.bottomRight,
                         children: [
@@ -181,6 +182,7 @@ class RegisterNowScreen extends StatelessWidget {
                                     text: "Already have an Account? ",
                                     style: CustomTextStyles.titleSmallff545454,
                                   ),
+                                  
                                   TextSpan(
                                     text: "SIGN IN",
                                     style: CustomTextStyles.titleSmallff0961f5,
@@ -205,9 +207,9 @@ class RegisterNowScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 3.v),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 3.v),
+                ],
               ),
             ),
           ),
@@ -300,5 +302,9 @@ class RegisterNowScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+    onTapSignInWithYourAccount(BuildContext context) {
+    Navigator.pop(context);
   }
 }
