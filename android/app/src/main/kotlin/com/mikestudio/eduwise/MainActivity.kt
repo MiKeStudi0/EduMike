@@ -1,4 +1,4 @@
-package com.example.edumike
+package com.mikestudio.eduwise
 
 import io.flutter.embedding.android.FlutterActivity
 

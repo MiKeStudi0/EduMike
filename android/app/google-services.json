@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "220703673234",
+    "project_id": "eduwise-aae57",
+    "storage_bucket": "eduwise-aae57.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220703673234:android:50f23be7a85edde36f0f4b",
+        "android_client_info": {
+          "package_name": "com.mikestudio.eduwise"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgXoonlqPUGBYGM4nOeEirTW1D8PeHNEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

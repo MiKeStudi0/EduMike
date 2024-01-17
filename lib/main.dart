@@ -1,11 +1,16 @@
+import 'package:edumike/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/scheduler.dart';
 import 'core/app_export.dart';
 
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
@@ -22,7 +27,7 @@ class MyApp extends StatelessWidget {
       builder: (context, orientation, deviceType) {
         return MaterialApp(
           theme: theme,
-          title: 'EduMike',
+          title: 'EduWise',
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.introOneScreen,
           routes: AppRoutes.routes,
