@@ -287,6 +287,9 @@ class RegisterNowScreen extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 85.h),
                     child: CustomIconButton(
+                      onTap: () {
+                        onTapBtnSIgnup(context);
+                      },
                       height: 48.adaptSize,
                       width: 48.adaptSize,
                       padding: EdgeInsets.all(13.h),
@@ -303,6 +306,9 @@ class RegisterNowScreen extends StatelessWidget {
       ),
     );
   }
+    onTapBtnSIgnup(BuildContext context){
+      Navigator.pushNamed(context,AppRoutes.fillYourProfileScreen);
+    }
 
     onTapSignInWithYourAccount(BuildContext context) {
     Navigator.pop(context);

@@ -17,13 +17,13 @@ class IntroOneScreen extends StatelessWidget {
                     EdgeInsets.symmetric(horizontal: 36.h, vertical: 156.v),
                 child:
                     Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Spacer(),
-                  Text("Online Learning", style: theme.textTheme.headlineSmall),
+                  const Spacer(),
+                  Text("Welcome to Eduwise", style: theme.textTheme.headlineSmall),
                   SizedBox(height: 6.v),
                   SizedBox(
                       width: 355.h,
                       child: Text(
-                          "We Provide Classes Online Classes and Pre Recorded Leactures.!",
+                          "Unlock Knowledge: Your Ultimate Study Companion",
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
