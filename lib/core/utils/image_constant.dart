@@ -17,7 +17,7 @@ class ImageConstant {
   static String imgClose = '$imagePath/img_close.svg';
 
   // 08_FILL YOUR PROFILE images
-  static String imgFill1Gray50 = '$imagePath/img_fill_1_gray_50.svg';
+  static String imgFill1Gray50 = '$imagePath/img_fill_1_gray_50.png';
 
   static String imgGroup20 = '$imagePath/img_group_20.svg';
 
