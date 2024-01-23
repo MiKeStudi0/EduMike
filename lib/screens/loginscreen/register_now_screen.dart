@@ -158,12 +158,35 @@ class RegisterNowScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 50.h),
-                        child: CustomIconButton(
-                          height: 48.adaptSize,
-                          width: 48.adaptSize,
-                          padding: EdgeInsets.all(14.h),
-                          child: CustomImageView(
-                            imagePath: ImageConstant.imgCirclePrimarycontainer,
+                        child: GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text("Coming Soon!!"),
+                                  content: const Text(
+                                      "Apple SIgn-In feature will be available soon!!"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Ok'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: CustomIconButton(
+                            height: 48.adaptSize,
+                            width: 48.adaptSize,
+                            padding: EdgeInsets.all(14.h),
+                            child: CustomImageView(
+                              imagePath:
+                                  ImageConstant.imgCirclePrimarycontainer,
+                            ),
                           ),
                         ),
                       ),
