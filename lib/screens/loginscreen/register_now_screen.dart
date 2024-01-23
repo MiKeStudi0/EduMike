@@ -1,8 +1,12 @@
+import 'package:edumike/screens/loginscreen/google_auth.dart';
+import 'package:edumike/screens/loginscreen/login_screen.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_checkbox_button.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
+import 'package:flutter/widgets.dart';
 
 class RegisterNowScreen extends StatelessWidget {
   RegisterNowScreen({Key? key})
@@ -139,23 +143,50 @@ class RegisterNowScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CustomIconButton(
-                        height: 48.adaptSize,
-                        width: 48.adaptSize,
-                        padding: EdgeInsets.all(13.h),
-                        child: CustomImageView(
-                          imagePath: ImageConstant.imgCircle,
+                      GestureDetector(
+                        onTap: () {
+                          GoogleAuth().signInWithGoogle(context);
+                        },
+                        child: CustomIconButton(
+                          height: 48.adaptSize,
+                          width: 48.adaptSize,
+                          padding: EdgeInsets.all(13.h),
+                          child: CustomImageView(
+                            imagePath: ImageConstant.imgCircle,
+                          ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 50.h),
-                        child: CustomIconButton(
-                          height: 48.adaptSize,
-                          width: 48.adaptSize,
-                          padding: EdgeInsets.all(14.h),
-                          child: CustomImageView(
-                            imagePath:
-                                ImageConstant.imgCirclePrimarycontainer,
+                        child: GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text("Coming Soon!!"),
+                                  content: const Text(
+                                      "Apple SIgn-In feature will be available soon!!"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('Ok'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: CustomIconButton(
+                            height: 48.adaptSize,
+                            width: 48.adaptSize,
+                            padding: EdgeInsets.all(14.h),
+                            child: CustomImageView(
+                              imagePath:
+                                  ImageConstant.imgCirclePrimarycontainer,
+                            ),
                           ),
                         ),
                       ),
@@ -165,47 +196,43 @@ class RegisterNowScreen extends StatelessWidget {
                   SizedBox(
                     height: 18.v,
                     width: 232.h,
-                    child: GestureDetector(
-                       onTap: () {
-                       onTapSignInWithYourAccount;
-                       
-                    },
-                      child: Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: "Already have an Account? ",
-                                    style: CustomTextStyles.titleSmallff545454,
-                                  ),
-                                  
-                                  TextSpan(
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "Already have an Account? ",
+                                  style: CustomTextStyles.titleSmallff545454,
+                                ),
+                                TextSpan(
                                     text: "SIGN IN",
                                     style: CustomTextStyles.titleSmallff0961f5,
-                                  ),
-                                ],
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        onTapSignInWithYourAccount(context);
+                                      }),
+                              ],
+                            ),
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 1.v),
+                            child: SizedBox(
+                              width: 52.h,
+                              child: Divider(
+                                color: appTheme.blueA700,
                               ),
-                              textAlign: TextAlign.left,
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                              padding: EdgeInsets.only(bottom: 1.v),
-                              child: SizedBox(
-                                width: 52.h,
-                                child: Divider(
-                                  color: appTheme.blueA700,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 3.v),
@@ -306,11 +333,12 @@ class RegisterNowScreen extends StatelessWidget {
       ),
     );
   }
-    onTapBtnSIgnup(BuildContext context){
-      Navigator.pushNamed(context,AppRoutes.fillYourProfileScreen);
-    }
 
-    onTapSignInWithYourAccount(BuildContext context) {
-    Navigator.pop(context);
+  onTapBtnSIgnup(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.fillYourProfileScreen);
+  }
+
+  onTapSignInWithYourAccount(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.loginScreen);
   }
 }
