@@ -1,4 +1,5 @@
 import 'package:edumike/screens/loginscreen/google_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +128,7 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(height: 36.v),
                               GestureDetector(
                                   onTap: () {
-                                    onTapBtnSignIn(context);
+                                    onTapBtnsignUserIn(context);
                                   },
                                   child: _buildSignInButton(context)),
                               SizedBox(height: 24.v),
@@ -241,14 +242,16 @@ class LoginScreen extends StatelessWidget {
   Widget _buildLoginOptions(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Padding(
-          padding: EdgeInsets.only(bottom: 1.v),
-          child: CustomCheckboxButton(
-              text: "Remember Me",
-              value: rememberMe,
-              padding: EdgeInsets.symmetric(vertical: 1.v),
-              onChange: (value) {
-                rememberMe = value;
-              })),
+        padding: EdgeInsets.only(bottom: 1.v),
+        child: CustomCheckboxButton(
+          text: "Remember Me",
+          value: rememberMe,
+          padding: EdgeInsets.symmetric(vertical: 1.v),
+          onChange: (value) {
+            rememberMe = rememberMe;
+          },
+        ),
+      ),
       GestureDetector(
           onTap: () {
             onTapTxtForgotPassword(context);
@@ -263,10 +266,12 @@ class LoginScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildSignInButton(BuildContext context) {
     return Container(
-        height: 60.v,
-        width: 350.h,
-        margin: EdgeInsets.only(left: 5.h),
-        child: Stack(alignment: Alignment.centerRight, children: [
+      height: 60.v,
+      width: 350.h,
+      margin: EdgeInsets.only(left: 5.h),
+      child: Stack(
+        alignment: Alignment.centerRight,
+        children: [
           Align(
               alignment: Alignment.center,
               child: Container(
@@ -283,28 +288,75 @@ class LoginScreen extends StatelessWidget {
                             offset: Offset(1, 2))
                       ]))),
           Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                  padding: EdgeInsets.only(right: 9.h),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                            padding: EdgeInsets.only(top: 12.v, bottom: 8.v),
-                            child: Text("Sign In",
-                                style:
-                                    CustomTextStyles.titleMediumJostOnError)),
-                        Padding(
-                            padding: EdgeInsets.only(left: 89.h),
-                            child: CustomIconButton(
-                                height: 48.adaptSize,
-                                width: 48.adaptSize,
-                                padding: EdgeInsets.all(13.h),
-                                child: CustomImageView(
-                                    imagePath: ImageConstant.imgFill1)))
-                      ])))
-        ]));
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: EdgeInsets.only(right: 9.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(top: 12.v, bottom: 8.v),
+                      child: Text("Sign In",
+                          style: CustomTextStyles.titleMediumJostOnError)),
+                  Padding(
+                      padding: EdgeInsets.only(left: 89.h),
+                      child: CustomIconButton(
+                          height: 48.adaptSize,
+                          width: 48.adaptSize,
+                          padding: EdgeInsets.all(13.h),
+                          child: CustomImageView(
+                              imagePath: ImageConstant.imgFill1)))
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  void onTapBtnsignUserIn(BuildContext context) async {
+    //load
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+    //signin
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      Navigator.pop(context);
+      if (FirebaseAuth.instance.currentUser != null) {
+        // Move to the home screen
+        Navigator.pushNamed(context, AppRoutes.homescreen);
+      }
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      signinErrorMessage(e.code, context);
+    }
+  }
+
+  void signinErrorMessage(String m, BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Color.fromARGB(255, 6, 9, 233),
+          title: Center(
+            child: Text(
+              m,
+              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   /// Navigates to the forgotPasswordScreen when the action is triggered.

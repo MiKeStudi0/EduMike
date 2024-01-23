@@ -26,7 +26,14 @@ class GoogleAuth {
       await FirebaseAuth.instance.signInWithCredential(credential);
 
       // Navigate to the home screen
-      Navigator.pushNamed(context, AppRoutes.homescreen);
+      User? firebaseUser = FirebaseAuth.instance.currentUser;
+      if (firebaseUser != null) {
+        // User is already registered, navigate to the home screen
+        Navigator.pushNamed(context, AppRoutes.homescreen);
+      } else {
+        // User is not registered, navigate to the profile screen
+        Navigator.pushNamed(context, AppRoutes.fillYourProfileScreen);
+      }
     } catch (e) {
       // Handle errors, e.g., no network or Google login failure
       if (e is FirebaseAuthException) {
