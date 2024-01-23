@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 
 class CustomTextFormField extends StatelessWidget {
+  final VoidCallback? onTap;
   CustomTextFormField({
     Key? key,
+    this.onTap,
     this.alignment,
     this.width,
     this.scrollPadding,

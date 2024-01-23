@@ -1,8 +1,9 @@
+import 'package:edumike/screens/homescren/homepage.dart';
 import 'package:flutter/material.dart';
- import 'package:edumike/screens/loginscreen/intro_one_screen.dart';
- import 'package:edumike/screens/loginscreen/let_s_you_in_screen.dart';
- import 'package:edumike/screens/loginscreen/register_now_screen.dart';
- import 'package:edumike/screens/loginscreen/login_screen.dart';
+import 'package:edumike/screens/loginscreen/intro_one_screen.dart';
+import 'package:edumike/screens/loginscreen/let_s_you_in_screen.dart';
+import 'package:edumike/screens/loginscreen/register_now_screen.dart';
+import 'package:edumike/screens/loginscreen/login_screen.dart';
 import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/screens/loginscreen/congratulations_screen.dart';
 import 'package:edumike/screens/loginscreen/forgot_password_screen.dart';
@@ -17,6 +18,8 @@ class AppRoutes {
   static const String letSYouInScreen = '/let_s_you_in_screen';
 
   static const String registerNowScreen = '/register_now_screen';
+
+  static const String homescreen = '/homepage';
 
   static const String loginScreen = '/login_screen';
 
@@ -37,10 +40,11 @@ class AppRoutes {
   static const String appNavigationScreen = '/app_navigation_screen';
 
   static Map<String, WidgetBuilder> routes = {
-     introOneScreen: (context) => const IntroOneScreen(),
-     letSYouInScreen: (context) => const LetSYouInScreen(),
-     registerNowScreen: (context) =>  RegisterNowScreen(),
-     loginScreen: (context) => LoginScreen(),
+    introOneScreen: (context) => const IntroOneScreen(),
+    letSYouInScreen: (context) => const LetSYouInScreen(),
+    registerNowScreen: (context) => RegisterNowScreen(),
+    loginScreen: (context) => LoginScreen(),
+    homescreen: (context) => const Homescreen(),
     fillYourProfileScreen: (context) => FillYourProfileScreen(),
     congratulationsScreen: (context) => CongratulationsScreen(),
     forgotPasswordScreen: (context) => ForgotPasswordScreen(),
