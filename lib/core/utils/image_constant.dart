@@ -21,7 +21,7 @@ class ImageConstant {
 
   static String imgGroup20 = '$imagePath/img_group_20.svg';
 
-  static String imgCalendar = '$imagePath/img_calendar.svg';
+  static String imgCalendar = '$imagePath/img_calendar.png';
 
   static String imgTelevisionGray100 = '$imagePath/img_television_gray_100.svg';
 

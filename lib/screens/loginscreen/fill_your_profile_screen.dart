@@ -1,5 +1,7 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
+import 'package:edumike/main.dart';
+import 'package:edumike/screens/homescren/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
@@ -9,6 +11,15 @@ import 'package:edumike/widgets/custom_drop_down.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_phone_number.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(FillYourProfileScreen());
+}
+ 
 
 // ignore_for_file: must_be_immutable
 class FillYourProfileScreen extends StatelessWidget {
@@ -26,7 +37,7 @@ class FillYourProfileScreen extends StatelessWidget {
 
   TextEditingController phoneNumberController = TextEditingController();
 
-  List<String> dropdownItemList = ["Item One", "Item Two", "Item Three"];
+  List<String> dropdownItemList = ["Male", "Female"];
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -176,6 +187,15 @@ class FillYourProfileScreen extends StatelessWidget {
               child: GestureDetector(
                   onTap: () {
                     onTapBUTTON(context);
+                    CollectionReference reference = FirebaseFirestore.instance.collection('client');
+                    reference.add({
+                      'fullname' :fullNameEditTextController.text,
+                      'nickname' :nameEditTextController.text,
+                      'dateofbirth':dateOfBirthEditTextController.text,
+                      'email':emailEditTextController.text
+
+                    }
+                    );
                   },
                   child: Card(
                       clipBehavior: Clip.antiAlias,

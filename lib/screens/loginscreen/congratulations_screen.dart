@@ -12,7 +12,7 @@ class CongratulationsScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         extendBody: true,
-        extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: false,
         backgroundColor: theme.colorScheme.onErrorContainer,
         body: Container(
           width: SizeUtils.width,
@@ -249,3 +249,4 @@ class CongratulationsScreen extends StatelessWidget {
     );
   }
 }
+
