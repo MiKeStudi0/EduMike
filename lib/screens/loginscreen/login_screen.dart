@@ -394,7 +394,7 @@ class _LoginScreenState extends State<LoginScreen> {
               m,
               style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
             ),
-          ],
+          )
         );
       },
     );
