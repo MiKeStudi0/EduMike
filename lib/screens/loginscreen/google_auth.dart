@@ -42,14 +42,15 @@ class GoogleAuth {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Error'),
-              content: Text('Failed to sign in with Google. Please try again.'),
+              title: const Text('Error'),
+              content: const Text(
+                  'Failed to sign in with Google. Please try again.'),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text('OK'),
+                  child: const Text('OK'),
                 ),
               ],
             );

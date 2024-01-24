@@ -77,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                                   style: theme.textTheme.titleSmall),
                               SizedBox(height: 48.v),
                               CustomTextFormField(
-                                  controller: emailController,                                
+                                  controller: emailController,
                                   focusNode: emailFocusNode,
                                   hintText: "Email",
                                   textInputType: TextInputType.emailAddress,
@@ -348,13 +348,16 @@ class LoginScreen extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: const Color.fromARGB(255, 6, 9, 233),
-          title: Center(
-            child: Text(
-              m,
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+          title: const Text('Error'),
+          content: Text(m),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
             ),
-          ),
+          ],
         );
       },
     );
