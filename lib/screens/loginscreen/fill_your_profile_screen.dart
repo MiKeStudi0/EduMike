@@ -26,6 +26,10 @@ class FillYourProfileScreen extends StatelessWidget {
   FillYourProfileScreen({Key? key}) : super(key: key);
 
   TextEditingController fullNameEditTextController = TextEditingController();
+   FocusNode emailFocusNode = FocusNode();
+  FocusNode dateofbirthFocusNode = FocusNode();
+  FocusNode fullnameFocusNode = FocusNode();
+  FocusNode nicknameFocusNode = FocusNode();
 
   TextEditingController nameEditTextController = TextEditingController();
 
@@ -125,6 +129,7 @@ class FillYourProfileScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildFullNameEditText(BuildContext context) {
     return CustomTextFormField(
+      focusNode: fullnameFocusNode,
         controller: fullNameEditTextController,
         hintText: "Full Name",
         contentPadding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 21.v));
@@ -133,6 +138,7 @@ class FillYourProfileScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildNameEditText(BuildContext context) {
     return CustomTextFormField(
+      focusNode: nicknameFocusNode,
         controller: nameEditTextController,
         hintText: "Nick Name",
         contentPadding: EdgeInsets.symmetric(horizontal: 22.h, vertical: 21.v));
@@ -141,6 +147,7 @@ class FillYourProfileScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildDateOfBirthEditText(BuildContext context) {
     return CustomTextFormField(
+      focusNode: dateofbirthFocusNode,
         controller: dateOfBirthEditTextController,
         hintText: "Date of Birth",
         prefix: Container(
@@ -155,6 +162,7 @@ class FillYourProfileScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildEmailEditText(BuildContext context) {
     return CustomTextFormField(
+      focusNode: emailFocusNode,
         controller: emailEditTextController,
         hintText: "Email(Verify)",
         hintStyle: theme.textTheme.bodyMedium!,

@@ -8,15 +8,24 @@ import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:flutter/widgets.dart';
 
-class RegisterNowScreen extends StatelessWidget {
+class RegisterNowScreen extends StatefulWidget {
   RegisterNowScreen({Key? key})
       : super(
           key: key,
         );
 
+  @override
+  State<RegisterNowScreen> createState() => _RegisterNowScreenState();
+}
+
+class _RegisterNowScreenState extends State<RegisterNowScreen> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
+
+   FocusNode emailFocusNode = FocusNode();
+
+  FocusNode passwordFocusNode = FocusNode();
 
   bool termsAgreement = false;
 
@@ -54,7 +63,7 @@ class RegisterNowScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              "EDUPRO",
+                              "EDUWISE",
                               style: theme.textTheme.headlineLarge,
                             ),
                             Text(
@@ -85,6 +94,7 @@ class RegisterNowScreen extends StatelessWidget {
                   SizedBox(height: 48.v),
                   CustomTextFormField(
                     controller: emailController,
+                    focusNode: emailFocusNode,
                     hintText: "Email",
                     textInputType: TextInputType.emailAddress,
                     prefix: Container(
@@ -101,6 +111,7 @@ class RegisterNowScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 20.v),
                   CustomTextFormField(
+                    focusNode: passwordFocusNode,
                     controller: passwordController,
                     hintText: "Password",
                     textInputAction: TextInputAction.done,
@@ -245,21 +256,51 @@ class RegisterNowScreen extends StatelessWidget {
     );
   }
 
-  /// Section Widget
-  Widget _buildTermsAgreement(BuildContext context) {
-    return Align(
+ Widget _buildTermsAgreement(BuildContext context) {
+  return InkWell(
+    onTap: () {
+      setState(() {
+        termsAgreement = !termsAgreement; // Toggle the value
+      });
+    },
+    child: Align(
       alignment: Alignment.centerLeft,
-      child: CustomCheckboxButton(
-        alignment: Alignment.centerLeft,
-        text: "Agree to Terms & Conditions",
-        value: termsAgreement,
+      child: Padding(
         padding: EdgeInsets.symmetric(vertical: 1.v),
-        onChange: (value) {
-          termsAgreement = value;
-        },
+        child: Row(
+          children: [
+            Container(
+              width: 20.0,
+              height: 20.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle, // Set the shape to rectangle
+                color: termsAgreement ? Colors.blue : Colors.black, // Initial color: black
+                border: Border.all(
+                  color: Colors.black, // Border color: black
+                ),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.check,
+                  size: 12.0, // Adjusted size for a small checkbox
+                  color: termsAgreement ? Colors.white : Colors.transparent, // Text color when checked: white
+                ),
+              ),
+            ),
+            const SizedBox(width: 8.0),
+            const Text(
+              "Agree to Terms & Conditions",
+              style: TextStyle(
+                color: Colors.black, // Change the text color as needed
+              ),
+            ),
+          ],
+        ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   /// Section Widget
   Widget _buildRegistrationForm(BuildContext context) {
