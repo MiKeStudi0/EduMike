@@ -24,7 +24,7 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
 
   TextEditingController passwordController = TextEditingController();
 
-   FocusNode emailFocusNode = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
 
   FocusNode passwordFocusNode = FocusNode();
 
@@ -265,51 +265,54 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
     );
   }
 
- Widget _buildTermsAgreement(BuildContext context) {
-  return InkWell(
-    onTap: () {
-      setState(() {
-        termsAgreement = !termsAgreement; // Toggle the value
-      });
-    },
-    child: Align(
-      alignment: Alignment.centerLeft,
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 1.v),
-        child: Row(
-          children: [
-            Container(
-              width: 20.0,
-              height: 20.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle, // Set the shape to rectangle
-                color: termsAgreement ? Colors.blue : Colors.black, // Initial color: black
-                border: Border.all(
-                  color: Colors.black, // Border color: black
+  Widget _buildTermsAgreement(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          termsAgreement = !termsAgreement; // Toggle the value
+        });
+      },
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 1.v),
+          child: Row(
+            children: [
+              Container(
+                width: 20.0,
+                height: 20.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle, // Set the shape to rectangle
+                  color: termsAgreement
+                      ? Colors.blue
+                      : Colors.black, // Initial color: black
+                  border: Border.all(
+                    color: Colors.black, // Border color: black
+                  ),
+                ),
+                child: Center(
+                  child: Icon(
+                    Icons.check,
+                    size: 12.0, // Adjusted size for a small checkbox
+                    color: termsAgreement
+                        ? Colors.white
+                        : Colors.transparent, // Text color when checked: white
+                  ),
                 ),
               ),
-              child: Center(
-                child: Icon(
-                  Icons.check,
-                  size: 12.0, // Adjusted size for a small checkbox
-                  color: termsAgreement ? Colors.white : Colors.transparent, // Text color when checked: white
+              const SizedBox(width: 8.0),
+              const Text(
+                "Agree to Terms & Conditions",
+                style: TextStyle(
+                  color: Colors.black, // Change the text color as needed
                 ),
               ),
-            ),
-            const SizedBox(width: 8.0),
-            const Text(
-              "Agree to Terms & Conditions",
-              style: TextStyle(
-                color: Colors.black, // Change the text color as needed
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   /// Section Widget
   Widget _buildRegistrationForm(BuildContext context) {
@@ -389,6 +392,6 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
   }
 
   onTapSignInWithYourAccount(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.loginScreen);
+    Navigator.pushReplacementNamed(context, AppRoutes.loginScreen);
   }
 }

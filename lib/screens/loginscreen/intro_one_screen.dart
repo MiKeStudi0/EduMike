@@ -18,7 +18,8 @@ class IntroOneScreen extends StatelessWidget {
                 child:
                     Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                   const Spacer(),
-                  Text("Welcome to Eduwise", style: theme.textTheme.headlineSmall),
+                  Text("Welcome to Eduwise",
+                      style: theme.textTheme.headlineSmall),
                   SizedBox(height: 6.v),
                   SizedBox(
                       width: 355.h,
@@ -58,13 +59,12 @@ class IntroOneScreen extends StatelessWidget {
               onTap: () {
                 onTapBtnArrowRight(context);
               },
-              
               child: CustomImageView(imagePath: ImageConstant.imgArrowRight))
         ]));
   }
 
   /// Navigates to the letSYouInScreen when the action is triggered.
   onTapBtnArrowRight(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.letSYouInScreen);
+    Navigator.pushReplacementNamed(context, AppRoutes.letSYouInScreen);
   }
 }

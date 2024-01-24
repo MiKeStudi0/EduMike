@@ -1,13 +1,11 @@
 import 'package:edumike/screens/loginscreen/google_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_checkbox_button.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
-import 'package:flutter/widgets.dart';
 
 // ignore_for_file: must_be_immutable
 class LoginScreen extends StatefulWidget {
@@ -85,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: theme.textTheme.titleSmall),
                               SizedBox(height: 48.v),
                               CustomTextFormField(
-                                  controller: emailController,                                
+                                  controller: emailController,
                                   focusNode: emailFocusNode,
                                   hintText: "Email",
                                   textInputType: TextInputType.emailAddress,
@@ -394,9 +392,9 @@ class _LoginScreenState extends State<LoginScreen> {
           title: Center(
             child: Text(
               m,
-              style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
             ),
-          ),
+          ],
         );
       },
     );
@@ -409,10 +407,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /// Navigates to the registerNowScreen when the action is triggered.
   onTapTxtDonthaveanaccount(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.registerNowScreen);
-  }
-
-  onTapBtnSignIn(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.homescreen);
+    Navigator.pushReplacementNamed(context, AppRoutes.registerNowScreen);
   }
 }
