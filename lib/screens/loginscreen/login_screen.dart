@@ -10,18 +10,26 @@ import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:flutter/widgets.dart';
 
 // ignore_for_file: must_be_immutable
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
+
   FocusNode emailFocusNode = FocusNode();
+
   FocusNode passwordFocusNode = FocusNode();
 
   bool rememberMe = false;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   var _isObscured;
 
   @override
@@ -241,28 +249,62 @@ class LoginScreen extends StatelessWidget {
 
   /// Section Widget
   Widget _buildLoginOptions(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Padding(
-        padding: EdgeInsets.only(bottom: 1.v),
-        child: CustomCheckboxButton(
-          text: "Remember Me",
-          value: rememberMe,
-          padding: EdgeInsets.symmetric(vertical: 1.v),
-          onChange: (value) {
-            rememberMe = rememberMe;
-          },
-        ),
-      ),
-      GestureDetector(
+  return InkWell(
+    onTap: () {
+      setState(() {
+        rememberMe = !rememberMe; // Toggle the value
+      });
+    },
+    child: Row(
+      children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 1.v),
+            child: Row(
+              children: [
+                Container(
+                  width: 20.0,
+                  height: 20.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle, // Set the shape to rectangle
+                    color: rememberMe ? Colors.blue : Colors.black, // Initial color: black
+                    border: Border.all(
+                      color: Colors.black, // Border color: black
+                    ),
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.check,
+                      size: 12.0, // Adjusted size for a small checkbox
+                      color: rememberMe ? Colors.white : Colors.transparent, // Text color when checked: white
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8.0),
+                const Text(
+                  "Remember me",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+ GestureDetector(
           onTap: () {
             onTapTxtForgotPassword(context);
           },
           child: Padding(
-              padding: EdgeInsets.only(top: 2.v),
+              padding: EdgeInsets.only(top: 2.v,left: 100),
               child:
-                  Text("Forgot Password?", style: theme.textTheme.labelLarge)))
-    ]);
-  }
+                  Text("Forgot Password?", style: theme.textTheme.labelLarge)))              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+ 
+}
 
   /// Section Widget
   Widget _buildSignInButton(BuildContext context) {
@@ -352,7 +394,7 @@ class LoginScreen extends StatelessWidget {
           title: Center(
             child: Text(
               m,
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+              style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
             ),
           ),
         );

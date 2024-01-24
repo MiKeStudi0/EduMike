@@ -13,6 +13,7 @@ class RegisterNowScreen extends StatefulWidget {
       : super(
           key: key,
         );
+        
 
   @override
   State<RegisterNowScreen> createState() => _RegisterNowScreenState();
@@ -30,6 +31,14 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
   bool termsAgreement = false;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+          var _isObscured;
+
+  @override
+  void initState(){
+    super.initState();
+    _isObscured = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -325,7 +334,7 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
                     color: theme.colorScheme.primary,
                     spreadRadius: 2.h,
                     blurRadius: 2.h,
-                    offset: Offset(
+                    offset: const Offset(
                       1,
                       2,
                     ),
