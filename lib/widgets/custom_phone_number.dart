@@ -6,6 +6,9 @@ import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 
 // ignore: must_be_immutable
+    FocusNode numberFocusNode = FocusNode();
+
+
 class CustomPhoneNumber extends StatelessWidget {
   CustomPhoneNumber({
     Key? key,
@@ -32,7 +35,7 @@ class CustomPhoneNumber extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.primary.withOpacity(0.1),
+            color: theme.colorScheme.primary.withOpacity(0.2),
             spreadRadius: 2.h,
             blurRadius: 2.h,
             offset: Offset(
@@ -80,9 +83,12 @@ class CustomPhoneNumber extends StatelessWidget {
                 right: 5.h,
               ),
               child: CustomTextFormField(
+                focusNode: numberFocusNode,
                 width: 272.h,
                 controller: controller,
-                hintText: "7248481225",
+                hintText: "7248481225", 
+                hintStyle: theme.textTheme.bodyMedium!,
+               
                 textInputType: TextInputType.phone,
                 contentPadding: EdgeInsets.symmetric(horizontal: 5.h),
               ),
