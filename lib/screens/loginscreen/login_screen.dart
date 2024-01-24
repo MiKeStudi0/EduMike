@@ -25,10 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode passwordFocusNode = FocusNode();
 
   bool rememberMe = false;
+  bool _obscureText = true;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  var _isObscured;
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -121,13 +122,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                   suffix: Container(
                                       margin: EdgeInsets.fromLTRB(
                                           30.h, 21.v, 24.h, 21.v),
-                                      child: CustomImageView(
-                                          imagePath: ImageConstant.imgThumbsup,
-                                          height: 15.adaptSize,
-                                          width: 15.adaptSize)),
+                                      child: GestureDetector(
+                                        child: CustomImageView(
+                                            imagePath: ImageConstant.imgThumbsup,
+                                            onTap: (){
+                                             setState(() {
+                                               _obscureText =! _obscureText;
+                                             });
+                                            },
+                                            height: 15.adaptSize,
+                                            width: 15.adaptSize),
+                                      )),
                                   suffixConstraints:
                                       BoxConstraints(maxHeight: 60.v),
-                                  obscureText: true,
+                                  obscureText: _obscureText,
                                   contentPadding:
                                       EdgeInsets.symmetric(vertical: 21.v)),
                               SizedBox(height: 23.v),
@@ -392,7 +400,7 @@ class _LoginScreenState extends State<LoginScreen> {
           title: Center(
             child: Text(
               m,
-              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+              style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
             ),
           )
         );
