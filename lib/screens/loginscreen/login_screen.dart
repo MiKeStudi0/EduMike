@@ -22,6 +22,7 @@ class LoginScreen extends StatelessWidget {
   bool rememberMe = false;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var _isObscured;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                                                 top: 5.v,
                                                 bottom: 20.v),
                                             child: Column(children: [
-                                              Text("EDUPRO",
+                                              Text("EDUWISE",
                                                   style: theme
                                                       .textTheme.headlineLarge),
                                               Text(
@@ -76,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                                   style: theme.textTheme.titleSmall),
                               SizedBox(height: 48.v),
                               CustomTextFormField(
-                                  controller: emailController,
+                                  controller: emailController,                                
                                   focusNode: emailFocusNode,
                                   hintText: "Email",
                                   textInputType: TextInputType.emailAddress,
@@ -285,7 +286,7 @@ class LoginScreen extends StatelessWidget {
                             color: theme.colorScheme.primary,
                             spreadRadius: 2.h,
                             blurRadius: 2.h,
-                            offset: Offset(1, 2))
+                            offset: const Offset(1, 2))
                       ]))),
           Align(
             alignment: Alignment.centerRight,
@@ -347,7 +348,7 @@ class LoginScreen extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Color.fromARGB(255, 6, 9, 233),
+          backgroundColor: const Color.fromARGB(255, 6, 9, 233),
           title: Center(
             child: Text(
               m,
