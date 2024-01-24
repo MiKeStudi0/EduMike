@@ -31,6 +31,7 @@ class FillYourProfileScreen extends StatelessWidget {
   FocusNode fullnameFocusNode = FocusNode();
   FocusNode nicknameFocusNode = FocusNode();
 
+
   TextEditingController nameEditTextController = TextEditingController();
 
   TextEditingController dateOfBirthEditTextController = TextEditingController();

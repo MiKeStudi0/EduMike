@@ -26,7 +26,7 @@ class ImageConstant {
   static String imgTelevisionGray100 = '$imagePath/img_television_gray_100.svg';
 
   static String imgArrowDownPrimarycontainer =
-      '$imagePath/img_arrow_down_primarycontainer.svg';
+      '$imagePath/img_arrow_down_primarycontainer.png';
 
   // 11_CONGRATULATIONS images
   static String img11Congratulations = '$imagePath/img_11_congratulations.png';
