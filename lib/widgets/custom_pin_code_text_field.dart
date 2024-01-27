@@ -53,9 +53,9 @@ class CustomPinCodeTextField extends StatelessWidget {
         ],
         pinTheme: PinTheme(
           shape: PinCodeFieldShape.circle,
-          inactiveColor: Colors.transparent,
-          activeColor: Colors.transparent,
-          selectedColor: Colors.transparent,
+          inactiveColor: const Color.fromARGB(0, 150, 137, 137),
+          activeColor: Color.fromARGB(0, 52, 116, 245),
+          selectedColor: Color.fromARGB(0, 69, 184, 237),
         ),
         onChanged: (value) => onChanged(value),
         validator: validator,

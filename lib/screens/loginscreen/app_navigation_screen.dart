@@ -71,7 +71,7 @@ class AppNavigationScreen extends StatelessWidget {
                           context,
                           screenTitle: "13_VERIFY-FORGOT PASSWORD",
                           onTapScreenTitle: () => onTapScreenTitle(
-                              context, AppRoutes.verifyForgotPasswordScreen),
+                              context, AppRoutes.verifyForgotPasswordOneScreen),
                         ),
                         _buildScreenTitle(
                           context,

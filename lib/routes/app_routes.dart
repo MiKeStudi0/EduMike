@@ -7,7 +7,7 @@ import 'package:edumike/screens/loginscreen/login_screen.dart';
 import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/screens/loginscreen/congratulations_screen.dart';
 import 'package:edumike/screens/loginscreen/forgot_password_screen.dart';
-import 'package:edumike/screens/loginscreen/verify_forgot_password_screen.dart';
+import 'package:edumike/screens/loginscreen/verify_mail_screen.dart';
 import 'package:edumike/screens/loginscreen/create_new_password_screen.dart';
 import 'package:edumike/screens/loginscreen/verify_forgot_password_one_screen.dart';
 import 'package:edumike/screens/loginscreen/app_navigation_screen.dart';
@@ -29,8 +29,7 @@ class AppRoutes {
 
   static const String forgotPasswordScreen = '/forgot_password_screen';
 
-  static const String verifyForgotPasswordScreen =
-      '/verify_forgot_password_screen';
+  static const String verifyMailScreen = '/verify_mail_screen';
 
   static const String createNewPasswordScreen = '/create_new_password_screen';
 
@@ -48,7 +47,7 @@ class AppRoutes {
     fillYourProfileScreen: (context) => FillYourProfileScreen(),
     congratulationsScreen: (context) => CongratulationsScreen(),
     forgotPasswordScreen: (context) => ForgotPasswordScreen(),
-    verifyForgotPasswordScreen: (context) => VerifyForgotPasswordScreen(),
+    verifyMailScreen: (context) => VerifyMailScreen(),
     createNewPasswordScreen: (context) => CreateNewPasswordScreen(),
     verifyForgotPasswordOneScreen: (context) => VerifyForgotPasswordOneScreen(),
     appNavigationScreen: (context) => AppNavigationScreen()

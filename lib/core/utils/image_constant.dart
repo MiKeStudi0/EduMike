@@ -56,9 +56,8 @@ class ImageConstant {
 
   static String imgCircle = '$imagePath/img_google.png';
 
-  static String imgCirclePrimarycontainer =
-      '$imagePath/img_group_3.png';
-  static String imgArrowDown = '$imagePath/img_arrow_down.svg';
+  static String imgCirclePrimarycontainer = '$imagePath/img_group_3.png';
+  static String imgArrowDown = '$imagePath/img_arrow_down.png';
 
   static String imgSignal = '$imagePath/img_signal.svg';
 
