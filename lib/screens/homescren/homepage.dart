@@ -48,6 +48,6 @@ class _HomescreenState extends State<Homescreen> {
 
   void signUserOut() {
     FirebaseAuth.instance.signOut();
-    Navigator.popUntil(context, ModalRoute.withName(AppRoutes.loginScreen));
+    Navigator.pushReplacementNamed(context, AppRoutes.loginScreen);
   }
 }

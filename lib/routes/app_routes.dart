@@ -1,4 +1,5 @@
 import 'package:edumike/screens/homescren/homepage.dart';
+import 'package:edumike/screens/loginscreen/authenticate_user.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/screens/loginscreen/intro_one_screen.dart';
 import 'package:edumike/screens/loginscreen/let_s_you_in_screen.dart';
@@ -23,6 +24,8 @@ class AppRoutes {
 
   static const String loginScreen = '/login_screen';
 
+  static const String authScreen = '/authenticate_user';
+
   static const String fillYourProfileScreen = '/fill_your_profile_screen';
 
   static const String congratulationsScreen = '/congratulations_screen';
@@ -44,6 +47,7 @@ class AppRoutes {
     registerNowScreen: (context) => RegisterNowScreen(),
     loginScreen: (context) => LoginScreen(),
     homescreen: (context) => const Homescreen(),
+    authScreen: (context) => const AuthPage(),
     fillYourProfileScreen: (context) => FillYourProfileScreen(),
     congratulationsScreen: (context) => CongratulationsScreen(),
     forgotPasswordScreen: (context) => ForgotPasswordScreen(),
