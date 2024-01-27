@@ -1,17 +1,18 @@
 import 'package:edumike/screens/loginscreen/google_auth.dart';
+import 'package:edumike/screens/loginscreen/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:flutter/widgets.dart';
+import 'package:email_otp/email_otp.dart';
 
 class RegisterNowScreen extends StatefulWidget {
   RegisterNowScreen({Key? key})
       : super(
           key: key,
         );
-        
 
   @override
   State<RegisterNowScreen> createState() => _RegisterNowScreenState();
@@ -22,16 +23,27 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
 
   TextEditingController passwordController = TextEditingController();
 
+  TextEditingController confirmPasswordController = TextEditingController();
+
   FocusNode emailFocusNode = FocusNode();
 
   FocusNode passwordFocusNode = FocusNode();
 
+  FocusNode confirmPasswordFocusNode = FocusNode();
+
   bool termsAgreement = false;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  EmailOTP myauth = EmailOTP();
 
+          var _isObscured;
 
- 
+  @override
+  void initState(){
+    super.initState();
+    _isObscured = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -128,24 +140,37 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
                     prefixConstraints: BoxConstraints(
                       maxHeight: 60.v,
                     ),
-                    suffix: Container(
-                      margin: EdgeInsets.fromLTRB(30.h, 21.v, 24.h, 21.v),
+                    obscureText: true,
+                    contentPadding: EdgeInsets.symmetric(vertical: 21.v),
+                  ),
+                  SizedBox(height: 20.v),
+                  CustomTextFormField(
+                    focusNode: confirmPasswordFocusNode,
+                    controller: confirmPasswordController,
+                    hintText: "Confirm Password",
+                    textInputAction: TextInputAction.done,
+                    textInputType: TextInputType.visiblePassword,
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(22.h, 20.v, 9.h, 20.v),
                       child: CustomImageView(
-                        imagePath: ImageConstant.imgThumbsup,
-                        height: 15.adaptSize,
-                        width: 15.adaptSize,
+                        imagePath: ImageConstant.imgLocation,
+                        height: 19.v,
+                        width: 14.h,
                       ),
                     ),
-                    suffixConstraints: BoxConstraints(
+                    prefixConstraints: BoxConstraints(
                       maxHeight: 60.v,
                     ),
-                    obscureText: true,
                     contentPadding: EdgeInsets.symmetric(vertical: 21.v),
                   ),
                   SizedBox(height: 20.v),
                   _buildTermsAgreement(context),
                   SizedBox(height: 35.v),
-                  _buildRegistrationForm(context),
+                  GestureDetector(
+                      onTap: () {
+                        onTapBtnSIgnup(context);
+                      },
+                      child: _buildRegistrationForm(context)),
                   SizedBox(height: 24.v),
                   Text(
                     "Or Continue With",
@@ -359,9 +384,6 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
                   Padding(
                     padding: EdgeInsets.only(left: 85.h),
                     child: CustomIconButton(
-                      onTap: () {
-                        onTapBtnSIgnup(context);
-                      },
                       height: 48.adaptSize,
                       width: 48.adaptSize,
                       padding: EdgeInsets.all(13.h),
@@ -379,8 +401,94 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
     );
   }
 
-  onTapBtnSIgnup(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.fillYourProfileScreen);
+  // onTapBtnSIgnup(BuildContext context) {
+  //   Navigator.pushNamed(context, AppRoutes.fillYourProfileScreen);
+  // }
+  void onTapBtnSIgnup(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      if (passwordController.text != confirmPasswordController.text) {
+        // Show an error dialog
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text('Password and Confirm Password do not match'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return; // Exit the function if passwords don't match
+      }
+      // Show a loading indicator
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      );
+
+      try {
+        // Create the user account
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+
+        myauth.setConfig(
+            appEmail: "flutteremperor@gmail.com",
+            appName: "Email OTP",
+            userEmail: emailController.text,
+            otpLength: 4,
+            otpType: OTPType.digitsOnly);
+        if (await myauth.sendOTP() == true) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("OTP has been sent"),
+          ));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text("Oops, OTP send failed"),
+          ));
+        }
+
+        // Close the loading indicator
+        Navigator.pop(context);
+
+        // Navigate to the home screen or any other screen you desire
+        Navigator.pushReplacementNamed(context, AppRoutes.verifyMailScreen);
+      } on FirebaseAuthException catch (e) {
+        // Close the loading indicator
+        Navigator.pop(context);
+
+        // Show an error dialog
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: Text(e.message ?? 'An error occurred'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    }
   }
 
   onTapSignInWithYourAccount(BuildContext context) {

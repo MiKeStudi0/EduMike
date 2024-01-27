@@ -27,14 +27,14 @@ class CustomTextFormField extends StatelessWidget {
     this.borderDecoration,
     this.fillColor,
     this.filled = true,
-    this.validator, 
+    this.validator,
     this.suffixIcon,
   }) : super(
           key: key,
         );
 
   final Alignment? alignment;
-  final IconButton ? suffixIcon;
+  final IconButton? suffixIcon;
 
   final double? width;
 

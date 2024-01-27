@@ -1,4 +1,5 @@
 import 'package:edumike/screens/homescren/homepage.dart';
+import 'package:edumike/screens/loginscreen/authenticate_user.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/screens/loginscreen/intro_one_screen.dart';
 import 'package:edumike/screens/loginscreen/let_s_you_in_screen.dart';
@@ -7,7 +8,7 @@ import 'package:edumike/screens/loginscreen/login_screen.dart';
 import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/screens/loginscreen/congratulations_screen.dart';
 import 'package:edumike/screens/loginscreen/forgot_password_screen.dart';
-import 'package:edumike/screens/loginscreen/verify_forgot_password_screen.dart';
+import 'package:edumike/screens/loginscreen/verify_mail_screen.dart';
 import 'package:edumike/screens/loginscreen/create_new_password_screen.dart';
 import 'package:edumike/screens/loginscreen/verify_forgot_password_one_screen.dart';
 import 'package:edumike/screens/loginscreen/app_navigation_screen.dart';
@@ -23,14 +24,15 @@ class AppRoutes {
 
   static const String loginScreen = '/login_screen';
 
+  static const String authScreen = '/authenticate_user';
+
   static const String fillYourProfileScreen = '/fill_your_profile_screen';
 
   static const String congratulationsScreen = '/congratulations_screen';
 
   static const String forgotPasswordScreen = '/forgot_password_screen';
 
-  static const String verifyForgotPasswordScreen =
-      '/verify_forgot_password_screen';
+  static const String verifyMailScreen = '/verify_mail_screen';
 
   static const String createNewPasswordScreen = '/create_new_password_screen';
 
@@ -45,10 +47,11 @@ class AppRoutes {
     registerNowScreen: (context) => RegisterNowScreen(),
     loginScreen: (context) => LoginScreen(),
     homescreen: (context) => const Homescreen(),
+    authScreen: (context) => const AuthPage(),
     fillYourProfileScreen: (context) => FillYourProfileScreen(),
     congratulationsScreen: (context) => CongratulationsScreen(),
     forgotPasswordScreen: (context) => ForgotPasswordScreen(),
-    verifyForgotPasswordScreen: (context) => VerifyForgotPasswordScreen(),
+    verifyMailScreen: (context) => VerifyMailScreen(),
     createNewPasswordScreen: (context) => CreateNewPasswordScreen(),
     verifyForgotPasswordOneScreen: (context) => VerifyForgotPasswordOneScreen(),
     appNavigationScreen: (context) => AppNavigationScreen()
