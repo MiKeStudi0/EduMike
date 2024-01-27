@@ -71,7 +71,7 @@ class ThemeHelper {
           }
           return colorScheme.onSurface;
         }),
-        side: BorderSide(
+        side: const BorderSide(
           width: 1,
         ),
         visualDensity: const VisualDensity(
@@ -150,7 +150,7 @@ class TextThemes {
 
 /// Class containing the supported color schemes.
 class ColorSchemes {
-  static final primaryColorScheme = ColorScheme.light(
+  static const primaryColorScheme = ColorScheme.light(
     // Primary colors
     primary: Color(0X4C000000),
     primaryContainer: Color(0XFF1C1C1B),
@@ -171,32 +171,32 @@ class ColorSchemes {
 /// Class containing custom colors for a primary theme.
 class PrimaryColors {
   // Amber
-  Color get amberA400 => Color(0XFFFFC200);
+  Color get amberA400 =>const Color(0XFFFFC200);
 
   // Blue
-  Color get blue50 => Color(0XFFE8F1FF);
-  Color get blueA700 => Color(0XFF0961F5);
+  Color get blue50 => const Color(0XFFE8F1FF);
+  Color get blueA700 => const Color(0XFF0961F5);
 
   // Gray
-  Color get gray100 => Color(0XFFF3F3F3);
-  Color get gray50 => Color(0XFFF4F8FE);
-  Color get gray700 => Color(0XFF545454);
-  Color get gray800 => Color(0XFF505050);
+  Color get gray100 => const Color(0XFFF3F3F3);
+  Color get gray50 => const Color(0XFFF4F8FE);
+  Color get gray700 => const Color(0XFF545454);
+  Color get gray800 => const Color(0XFF505050);
 
   // Indigo
-  Color get indigo700 => Color(0XFF332DA1);
+  Color get indigo700 => const Color(0XFF332DA1);
 
   // Orange
-  Color get orange100 => Color(0XFFF8DCA3);
-  Color get orangeA700 => Color(0XFFFF6B00);
+  Color get orange100 => const Color(0XFFF8DCA3);
+  Color get orangeA700 => const Color(0XFFFF6B00);
 
   // Red
-  Color get red500 => Color(0XFFF04336);
-  Color get redA400 => Color(0XFFFF001E);
+  Color get red500 => const Color(0XFFF04336);
+  Color get redA400 => const Color(0XFFFF001E);
 
   // Teal
-  Color get teal50 => Color(0XFFD5E1F5);
-  Color get teal700 => Color(0XFF167F71);
+  Color get teal50 => const Color(0XFFD5E1F5);
+  Color get teal700 => const Color(0XFF167F71);
 }
 
 PrimaryColors get appTheme => ThemeHelper().themeColor();

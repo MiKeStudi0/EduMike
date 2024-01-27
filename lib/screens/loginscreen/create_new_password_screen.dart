@@ -6,6 +6,7 @@ import 'package:edumike/widgets/app_bar/custom_app_bar.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 
+// ignore: must_be_immutable
 class CreateNewPasswordScreen extends StatelessWidget {
   CreateNewPasswordScreen({Key? key})
       : super(

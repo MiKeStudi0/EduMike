@@ -1,7 +1,5 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
-import 'package:edumike/main.dart';
-import 'package:edumike/screens/homescren/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
@@ -13,24 +11,62 @@ import 'package:edumike/widgets/custom_phone_number.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:intl/intl.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(FillYourProfileScreen());
 }
- 
 
+
+ 
 // ignore_for_file: must_be_immutable
-class FillYourProfileScreen extends StatelessWidget {
+class FillYourProfileScreen extends StatefulWidget {
   FillYourProfileScreen({Key? key}) : super(key: key);
 
-  TextEditingController fullNameEditTextController = TextEditingController();
-   FocusNode emailFocusNode = FocusNode();
-  FocusNode dateofbirthFocusNode = FocusNode();
-  FocusNode fullnameFocusNode = FocusNode();
-  FocusNode nicknameFocusNode = FocusNode();
+  @override
+  State<FillYourProfileScreen> createState() => _FillYourProfileScreenState();
+}
 
+class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
+  TextEditingController fullNameEditTextController = TextEditingController();
+    late final String gendervalue;
+   // DateTime _picked=DateTime.now();
+
+    Future<void> _selectdate()async{
+      DateTime? _picked=await 
+      showDatePicker(context: context,
+      initialDate: DateTime.now(),
+       firstDate: DateTime(2000),
+        lastDate: DateTime(2500));
+        if(_picked!=null){
+          setState(() {
+            dateOfBirthEditTextController.text=DateFormat('yyyy-MM-dd').format(_picked);
+          });
+        }
+    }
+    
+
+  /*  void _showDatePicker(){
+  showDatePicker(context: context,initialDate: DateTime.now(),
+   firstDate: DateTime(2000),
+    lastDate: DateTime(2500)
+    ).then((value) {
+      setState(() {
+      _dateTime=value!;
+      });
+    })
+    ;
+}
+*/
+   FocusNode emailFocusNode = FocusNode();
+
+  FocusNode dateofbirthFocusNode = FocusNode();
+
+  FocusNode fullnameFocusNode = FocusNode();
+
+  FocusNode nicknameFocusNode = FocusNode();
 
   TextEditingController nameEditTextController = TextEditingController();
 
@@ -44,7 +80,9 @@ class FillYourProfileScreen extends StatelessWidget {
 
   List<String> dropdownItemList = ["Male", "Female"];
 
+
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +147,14 @@ class FillYourProfileScreen extends StatelessWidget {
                               CustomDropDown(
                                   hintText: "Gender",
                                   items: dropdownItemList,
-                                  onChanged: (value) {}),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      gendervalue=value;
+                                     print(gendervalue);
+                                 
+                                    });
+                                    
+                                  }),
                               SizedBox(height: 50.v),
                               _buildContinueButton(context),
                               SizedBox(height: 5.v)
@@ -147,17 +192,27 @@ class FillYourProfileScreen extends StatelessWidget {
 
   /// Section Widget
   Widget _buildDateOfBirthEditText(BuildContext context) {
+
     return CustomTextFormField(
       focusNode: dateofbirthFocusNode,
         controller: dateOfBirthEditTextController,
         hintText: "Date of Birth",
+        
         prefix: Container(
             margin: EdgeInsets.fromLTRB(21.h, 20.v, 8.h, 20.v),
-            child: CustomImageView(
-                imagePath: ImageConstant.imgCalendar,
-                height: 20.v,
-                width: 18.h)),
-        prefixConstraints: BoxConstraints(maxHeight: 60.v));
+            
+            child: GestureDetector(
+              child: CustomImageView(
+                onTap: () {
+                  _selectdate();
+                },
+                  imagePath: ImageConstant.imgCalendar,
+                  height: 20.v,
+                  width: 18.h),
+                 
+            )),
+        prefixConstraints: BoxConstraints(maxHeight: 60.v))
+        ;
   }
 
   /// Section Widget
@@ -196,20 +251,22 @@ class FillYourProfileScreen extends StatelessWidget {
               child: GestureDetector(
                   onTap: () {
                     onTapBUTTON(context);
-                    CollectionReference reference = FirebaseFirestore.instance.collection('client');
+                    print(gendervalue);
+                    CollectionReference reference = FirebaseFirestore.instance.collection('new');
                     reference.add({
                       'fullname' :fullNameEditTextController.text,
                       'nickname' :nameEditTextController.text,
-                      'dateofbirth':dateOfBirthEditTextController.text,
-                      'email':emailEditTextController.text
-
+                     'dateofbirth':dateOfBirthEditTextController.text,
+                      'email':emailEditTextController.text,
+                      'phone':phoneNumberController.text,
+                      'gender':gendervalue
                     }
                     );
                   },
                   child: Card(
                       clipBehavior: Clip.antiAlias,
                       elevation: 0,
-                      margin: EdgeInsets.all(0),
+                      margin: const EdgeInsets.all(0),
                       color: appTheme.blueA700,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadiusStyle.circleBorder30),
@@ -244,6 +301,6 @@ class FillYourProfileScreen extends StatelessWidget {
 
   /// Navigates to the congratulationsScreen when the action is triggered.
   onTapBUTTON(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.congratulationsScreen);
+    Navigator.pushNamed(context, AppRoutes.homescreen);
   }
 }

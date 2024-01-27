@@ -1,9 +1,7 @@
 import 'package:edumike/screens/loginscreen/google_auth.dart';
-import 'package:edumike/screens/loginscreen/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
-import 'package:edumike/widgets/custom_checkbox_button.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:flutter/widgets.dart';
@@ -32,14 +30,8 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-          var _isObscured;
 
-  @override
-  void initState(){
-    super.initState();
-    _isObscured = false;
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
