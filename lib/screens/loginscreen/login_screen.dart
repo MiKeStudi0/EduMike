@@ -384,7 +384,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pop(context);
       if (FirebaseAuth.instance.currentUser != null) {
         // Move to the home screen
-        Navigator.pushNamed(context, AppRoutes.homescreen);
+        Navigator.pushNamed(context, AppRoutes.homemainpageContainerScreen);
       }
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
