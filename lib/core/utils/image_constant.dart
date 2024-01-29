@@ -78,4 +78,193 @@ class ImageConstant {
       '$imagePath/img_close_primarycontainer.svg';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
+
+
+  //Remaining images are for HomeScreen
+  
+  static String imagePathHome = 'assets/images/home_image';
+
+  // HelpCare images
+  static String imgCloseOrangeA200 = '$imagePathHome/img_close_orange_a200.svg';
+
+  // 4_MY BOOKMARK images
+  static String imgStar = '$imagePathHome/img_star.svg';
+
+  static String imgNavBookMarkPrimary =
+      '$imagePathHome/img_nav_book_mark_primary.svg';
+
+  // 2_MY_COURSE  images
+  static String imgTelevisionBlack900 =
+      '$imagePathHome/img_television_black_900.svg';
+
+  static String imgBookmarkPrimary22x18 =
+      '$imagePathHome/img_bookmark_primary_22x18.svg';
+
+  static String imgBookmark22x18 = '$imagePathHome/img_bookmark_22x18.svg';
+
+  static String imgNavMyCoursesPrimary =
+      '$imagePathHome/img_nav_my_courses_primary.svg';
+
+  // 3_IndoxMainPage images
+  static String imgClose1 = '$imagePathHome/img_close.svg';
+
+  static String imgNavIndoxPrimary = '$imagePathHome/img_nav_indox_primary.svg';
+
+  // 5_PROFILES images
+  static String imgLock1 = '$imagePathHome/img_lock.svg';
+
+  static String imgSettings = '$imagePathHome/img_settings.svg';
+
+  static String imgArrowRight1 = '$imagePathHome/img_arrow_right.svg';
+
+  static String imgUserBlueGray90001 =
+      '$imagePathHome/img_user_blue_gray_900_01.svg';
+
+  static String imgTelevisionBlueGray90001 =
+      '$imagePathHome/img_television_blue_gray_900_01.svg';
+
+  static String imgCloseGray900 = '$imagePathHome/img_close_gray_900.svg';
+
+  static String imgEye = '$imagePathHome/img_eye.svg';
+
+  static String imgUserBlueGray9000121x18 =
+      '$imagePathHome/img_user_blue_gray_900_01_21x18.svg';
+
+  static String imgProfile = '$imagePathHome/img_profile.svg';
+
+  static String imgFill1Onprimary = '$imagePathHome/img_fill_1_onprimary.svg';
+
+  static String imgClock = '$imagePathHome/img_clock.svg';
+
+  static String imgNavProfilePrimary = '$imagePathHome/img_nav_profile_primary.svg';
+
+  // 6_EDIT PROFILES images
+  static String imgTelevisionTeal700 = '$imagePathHome/img_television_teal_700.svg';
+
+  static String imgCalendar1 = '$imagePathHome/img_calendar.svg';
+
+  static String imgLockSecondarycontainer =
+      '$imagePathHome/img_lock_secondarycontainer.svg';
+
+  static String imgTelevisionGray1001 = '$imagePathHome/img_television_gray_100.svg';
+
+  static String imgArrowDownGray900 = '$imagePathHome/img_arrow_down_gray_900.svg';
+
+  // 17_INVITE FRIENDS images
+  static String imgFacebook = '$imagePathHome/img_facebook.svg';
+
+  static String imgTrash = '$imagePathHome/img_trash.svg';
+
+  static String imgGoogle1 = '$imagePathHome/img_google.svg';
+
+  static String imgVolume = '$imagePathHome/img_volume.svg';
+
+  // 15_TERMS & CONDITIONS images
+  static String imgArrowDownBlueGray90001 =
+      '$imagePathHome/img_arrow_down_blue_gray_900_01.svg';
+
+  // 9_MODULES images
+  static String imgStroke2 = '$imagePathHome/img_stroke_2.svg';
+
+  // 8_CATEGORY images
+  static String imgSyllabus = '$imagePathHome/img_syllabus.png';
+
+  static String imgNotes = '$imagePathHome/img_notes.png';
+
+  static String imgTextbook = '$imagePathHome/img_textbook.png';
+
+  static String imgQuestionBank = '$imagePathHome/img_question_bank.png';
+
+  static String imgQuestionPaper = '$imagePathHome/img_question_paper.png';
+
+  static String imgAcademicCalender = '$imagePathHome/img_academic_calender.png';
+
+  static String imgContact = '$imagePathHome/img_contact.png';
+
+  static String imgTelevisionBlue600 = '$imagePathHome/img_television_blue_600.svg';
+
+  static String imgComputer = '$imagePathHome/img_computer.svg';
+
+  static String imgWebsite = '$imagePathHome/img_website.png';
+
+  static String imgCreditSystem = '$imagePathHome/img_credit_system.png';
+
+  static String imgCgpaCal = '$imagePathHome/img_cgpa_cal.png';
+
+  static String imgUploadnotes = '$imagePathHome/img_uploadnotes.png';
+
+  static String imgExamtimetable = '$imagePathHome/img_examtimetable.png';
+
+  static String imgFaq = '$imagePathHome/img_faq.png';
+
+  // Common images
+  static String imgThumbsUp = '$imagePathHome/img_thumbs_up.svg';
+
+  static String imgQrcode = '$imagePathHome/img_qrcode.svg';
+
+  static String imgContrast1 = '$imagePathHome/img_contrast.svg';
+
+  static String imgPath2 = '$imagePathHome/img_path_2.svg';
+
+  static String imgPath3 = '$imagePathHome/img_path_3.svg';
+
+  static String imgArrowLeft = '$imagePathHome/img_arrow_left.svg';
+
+  static String imgTelevision1 = '$imagePathHome/img_television.svg';
+
+  static String imgArrowLeftBlueA40001 =
+      '$imagePathHome/img_arrow_left_blue_a400_01.svg';
+
+  static String imgTriangle1 = '$imagePathHome/img_triangle.svg';
+
+  static String imgArrowRightPrimary = '$imagePathHome/img_arrow_right_primary.svg';
+
+  static String imgBookmark = '$imagePathHome/img_bookmark.svg';
+
+  static String imgSignal1 = '$imagePathHome/img_signal.svg';
+
+  static String imgNavHome = '$imagePathHome/img_nav_home.svg';
+
+  static String imgNavMyCourses = '$imagePathHome/img_nav_my_courses.svg';
+
+  static String imgNavIndox = '$imagePathHome/img_nav_indox.svg';
+
+  static String imgNavBookMark = '$imagePathHome/img_nav_book_mark.svg';
+
+  static String imgNavProfile = '$imagePathHome/img_nav_profile.svg';
+
+  static String imgArrowDown1 = '$imagePathHome/img_arrow_down.svg';
+
+  static String imgQrcodeBlueGray90001 =
+      '$imagePathHome/img_qrcode_blue_gray_900_01.svg';
+
+  static String imgPattern08 = '$imagePathHome/img_pattern_08.png';
+
+  static String imgTelevisionOrangeA200 =
+      '$imagePathHome/img_television_orange_a200.svg';
+
+  static String imgUser1 = '$imagePathHome/img_user.svg';
+
+  static String imgImage = '$imagePathHome/img_image.png';
+
+  static String imgBookmarkPrimary = '$imagePathHome/img_bookmark_primary.svg';
+
+  static String imgNavHomeBlueGray90001 =
+      '$imagePathHome/img_nav_home_blue_gray_900_01.svg';
+
+  static String imgArrowrightPrimary17x21 =
+      '$imagePathHome/img_arrowright_primary_17x21.svg';
+
+  static String imgFill = '$imagePathHome/img_fill_1.svg';
+
+  static String imgGrid = '$imagePathHome/img_grid.svg';
+
+  static String imgUserWhiteA700 = '$imagePathHome/img_user_white_a700.svg';
+
+  static String imgTelevisionBlueGray9000152x52 =
+      '$imagePathHome/img_television_blue_gray_900_01_52x52.svg';
+
+  static String imgLockOnprimary = '$imagePathHome/img_lock_onprimary.svg';
+
+  static String imageNotFound1 = 'assets/images/image_not_found.png';
 }

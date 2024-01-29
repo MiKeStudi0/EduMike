@@ -1,5 +1,5 @@
 import 'package:edumike/screens/loginscreen/google_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:edumike/screens/loginscreen/login_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
