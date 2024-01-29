@@ -11,12 +11,23 @@ class IntroOneScreen extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
             backgroundColor: appTheme.gray50,
+
             body: Container(
+              
+
                 width: double.maxFinite,
                 padding:
                     EdgeInsets.symmetric(horizontal: 36.h, vertical: 156.v),
                 child:
                     Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Container(
+                    child: CustomImageView(
+                        height: 300,
+                        width: 300,
+                        margin: EdgeInsets.only(bottom: 30.v),
+                        imagePath: ImageConstant.imglogo),
+                  ),
+                      
                   const Spacer(),
                   Text("Welcome to Eduwise",
                       style: theme.textTheme.headlineSmall),

@@ -28,7 +28,6 @@ import 'package:edumike/screens/Homescreen/search_screen/search_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/screens/Homescreen/subscription_screen/subscription_screen.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
-import 'package:edumike/screens/Homescreen/app_navigation_screen/home_app_navigation_screen.dart';
 
 
 

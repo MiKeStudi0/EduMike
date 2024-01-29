@@ -1,6 +1,7 @@
 class ImageConstant {
   // Image folder path
   static String imagePath = 'assets/images/login_image';
+  static String imagelogo = 'assets/images';
 
   // 02_INTRO-One images
   static String imgArrowRight = '$imagePath/img_arrow_right.png';
@@ -9,6 +10,8 @@ class ImageConstant {
   static String imgGoogle = '$imagePath/img_google.png';
 
   static String imgGroup3 = '$imagePath/img_group_3.png';
+
+  static String imglogo = '$imagelogo/EduWisePng.png';
 
   // 06_REGISTER NOW images
   static String imgCheckmark = '$imagePath/img_checkmark.svg';
