@@ -9,6 +9,7 @@ import 'package:edumike/widgets/custom_text_form_field.dart';
     FocusNode numberFocusNode = FocusNode();
 
 
+// ignore: must_be_immutable
 class CustomPhoneNumber extends StatelessWidget {
   CustomPhoneNumber({
     Key? key,
@@ -38,7 +39,7 @@ class CustomPhoneNumber extends StatelessWidget {
             color: theme.colorScheme.primary.withOpacity(0.2),
             spreadRadius: 2.h,
             blurRadius: 2.h,
-            offset: Offset(
+            offset: const Offset(
               0,
               2,
             ),

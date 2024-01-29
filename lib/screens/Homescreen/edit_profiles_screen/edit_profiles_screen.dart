@@ -11,6 +11,7 @@ import 'package:edumike/widgets/custom_phone_number.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class EditProfilesScreen extends StatelessWidget {
   EditProfilesScreen({Key? key})
       : super(
