@@ -57,7 +57,7 @@ class CustomIconButton extends StatelessWidget {
                       color: theme.colorScheme.primary.withOpacity(0.1),
                       spreadRadius: 2.h,
                       blurRadius: 2.h,
-                      offset: Offset(
+                      offset: const Offset(
                         1,
                         2,
                       ),

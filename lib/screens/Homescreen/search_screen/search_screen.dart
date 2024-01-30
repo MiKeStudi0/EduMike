@@ -11,6 +11,7 @@ import 'package:edumike/widgets/custom_bottom_bar.dart';
 import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key})
       : super(

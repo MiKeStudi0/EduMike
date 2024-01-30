@@ -1,11 +1,14 @@
 import 'package:edumike/screens/loginscreen/google_auth.dart';
+<<<<<<< HEAD
 import 'package:edumike/screens/loginscreen/login_screen.dart';
+=======
+import 'package:firebase_auth/firebase_auth.dart';
+>>>>>>> aac4516b843dbcc9efee08f5fc5f666e67dd8c26
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
-import 'package:flutter/widgets.dart';
 import 'package:email_otp/email_otp.dart';
 
 class RegisterNowScreen extends StatefulWidget {
@@ -36,13 +39,6 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   EmailOTP myauth = EmailOTP();
 
-          var _isObscured;
-
-  @override
-  void initState(){
-    super.initState();
-    _isObscured = false;
-  }
 
   @override
   Widget build(BuildContext context) {
