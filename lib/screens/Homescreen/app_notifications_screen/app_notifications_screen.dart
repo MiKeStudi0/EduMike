@@ -88,7 +88,7 @@ class AppNotificationsScreen extends StatelessWidget {
                       .copyWith(color: appTheme.blueGray90001)));
         },
         itemBuilder: (context, model) {
-          return TodaysectionlistItemWidget();
+          return const TodaysectionlistItemWidget();
         },
         separator: SizedBox(height: 12.v));
   }

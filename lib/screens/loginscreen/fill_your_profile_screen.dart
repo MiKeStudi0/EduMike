@@ -48,18 +48,6 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
     }
     
 
-  /*  void _showDatePicker(){
-  showDatePicker(context: context,initialDate: DateTime.now(),
-   firstDate: DateTime(2000),
-    lastDate: DateTime(2500)
-    ).then((value) {
-      setState(() {
-      _dateTime=value!;
-      });
-    })
-    ;
-}
-*/
    FocusNode emailFocusNode = FocusNode();
 
   FocusNode dateofbirthFocusNode = FocusNode();
