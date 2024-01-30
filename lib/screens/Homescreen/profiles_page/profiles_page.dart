@@ -1,4 +1,8 @@
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Homescreen/app_notifications_screen/app_notifications_screen.dart';
+import 'package:edumike/screens/Homescreen/edit_profiles_screen/edit_profiles_screen.dart';
+import 'package:edumike/screens/Homescreen/invite_friends_screen/invite_friends_screen.dart';
+import 'package:edumike/screens/Homescreen/terms_conditions_screen/terms_conditions_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
@@ -157,26 +161,31 @@ class ProfilesPage extends StatelessWidget {
 
   /// Section Widget
   Widget _buildThree(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 20.h),
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+    return GestureDetector(
+      onTap: (){
+        onTapTwo(context);
+      },
+      child: Padding(
+          padding: EdgeInsets.only(left: 20.h),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              CustomImageView(
+                  imagePath: ImageConstant.imgUserBlueGray90001,
+                  height: 23.v,
+                  width: 19.h),
+              Padding(
+                  padding: EdgeInsets.only(left: 15.h, top: 2.v, bottom: 2.v),
+                  child: Text("Notifications",
+                      style: CustomTextStyles.titleSmallBluegray9000115))
+            ]),
             CustomImageView(
-                imagePath: ImageConstant.imgUserBlueGray90001,
-                height: 23.v,
-                width: 19.h),
-            Padding(
-                padding: EdgeInsets.only(left: 15.h, top: 2.v, bottom: 2.v),
-                child: Text("Notifications",
-                    style: CustomTextStyles.titleSmallBluegray9000115))
-          ]),
-          CustomImageView(
-              imagePath: ImageConstant.imgArrowRight,
-              height: 21.v,
-              width: 12.h,
-              margin: EdgeInsets.only(top: 2.v))
-        ]));
+                imagePath: ImageConstant.imgArrowRight,
+                height: 21.v,
+                width: 12.h,
+                margin: EdgeInsets.only(top: 2.v))
+          ])),
+    );
   }
 
   /// Section Widget
@@ -343,17 +352,19 @@ class ProfilesPage extends StatelessWidget {
 
   /// Navigates to the editProfilesScreen when the action is triggered.
   onTapOne(BuildContext context) {
-    print('heloo');
-    Navigator.pushNamed(context, AppRoutes.editProfilesScreen);
-  }
+Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilesScreen())); 
+ }
 
   /// Navigates to the termsConditionsScreen when the action is triggered.
   onTapSeven(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.termsConditionsScreen);
+Navigator.push(context, MaterialPageRoute(builder: (context)=>const TermsConditionsScreen())); 
   }
 
   /// Navigates to the inviteFriendsScreen when the action is triggered.
   onTapNine(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.inviteFriendsScreen);
+Navigator.push(context, MaterialPageRoute(builder: (context)=>const InviteFriendsScreen())); 
+  }
+  onTapTwo(BuildContext context) {
+Navigator.push(context, MaterialPageRoute(builder: (context)=>AppNotificationsScreen())); 
   }
 }
