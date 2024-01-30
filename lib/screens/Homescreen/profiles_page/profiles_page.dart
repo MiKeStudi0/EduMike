@@ -343,6 +343,7 @@ class ProfilesPage extends StatelessWidget {
 
   /// Navigates to the editProfilesScreen when the action is triggered.
   onTapOne(BuildContext context) {
+    print('heloo');
     Navigator.pushNamed(context, AppRoutes.editProfilesScreen);
   }
 

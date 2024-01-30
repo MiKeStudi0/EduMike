@@ -3,7 +3,7 @@ import 'package:edumike/core/app_export.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final VoidCallback? onTap;
-  CustomTextFormField({
+  CustomTextFormField( {
     Key? key,
     this.onTap,
     this.alignment,
@@ -27,14 +27,14 @@ class CustomTextFormField extends StatelessWidget {
     this.borderDecoration,
     this.fillColor,
     this.filled = true,
-    this.validator,
+    this.validator, 
     this.suffixIcon,
   }) : super(
           key: key,
         );
 
   final Alignment? alignment;
-  final IconButton? suffixIcon;
+  final IconButton ? suffixIcon;
 
   final double? width;
 

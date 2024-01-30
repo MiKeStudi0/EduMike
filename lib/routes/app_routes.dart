@@ -119,29 +119,29 @@ class AppRoutes {
     loginScreen: (context) => LoginScreen(),
     authScreen: (context) => const AuthPage(),
     fillYourProfileScreen: (context) => FillYourProfileScreen(),
-    congratulationsScreen: (context) => CongratulationsScreen(),
-    forgotPasswordScreen: (context) => ForgotPasswordScreen(),
-    verifyMailScreen: (context) => VerifyMailScreen(),
+    congratulationsScreen: (context) => const CongratulationsScreen(),
+    forgotPasswordScreen: (context) => const ForgotPasswordScreen(),
+    verifyMailScreen: (context) => const VerifyMailScreen(),
     createNewPasswordScreen: (context) => CreateNewPasswordScreen(),
-    verifyForgotPasswordOneScreen: (context) => VerifyForgotPasswordOneScreen(),
-    appNavigationScreen: (context) => AppNavigationScreen(),
+    verifyForgotPasswordOneScreen: (context) => const VerifyForgotPasswordOneScreen(),
+    appNavigationScreen: (context) => const AppNavigationScreen(),
 
     //Remaining is for HomeScreen
      homemainpageContainerScreen: (context) => HomemainpageContainerScreen(),
     addUniversityCardScreen: (context) => AddUniversityCardScreen(),
-    helpcareScreen: (context) => HelpcareScreen(),
+    helpcareScreen: (context) => const HelpcareScreen(),
     editProfilesScreen: (context) => EditProfilesScreen(),
-    inviteFriendsScreen: (context) => InviteFriendsScreen(),
-    termsConditionsScreen: (context) => TermsConditionsScreen(),
-    removeBookmarkScreen: (context) => RemoveBookmarkScreen(),
-    addSubscribeScreen: (context) => AddSubscribeScreen(),
+    inviteFriendsScreen: (context) => const InviteFriendsScreen(),
+    termsConditionsScreen: (context) => const TermsConditionsScreen(),
+    removeBookmarkScreen: (context) => const RemoveBookmarkScreen(),
+    addSubscribeScreen: (context) => const AddSubscribeScreen(),
     appNotificationsScreen: (context) => AppNotificationsScreen(),
     subscriptionNotificationsScreen: (context) => SubscriptionNotificationsScreen(),
     searchScreen: (context) => SearchScreen(),
-    modulesScreen: (context) => ModulesScreen(),
+    modulesScreen: (context) => const ModulesScreen(),
     subscriptionScreen: (context) => SubscriptionScreen(),
     categoryScreen: (context) => CategoryScreen(),
-    appNavigationHomeScreen: (context) => AppNavigationScreen()
+    appNavigationHomeScreen: (context) => const AppNavigationScreen()
   
   };
 }

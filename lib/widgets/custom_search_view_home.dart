@@ -9,7 +9,7 @@ class CustomSearchView extends StatelessWidget {
     this.scrollPadding,
     this.controller,
     this.focusNode,
-    this.autofocus = true,
+    this.autofocus = false,
     this.textStyle,
     this.textInputType = TextInputType.text,
     this.maxLines,
