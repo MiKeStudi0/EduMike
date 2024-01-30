@@ -114,48 +114,57 @@ class ProfilesPage extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildOne(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          onTapOne(context);
-        },
-        child: Padding(
-            padding: EdgeInsets.only(left: 20.h),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              CustomImageView(
-                  imagePath: ImageConstant.imgSettings,
-                  height: 23.v,
-                  width: 18.h),
-              Padding(
-                  padding: EdgeInsets.only(left: 16.h, top: 2.v, bottom: 2.v),
-                  child: Text("Edit Profile",
-                      style: CustomTextStyles.titleSmallBluegray9000115)),
-              Spacer(),
-              CustomImageView(
+ Widget _buildOne(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      onTapOne(context);
+    },
+    child: Padding(
+      padding: EdgeInsets.only(left: 20.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          CustomImageView(
+            imagePath: ImageConstant.imgSettings,
+            height: 23.v,
+            width: 18.h,
+          ),
+          SizedBox(width: 16.h),
+          Expanded(
+            child: Row(
+              children: [
+                Text(
+                  "Edit Profile",
+                  style: CustomTextStyles.titleSmallBluegray9000115,
+                ),
+                CustomImageView(
                   imagePath: ImageConstant.imgArrowRight,
                   height: 21.v,
                   width: 12.h,
-                  margin: EdgeInsets.only(top: 2.v))
-            ])));
-  }
+                  margin: EdgeInsets.only(top: 2.v, left: 15),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 
   /// Section Widget
   Widget _buildTwo(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(left: 20.h),
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgFill1, height: 22.v, width: 23.h),
+          
           Padding(
               padding: EdgeInsets.only(left: 11.h, top: 3.v),
               child: Text("Payment Option",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
-          Spacer(),
-          CustomImageView(
-              imagePath: ImageConstant.imgArrowRight,
-              height: 21.v,
-              width: 12.h,
-              margin: EdgeInsets.only(top: 2.v))
+          const Spacer(),
+          
         ]));
   }
 
@@ -181,7 +190,7 @@ class ProfilesPage extends StatelessWidget {
             ]),
             CustomImageView(
                 imagePath: ImageConstant.imgArrowRight,
-                height: 21.v,
+                height: 11.v,
                 width: 12.h,
                 margin: EdgeInsets.only(top: 2.v))
           ])),
@@ -201,7 +210,8 @@ class ProfilesPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 12.h, bottom: 2.v),
               child: Text("Security",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
-          Spacer(),
+                                const Spacer(),
+
           CustomImageView(
               imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
         ]));
@@ -220,7 +230,7 @@ class ProfilesPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 11.h, top: 2.v),
               child: Text("Language",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
-          Spacer(),
+          const Spacer(),
           Padding(
               padding: EdgeInsets.only(top: 3.v),
               child: Text("English (US)",
@@ -247,7 +257,7 @@ class ProfilesPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 9.h, bottom: 2.v),
               child: Text("Dark Mode",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
-          Spacer(),
+         const Spacer(),
           CustomImageView(
               imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
         ]));
@@ -270,7 +280,7 @@ class ProfilesPage extends StatelessWidget {
                   padding: EdgeInsets.only(left: 14.h, bottom: 2.v),
                   child: Text("Terms & Conditions",
                       style: CustomTextStyles.titleSmallBluegray9000115)),
-              Spacer(),
+              const Spacer(),
               CustomImageView(
                   imagePath: ImageConstant.imgArrowRight,
                   height: 21.v,
@@ -291,12 +301,13 @@ class ProfilesPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 9.h, top: 4.v, bottom: 3.v),
               child: Text("Help Center",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
-          Spacer(),
+         
           CustomImageView(
               imagePath: ImageConstant.imgArrowRight,
               height: 21.v,
               width: 12.h,
-              margin: EdgeInsets.only(top: 4.v))
+              margin: EdgeInsets.only(top: 4.v)),
+              const Spacer(),
         ]));
   }
 
@@ -322,7 +333,7 @@ class ProfilesPage extends StatelessWidget {
                                 width: 23.h),
                             Padding(
                                 padding: EdgeInsets.only(left: 11.h),
-                                child: Text("Intive Friends",
+                                child: Text("Invite Friends",
                                     style: CustomTextStyles
                                         .titleSmallBluegray9000115))
                           ])),
@@ -344,7 +355,7 @@ class ProfilesPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 14.h),
               child: Text("Logout",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
-          Spacer(),
+          const Spacer(),
           CustomImageView(
               imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
         ]));
@@ -352,7 +363,7 @@ class ProfilesPage extends StatelessWidget {
 
   /// Navigates to the editProfilesScreen when the action is triggered.
   onTapOne(BuildContext context) {
-Navigator.push(context, MaterialPageRoute(builder: (context)=>EditProfilesScreen())); 
+Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>EditProfilesScreen())); 
  }
 
   /// Navigates to the termsConditionsScreen when the action is triggered.

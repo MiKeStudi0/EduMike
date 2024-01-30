@@ -57,6 +57,7 @@ class ImageConstant {
 
   static String imgFill1 = '$imagePath/img_circle.png';
 
+
   static String imgCircle = '$imagePath/img_google.png';
 
   static String imgCirclePrimarycontainer = '$imagePath/img_group_3.png';
@@ -116,26 +117,26 @@ class ImageConstant {
   // 5_PROFILES images
   static String imgLock1 = '$imagePathHome/img_lock.svg';
 
-  static String imgSettings = '$imagePathHome/img_settings.svg';
+  static String imgSettings = '$imagePathHome/img_settings.png';
 
   static String imgArrowRight1 = '$imagePathHome/img_arrow_right.svg';
 
   static String imgUserBlueGray90001 =
-      '$imagePathHome/img_user_blue_gray_900_01.svg';
+      '$imagePathHome/img_user_blue_gray_900_01.png';
 
   static String imgTelevisionBlueGray90001 =
-      '$imagePathHome/img_television_blue_gray_900_01.svg';
+      '$imagePathHome/img_television_blue_gray_900_01.png';
 
-  static String imgCloseGray900 = '$imagePathHome/img_close_gray_900.svg';
+  static String imgCloseGray900 = '$imagePathHome/img_close_gray_900.png';
 
-  static String imgEye = '$imagePathHome/img_eye.svg';
+  static String imgEye = '$imagePathHome/img_eye.png';
 
   static String imgUserBlueGray9000121x18 =
-      '$imagePathHome/img_user_blue_gray_900_01_21x18.svg';
+      '$imagePathHome/img_user_blue_gray_900_01_21x18.png';
 
-  static String imgProfile = '$imagePathHome/img_profile.svg';
+  static String imgProfile = '$imagePathHome/img_profile.png';
 
-  static String imgFill1Onprimary = '$imagePathHome/img_fill_1_onprimary.svg';
+  static String imgFill1Onprimary = '$imagePathHome/img_fill_1_onprimary.png';
 
   static String imgClock = '$imagePathHome/img_clock.svg';
 
