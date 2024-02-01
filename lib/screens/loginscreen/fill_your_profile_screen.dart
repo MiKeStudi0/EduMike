@@ -1,5 +1,8 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
@@ -19,6 +22,28 @@ void main() async{
   runApp(FillYourProfileScreen());
 }
 
+Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
+  // Get the current user
+  User? user = FirebaseAuth.instance.currentUser;
+
+  if (user == null) {
+    throw Exception('User not authenticated');
+  }
+
+  // Retrieve the user document from Firestore
+  DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)    
+      .get();
+print(user.uid);
+
+  return snapshot;
+
+}
+
+
+
+
 
  
 // ignore_for_file: must_be_immutable
@@ -33,6 +58,8 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   TextEditingController fullNameEditTextController = TextEditingController();
     late final String gendervalue;
    // DateTime _picked=DateTime.now();
+
+   
 
     Future<void> _selectdate()async{
       DateTime? _picked=await 
@@ -236,22 +263,20 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
         child: Stack(alignment: Alignment.center, children: [
           Align(
               alignment: Alignment.center,
-              child: GestureDetector(
-                  onTap: () {
-                    onTapBUTTON(context);
-                    print(gendervalue);
-                    CollectionReference reference = FirebaseFirestore.instance.collection('new');
-                    reference.add({
-                      'fullname' :fullNameEditTextController.text,
-                      'nickname' :nameEditTextController.text,
-                     'dateofbirth':dateOfBirthEditTextController.text,
-                      'email':emailEditTextController.text,
-                      'phone':phoneNumberController.text,
-                      'gender':gendervalue
-                    }
-                    );
-                  },
-                  child: Card(
+              child:GestureDetector(
+  onTap: () async {
+    try {
+      await addUserToFirestore();
+      print('User data added to Firestore successfully!');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
+      );
+    } catch (e) {
+      print('Error adding user data to Firestore: $e');
+    }
+  },
+  child: Card(
                       clipBehavior: Clip.antiAlias,
                       elevation: 0,
                       margin: const EdgeInsets.all(0),
@@ -288,7 +313,28 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   }
 
   /// Navigates to the congratulationsScreen when the action is triggered.
-  onTapBUTTON(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.homescreen);
+  Future<void> addUserToFirestore() async {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  if (user == null) {
+    throw Exception('User not authenticated');
   }
+
+  // Use the user ID as the document ID
+  String userId = user.uid;
+
+  // Replace 'users' with your Firestore collection name
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+
+  // Replace the field names and values as per your data structure
+  await userCollection.doc(userId).set({
+    'fullname': fullNameEditTextController.text,
+    'nickname': nameEditTextController.text,
+    'dateofbirth': dateOfBirthEditTextController.text,
+    'email': emailEditTextController.text,
+    'phone': phoneNumberController.text,
+    'gender': gendervalue,
+  });
+}
 }

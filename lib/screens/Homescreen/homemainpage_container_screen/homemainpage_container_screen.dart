@@ -63,7 +63,7 @@ HomemainpageContainerScreen({Key? key}) : super(key: key);
       case AppRoutes.myBookmarkPage:
         return const MyBookmarkPage();
       case AppRoutes.profilesPage:
-        return const ProfilesPage();
+        return  ProfilesPage();
       default:
         return DefaultWidget();
     }

@@ -1,16 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/app_notifications_screen/app_notifications_screen.dart';
 import 'package:edumike/screens/Homescreen/edit_profiles_screen/edit_profiles_screen.dart';
 import 'package:edumike/screens/Homescreen/invite_friends_screen/invite_friends_screen.dart';
 import 'package:edumike/screens/Homescreen/terms_conditions_screen/terms_conditions_screen.dart';
+import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_icon_button_home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+
+
+
 class ProfilesPage extends StatelessWidget {
-  const ProfilesPage({Key? key}) : super(key: key);
+   ProfilesPage({Key? key}) : super(key: key);
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +76,50 @@ class ProfilesPage extends StatelessWidget {
                                                             .imgLock)))
                                           ]))),
                               SizedBox(height: 7.v),
-                              Align(
+                             FutureBuilder<DocumentSnapshot>(
+  future: getUserDocument(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      // Return a loading indicator while data is being fetched
+      return CircularProgressIndicator();
+    } else if (snapshot.hasError) {
+      // Handle error
+      return Text('Error: ${snapshot.error}');
+    } else if (!snapshot.hasData || snapshot.data == null) {
+      // Handle null or missing data
+      return Text('No data available');
+    } else {
+      // Extract the full name and email from the snapshot data
+      String? fullName = snapshot.data!['fullname'];
+      String? email = snapshot.data!['email'];
+
+      // Check if full name is null
+      if (fullName == null) {
+        // Full name not found in the snapshot
+        return Text('Full name not found');
+      }
+
+      // Build the column to display full name and email
+     return Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Column(
+      children: [
+        Text('Welcome, $fullName', style: theme.textTheme.headlineSmall),
+        const SizedBox(height: 8), // Adjust the spacing between the texts as needed
+        Text('$email', style: theme.textTheme.headlineSmall),
+      ],
+    ),
+  ],
+);
+
+    }
+  },
+),
+
+                
+      
+                             /* Align(
                                   alignment: Alignment.center,
                                   child: Text("Alex",
                                       style: theme.textTheme.headlineSmall)),
@@ -78,7 +128,7 @@ class ProfilesPage extends StatelessWidget {
                                   alignment: Alignment.center,
                                   child: Text("hernandex.redial@gmail.ac.in",
                                       style: CustomTextStyles
-                                          .labelLargeMulishSecondaryContainerBold)),
+                                          .labelLargeMulishSecondaryContainerBold)),*/
                               SizedBox(height: 45.v),
                               _buildOne(context),
                               SizedBox(height: 42.v),
@@ -378,4 +428,6 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>const InviteFriend
   onTapTwo(BuildContext context) {
 Navigator.push(context, MaterialPageRoute(builder: (context)=>AppNotificationsScreen())); 
   }
+
+  
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:edumike/core/app_export.dart';
@@ -9,7 +10,10 @@ import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_phone_number.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 
 // ignore: must_be_immutable
 class EditProfilesScreen extends StatelessWidget {
@@ -99,7 +103,7 @@ class EditProfilesScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 40.v),
-                  _buildFullName(context),
+                  _buildfullName(context),
                   SizedBox(height: 18.v),
                   _buildName(context),
                   SizedBox(height: 18.v),
@@ -152,10 +156,44 @@ class EditProfilesScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildFullName(BuildContext context) {
+ /*Widget _buildFullName(BuildContext context) {
+  // Get the current user
+  User? user = FirebaseAuth.instance.currentUser;
+
+  if (user == null) {
+    // User is not authenticated, handle accordingly
+    return Text('User not authenticated');
+  }
+
+  return StreamBuilder<DocumentSnapshot>(
+    stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // Return a loading indicator while data is being fetched
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        // Handle error
+        return Text('Error: ${snapshot.error}');
+      } else {
+        // Extract the full name from the snapshot data
+        String fullName = snapshot.data?.get('fullname') ?? ''; // Replace 'full_name' with the actual field name in your Firestore document
+
+        // Initialize the controller with the full name
+        fullNameController.text = fullName;
+
+        // Return the CustomTextFormField with the initialized controller
+        return CustomTextFormField(
+          controller: fullNameController,
+          hintText: "Full Name",
+        );
+      }
+    },
+  );
+}*/
+Widget _buildfullName(BuildContext context) {
     return CustomTextFormField(
       controller: fullNameController,
-      hintText: "Full Name",
+      hintText: "full Name",
     );
   }
 
