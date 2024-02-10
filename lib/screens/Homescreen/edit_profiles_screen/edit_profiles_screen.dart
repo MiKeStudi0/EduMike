@@ -2,26 +2,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
-import 'package:edumike/widgets/custom_drop_down.dart';
-import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
-import 'package:edumike/widgets/custom_phone_number.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 
 // ignore: must_be_immutable
-class EditProfilesScreen extends StatelessWidget {
+class EditProfilesScreen extends StatefulWidget {
   EditProfilesScreen({Key? key})
       : super(
           key: key,
         );
 
+  @override
+  State<EditProfilesScreen> createState() => _EditProfilesScreenState();
+}
+
+class _EditProfilesScreenState extends State<EditProfilesScreen> {
   TextEditingController fullNameController = TextEditingController();
 
   TextEditingController nameController = TextEditingController();
@@ -30,15 +31,11 @@ class EditProfilesScreen extends StatelessWidget {
 
   TextEditingController emailController = TextEditingController();
 
+    TextEditingController genderController = TextEditingController();
+
   Country selectedCountry = CountryPickerUtils.getCountryByPhoneCode('91');
 
   TextEditingController phoneNumberController = TextEditingController();
-
-  List<String> dropdownItemList = [
-    "Item One",
-    "Item Two",
-    "Item Three",
-  ];
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -113,20 +110,10 @@ class EditProfilesScreen extends StatelessWidget {
                   SizedBox(height: 18.v),
                   _buildPhoneNumber(context),
                   SizedBox(height: 18.v),
-                  CustomDropDown(
-                    hintText: "Gender",
-                    items: dropdownItemList,
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 22.h,
-                      vertical: 21.v,
-                    ),
-                   // borderDecoration: DropDownStyleHelper.outlineBlackTL12,
-                    onChanged: (value) {},
-                  ),
+                   _buildgender(context),
                   SizedBox(height: 18.v),
-                  _buildColumn(context),
-                  SizedBox(height: 40.v),
-                  _buildButton(context),
+                  ///_buildUpdateButton(),
+                  SizedBox(height: 10.v),
                 ],
               ),
             ),
@@ -190,23 +177,119 @@ class EditProfilesScreen extends StatelessWidget {
     },
   );
 }*/
+
+
 Widget _buildfullName(BuildContext context) {
+  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+    future: getUserDocument(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // While waiting for the data to load, show a loading indicator
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        // If an error occurs while fetching the data, show the error message
+        return Text('Error: ${snapshot.error}');
+      } else {
+        // If the data is successfully fetched, extract the full name
+        String? fullName = snapshot.data?.data()?['fullname'];
+
+        if (fullName == null) {
+          // If full name is null, handle the case accordingly
+          return Text('Full name not found');
+        }
+
+        // Create a TextEditingController and set its initial value to the full name
+        fullNameController.text = fullName;
+
+        // Return the CustomTextFormField with the initialized controller
+        return CustomTextFormField(
+          controller: fullNameController,
+          hintText: "Full Name",
+        );
+      }
+    },
+  );
+}
+
+/*Widget _buildfullName(BuildContext context) {
     return CustomTextFormField(
       controller: fullNameController,
       hintText: "full Name",
     );
-  }
+  }*/
+  Widget _buildName(BuildContext context) {
+  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+    future: getUserDocument(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // While waiting for the data to load, show a loading indicator
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        // If an error occurs while fetching the data, show the error message
+        return Text('Error: ${snapshot.error}');
+      } else {
+        // If the data is successfully fetched, extract the full name
+        String? nickName = snapshot.data?.data()?['nickname'];
+
+        if (nickName == null) {
+          // If full name is null, handle the case accordingly
+          return Text('nick name not found');
+        }
+
+        // Create a TextEditingController and set its initial value to the full name
+        nameController.text = nickName;
+
+        // Return the CustomTextFormField with the initialized controller
+        return CustomTextFormField(
+          controller: nameController,
+          hintText: "nick Name",
+        );
+      }
+    },
+  );
+}
 
   /// Section Widget
-  Widget _buildName(BuildContext context) {
+  /*Widget _buildName(BuildContext context) {
     return CustomTextFormField(
       controller: nameController,
       hintText: "Nick Name",
     );
-  }
+  }*/
+  Widget _buildDateOfBirth(BuildContext context) {
+  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+    future: getUserDocument(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // While waiting for the data to load, show a loading indicator
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        // If an error occurs while fetching the data, show the error message
+        return Text('Error: ${snapshot.error}');
+      } else {
+        // If the data is successfully fetched, extract the full name
+        String? dob = snapshot.data?.data()?['dateofbirth'];
+
+        if (dob == null) {
+          // If full name is null, handle the case accordingly
+          return Text('dob not found');
+        }
+
+        // Create a TextEditingController and set its initial value to the full name
+        dateOfBirthController.text = dob;
+
+        // Return the CustomTextFormField with the initialized controller
+        return CustomTextFormField(
+          controller: dateOfBirthController,
+          hintText: " dateofbirth",
+        );
+      }
+    },
+  );
+}
 
   /// Section Widget
-  Widget _buildDateOfBirth(BuildContext context) {
+  /*Widget _buildDateOfBirth(BuildContext context) {
     return CustomTextFormField(
       controller: dateOfBirthController,
       hintText: "Date of Birth",
@@ -227,10 +310,42 @@ Widget _buildfullName(BuildContext context) {
         bottom: 21.v,
       ),
     );
-  }
+  }*/
+
+  Widget _buildEmail(BuildContext context) {
+  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+    future: getUserDocument(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // While waiting for the data to load, show a loading indicator
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        // If an error occurs while fetching the data, show the error message
+        return Text('Error: ${snapshot.error}');
+      } else {
+        // If the data is successfully fetched, extract the full name
+        String? email = snapshot.data?.data()?['email'];
+
+        if (email == null) {
+          // If full name is null, handle the case accordingly
+          return Text('email not found');
+        }
+
+        // Create a TextEditingController and set its initial value to the full name
+        emailController.text = email;
+
+        // Return the CustomTextFormField with the initialized controller
+        return CustomTextFormField(
+          controller: emailController,
+          hintText: " email",
+        );
+      }
+    },
+  );
+}
 
   /// Section Widget
-  Widget _buildEmail(BuildContext context) {
+  /*Widget _buildEmail(BuildContext context) {
     return CustomTextFormField(
       controller: emailController,
       hintText: "Email",
@@ -252,10 +367,42 @@ Widget _buildfullName(BuildContext context) {
         bottom: 21.v,
       ),
     );
-  }
+  }*/
+
+  Widget _buildPhoneNumber(BuildContext context) {
+  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+    future: getUserDocument(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // While waiting for the data to load, show a loading indicator
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        // If an error occurs while fetching the data, show the error message
+        return Text('Error: ${snapshot.error}');
+      } else {
+        // If the data is successfully fetched, extract the full name
+        String? phone = snapshot.data?.data()?['phone'];
+
+        if (phone == null) {
+          // If full name is null, handle the case accordingly
+          return Text('phone not found');
+        }
+
+        // Create a TextEditingController and set its initial value to the full name
+        phoneNumberController.text = phone;
+
+        // Return the CustomTextFormField with the initialized controller
+        return CustomTextFormField(
+          controller: phoneNumberController,
+          hintText: " phone",
+        );
+      }
+    },
+  );
+}
 
   /// Section Widget
-  Widget _buildPhoneNumber(BuildContext context) {
+  /*Widget _buildPhoneNumber(BuildContext context) {
     return CustomPhoneNumber(
       country: selectedCountry,
       controller: phoneNumberController,
@@ -263,10 +410,42 @@ Widget _buildfullName(BuildContext context) {
         selectedCountry = value;
       },
     );
-  }
+  }*/
+
+  Widget _buildgender(BuildContext context) {
+  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+    future: getUserDocument(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // While waiting for the data to load, show a loading indicator
+        return CircularProgressIndicator();
+      } else if (snapshot.hasError) {
+        // If an error occurs while fetching the data, show the error message
+        return Text('Error: ${snapshot.error}');
+      } else {
+        // If the data is successfully fetched, extract the full name
+        String? gender= snapshot.data?.data()?['gender'];
+
+        if (gender == null) {
+          // If full name is null, handle the case accordingly
+          return Text('gender not found');
+        }
+
+        // Create a TextEditingController and set its initial value to the full name
+        genderController.text = gender;
+
+        // Return the CustomTextFormField with the initialized controller
+        return CustomTextFormField(
+          controller: genderController,
+          hintText: "gender ",
+        );
+      }
+    },
+  );
+}
 
   /// Section Widget
-  Widget _buildColumn(BuildContext context) {
+  /*Widget _buildColumn(BuildContext context) {
     return Container(
       width: 360.h,
       padding: EdgeInsets.symmetric(
@@ -281,10 +460,10 @@ Widget _buildfullName(BuildContext context) {
         style: CustomTextStyles.titleSmallGray800,
       ),
     );
-  }
+  }*/
 
   /// Section Widget
-  Widget _buildButton(BuildContext context) {
+  /*Widget _buildButton(BuildContext context) {
     return CustomElevatedButton(
       text: "Update",
       margin: EdgeInsets.symmetric(horizontal: 5.h),
@@ -305,4 +484,7 @@ Widget _buildfullName(BuildContext context) {
       ),
     );
   }
+}*/
+
+
 }
