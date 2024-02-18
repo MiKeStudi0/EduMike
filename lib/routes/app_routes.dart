@@ -1,3 +1,4 @@
+import 'package:edumike/screens/Dropdownlist.dart';
 import 'package:edumike/screens/loginscreen/authenticate_user.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/screens/loginscreen/intro_one_screen.dart';
@@ -32,6 +33,8 @@ import 'package:edumike/screens/uploadscreen.dart';
 
 class AppRoutes {
   static const String introOneScreen = '/intro_one_screen';
+
+  static const String listview = '/list view';
 
   static const String uploadscreen = '/upload_screen';
 
@@ -118,7 +121,7 @@ class AppRoutes {
     verifyForgotPasswordOneScreen: (context) =>
         const VerifyForgotPasswordOneScreen(),
     appNavigationScreen: (context) => const AppNavigationScreen(),
-
+    listview: (context) => FirestoreListView(),
     //Remaining is for HomeScreen
     homemainpageContainerScreen: (context) => HomemainpageContainerScreen(),
     addUniversityCardScreen: (context) => AddUniversityCardScreen(),
