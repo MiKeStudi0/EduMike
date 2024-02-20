@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:edumike/adminpanel/categoryupload.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class CourseUpload extends StatefulWidget {
   @override
@@ -19,6 +23,9 @@ class _CourseUploadState extends State<CourseUpload> {
   final TextEditingController _courseNameController = TextEditingController();
   final TextEditingController _courseCodeController = TextEditingController();
   final TextEditingController _courseCreditController = TextEditingController();
+  //final TextEditingController _field4Controller = TextEditingController();
+  String? _filePath;
+  String? _pdfUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +215,6 @@ class _CourseUploadState extends State<CourseUpload> {
                   );
                 },
               ),
-              const SizedBox(height: 20),
               if (_selectedPath != null) ...[
                 const SizedBox(height: 20),
                 const Text(
@@ -274,44 +280,95 @@ class _CourseUploadState extends State<CourseUpload> {
               ),
               const SizedBox(height: 16.0),
               TextField(
-                controller: _courseCreditController,
+                controller: _courseCreditController, // New controller
                 decoration: const InputDecoration(labelText: 'Course Credit'),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16.0),
+              // TextField(
+              //   controller: _field4Controller, // New controller
+              //   decoration: const InputDecoration(labelText: 'Field 4'),
+              // ),
+              const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
-                  // Get document ID and data from text fields
-                  String documentId = _documentIdController.text.trim();
-                  String courseName = _courseNameController.text.trim();
-                  String courseCode = _courseCodeController.text.trim();
-                  String courseCredit = _courseCreditController.text.trim();
-
-                  // Example data to be uploaded
-                  Map<String, dynamic> data = {
-                    'courseName': courseName,
-                    'courseCode': courseCode,
-                    'courseCredit': courseCredit,
-                    // Include Course Credit
-                    // Add more fields as needed
-                  };
-
-                  // Upload data
-                  DocumentReference documentRef = FirebaseFirestore.instance
-                      .doc('$_newUploadPath/$documentId');
-
-                  await documentRef.set(data);
-
-                  // Display a message after successful upload
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                          'Data uploaded successfully for document ID: $documentId'),
-                    ),
-                  );
+                  // Select PDF file
+                  String? filePath = await _pickPDFFile();
+                  if (filePath != null) {
+                    setState(() {
+                      _filePath = filePath;
+                    });
+                  } else {
+                    // Show alert if no file selected
+                    // ignore: use_build_context_synchronously
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text("Error"),
+                          content: const Text("Please select a PDF file."),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Text("OK"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 },
-                child: const Text('Upload Data'),
+                child: const Text('Select PDF File',
+                    style: TextStyle(color: Colors.white)),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16.0),
+              if (_filePath != null)
+                ElevatedButton(
+                  onPressed: () async {
+                    // Get document ID and data from text fields
+                    String documentId = _documentIdController.text.trim();
+                    String courseName = _courseNameController.text.trim();
+                    String courseCode = _courseCodeController.text.trim();
+                    // Get data from the new text fields
+                    String courseCredit = _courseCreditController.text.trim();
+                    //String field4 = _field4Controller.text.trim();
+
+                    // Example data to be uploaded
+                    Map<String, dynamic> data = {
+                      'courseName': courseName,
+                      'courseCode': courseCode,
+                      'courseCredit': courseCredit, // Include Field 3
+                      //////'field4': field4, // Include Field 4
+                      'pdfUrl': _pdfUrl, // Include PDF URL
+                      // Add more fields as needed
+                    };
+
+                    // Upload data
+                    DocumentReference documentRef = FirebaseFirestore.instance
+                        .doc('$_newUploadPath/$documentId');
+
+                    await documentRef.set(data);
+
+                    // Upload PDF file
+                    await _uploadPDF(documentId);
+
+                    // Clear text fields and file path
+                    _documentIdController.clear();
+                    _courseNameController.clear();
+                    _courseCodeController.clear();
+                    _courseCreditController.clear(); // Clear Field 3
+                    ///_field4Controller.clear(); // Clear Field 4
+                    setState(() {
+                      _filePath = null;
+                    });
+                  },
+                  child: const Text('Upload Data ..',
+                      style: TextStyle(color: Colors.white)),
+                ),
+              if (_filePath != null) Text('Selected PDF: $_filePath'),
+              SizedBox(height: 20),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   // Navigate to the second screen
@@ -340,10 +397,62 @@ class _CourseUploadState extends State<CourseUpload> {
     );
   }
 
-  void _updateSelectedPath() {
+  Future<String?> _pickPDFFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null) {
+      return result.files.single.path;
+    } else {
+      // User canceled the picker
+      return null;
+    }
+  }
+
+  Future<void> _uploadPDF(String documentId) async {
+    if (_filePath == null) return;
+
+    firebase_storage.Reference storageRef = firebase_storage
+        .FirebaseStorage.instance
+        .ref()
+        .child('pdfs')
+        .child('$documentId.pdf');
+
+    firebase_storage.UploadTask uploadTask =
+        storageRef.putFile(File(_filePath!));
+
+    // Wait for the upload to complete and get the download URL
+    String pdfUrl = await (await uploadTask).ref.getDownloadURL();
+
+    print('PDF Uploaded. URL: $pdfUrl');
+
+    // Get document ID and data from text fields
+    String courseName = _courseNameController.text.trim();
+    String courseCode = _courseCodeController.text.trim();
+    // Get data from the new text fields
+    String courseCredit = _courseCreditController.text.trim();
+    // String field4 = _field4Controller.text.trim();
+
+    // Example data to be uploaded
+    Map<String, dynamic> data = {
+      'courseName': courseName,
+      'courseCode': courseCode,
+      'courseCredit': courseCredit, // Include Field 3
+      //  'field4': field4, // Include Field 4
+      'pdfUrl': pdfUrl, // Include PDF URL
+      // Add more fields as needed
+    };
+
+    // Upload data
+    DocumentReference documentRef =
+        FirebaseFirestore.instance.doc('$_newUploadPath/$documentId');
+
+    await documentRef.set(data);
+
     setState(() {
-      _selectedPath =
-          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/Refers';
+      _pdfUrl = pdfUrl;
     });
   }
 
@@ -352,7 +461,21 @@ class _CourseUploadState extends State<CourseUpload> {
     _documentIdController.dispose();
     _courseNameController.dispose();
     _courseCodeController.dispose();
-    _courseCreditController.dispose();
+    _courseCreditController.dispose(); // Dispose of Field 3 controller
+    //_field4Controller.dispose(); // Dispose of Field 4 controller
     super.dispose();
+  }
+
+  Future<void> _createSubcollection(String path) async {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Subcollection created successfully for Path: $path'),
+    ));
+  }
+
+  void _updateSelectedPath() {
+    setState(() {
+      _selectedPath =
+          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/Refers';
+    });
   }
 }
