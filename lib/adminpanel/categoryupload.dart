@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:edumike/adminpanel/coursegenerator.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -348,6 +349,16 @@ class _CategoryUploadState extends State<CategoryUpload> {
                 ),
               if (_filePath != null) Text('Selected PDF: $_filePath'),
               SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CourseGenerator()),
+                  );
+                },
+                child: Text('Category Screen',
+                    style: TextStyle(color: Colors.white)),
+              ),
             ],
           ),
         ),
