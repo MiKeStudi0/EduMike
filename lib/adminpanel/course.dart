@@ -1,17 +1,17 @@
 import 'dart:io';
 
-import 'package:edumike/adminpanel/degree.dart';
+import 'package:edumike/adminpanel/categoryupload.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-class UploadDataPage extends StatefulWidget {
+class CourseUpload extends StatefulWidget {
   @override
-  _UploadDataPageState createState() => _UploadDataPageState();
+  _CourseUploadState createState() => _CourseUploadState();
 }
 
-class _UploadDataPageState extends State<UploadDataPage> {
+class _CourseUploadState extends State<CourseUpload> {
   String? _selectedUniversityId;
   String? _selectedDegreeId;
   String? _selectedPropertyId;
@@ -20,9 +20,12 @@ class _UploadDataPageState extends State<UploadDataPage> {
   String? _newUploadPath;
 
   final TextEditingController _documentIdController = TextEditingController();
-  final TextEditingController _field1Controller = TextEditingController();
-  final TextEditingController _field2Controller = TextEditingController();
+  final TextEditingController _courseNameController = TextEditingController();
+  final TextEditingController _courseCodeController = TextEditingController();
+  final TextEditingController _field3Controller = TextEditingController();
+  //final TextEditingController _field4Controller = TextEditingController();
   String? _filePath;
+  String? _pdfUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -267,14 +270,24 @@ class _UploadDataPageState extends State<UploadDataPage> {
               ),
               const SizedBox(height: 16.0),
               TextField(
-                controller: _field1Controller,
+                controller: _courseNameController,
                 decoration: const InputDecoration(labelText: 'Field 1'),
               ),
               const SizedBox(height: 16.0),
               TextField(
-                controller: _field2Controller,
+                controller: _courseCodeController,
                 decoration: const InputDecoration(labelText: 'Field 2'),
               ),
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _field3Controller, // New controller
+                decoration: const InputDecoration(labelText: 'Field 3'),
+              ),
+              const SizedBox(height: 16.0),
+              // TextField(
+              //   controller: _field4Controller, // New controller
+              //   decoration: const InputDecoration(labelText: 'Field 4'),
+              // ),
               const SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () async {
@@ -315,13 +328,19 @@ class _UploadDataPageState extends State<UploadDataPage> {
                   onPressed: () async {
                     // Get document ID and data from text fields
                     String documentId = _documentIdController.text.trim();
-                    String field1 = _field1Controller.text.trim();
-                    String field2 = _field2Controller.text.trim();
+                    String courseName = _courseNameController.text.trim();
+                    String courseCode = _courseCodeController.text.trim();
+                    // Get data from the new text fields
+                    String field3 = _field3Controller.text.trim();
+                    //String field4 = _field4Controller.text.trim();
 
                     // Example data to be uploaded
                     Map<String, dynamic> data = {
-                      'field1': field1,
-                      'field2': field2,
+                      'courseName': courseName,
+                      'courseCode': courseCode,
+                      'CourseCredit': field3, // Include Field 3
+                      //////'field4': field4, // Include Field 4
+                      'pdfUrl': _pdfUrl, // Include PDF URL
                       // Add more fields as needed
                     };
 
@@ -336,8 +355,10 @@ class _UploadDataPageState extends State<UploadDataPage> {
 
                     // Clear text fields and file path
                     _documentIdController.clear();
-                    _field1Controller.clear();
-                    _field2Controller.clear();
+                    _courseNameController.clear();
+                    _courseCodeController.clear();
+                    _field3Controller.clear(); // Clear Field 3
+                    ///_field4Controller.clear(); // Clear Field 4
                     setState(() {
                       _filePath = null;
                     });
@@ -347,15 +368,16 @@ class _UploadDataPageState extends State<UploadDataPage> {
                 ),
               if (_filePath != null) Text('Selected PDF: $_filePath'),
               SizedBox(height: 20),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   // Navigate to the second screen
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DegreeUpload()),
+                    MaterialPageRoute(builder: (context) => CategoryUpload()),
                   );
                 },
-                child: Text('Degree Screen',
+                child: Text('Course Screen',
                     style: TextStyle(color: Colors.white)),
               ),
             ],
@@ -395,13 +417,42 @@ class _UploadDataPageState extends State<UploadDataPage> {
     String pdfUrl = await (await uploadTask).ref.getDownloadURL();
 
     print('PDF Uploaded. URL: $pdfUrl');
+
+    // Get document ID and data from text fields
+    String courseName = _courseNameController.text.trim();
+    String courseCode = _courseCodeController.text.trim();
+    // Get data from the new text fields
+    String field3 = _field3Controller.text.trim();
+    // String field4 = _field4Controller.text.trim();
+
+    // Example data to be uploaded
+    Map<String, dynamic> data = {
+      'Name': courseName,
+      'Code': courseCode,
+      'Credit': field3, // Include Field 3
+      //  'field4': field4, // Include Field 4
+      'pdfUrl': pdfUrl, // Include PDF URL
+      // Add more fields as needed
+    };
+
+    // Upload data
+    DocumentReference documentRef =
+        FirebaseFirestore.instance.doc('$_newUploadPath/$documentId');
+
+    await documentRef.set(data);
+
+    setState(() {
+      _pdfUrl = pdfUrl;
+    });
   }
 
   @override
   void dispose() {
     _documentIdController.dispose();
-    _field1Controller.dispose();
-    _field2Controller.dispose();
+    _courseNameController.dispose();
+    _courseCodeController.dispose();
+    _field3Controller.dispose(); // Dispose of Field 3 controller
+    //_field4Controller.dispose(); // Dispose of Field 4 controller
     super.dispose();
   }
 

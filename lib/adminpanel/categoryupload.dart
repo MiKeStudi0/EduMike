@@ -1,17 +1,16 @@
 import 'dart:io';
 
-import 'package:edumike/adminpanel/degree.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-class UploadDataPage extends StatefulWidget {
+class CategoryUpload extends StatefulWidget {
   @override
-  _UploadDataPageState createState() => _UploadDataPageState();
+  _CategoryUploadState createState() => _CategoryUploadState();
 }
 
-class _UploadDataPageState extends State<UploadDataPage> {
+class _CategoryUploadState extends State<CategoryUpload> {
   String? _selectedUniversityId;
   String? _selectedDegreeId;
   String? _selectedPropertyId;
@@ -23,6 +22,7 @@ class _UploadDataPageState extends State<UploadDataPage> {
   final TextEditingController _field1Controller = TextEditingController();
   final TextEditingController _field2Controller = TextEditingController();
   String? _filePath;
+  String? _pdfUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -322,6 +322,7 @@ class _UploadDataPageState extends State<UploadDataPage> {
                     Map<String, dynamic> data = {
                       'field1': field1,
                       'field2': field2,
+                      'pdfUrl': _pdfUrl, // Include PDF URL
                       // Add more fields as needed
                     };
 
@@ -347,17 +348,6 @@ class _UploadDataPageState extends State<UploadDataPage> {
                 ),
               if (_filePath != null) Text('Selected PDF: $_filePath'),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // Navigate to the second screen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DegreeUpload()),
-                  );
-                },
-                child: Text('Degree Screen',
-                    style: TextStyle(color: Colors.white)),
-              ),
             ],
           ),
         ),
@@ -395,6 +385,28 @@ class _UploadDataPageState extends State<UploadDataPage> {
     String pdfUrl = await (await uploadTask).ref.getDownloadURL();
 
     print('PDF Uploaded. URL: $pdfUrl');
+
+    // Get document ID and data from text fields
+    String field1 = _field1Controller.text.trim();
+    String field2 = _field2Controller.text.trim();
+
+    // Example data to be uploaded
+    Map<String, dynamic> data = {
+      'field1': field1,
+      'field2': field2,
+      'pdfUrl': pdfUrl, // Include PDF URL
+      // Add more fields as needed
+    };
+
+    // Upload data
+    DocumentReference documentRef =
+        FirebaseFirestore.instance.doc('$_newUploadPath/$documentId');
+
+    await documentRef.set(data);
+
+    setState(() {
+      _pdfUrl = pdfUrl;
+    });
   }
 
   @override
