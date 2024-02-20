@@ -225,10 +225,10 @@ class _SemesterUploadState extends State<SemesterUpload> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                primary: Colors.blue,
+                foregroundColor: Colors.blue,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 // Navigate to the second screen
@@ -237,7 +237,8 @@ class _SemesterUploadState extends State<SemesterUpload> {
                   MaterialPageRoute(builder: (context) => CourseUpload()),
                 );
               },
-              child: Text('Go course', style: TextStyle(color: Colors.white)),
+              child: const Text('Go course',
+                  style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
