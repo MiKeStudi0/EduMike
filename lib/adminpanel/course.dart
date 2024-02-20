@@ -12,8 +12,9 @@ class _CourseUploadState extends State<CourseUpload> {
   String? _selectedDegreeId;
   String? _selectedPropertyId;
   String? _selectedSemesterId;
-  String? _selectedPath;
+  String? _selectedDocumentId;
   String? _newUploadPath;
+  String? _finalUploadPath;
 
   final TextEditingController _documentIdController = TextEditingController();
   final TextEditingController _courseNameController = TextEditingController();
@@ -68,9 +69,9 @@ class _CourseUploadState extends State<CourseUpload> {
                             _selectedUniversityId = newValue;
                             _selectedDegreeId = null;
                             _selectedPropertyId = null;
-                            _selectedSemesterId =
-                                null; // Reset selected semester
-                            _selectedPath = null; // Reset selected path
+                            _selectedSemesterId = null;
+                            _selectedDocumentId = null;
+                            _newUploadPath = null;
                           });
                         },
                         items: universitySnapshot.data!.docs
@@ -84,179 +85,239 @@ class _CourseUploadState extends State<CourseUpload> {
                           );
                         }).toList(),
                       ),
-                      const SizedBox(height: 20),
-                      if (_selectedUniversityId != null)
-                        StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection(
-                                  '/University/$_selectedUniversityId/Refers')
-                              .snapshots(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> degreeSnapshot) {
-                            if (degreeSnapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            if (!degreeSnapshot.hasData ||
-                                degreeSnapshot.data!.docs.isEmpty) {
-                              return const Center(
-                                child: Text(
-                                    'No Degrees found for the selected University'),
-                              );
-                            }
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Select a Degree:',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 10),
-                                DropdownButton<String>(
-                                  isExpanded: true,
-                                  hint: const Text('Select a Degree'),
-                                  value: _selectedDegreeId,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      _selectedDegreeId = newValue;
-                                      _selectedPropertyId = null;
-                                      _selectedSemesterId =
-                                          null; // Reset selected semester
-                                      _selectedPath =
-                                          null; // Reset selected path
-                                    });
-                                  },
-                                  items: degreeSnapshot.data!.docs
-                                      .map((DocumentSnapshot document) {
-                                    return DropdownMenuItem<String>(
-                                      value: document.id,
-                                      child: Text(
-                                        document.id,
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
-                      const SizedBox(height: 20),
-                      if (_selectedDegreeId != null)
-                        StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection(
-                                  '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers')
-                              .snapshots(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> propertySnapshot) {
-                            if (propertySnapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                            if (!propertySnapshot.hasData ||
-                                propertySnapshot.data!.docs.isEmpty) {
-                              return const Center(
-                                child: Text(
-                                    'No Course found for the selected Degree'),
-                              );
-                            }
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Text(
-                                  'Select a Course:',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                const SizedBox(height: 10),
-                                DropdownButton<String>(
-                                  isExpanded: true,
-                                  hint: const Text('Select a Course'),
-                                  value: _selectedPropertyId,
-                                  onChanged: (String? newValue) {
-                                    setState(() {
-                                      _selectedPropertyId = newValue;
-                                      _selectedSemesterId =
-                                          null; // Reset selected semester
-                                      _updateSelectedPath(); // Update selected path
-                                    });
-                                  },
-                                  items: propertySnapshot.data!.docs
-                                      .map((DocumentSnapshot document) {
-                                    return DropdownMenuItem<String>(
-                                      value: document.id,
-                                      child: Text(
-                                        document.id,
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
                     ],
                   );
                 },
               ),
               const SizedBox(height: 20),
-              if (_selectedPath != null) ...[
-                const SizedBox(height: 20),
-                const Text(
-                  'Select Semester:',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
+              if (_selectedUniversityId != null)
                 StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection(_selectedPath!)
+                      .collection('/University/$_selectedUniversityId/Refers')
                       .snapshots(),
                   builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      AsyncSnapshot<QuerySnapshot> degreeSnapshot) {
+                    if (degreeSnapshot.connectionState ==
+                        ConnectionState.waiting) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
                     }
-                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    if (!degreeSnapshot.hasData ||
+                        degreeSnapshot.data!.docs.isEmpty) {
                       return const Center(
-                        child: Text('No Semester found'),
+                        child: Text(
+                            'No degrees found for the selected university'),
                       );
                     }
-                    return DropdownButton<String>(
-                      isExpanded: true,
-                      hint: const Text('Select a Semester'),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedSemesterId = newValue;
-                          _newUploadPath =
-                              '$_selectedPath/$_selectedSemesterId/Refers';
-                        });
-                      },
-                      value: _selectedSemesterId,
-                      items:
-                          snapshot.data!.docs.map((DocumentSnapshot document) {
-                        return DropdownMenuItem<String>(
-                          value: document.id,
-                          child: Text(
-                            document.id,
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        );
-                      }).toList(),
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Select a Degree:',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        DropdownButton<String>(
+                          isExpanded: true,
+                          hint: const Text('Select a Degree'),
+                          value: _selectedDegreeId,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedDegreeId = newValue;
+                              _selectedPropertyId = null;
+                              _selectedSemesterId = null;
+                              _selectedDocumentId = null;
+                              _newUploadPath = null;
+                            });
+                          },
+                          items: degreeSnapshot.data!.docs
+                              .map((DocumentSnapshot document) {
+                            return DropdownMenuItem<String>(
+                              value: document.id,
+                              child: Text(
+                                document.id,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     );
                   },
                 ),
-              ],
+              const SizedBox(height: 20),
+              if (_selectedDegreeId != null)
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(
+                          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> propertySnapshot) {
+                    if (propertySnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (!propertySnapshot.hasData ||
+                        propertySnapshot.data!.docs.isEmpty) {
+                      return const Center(
+                        child: Text('No courses found for the selected degree'),
+                      );
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Select a Course:',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        DropdownButton<String>(
+                          isExpanded: true,
+                          hint: const Text('Select a Course'),
+                          value: _selectedPropertyId,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedPropertyId = newValue;
+                              _selectedSemesterId = null;
+                              _selectedDocumentId = null;
+                              _newUploadPath = null;
+                            });
+                          },
+                          items: propertySnapshot.data!.docs
+                              .map((DocumentSnapshot document) {
+                            return DropdownMenuItem<String>(
+                              value: document.id,
+                              child: Text(
+                                document.id,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              const SizedBox(height: 20),
+              if (_selectedPropertyId != null)
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(
+                          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/Refers')
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> semesterSnapshot) {
+                    if (semesterSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (!semesterSnapshot.hasData ||
+                        semesterSnapshot.data!.docs.isEmpty) {
+                      return const Center(
+                        child:
+                            Text('No semesters found for the selected course'),
+                      );
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Select a Semester:',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        DropdownButton<String>(
+                          isExpanded: true,
+                          hint: const Text('Select a Semester'),
+                          value: _selectedSemesterId,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedSemesterId = newValue;
+                              _newUploadPath =
+                                  '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/Refers/$_selectedSemesterId/Refers';
+                              _selectedDocumentId = null;
+                            });
+                          },
+                          items: semesterSnapshot.data!.docs
+                              .map((DocumentSnapshot document) {
+                            return DropdownMenuItem<String>(
+                              value: document.id,
+                              child: Text(
+                                document.id,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              const SizedBox(height: 20),
+              if (_selectedSemesterId != null)
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection(_newUploadPath!)
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> documentSnapshot) {
+                    if (documentSnapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (!documentSnapshot.hasData ||
+                        documentSnapshot.data!.docs.isEmpty) {
+                      return const Center(
+                        child: Text(
+                            'No documents found for the selected semester'),
+                      );
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Select a Document ID:',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 10),
+                        DropdownButton<String>(
+                          isExpanded: true,
+                          hint: const Text('Select a Document ID'),
+                          value: _selectedDocumentId,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedDocumentId = newValue;
+                              _finalUploadPath =
+                                  '$_newUploadPath/$_selectedDocumentId/Refers';
+                            });
+                          },
+                          items: documentSnapshot.data!.docs
+                              .map((DocumentSnapshot document) {
+                            return DropdownMenuItem<String>(
+                              value: document.id,
+                              child: Text(
+                                document.id,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               const SizedBox(height: 20),
               TextField(
                 controller: _documentIdController,
@@ -291,13 +352,14 @@ class _CourseUploadState extends State<CourseUpload> {
                     'courseName': courseName,
                     'courseCode': courseCode,
                     'courseCredit': courseCredit,
-                    // Include Course Credit
+                    'selectedDocumentId':
+                        _selectedDocumentId, // Include selected document ID
                     // Add more fields as needed
                   };
 
                   // Upload data
                   DocumentReference documentRef = FirebaseFirestore.instance
-                      .doc('$_newUploadPath/$documentId');
+                      .doc('$_finalUploadPath/$documentId');
 
                   await documentRef.set(data);
 
@@ -338,13 +400,6 @@ class _CourseUploadState extends State<CourseUpload> {
         ),
       ),
     );
-  }
-
-  void _updateSelectedPath() {
-    setState(() {
-      _selectedPath =
-          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/Refers';
-    });
   }
 
   @override
