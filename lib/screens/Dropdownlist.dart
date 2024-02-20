@@ -10,12 +10,14 @@ class _FirestoreListViewState extends State<FirestoreListView> {
   String? _selectedUniversityId;
   String? _selectedDegreeId;
   String? _selectedPropertyId;
+  String? _selectedSemesterId;
+  String? _selectedPath;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Firestore Document IDs Dropdown'),
+        title: const Text('Firestore Select Semester Dropdown'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -58,6 +60,8 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                           _selectedUniversityId = newValue;
                           _selectedDegreeId = null;
                           _selectedPropertyId = null;
+                          _selectedSemesterId = null; // Reset selected semester
+                          _selectedPath = null; // Reset selected path
                         });
                       },
                       items: universitySnapshot.data!.docs
@@ -110,6 +114,9 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                                   setState(() {
                                     _selectedDegreeId = newValue;
                                     _selectedPropertyId = null;
+                                    _selectedSemesterId =
+                                        null; // Reset selected semester
+                                    _selectedPath = null; // Reset selected path
                                   });
                                 },
                                 items: degreeSnapshot.data!.docs
@@ -165,6 +172,9 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                                 onChanged: (String? newValue) {
                                   setState(() {
                                     _selectedPropertyId = newValue;
+                                    _selectedSemesterId =
+                                        null; // Reset selected semester
+                                    _updateSelectedPath(); // Update selected path
                                   });
                                 },
                                 items: propertySnapshot.data!.docs
@@ -186,14 +196,60 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                 );
               },
             ),
+            if (_selectedPath != null) ...[
+              const SizedBox(height: 20),
+              Text(
+                'Select Semester:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection(_selectedPath!)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return const Center(
+                      child: Text('No Semester found'),
+                    );
+                  }
+                  return DropdownButton<String>(
+                    isExpanded: true,
+                    hint: const Text('Select a Semester'),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedSemesterId = newValue;
+                      });
+                    },
+                    value: _selectedSemesterId,
+                    items: snapshot.data!.docs.map((DocumentSnapshot document) {
+                      return DropdownMenuItem<String>(
+                        value: document.id,
+                        child: Text(
+                          document.id,
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      );
+                    }).toList(),
+                  );
+                },
+              ),
+            ],
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: (_selectedUniversityId != null &&
                       _selectedDegreeId != null &&
-                      _selectedPropertyId != null)
+                      _selectedPropertyId != null &&
+                      _selectedSemesterId != null)
                   ? () {
                       String path =
-                          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/';
+                          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/Refers';
                       print('Generated Path: $path');
                       _createSubcollection(path);
                     }
@@ -220,4 +276,17 @@ class _FirestoreListViewState extends State<FirestoreListView> {
       content: Text('Subcollection created successfully for Path: $path'),
     ));
   }
+
+  void _updateSelectedPath() {
+    setState(() {
+      _selectedPath =
+          '/University/$_selectedUniversityId/Refers/$_selectedDegreeId/Refers/$_selectedPropertyId/Refers';
+    });
+  }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: FirestoreListView(),
+  ));
 }
