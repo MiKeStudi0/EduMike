@@ -236,13 +236,25 @@ class ImageConstant {
 
   static String imgNavHome = '$imagePathHome/img_nav_home.svg';
 
+  static String imgNavHomeNot = '$imagePathHome/img_nav_homeNot.svg';
+
   static String imgNavMyCourses = '$imagePathHome/img_nav_my_courses.svg';
+  static String imgNavMyCoursesActive =
+      '$imagePathHome/img_nav_my_coursesActive.svg';
 
   static String imgNavIndox = '$imagePathHome/img_nav_indox.svg';
 
+  static String imgNavIndoxActive = '$imagePathHome/img_nav_indoxActive.svg';
+
   static String imgNavBookMark = '$imagePathHome/img_nav_book_mark.svg';
 
+  static String imgNavBookMarkActive =
+      '$imagePathHome/img_nav_book_markActive.svg';
+
   static String imgNavProfile = '$imagePathHome/img_nav_profile.svg';
+
+  static String imgNavProfileActive =
+      '$imagePathHome/img_nav_profileActive.svg';
 
   static String imgArrowDown1 = '$imagePathHome/img_arrow_down.svg';
 

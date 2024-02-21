@@ -16,32 +16,32 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
-      icon: ImageConstant.imgNavHome,
+      icon: ImageConstant.imgNavHomeNot,
       activeIcon: ImageConstant.imgNavHome,
       title: "Home".toUpperCase(),
       type: BottomBarEnum.Home,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavMyCourses,
-      activeIcon: ImageConstant.imgNavMyCourses,
+      activeIcon: ImageConstant.imgNavMyCoursesActive,
       title: "My Courses".toUpperCase(),
       type: BottomBarEnum.Mycourses,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavIndox,
-      activeIcon: ImageConstant.imgNavIndox,
+      activeIcon: ImageConstant.imgNavIndoxActive,
       title: "Indox".toUpperCase(),
       type: BottomBarEnum.Indox,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavBookMark,
-      activeIcon: ImageConstant.imgNavBookMark,
+      activeIcon: ImageConstant.imgNavBookMarkActive,
       title: "Book Mark".toUpperCase(),
       type: BottomBarEnum.Bookmark,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavProfile,
-      activeIcon: ImageConstant.imgNavProfile,
+      activeIcon: ImageConstant.imgNavProfileActive,
       title: "Profile".toUpperCase(),
       type: BottomBarEnum.Profile,
     )
