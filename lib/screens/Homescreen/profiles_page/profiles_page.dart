@@ -12,11 +12,8 @@ import 'package:edumike/widgets/custom_icon_button_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
-
-
 class ProfilesPage extends StatelessWidget {
-   ProfilesPage({Key? key}) : super(key: key);
+  ProfilesPage({Key? key}) : super(key: key);
   final user = FirebaseAuth.instance.currentUser!;
 
   @override
@@ -76,50 +73,57 @@ class ProfilesPage extends StatelessWidget {
                                                             .imgLock)))
                                           ]))),
                               SizedBox(height: 7.v),
-                             FutureBuilder<DocumentSnapshot>(
-  future: getUserDocument(),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      // Return a loading indicator while data is being fetched
-      return CircularProgressIndicator();
-    } else if (snapshot.hasError) {
-      // Handle error
-      return Text('Error: ${snapshot.error}');
-    } else if (!snapshot.hasData || snapshot.data == null) {
-      // Handle null or missing data
-      return Text('No data available');
-    } else {
-      // Extract the full name and email from the snapshot data
-      String? fullName = snapshot.data!['fullname'];
-      String? email = snapshot.data!['email'];
+                              // FutureBuilder<DocumentSnapshot>(
+                              //   future: getUserDocument(),
+                              //   builder: (context, snapshot) {
+                              //     if (snapshot.connectionState ==
+                              //         ConnectionState.waiting) {
+                              //       // Return a loading indicator while data is being fetched
+                              //       return CircularProgressIndicator();
+                              //     } else if (snapshot.hasError) {
+                              //       // Handle error
+                              //       return Text('Error: ${snapshot.error}');
+                              //     } else if (!snapshot.hasData ||
+                              //         snapshot.data == null) {
+                              //       // Handle null or missing data
+                              //       return Text('No data available');
+                              //     } else {
+                              //       // Extract the full name and email from the snapshot data
+                              //       String? fullName =
+                              //           snapshot.data!['fullname'];
+                              //       String? email = snapshot.data!['email'];
 
-      // Check if full name is null
-      if (fullName == null) {
-        // Full name not found in the snapshot
-        return Text('Full name not found');
-      }
+                              //       // Check if full name is null
+                              //       if (fullName == null) {
+                              //         // Full name not found in the snapshot
+                              //         return Text('Full name not found');
+                              //       }
 
-      // Build the column to display full name and email
-     return Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    Column(
-      children: [
-        Text('Welcome, $fullName', style: theme.textTheme.headlineSmall),
-        const SizedBox(height: 8), // Adjust the spacing between the texts as needed
-        Text('$email', style: theme.textTheme.headlineSmall),
-      ],
-    ),
-  ],
-);
+                              //       // Build the column to display full name and email
+                              //       return Row(
+                              //         mainAxisAlignment:
+                              //             MainAxisAlignment.center,
+                              //         children: [
+                              //           Column(
+                              //             children: [
+                              //               Text('Welcome, $fullName',
+                              //                   style: theme
+                              //                       .textTheme.headlineSmall),
+                              //               const SizedBox(
+                              //                   height:
+                              //                       8), // Adjust the spacing between the texts as needed
+                              //               Text('$email',
+                              //                   style: theme
+                              //                       .textTheme.headlineSmall),
+                              //             ],
+                              //           ),
+                              //         ],
+                              //       );
+                              //     }
+                              //   },
+                              // ),
 
-    }
-  },
-),
-
-                
-      
-                             /* Align(
+                              /* Align(
                                   alignment: Alignment.center,
                                   child: Text("Alex",
                                       style: theme.textTheme.headlineSmall)),
@@ -164,64 +168,61 @@ class ProfilesPage extends StatelessWidget {
   }
 
   /// Section Widget
- Widget _buildOne(BuildContext context) {
-  return GestureDetector(
-    onTap: () {
-      onTapOne(context);
-    },
-    child: Padding(
-      padding: EdgeInsets.only(left: 20.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgSettings,
-            height: 23.v,
-            width: 18.h,
-          ),
-          SizedBox(width: 16.h),
-          Expanded(
-            child: Row(
-              children: [
-                Text(
-                  "Edit Profile",
-                  style: CustomTextStyles.titleSmallBluegray9000115,
-                ),
-                CustomImageView(
-                  imagePath: ImageConstant.imgArrowRight,
-                  height: 21.v,
-                  width: 12.h,
-                  margin: EdgeInsets.only(top: 2.v, left: 15),
-                ),
-              ],
+  Widget _buildOne(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onTapOne(context);
+      },
+      child: Padding(
+        padding: EdgeInsets.only(left: 20.h),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CustomImageView(
+              imagePath: ImageConstant.imgSettings,
+              height: 23.v,
+              width: 18.h,
             ),
-          ),
-        ],
+            SizedBox(width: 16.h),
+            Expanded(
+              child: Row(
+                children: [
+                  Text(
+                    "Edit Profile",
+                    style: CustomTextStyles.titleSmallBluegray9000115,
+                  ),
+                  CustomImageView(
+                    imagePath: ImageConstant.imgArrowRight,
+                    height: 21.v,
+                    width: 12.h,
+                    margin: EdgeInsets.only(top: 2.v, left: 15),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   /// Section Widget
   Widget _buildTwo(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(left: 20.h),
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          
           Padding(
               padding: EdgeInsets.only(left: 11.h, top: 3.v),
               child: Text("Payment Option",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
           const Spacer(),
-          
         ]));
   }
 
   /// Section Widget
   Widget _buildThree(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         onTapTwo(context);
       },
       child: Padding(
@@ -260,8 +261,7 @@ class ProfilesPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 12.h, bottom: 2.v),
               child: Text("Security",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
-                                const Spacer(),
-
+          const Spacer(),
           CustomImageView(
               imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
         ]));
@@ -307,7 +307,7 @@ class ProfilesPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 9.h, bottom: 2.v),
               child: Text("Dark Mode",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
-         const Spacer(),
+          const Spacer(),
           CustomImageView(
               imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
         ]));
@@ -351,13 +351,12 @@ class ProfilesPage extends StatelessWidget {
               padding: EdgeInsets.only(left: 9.h, top: 4.v, bottom: 3.v),
               child: Text("Help Center",
                   style: CustomTextStyles.titleSmallBluegray9000115)),
-         
           CustomImageView(
               imagePath: ImageConstant.imgArrowRight,
               height: 21.v,
               width: 12.h,
               margin: EdgeInsets.only(top: 4.v)),
-              const Spacer(),
+          const Spacer(),
         ]));
   }
 
@@ -413,21 +412,24 @@ class ProfilesPage extends StatelessWidget {
 
   /// Navigates to the editProfilesScreen when the action is triggered.
   onTapOne(BuildContext context) {
-Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>EditProfilesScreen())); 
- }
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => EditProfilesScreen()));
+  }
 
   /// Navigates to the termsConditionsScreen when the action is triggered.
   onTapSeven(BuildContext context) {
-Navigator.push(context, MaterialPageRoute(builder: (context)=>const TermsConditionsScreen())); 
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const TermsConditionsScreen()));
   }
 
   /// Navigates to the inviteFriendsScreen when the action is triggered.
   onTapNine(BuildContext context) {
-Navigator.push(context, MaterialPageRoute(builder: (context)=>const InviteFriendsScreen())); 
-  }
-  onTapTwo(BuildContext context) {
-Navigator.push(context, MaterialPageRoute(builder: (context)=>AppNotificationsScreen())); 
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const InviteFriendsScreen()));
   }
 
-  
+  onTapTwo(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => AppNotificationsScreen()));
+  }
 }
