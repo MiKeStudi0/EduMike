@@ -1,3 +1,4 @@
+import 'package:edumike/screens/Homescreen/add_university_card_screen/add_university_card_screen.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 
@@ -115,13 +116,16 @@ class HomemainpagePage extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 158.h)),
               CustomImageView(
-                  imagePath: ImageConstant.imgTelevision,
+                  imagePath: ImageConstant.imgCardEdit,
                   height: 24.adaptSize,
                   width: 24.adaptSize,
                   alignment: Alignment.topRight,
                   margin: EdgeInsets.only(top: 13.v, right: 15.h),
                   onTap: () {
-                    onTapImgTelevision(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddUniversityCardScreen()));
                   }),
               Align(
                   alignment: Alignment.topLeft,

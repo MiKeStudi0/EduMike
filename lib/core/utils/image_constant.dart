@@ -226,6 +226,8 @@ class ImageConstant {
   static String imgArrowLeftBlueA40001 =
       '$imagePathHome/img_arrow_left_blue_a400_01.svg';
 
+  static String imgCardEdit = '$imagePathHome/imgCardEdit.svg';
+
   static String imgTriangle1 = '$imagePathHome/img_triangle.svg';
 
   static String imgArrowRightPrimary =
