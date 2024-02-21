@@ -6,8 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // ignore: must_be_immutable
 class SelectedviewItemWidget extends StatelessWidget {
   final String courseName;
+  final String courseCode;
 
-  const SelectedviewItemWidget({Key? key, required this.courseName})
+  const SelectedviewItemWidget(
+      {Key? key, required this.courseName, required this.courseCode})
       : super(key: key);
 
   @override
@@ -49,7 +51,7 @@ class SelectedviewItemWidget extends StatelessWidget {
                   ),
                   SizedBox(height: 6.v),
                   Text(
-                    "Description..",
+                    courseCode,
                     style: theme.textTheme.titleSmall,
                   ),
                 ],

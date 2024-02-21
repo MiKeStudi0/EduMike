@@ -8,6 +8,7 @@ import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// ignore: must_be_immutable
 class MyCoursePage extends StatelessWidget {
   MyCoursePage({Key? key}) : super(key: key);
 
@@ -79,29 +80,42 @@ class MyCoursePage extends StatelessWidget {
 
   Widget _buildSelectedView(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection(
-                '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers')
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return CircularProgressIndicator();
-          }
+      stream: FirebaseFirestore.instance
+          .collection(
+              '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return CircularProgressIndicator();
+        }
 
-          final documents = snapshot.data!.docs;
+        final documents = snapshot.data!.docs;
 
-          return ListView.separated(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              separatorBuilder: (context, index) {
-                return SizedBox(height: 12.v);
-              },
-              itemCount: documents.length,
-              itemBuilder: (context, index) {
-                final documentId = documents[index].id;
-                return SelectedviewItemWidget(courseName: documentId);
-              });
-        });
+        return ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 12.v);
+          },
+          itemCount: documents.length,
+          itemBuilder: (context, index) {
+            final documentData = documents[index].data()
+                as Map<String, dynamic>; // Casting to Map<String, dynamic>
+            // Assuming 'courseName' is a field in your Firestore documents
+            final courseName = documentData['courseName'];
+            final courseCode = documentData['courseCode'];
+            // Check if courseName is not null before passing it to SelectedviewItemWidget
+            if (courseName != null) {
+              return SelectedviewItemWidget(
+                  courseName: courseName, courseCode: courseCode);
+            } else {
+              // Handle the case when courseName is null, maybe show a placeholder or log an error
+              return SizedBox.shrink();
+            }
+          },
+        );
+      },
+    );
   }
 
   onTapArrowDown(BuildContext context) {
