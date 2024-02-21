@@ -29,7 +29,10 @@ class MyCoursePage extends StatelessWidget {
                         controller: searchController,
                         hintText: "Search for …",
                         contentPadding: EdgeInsets.only(
-                            left: 15.h, top: 21.v, bottom: 21.v),
+                          left: 15.h,
+                          top: 21.v,
+                          bottom: 21.v,
+                        ),
                       ),
                       SizedBox(height: 15.v),
                       Text("Current Semester",
