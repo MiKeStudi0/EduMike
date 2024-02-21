@@ -1,5 +1,5 @@
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
-import 'package:flutter/foundation.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 
 import '../homemainpage_page/widgets/category_item_widget.dart';
 import '../homemainpage_page/widgets/userprofile_item_widget.dart';
@@ -46,7 +46,7 @@ class HomemainpagePage extends StatelessWidget {
                           SizedBox(height: 8.v),
                           _buildCategory(context),
                           SizedBox(height: 18.v),
-                          _buildFrameTen(context),
+                          _buildCourse(context),
                           SizedBox(height: 45.v),
                           Padding(
                               padding: EdgeInsets.only(left: 14.h, right: 56.h),
@@ -235,7 +235,7 @@ class HomemainpagePage extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildFrameTen(BuildContext context) {
+  Widget _buildCourse(BuildContext context) {
     return SizedBox(
       height: 240.v,
       width: 414.h,
@@ -248,78 +248,14 @@ class HomemainpagePage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: IntrinsicWidth(
                 child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CategoryScreen()),
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: 240.v,
-                        width: 280.h,
-                        child: Stack(
-                          alignment: Alignment.topCenter,
-                          children: [
-                            Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                    height: 240.v,
-                                    width: 280.h,
-                                    decoration: BoxDecoration(
-                                        color: appTheme.whiteA700,
-                                        borderRadius:
-                                            BorderRadius.circular(20.h),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: appTheme.black900
-                                                  .withOpacity(0.08),
-                                              spreadRadius: 2.h,
-                                              blurRadius: 2.h,
-                                              offset: Offset(0, 4))
-                                        ]))),
-                            Align(
-                              alignment: Alignment.topCenter,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                      height: 134.v,
-                                      width: 280.h,
-                                      decoration: BoxDecoration(
-                                          color: appTheme.black900,
-                                          borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(20.h)))),
-                                  SizedBox(height: 10.v),
-                                  Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 15.h, right: 19.h),
-                                      child: _buildGraphicDesign(context,
-                                          text: "Syllabus")),
-                                  SizedBox(height: 4.v),
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 14.h),
-                                      child: Text("Computer Network",
-                                          style: theme.textTheme.titleMedium)),
-                                  SizedBox(height: 9.v),
-                                  Padding(
-                                      padding: EdgeInsets.only(left: 13.h),
-                                      child: _buildDetails(context,
-                                          fortyTwoText: "4.2",
-                                          separatorText: "|",
-                                          stdCounterText: "7830 Std"))
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CategoryScreen()),
+                      );
+                    },
+                    child: CourseWidget()),
               ),
             ),
           ),
@@ -347,41 +283,6 @@ class HomemainpagePage extends StatelessWidget {
   }
 
   /// Section Widget
-
-  /// Common widget
-  Widget _buildDetails(
-    BuildContext context, {
-    required String fortyTwoText,
-    required String separatorText,
-    required String stdCounterText,
-  }) {
-    return Row(children: [
-      Container(
-          width: 32.h,
-          margin: EdgeInsets.only(top: 3.v),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CustomImageView(
-                imagePath: ImageConstant.imgSignal,
-                height: 11.v,
-                width: 12.h,
-                margin: EdgeInsets.only(bottom: 2.v)),
-            Text(fortyTwoText,
-                style: theme.textTheme.labelMedium!
-                    .copyWith(color: appTheme.blueGray90001))
-          ])),
-      Padding(
-          padding: EdgeInsets.only(left: 16.h),
-          child: Text(separatorText,
-              style: CustomTextStyles.titleSmallBlack900
-                  .copyWith(color: appTheme.black900))),
-      Padding(
-          padding: EdgeInsets.only(left: 16.h, top: 3.v),
-          child: Text(stdCounterText,
-              style: theme.textTheme.labelMedium!
-                  .copyWith(color: appTheme.blueGray90001)))
-    ]);
-  }
 
   /// Common widget
   Widget _buildTopMentor(
