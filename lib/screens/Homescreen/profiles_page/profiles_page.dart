@@ -211,6 +211,10 @@ class ProfilesPage extends StatelessWidget {
     return Padding(
         padding: EdgeInsets.only(left: 20.h),
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          CustomImageView(
+              imagePath: ImageConstant.paymentOption,
+              height: 22.22.v,
+              width: 23.39.h),
           Padding(
               padding: EdgeInsets.only(left: 11.h, top: 3.v),
               child: Text("Payment Option",
