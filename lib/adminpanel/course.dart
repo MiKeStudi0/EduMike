@@ -24,6 +24,38 @@ class _CourseUploadState extends State<CourseUpload> {
   final TextEditingController _courseNameController = TextEditingController();
   final TextEditingController _courseCodeController = TextEditingController();
   final TextEditingController _courseCreditController = TextEditingController();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final String subcollectionPath =
+      '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers';
+  final String documentId =
+      'ENGINEERING PHYSICS A'; // Replace 'your_document_id' with the actual document ID
+  String courseCodeData = '';
+  // Change to String since you are retrieving a single document
+  String courseNameData = '';
+  String courseCreditData = '';
+
+  @override
+  void initState() {
+    super.initState();
+    retrieveDataFromSubcollection();
+  }
+
+  Future<void> retrieveDataFromSubcollection() async {
+    try {
+      DocumentSnapshot documentSnapshot =
+          await _firestore.doc('$subcollectionPath/$documentId').get();
+      var coursecode = documentSnapshot.get('courseCode');
+      var courseName = documentSnapshot.get('courseName');
+      var courseCredit = documentSnapshot.get('courseCredit');
+      setState(() {
+        courseCodeData = coursecode.toString();
+        courseCreditData = courseCredit.toString();
+        courseNameData = courseName.toString();
+      });
+    } catch (error) {
+      print('Error retrieving data: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -361,12 +393,12 @@ class _CourseUploadState extends State<CourseUpload> {
 
                     // Example data to be uploaded
                     Map<String, dynamic> data = {
-                      'courseName': courseName,
-                      'courseCode': courseCode,
-                      'courseCredit': courseCredit,
+                      'courseName': courseNameData,
+                      'courseCode': courseCodeData,
+                      'courseCredit': courseCreditData,
                       'selectedDocumentId':
                           _selectedDocumentId, // Include selected document ID
-                      'pdfUrl': pdfUrl, // Include PDF URL
+                      'pdfUrl': pdfUrl // Include PDF URL
                       // Add more fields as needed
                     };
 
