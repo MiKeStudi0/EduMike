@@ -1,4 +1,5 @@
 import 'package:edumike/adminpanel/department.dart';
+import 'package:edumike/adminpanel/retrive.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -71,6 +72,18 @@ class _DegreeUploadState extends State<DegreeUpload> {
                     );
                   },
                   child: Text('Department Screen',
+                      style: TextStyle(color: Colors.white)),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // Navigate to the second screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => RetrieveDocument()),
+                    );
+                  },
+                  child: Text('retive Screen',
                       style: TextStyle(color: Colors.white)),
                 ),
               ],
