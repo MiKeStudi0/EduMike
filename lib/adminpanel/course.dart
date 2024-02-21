@@ -28,7 +28,7 @@ class _CourseUploadState extends State<CourseUpload> {
   final String subcollectionPath =
       '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers';
   final String documentId =
-      'ENGINEERING PHYSICS A'; // Replace 'your_document_id' with the actual document ID
+      'LINEAR ALGEBRA AND CALCULUS'; // Replace 'your_document_id' with the actual document ID
   String courseCodeData = '';
   // Change to String since you are retrieving a single document
   String courseNameData = '';
@@ -387,14 +387,17 @@ class _CourseUploadState extends State<CourseUpload> {
                   if (pdfUrl != null) {
                     // Get document ID and data from text fields
                     String documentId = _documentIdController.text.trim();
-                    String courseName = _courseNameController.text.trim();
-                    String courseCode = _courseCodeController.text.trim();
-                    String courseCredit = _courseCreditController.text.trim();
+                    String courseName =
+                        _courseNameController.text.trim(); //dont remove this
+                    String courseCode =
+                        _courseCodeController.text.trim(); //dont remove this
+                    String courseCredit =
+                        _courseCreditController.text.trim(); //dont remove this
 
                     // Example data to be uploaded
                     Map<String, dynamic> data = {
-                      'courseName': courseNameData,
-                      'courseCode': courseCodeData,
+                      'courseName': courseNameData, //change akiya mathi
+                      'courseCode': courseCodeData, //mele ulla name
                       'courseCredit': courseCreditData,
                       'selectedDocumentId':
                           _selectedDocumentId, // Include selected document ID
