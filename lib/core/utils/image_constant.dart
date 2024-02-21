@@ -208,7 +208,8 @@ class ImageConstant {
   static String imgFaq = '$imagePathHome/img_faq.png';
 
   // Common images
-  static String imgThumbsUp = '$imagePathHome/img_thumbs_up.svg';
+
+  static String imgNotification = '$imagePathHome/img_Notification.svg';
 
   static String imgQrcode = '$imagePathHome/img_qrcode.svg';
 

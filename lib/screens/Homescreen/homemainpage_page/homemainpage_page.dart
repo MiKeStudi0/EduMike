@@ -75,8 +75,8 @@ class HomemainpagePage extends StatelessWidget {
                   text: "What Would you like to learn Today? Search Below.")
             ])),
         actions: [
-          AppbarTrailingIconbutton(
-              imagePath: ImageConstant.imgThumbsUp,
+          AppbarTrailNotification(
+              imagePath: ImageConstant.imgNotification,
               margin: EdgeInsets.fromLTRB(34.h, 16.v, 34.h, 13.v),
               onTap: () {
                 onTapThumbsUp(context);

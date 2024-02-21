@@ -2,7 +2,7 @@ import 'package:edumike/core/app_export.dart';
 import 'package:flutter/material.dart';
 
 class CustomIconButton extends StatelessWidget {
- const CustomIconButton({
+  const CustomIconButton({
     Key? key,
     this.alignment,
     this.height,
@@ -77,7 +77,7 @@ extension IconButtonStyleHelper on CustomIconButton {
         borderRadius: BorderRadius.circular(20.h),
         border: Border.all(
           color: theme.colorScheme.primary,
-          width: 2.h,
+          width: 0.h,
         ),
       );
   static BoxDecoration get outlineBlackTL26 => BoxDecoration(

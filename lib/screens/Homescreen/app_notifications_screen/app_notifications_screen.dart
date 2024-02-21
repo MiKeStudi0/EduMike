@@ -24,15 +24,19 @@ class AppNotificationsScreen extends StatelessWidget {
     return SafeArea(
         child: Scaffold(
             appBar: _buildAppBar(context),
-            body: Container(
-                width: double.maxFinite,
-                padding: EdgeInsets.symmetric(horizontal: 33.h, vertical: 2.v),
-                child: Column(children: [
-                  _buildCategory(context),
-                  SizedBox(height: 15.v),
-                  _buildTodaySectionList(context),
-                  SizedBox(height: 5.v)
-                ]))));
+            body: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Container(
+                  width: double.maxFinite,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 33.h, vertical: 2.v),
+                  child: Column(children: [
+                    _buildCategory(context),
+                    SizedBox(height: 15.v),
+                    _buildTodaySectionList(context),
+                    SizedBox(height: 5.v)
+                  ])),
+            )));
   }
 
   /// Section Widget
