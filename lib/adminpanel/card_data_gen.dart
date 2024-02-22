@@ -215,7 +215,7 @@ class _Carddata_genState extends State<Carddata_gen> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                primary: Colors.blue,
+                foregroundColor: Colors.blue,
               ),
             ),
           ],

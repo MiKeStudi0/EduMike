@@ -224,7 +224,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                primary: Colors.blue,
+                foregroundColor: Colors.blue,
               ),
             ),
           ],

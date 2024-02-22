@@ -148,7 +148,7 @@ class _DepartmentUploadState extends State<DepartmentUpload> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                primary: Colors.blue,
+                foregroundColor: Colors.blue,
               ),
             ),
             const SizedBox(height: 20),
