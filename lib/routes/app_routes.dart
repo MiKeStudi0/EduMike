@@ -1,4 +1,5 @@
 import 'package:edumike/screens/Dropdownlist.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 import 'package:edumike/screens/loginscreen/authenticate_user.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/screens/loginscreen/intro_one_screen.dart';
@@ -41,8 +42,6 @@ class AppRoutes {
   static const String letSYouInScreen = '/let_s_you_in_screen';
 
   static const String registerNowScreen = '/register_now_screen';
-
-  static const String homescreen = '/homepage';
 
   static const String loginScreen = '/login_screen';
 
@@ -124,6 +123,7 @@ class AppRoutes {
     listview: (context) => FirestoreListView(),
     //Remaining is for HomeScreen
     homemainpageContainerScreen: (context) => HomemainpageContainerScreen(),
+    homemainpagePage: (context) => HomemainpagePage(),
     addUniversityCardScreen: (context) => AddUniversityCardScreen(),
     helpcareScreen: (context) => const HelpcareScreen(),
     editProfilesScreen: (context) => EditProfilesScreen(),
