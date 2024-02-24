@@ -81,6 +81,7 @@ class HomemainpagePage extends StatelessWidget {
             body: SizedBox(
                 width: SizeUtils.width,
                 child: SingleChildScrollView(
+                
                     padding: EdgeInsets.only(top: 43.v),
                     child: Padding(
                         padding: EdgeInsets.only(bottom: 5.v),
@@ -93,6 +94,8 @@ class HomemainpagePage extends StatelessWidget {
                           SizedBox(height: 30.v),
                           carddata(context),
                           SizedBox(height: 29.v),
+
+                          // _buildUserCourse(context),
                           Padding(
                               padding: EdgeInsets.only(left: 14.h, right: 56.h),
                               child: _buildTopMentor(context,
@@ -112,6 +115,7 @@ class HomemainpagePage extends StatelessWidget {
                           SizedBox(height: 10.v),
                           _buildUserProfile(context),
                           SizedBox(height: 43.v),
+                        //  _buildUserCourse(context),
                         ]))))));
   }
 
@@ -447,25 +451,25 @@ class HomemainpagePage extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.center,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: IntrinsicWidth(
-                child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CategoryScreen()),
-                      );
-                    },
-                    child: CourseWidget()),
-              ),
+            child: IntrinsicWidth(
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CategoryScreen()),
+                    );
+                  },
+                  child: CourseWidget()),
             ),
           ),
         ],
       ),
     );
   }
+
+
+
 
   /// Section Widget
   Widget _buildUserProfile(BuildContext context) {
