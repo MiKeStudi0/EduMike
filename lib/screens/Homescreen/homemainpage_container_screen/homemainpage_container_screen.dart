@@ -45,9 +45,9 @@ class HomemainpageContainerScreen extends StatelessWidget {
       case BottomBarEnum.Mycourses:
         return AppRoutes.myCoursePage;
       case BottomBarEnum.Indox:
-        return AppRoutes.uploadscreen;
+        return AppRoutes.indoxmainpagePage;
       case BottomBarEnum.Bookmark:
-        return AppRoutes.listview;
+        return AppRoutes.myBookmarkPage;
       case BottomBarEnum.Profile:
         return AppRoutes.profilesPage;
       default:
@@ -62,9 +62,9 @@ class HomemainpageContainerScreen extends StatelessWidget {
         return HomemainpagePage();
       case AppRoutes.myCoursePage:
         return MyCoursePage();
-      case AppRoutes.uploadscreen:
+      case AppRoutes.myBookmarkPage:
         return UploadDataPage();
-      case AppRoutes.listview:
+      case AppRoutes.indoxmainpagePage:
         return FirestoreListView();
       case AppRoutes.profilesPage:
         return ProfilesPage();

@@ -86,7 +86,7 @@ class MyCoursePage extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return CircularProgressIndicator();
+          return Center(child: Text("Loading..."));
         }
 
         final documents = snapshot.data!.docs;
