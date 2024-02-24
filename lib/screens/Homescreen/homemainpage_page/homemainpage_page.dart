@@ -103,7 +103,7 @@ class HomemainpagePage extends StatelessWidget {
                           _buildCategory(context),
                           SizedBox(height: 18.v),
                           _buildCourse(context),
-                          SizedBox(height: 45.v),
+                          SizedBox(height: 25.v),
                           Padding(
                               padding: EdgeInsets.only(left: 14.h, right: 56.h),
                               child: _buildTopMentor(context,
@@ -231,7 +231,7 @@ class HomemainpagePage extends StatelessWidget {
                             SizedBox(height: 1.v),
                             SizedBox(
                                 height: 38.v,
-                                width: 248.h,
+                                width: 360.h,
                                 child: Stack(
                                     alignment: Alignment.topCenter,
                                     children: [
@@ -254,33 +254,58 @@ class HomemainpagePage extends StatelessWidget {
                                                       .labelLargeMulishGray200)))
                                     ])),
                             SizedBox(height: 7.v),
-                            Row(children: [
-                              Text(university!.toUpperCase(),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: CustomTextStyles.titleSmallWhiteA700),
-                              Padding(
+                            Row(
+                              children: [
+                                Container(
+                                  width: 150.h,
+                                  child: Text(
+                                    university!.toUpperCase(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: CustomTextStyles.titleSmallWhiteA700,
+                                  ),
+                                ),
+                                Padding(
                                   padding: EdgeInsets.only(left: 38.h),
-                                  child: Text(degree!.toUpperCase(),
-                                      overflow: TextOverflow.ellipsis,
+                                  child: Container(
+                                    width: 60.h,
+                                    child: Text(
+                                      degree!.toUpperCase(),
+                                      overflow: TextOverflow.fade,
                                       style:
-                                          CustomTextStyles.titleSmallWhiteA700))
-                            ]),
+                                          CustomTextStyles.titleSmallWhiteA700,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                             SizedBox(height: 13.v),
                             Padding(
-                                padding: EdgeInsets.only(right: 38.h),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(course!.toUpperCase(),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: CustomTextStyles
-                                              .titleSmallWhiteA700),
-                                      Text(semester!.toUpperCase(),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: CustomTextStyles
-                                              .titleSmallWhiteA700)
-                                    ]))
+                              padding: EdgeInsets.only(right: 38.h),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 150.h,
+                                    child: Text(
+                                      course!.toUpperCase(),
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          CustomTextStyles.titleSmallWhiteA700,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 60.h,
+                                    child: Text(
+                                      semester!.toUpperCase(),
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          CustomTextStyles.titleSmallWhiteA700,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
                           ])))
             ])));
   }
