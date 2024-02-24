@@ -1,9 +1,11 @@
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:edumike/core/app_export.dart';
 
 class CourseWidget extends StatefulWidget {
+  
   const CourseWidget({super.key});
 
   @override
@@ -11,6 +13,31 @@ class CourseWidget extends StatefulWidget {
 }
 
 class _CourseWidgetState extends State<CourseWidget> {
+    List<String> documentIds = [];
+
+ @override
+  void initState() {
+    super.initState();
+    fetchDocumentIds();
+  }
+
+  Future<void> fetchDocumentIds() async {
+    try {
+      // Replace 'yourCollection' with the actual name of your collection
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers').get();
+
+      // Store document IDs in the list
+      snapshot.docs.forEach((doc) {
+        documentIds.add(doc.id);
+      });
+
+      // Force a rebuild after fetching the document IDs
+      setState(() {});
+    } catch (e) {
+      print("Error fetching document IDs: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -21,7 +48,7 @@ class _CourseWidgetState extends State<CourseWidget> {
           return SizedBox(width: 10.h);
         },
         scrollDirection: Axis.horizontal,
-        itemCount: 5,
+        itemCount: documentIds.length,
         itemBuilder: (BuildContext context, int index) {
           return 
          Stack(
@@ -84,8 +111,10 @@ class _CourseWidgetState extends State<CourseWidget> {
                                             text: "Syllabus")),
                                     SizedBox(height: 4.v),
                                     Padding(
-                                        padding: EdgeInsets.only(left: 14.h),
-                                        child: Text("Computer Network",
+                                        padding: EdgeInsets.only(left: 14.h,right: 19.h),
+                                        child: Text(documentIds[index],
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                             style: theme.textTheme.titleMedium)),
                                     SizedBox(height: 9.v),
                                     Padding(
