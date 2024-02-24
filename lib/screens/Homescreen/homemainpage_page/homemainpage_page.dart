@@ -103,7 +103,7 @@ class HomemainpagePage extends StatelessWidget {
                           _buildCategory(context),
                           SizedBox(height: 18.v),
                           _buildCourse(context),
-                          SizedBox(height: 25.v),
+                          SizedBox(height: 15.v),
                           Padding(
                               padding: EdgeInsets.only(left: 14.h, right: 56.h),
                               child: _buildTopMentor(context,
