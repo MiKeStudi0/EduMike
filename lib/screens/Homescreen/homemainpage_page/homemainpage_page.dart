@@ -81,7 +81,6 @@ class HomemainpagePage extends StatelessWidget {
             body: SizedBox(
                 width: SizeUtils.width,
                 child: SingleChildScrollView(
-                
                     padding: EdgeInsets.only(top: 43.v),
                     child: Padding(
                         padding: EdgeInsets.only(bottom: 5.v),
@@ -104,7 +103,7 @@ class HomemainpagePage extends StatelessWidget {
                           _buildCategory(context),
                           SizedBox(height: 18.v),
                           _buildCourse(context),
-                          SizedBox(height: 45.v),
+                          SizedBox(height: 25.v),
                           Padding(
                               padding: EdgeInsets.only(left: 14.h, right: 56.h),
                               child: _buildTopMentor(context,
@@ -115,7 +114,7 @@ class HomemainpagePage extends StatelessWidget {
                           SizedBox(height: 10.v),
                           _buildUserProfile(context),
                           SizedBox(height: 43.v),
-                        //  _buildUserCourse(context),
+                          //  _buildUserCourse(context),
                         ]))))));
   }
 
@@ -232,7 +231,7 @@ class HomemainpagePage extends StatelessWidget {
                             SizedBox(height: 1.v),
                             SizedBox(
                                 height: 38.v,
-                                width: 248.h,
+                                width: 360.h,
                                 child: Stack(
                                     alignment: Alignment.topCenter,
                                     children: [
@@ -255,33 +254,58 @@ class HomemainpagePage extends StatelessWidget {
                                                       .labelLargeMulishGray200)))
                                     ])),
                             SizedBox(height: 7.v),
-                            Row(children: [
-                              Text(university!.toUpperCase(),
-                                  overflow: TextOverflow.ellipsis,
-                                  style: CustomTextStyles.titleSmallWhiteA700),
-                              Padding(
+                            Row(
+                              children: [
+                                Container(
+                                  width: 150.h,
+                                  child: Text(
+                                    university!.toUpperCase(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: CustomTextStyles.titleSmallWhiteA700,
+                                  ),
+                                ),
+                                Padding(
                                   padding: EdgeInsets.only(left: 38.h),
-                                  child: Text(degree!.toUpperCase(),
-                                      overflow: TextOverflow.ellipsis,
+                                  child: Container(
+                                    width: 60.h,
+                                    child: Text(
+                                      degree!.toUpperCase(),
+                                      overflow: TextOverflow.fade,
                                       style:
-                                          CustomTextStyles.titleSmallWhiteA700))
-                            ]),
+                                          CustomTextStyles.titleSmallWhiteA700,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                             SizedBox(height: 13.v),
                             Padding(
-                                padding: EdgeInsets.only(right: 38.h),
-                                child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(course!.toUpperCase(),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: CustomTextStyles
-                                              .titleSmallWhiteA700),
-                                      Text(semester!.toUpperCase(),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: CustomTextStyles
-                                              .titleSmallWhiteA700)
-                                    ]))
+                              padding: EdgeInsets.only(right: 38.h),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 150.h,
+                                    child: Text(
+                                      course!.toUpperCase(),
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          CustomTextStyles.titleSmallWhiteA700,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 60.h,
+                                    child: Text(
+                                      semester!.toUpperCase(),
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          CustomTextStyles.titleSmallWhiteA700,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
                           ])))
             ])));
   }
@@ -456,8 +480,7 @@ class HomemainpagePage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => CategoryScreen()),
+                      MaterialPageRoute(builder: (context) => CategoryScreen()),
                     );
                   },
                   child: CourseWidget()),
@@ -467,9 +490,6 @@ class HomemainpagePage extends StatelessWidget {
       ),
     );
   }
-
-
-
 
   /// Section Widget
   Widget _buildUserProfile(BuildContext context) {
@@ -561,11 +581,6 @@ class HomemainpagePage extends StatelessWidget {
   /// Navigates to the appNotificationsScreen when the action is triggered.
   onTapThumbsUp(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.appNotificationsScreen);
-  }
-
-  /// Navigates to the addUniversityCardScreen when the action is triggered.
-  onTapImgTelevision(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.addUniversityCardScreen);
   }
 
   /// Navigates to the categoryScreen when the action is triggered.
