@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/screens/Homescreen/add_university_card_screen/add_university_card_screen.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../homemainpage_page/widgets/category_item_widget.dart';
 import '../homemainpage_page/widgets/userprofile_item_widget.dart';
@@ -17,6 +19,57 @@ class HomemainpagePage extends StatelessWidget {
   HomemainpagePage({Key? key}) : super(key: key);
 
   TextEditingController searchController = TextEditingController();
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
+    // Get the current user
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      throw Exception('User not authenticated');
+    }
+
+    // Retrieve the user document from Firestore
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('carddata')
+        .doc(user.uid)
+        .get();
+
+    return snapshot;
+  }
+
+  Widget carddata(BuildContext context) {
+    return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      future: getUserDocument(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While waiting for the data to load, show a loading indicator
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // If an error occurs while fetching the data, show the error message
+          return Text('Error: ${snapshot.error}');
+        } else {
+          // If the data is successfully fetched, extract the values
+          String? university = snapshot.data?.data()?['university'];
+          String? degree = snapshot.data?.data()?['degree'];
+          String? course = snapshot.data?.data()?['course'];
+          String? semester = snapshot.data?.data()?['semester'];
+
+          if (university == null ||
+              degree == null ||
+              course == null ||
+              semester == null) {
+            return _buildUniversityCard1(
+                context, university, degree, course, semester);
+          }
+
+          // Call _buildUniversityCard with the retrieved values
+          return _buildUniversityCard(
+              context, university, degree, course, semester);
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +92,7 @@ class HomemainpagePage extends StatelessWidget {
                                   controller: searchController,
                                   hintText: "Search for..")),
                           SizedBox(height: 30.v),
-                          _buildUniversityCard(context),
+                          carddata(context),
                           SizedBox(height: 29.v),
 
                           // _buildUserCourse(context),
@@ -90,7 +143,156 @@ class HomemainpagePage extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildUniversityCard(BuildContext context) {
+  Widget _buildUniversityCard(
+    BuildContext context,
+    String? university,
+    String? degree,
+    String? course,
+    String? semester,
+  ) {
+    return Card(
+        clipBehavior: Clip.antiAlias,
+        elevation: 0,
+        color: theme.colorScheme.primary,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusStyle.roundedBorder22),
+        child: Container(
+            height: 180.v,
+            width: 360.h,
+            decoration: AppDecoration.fillPrimary
+                .copyWith(borderRadius: BorderRadiusStyle.roundedBorder22),
+            child: Stack(alignment: Alignment.topLeft, children: [
+              CustomImageView(
+                  imagePath: ImageConstant.imgPath2,
+                  height: 76.v,
+                  width: 181.h,
+                  alignment: Alignment.bottomRight),
+              CustomImageView(
+                  imagePath: ImageConstant.imgPath3,
+                  height: 72.v,
+                  width: 156.h,
+                  alignment: Alignment.topLeft),
+              CustomImageView(
+                  imagePath: ImageConstant.imgArrowLeft,
+                  height: 28.v,
+                  width: 21.h,
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 158.h)),
+              CustomImageView(
+                  imagePath: ImageConstant.imgCardEdit,
+                  height: 24.adaptSize,
+                  width: 24.adaptSize,
+                  alignment: Alignment.topRight,
+                  margin: EdgeInsets.only(top: 13.v, right: 15.h),
+                  onTap: () {
+                    _showBottomSheet(context);
+                  }),
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                      padding:
+                          EdgeInsets.only(left: 18.h, top: 13.v, right: 92.h),
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(right: 22.h),
+                                child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(bottom: 3.v),
+                                          child: Text("Selected ",
+                                              style: CustomTextStyles
+                                                  .titleLargeMulishAmberA200)),
+                                      Spacer(),
+                                      CustomImageView(
+                                          imagePath: ImageConstant
+                                              .imgArrowLeftBlueA40001,
+                                          height: 19.v,
+                                          width: 14.h,
+                                          margin: EdgeInsets.only(top: 11.v)),
+                                      Container(
+                                          height: 10.v,
+                                          width: 40.h,
+                                          margin: EdgeInsets.only(
+                                              left: 29.h,
+                                              top: 17.v,
+                                              bottom: 3.v),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.h),
+                                              border: Border.all(
+                                                  color: appTheme.blueA40001,
+                                                  width: 2.h,
+                                                  strokeAlign:
+                                                      strokeAlignCenter)))
+                                    ])),
+                            SizedBox(height: 1.v),
+                            SizedBox(
+                                height: 38.v,
+                                width: 248.h,
+                                child: Stack(
+                                    alignment: Alignment.topCenter,
+                                    children: [
+                                      CustomImageView(
+                                          imagePath: ImageConstant.imgTriangle,
+                                          height: 8.adaptSize,
+                                          width: 8.adaptSize,
+                                          alignment: Alignment.bottomRight,
+                                          margin: EdgeInsets.only(right: 62.h)),
+                                      Align(
+                                          alignment: Alignment.topCenter,
+                                          child: SizedBox(
+                                              width: 248.h,
+                                              child: Text(
+                                                  "Recommendation & Materials Based on Your Selected Course .!",
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: CustomTextStyles
+                                                      .labelLargeMulishGray200)))
+                                    ])),
+                            SizedBox(height: 7.v),
+                            Row(children: [
+                              Text(university!.toUpperCase(),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: CustomTextStyles.titleSmallWhiteA700),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 38.h),
+                                  child: Text(degree!.toUpperCase(),
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          CustomTextStyles.titleSmallWhiteA700))
+                            ]),
+                            SizedBox(height: 13.v),
+                            Padding(
+                                padding: EdgeInsets.only(right: 38.h),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(course!.toUpperCase(),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: CustomTextStyles
+                                              .titleSmallWhiteA700),
+                                      Text(semester!.toUpperCase(),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: CustomTextStyles
+                                              .titleSmallWhiteA700)
+                                    ]))
+                          ])))
+            ])));
+  }
+
+  Widget _buildUniversityCard1(
+    BuildContext context,
+    String? university,
+    String? degree,
+    String? course,
+    String? semester,
+  ) {
     return Card(
         clipBehavior: Clip.antiAlias,
         elevation: 0,
@@ -212,7 +414,7 @@ class HomemainpagePage extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Course".toUpperCase(),
+                                      Text("course".toUpperCase(),
                                           style: CustomTextStyles
                                               .titleSmallWhiteA700),
                                       Text("semester".toUpperCase(),
