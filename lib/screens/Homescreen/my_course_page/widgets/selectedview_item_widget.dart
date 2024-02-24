@@ -15,9 +15,10 @@ class SelectedviewItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-       onTap:  () {
-         Navigator.push(context, MaterialPageRoute(builder: (context) => ModulesScreen()));
-       },
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => ModulesScreen()));
+      },
       child: Container(
         padding: EdgeInsets.only(
           left: 16.h,
@@ -63,7 +64,8 @@ class SelectedviewItemWidget extends StatelessWidget {
               ),
             ),
             SizedBox(
-                width: 10), // Add some spacing between the text and bookmark icon
+                width:
+                    10), // Add some spacing between the text and bookmark icon
             Padding(
               padding: EdgeInsets.only(right: 9.h, top: 5.h),
               child: CustomImageView(
