@@ -63,9 +63,9 @@ class HomemainpageContainerScreen extends StatelessWidget {
       case AppRoutes.myCoursePage:
         return MyCoursePage();
       case AppRoutes.myBookmarkPage:
-        return UploadDataPage();
+        return MyBookmarkPage();
       case AppRoutes.indoxmainpagePage:
-        return FirestoreListView();
+        return IndoxmainpagePage();
       case AppRoutes.profilesPage:
         return ProfilesPage();
       default:
