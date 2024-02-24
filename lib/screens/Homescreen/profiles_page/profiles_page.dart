@@ -10,7 +10,9 @@ import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_icon_button_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ProfilesPage extends StatelessWidget {
   ProfilesPage({Key? key}) : super(key: key);
@@ -152,7 +154,12 @@ class ProfilesPage extends StatelessWidget {
                               SizedBox(height: 43.v),
                               _buildNine(context),
                               SizedBox(height: 44.v),
-                              _buildTen(context)
+                              GestureDetector(
+                                  onTap: () {
+                                    signUserOut(context);
+                                  },
+                                  child: _buildTen(context)),
+                              SizedBox(height: 44.v),
                             ]))))));
   }
 
@@ -412,6 +419,15 @@ class ProfilesPage extends StatelessWidget {
           CustomImageView(
               imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
         ]));
+  }
+
+  void signUserOut(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.pushReplacementNamed(context, AppRoutes.letSYouInScreen);
+    } catch (e) {
+      print('Error signing out: $e');
+    }
   }
 
   /// Navigates to the editProfilesScreen when the action is triggered.

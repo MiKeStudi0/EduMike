@@ -28,8 +28,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
- 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -123,11 +121,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                           30.h, 21.v, 24.h, 21.v),
                                       child: GestureDetector(
                                         child: CustomImageView(
-                                            imagePath: ImageConstant.imgThumbsup,
-                                            onTap: (){
-                                             setState(() {
-                                               _obscureText =! _obscureText;
-                                             });
+                                            imagePath:
+                                                ImageConstant.imgThumbsup,
+                                            onTap: () {
+                                              setState(() {
+                                                _obscureText = !_obscureText;
+                                              });
                                             },
                                             height: 15.adaptSize,
                                             width: 15.adaptSize),
@@ -254,62 +253,65 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /// Section Widget
   Widget _buildLoginOptions(BuildContext context) {
-  return InkWell(
-    onTap: () {
-      setState(() {
-        rememberMe = !rememberMe; // Toggle the value
-      });
-    },
-    child: Row(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 1.v),
-            child: Row(
-              children: [
-                Container(
-                  width: 20.0,
-                  height: 20.0,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.rectangle, // Set the shape to rectangle
-                    color: rememberMe ? Colors.blue : Colors.black, // Initial color: black
-                    border: Border.all(
-                      color: Colors.black, // Border color: black
+    return InkWell(
+      onTap: () {
+        setState(() {
+          rememberMe = !rememberMe; // Toggle the value
+        });
+      },
+      child: Row(
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 1.v),
+              child: Row(
+                children: [
+                  Container(
+                    width: 20.0,
+                    height: 20.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.rectangle, // Set the shape to rectangle
+                      color: rememberMe
+                          ? Colors.blue
+                          : Colors.black, // Initial color: black
+                      border: Border.all(
+                        color: Colors.black, // Border color: black
+                      ),
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.check,
+                        size: 12.0, // Adjusted size for a small checkbox
+                        color: rememberMe
+                            ? Colors.white
+                            : Colors
+                                .transparent, // Text color when checked: white
+                      ),
                     ),
                   ),
-                  child: Center(
-                    child: Icon(
-                      Icons.check,
-                      size: 12.0, // Adjusted size for a small checkbox
-                      color: rememberMe ? Colors.white : Colors.transparent, // Text color when checked: white
-                    ),
+                  const SizedBox(width: 8.0),
+                  const Text(
+                    "Remember me",
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
-                ),
-                const SizedBox(width: 8.0),
-                const Text(
-                  "Remember me",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
- GestureDetector(
-          onTap: () {
-            onTapTxtForgotPassword(context);
-          },
-          child: Padding(
-              padding: EdgeInsets.only(top: 2.v,left: 100),
-              child:
-                  Text("Forgot Password?", style: theme.textTheme.labelLarge)))              ],
+                  GestureDetector(
+                      onTap: () {
+                        onTapTxtForgotPassword(context);
+                      },
+                      child: Padding(
+                          padding: EdgeInsets.only(top: 2.v, left: 100),
+                          child: Text("Forgot Password?",
+                              style: theme.textTheme.labelLarge)))
+                ],
+              ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
- 
-}
+        ],
+      ),
+    );
+  }
 
   /// Section Widget
   Widget _buildSignInButton(BuildContext context) {
@@ -382,7 +384,8 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pop(context);
       if (FirebaseAuth.instance.currentUser != null) {
         // Move to the home screen
-        Navigator.pushNamed(context, AppRoutes.homescreen);
+        Navigator.pushReplacementNamed(
+            context, AppRoutes.homemainpageContainerScreen);
       }
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
@@ -395,13 +398,16 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: const Color.fromARGB(255, 6, 9, 233),
-          title: Center(
-            child: Text(
-              m,
-              style:const TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+          title: const Text('Error'),
+          content: Text(m),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
             ),
-          )
+          ],
         );
       },
     );

@@ -122,10 +122,7 @@ class HomemainpagePage extends StatelessWidget {
                   alignment: Alignment.topRight,
                   margin: EdgeInsets.only(top: 13.v, right: 15.h),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddUniversityCardScreen()));
+                    _showBottomSheet(context);
                   }),
               Align(
                   alignment: Alignment.topLeft,
@@ -286,7 +283,26 @@ class HomemainpagePage extends StatelessWidget {
             }));
   }
 
-  /// Section Widget
+  /// popup varunnath
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(18.0)),
+          child: FractionallySizedBox(
+            heightFactor: 0.87,
+            child: Container(
+              // Set a specific height, you can adjust this value based on your needs
+              height: MediaQuery.of(context).size.height * 0.87,
+              child: AddUniversityCardScreen(),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   /// Common widget
   Widget _buildTopMentor(
