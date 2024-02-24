@@ -294,14 +294,19 @@ class HomemainpagePage extends StatelessWidget {
                                           CustomTextStyles.titleSmallWhiteA700,
                                     ),
                                   ),
-                                  Container(
-                                    width: 60.h,
-                                    child: Text(
-                                      semester!.toUpperCase(),
-                                      overflow: TextOverflow.ellipsis,
-                                      style:
-                                          CustomTextStyles.titleSmallWhiteA700,
-                                    ),
+                                  Stack(
+                                    
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 5.0),
+                                        child: Text(
+                                          semester!.toUpperCase(),
+                                          overflow: TextOverflow.ellipsis,
+                                          style:
+                                              CustomTextStyles.titleSmallWhiteA700,
+                                        ),
+                                      ),
+                                    ],
                                   )
                                 ],
                               ),
