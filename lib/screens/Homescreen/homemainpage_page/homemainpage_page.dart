@@ -81,7 +81,6 @@ class HomemainpagePage extends StatelessWidget {
             body: SizedBox(
                 width: SizeUtils.width,
                 child: SingleChildScrollView(
-                
                     padding: EdgeInsets.only(top: 43.v),
                     child: Padding(
                         padding: EdgeInsets.only(bottom: 5.v),
@@ -115,7 +114,7 @@ class HomemainpagePage extends StatelessWidget {
                           SizedBox(height: 10.v),
                           _buildUserProfile(context),
                           SizedBox(height: 43.v),
-                        //  _buildUserCourse(context),
+                          //  _buildUserCourse(context),
                         ]))))));
   }
 
@@ -456,8 +455,7 @@ class HomemainpagePage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => CategoryScreen()),
+                      MaterialPageRoute(builder: (context) => CategoryScreen()),
                     );
                   },
                   child: CourseWidget()),
@@ -467,9 +465,6 @@ class HomemainpagePage extends StatelessWidget {
       ),
     );
   }
-
-
-
 
   /// Section Widget
   Widget _buildUserProfile(BuildContext context) {
@@ -561,11 +556,6 @@ class HomemainpagePage extends StatelessWidget {
   /// Navigates to the appNotificationsScreen when the action is triggered.
   onTapThumbsUp(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.appNotificationsScreen);
-  }
-
-  /// Navigates to the addUniversityCardScreen when the action is triggered.
-  onTapImgTelevision(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.addUniversityCardScreen);
   }
 
   /// Navigates to the categoryScreen when the action is triggered.
