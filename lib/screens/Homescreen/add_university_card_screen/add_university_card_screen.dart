@@ -3,6 +3,7 @@ import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_drop_down_home.dart';
 import 'package:edumike/widgets/custom_elevated_buttonHome.dart';
 import 'package:edumike/widgets/custom_outlined_button_home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -20,14 +21,11 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
   String? _selectedDegreeId;
   String? _selectedCourseId;
   String? _selectedSemesterId;
-
   List<String> universityList = [];
-
   List<String> degreeList = [];
-
   List<String> courseList = [];
-
   List<String> semesterList = [];
+
   @override
   void initState() {
     super.initState();
@@ -94,12 +92,42 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
           .get();
       // Extract the document names and add them to the dropdownItemList
       for (QueryDocumentSnapshot documentSnapshot4 in querySnapshot4.docs) {
-        courseList.add(documentSnapshot4.id);
+        semesterList.add(documentSnapshot4.id);
       }
       // Update the state to reflect the changes
       setState(() {});
     } catch (e) {
       print('Error fetching university names: $e');
+    }
+  }
+
+  void uploadCardData() async {
+    try {
+      // Get the current user
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Reference to the "carddata" collection
+        CollectionReference cardDataCollection =
+            FirebaseFirestore.instance.collection('carddata');
+
+        // Add a new document to the "carddata" collection with the user's ID
+        await cardDataCollection.doc(user.uid).set({
+          'university': _selectedUniversityId,
+          'degree': _selectedDegreeId,
+          'course': _selectedCourseId,
+          'semester': _selectedSemesterId,
+        });
+
+        // Print a message indicating successful upload
+        print('Card data uploaded successfully');
+      } else {
+        // Handle case when user is not authenticated
+        print('User not authenticated');
+      }
+    } catch (e) {
+      // Print an error message if an error occurs
+      print('Error uploading card data: $e');
     }
   }
 
@@ -203,7 +231,7 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
           CustomDropDown(
               hintText: "Select Semester",
               items: semesterList,
-              onChanged: (value) {
+              onChanged: (String? value) {
                 setState(() {
                   _selectedSemesterId = value;
                 });
@@ -239,6 +267,7 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
 
   /// Navigates to the homemainpageContainerScreen when the action is triggered.
   onTapYesChange(BuildContext context) {
+    uploadCardData();
     Navigator.pop(context);
   }
 }

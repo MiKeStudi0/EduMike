@@ -16,12 +16,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(FillYourProfileScreen());
-}
-
 Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
   // Get the current user
   User? user = FirebaseAuth.instance.currentUser;
@@ -31,21 +25,12 @@ Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
   }
 
   // Retrieve the user document from Firestore
-  DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
-      .collection('users')
-      .doc(user.uid)    
-      .get();
-print(user.uid);
+  DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
 
   return snapshot;
-
 }
 
-
-
-
-
- 
 // ignore_for_file: must_be_immutable
 class FillYourProfileScreen extends StatefulWidget {
   FillYourProfileScreen({Key? key}) : super(key: key);
@@ -56,26 +41,24 @@ class FillYourProfileScreen extends StatefulWidget {
 
 class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   TextEditingController fullNameEditTextController = TextEditingController();
-    late final String gendervalue;
-   // DateTime _picked=DateTime.now();
+  late final String gendervalue;
+  // DateTime _picked=DateTime.now();
 
-   
-
-    Future<void> _selectdate()async{
-      DateTime? _picked=await 
-      showDatePicker(context: context,
-      initialDate: DateTime.now(),
-       firstDate: DateTime(2000),
+  Future<void> _selectdate() async {
+    DateTime? _picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
         lastDate: DateTime(2500));
-        if(_picked!=null){
-          setState(() {
-            dateOfBirthEditTextController.text=DateFormat('yyyy-MM-dd').format(_picked);
-          });
-        }
+    if (_picked != null) {
+      setState(() {
+        dateOfBirthEditTextController.text =
+            DateFormat('yyyy-MM-dd').format(_picked);
+      });
     }
-    
+  }
 
-   FocusNode emailFocusNode = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
 
   FocusNode dateofbirthFocusNode = FocusNode();
 
@@ -95,9 +78,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
 
   List<String> dropdownItemList = ["Male", "Female"];
 
-
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -164,11 +145,9 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                                   items: dropdownItemList,
                                   onChanged: (value) {
                                     setState(() {
-                                      gendervalue=value;
-                                     print(gendervalue);
-                                 
+                                      gendervalue = value;
+                                      print(gendervalue);
                                     });
-                                    
                                   }),
                               SizedBox(height: 50.v),
                               _buildContinueButton(context),
@@ -190,7 +169,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   /// Section Widget
   Widget _buildFullNameEditText(BuildContext context) {
     return CustomTextFormField(
-      focusNode: fullnameFocusNode,
+        focusNode: fullnameFocusNode,
         controller: fullNameEditTextController,
         hintText: "Full Name",
         contentPadding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 21.v));
@@ -199,7 +178,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   /// Section Widget
   Widget _buildNameEditText(BuildContext context) {
     return CustomTextFormField(
-      focusNode: nicknameFocusNode,
+        focusNode: nicknameFocusNode,
         controller: nameEditTextController,
         hintText: "Nick Name",
         contentPadding: EdgeInsets.symmetric(horizontal: 22.h, vertical: 21.v));
@@ -207,33 +186,28 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
 
   /// Section Widget
   Widget _buildDateOfBirthEditText(BuildContext context) {
-
     return CustomTextFormField(
-      focusNode: dateofbirthFocusNode,
+        focusNode: dateofbirthFocusNode,
         controller: dateOfBirthEditTextController,
         hintText: "Date of Birth",
-        
         prefix: Container(
             margin: EdgeInsets.fromLTRB(21.h, 20.v, 8.h, 20.v),
-            
             child: GestureDetector(
               child: CustomImageView(
-                onTap: () {
-                  _selectdate();
-                },
+                  onTap: () {
+                    _selectdate();
+                  },
                   imagePath: ImageConstant.imgCalendar,
                   height: 20.v,
                   width: 18.h),
-                 
             )),
-        prefixConstraints: BoxConstraints(maxHeight: 60.v))
-        ;
+        prefixConstraints: BoxConstraints(maxHeight: 60.v));
   }
 
   /// Section Widget
   Widget _buildEmailEditText(BuildContext context) {
     return CustomTextFormField(
-      focusNode: emailFocusNode,
+        focusNode: emailFocusNode,
         controller: emailEditTextController,
         hintText: "Email(Verify)",
         hintStyle: theme.textTheme.bodyMedium!,
@@ -263,20 +237,22 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
         child: Stack(alignment: Alignment.center, children: [
           Align(
               alignment: Alignment.center,
-              child:GestureDetector(
-  onTap: () async {
-    try {
-      await addUserToFirestore();
-      print('User data added to Firestore successfully!');
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
-      );
-    } catch (e) {
-      print('Error adding user data to Firestore: $e');
-    }
-  },
-  child: Card(
+              child: GestureDetector(
+                  onTap: () async {
+                    try {
+                      await addUserToFirestore();
+                      print('User data added to Firestore successfully!');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
+                      );
+                    } catch (e) {
+                      print('Error adding user data to Firestore: $e');
+                    }
+                  },
+                  child: Card(
                       clipBehavior: Clip.antiAlias,
                       elevation: 0,
                       margin: const EdgeInsets.all(0),
@@ -314,27 +290,27 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
 
   /// Navigates to the congratulationsScreen when the action is triggered.
   Future<void> addUserToFirestore() async {
-  User? user = FirebaseAuth.instance.currentUser;
+    User? user = FirebaseAuth.instance.currentUser;
 
-  if (user == null) {
-    throw Exception('User not authenticated');
+    if (user == null) {
+      throw Exception('User not authenticated');
+    }
+
+    // Use the user ID as the document ID
+    String userId = user.uid;
+
+    // Replace 'users' with your Firestore collection name
+    CollectionReference userCollection =
+        FirebaseFirestore.instance.collection('users');
+
+    // Replace the field names and values as per your data structure
+    await userCollection.doc(userId).set({
+      'fullname': fullNameEditTextController.text,
+      'nickname': nameEditTextController.text,
+      'dateofbirth': dateOfBirthEditTextController.text,
+      'email': emailEditTextController.text,
+      'phone': phoneNumberController.text,
+      'gender': gendervalue,
+    });
   }
-
-  // Use the user ID as the document ID
-  String userId = user.uid;
-
-  // Replace 'users' with your Firestore collection name
-  CollectionReference userCollection =
-      FirebaseFirestore.instance.collection('users');
-
-  // Replace the field names and values as per your data structure
-  await userCollection.doc(userId).set({
-    'fullname': fullNameEditTextController.text,
-    'nickname': nameEditTextController.text,
-    'dateofbirth': dateOfBirthEditTextController.text,
-    'email': emailEditTextController.text,
-    'phone': phoneNumberController.text,
-    'gender': gendervalue,
-  });
-}
 }
