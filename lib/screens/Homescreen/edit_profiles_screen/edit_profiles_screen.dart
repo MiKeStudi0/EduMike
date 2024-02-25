@@ -6,13 +6,18 @@ import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
+import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+
 
 
 // ignore: must_be_immutable
 class EditProfilesScreen extends StatefulWidget {
+  
   EditProfilesScreen({Key? key})
       : super(
           key: key,
@@ -23,7 +28,7 @@ class EditProfilesScreen extends StatefulWidget {
 }
 
 class _EditProfilesScreenState extends State<EditProfilesScreen> {
-  TextEditingController fullNameController = TextEditingController();
+   TextEditingController fullNameController = TextEditingController();
 
   TextEditingController nameController = TextEditingController();
 
@@ -32,10 +37,44 @@ class _EditProfilesScreenState extends State<EditProfilesScreen> {
   TextEditingController emailController = TextEditingController();
 
     TextEditingController genderController = TextEditingController();
+      TextEditingController phoneNumberController = TextEditingController();
+
+  Future<void> updateUserData() async {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    throw Exception('User not authenticated');
+  }
+
+  String userId = user.uid;
+
+  // Replace 'users' with your Firestore collection name
+  CollectionReference userCollection =
+      FirebaseFirestore.instance.collection('users');
+
+  // Replace the field names and values as per your data structure
+  await userCollection.doc(userId).set({
+    'fullname': fullNameController.text,
+    'nickname': nameController.text,
+    'dateofbirth': dateOfBirthController.text,
+    'email': emailController.text,
+    'gender': genderController.text,
+     'phone': phoneNumberController.text,
+  });}
+  /*await userDocRef.update({
+    'fullname': fullNameController,
+    'nickname': nameController.text,
+    'dateofbirth': dateOfBirthController.text,
+    'email': emailController.text,
+    'gender': genderController,
+    'phone': phoneNumberController.text,
+    // Add other fields as needed
+  });}*/
+
+  
+ 
 
   Country selectedCountry = CountryPickerUtils.getCountryByPhoneCode('91');
 
-  TextEditingController phoneNumberController = TextEditingController();
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -100,7 +139,7 @@ class _EditProfilesScreenState extends State<EditProfilesScreen> {
                     ),
                   ),
                   SizedBox(height: 40.v),
-                  _buildfullName(context),
+                  _buildFullName(context),
                   SizedBox(height: 18.v),
                   _buildName(context),
                   SizedBox(height: 18.v),
@@ -112,7 +151,7 @@ class _EditProfilesScreenState extends State<EditProfilesScreen> {
                   SizedBox(height: 18.v),
                    _buildgender(context),
                   SizedBox(height: 18.v),
-                  ///_buildUpdateButton(),
+                  _buildUpdateButton(),
                   SizedBox(height: 10.v),
                 ],
               ),
@@ -179,7 +218,7 @@ class _EditProfilesScreenState extends State<EditProfilesScreen> {
 }*/
 
 
-Widget _buildfullName(BuildContext context) {
+Widget _buildFullName(BuildContext context) {
   return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
     future: getUserDocument(),
     builder: (context, snapshot) {
@@ -198,18 +237,23 @@ Widget _buildfullName(BuildContext context) {
           return Text('Full name not found');
         }
 
-        // Create a TextEditingController and set its initial value to the full name
+        // Set the initial value of the fullNameController
         fullNameController.text = fullName;
 
-        // Return the CustomTextFormField with the initialized controller
+        // Return the CustomTextFormField with onChanged callback to update the controller
         return CustomTextFormField(
           controller: fullNameController,
           hintText: "Full Name",
+          onChanged: (value) {
+            // Update the value of the controller when text changes
+            fullNameController.text = value;
+          },
         );
       }
     },
   );
 }
+
 
 /*Widget _buildfullName(BuildContext context) {
     return CustomTextFormField(
@@ -485,6 +529,27 @@ Widget _buildfullName(BuildContext context) {
     );
   }
 }*/
-
+Widget _buildUpdateButton() {
+  return CustomElevatedButton(
+    text: "Update",
+    margin: EdgeInsets.symmetric(horizontal: 5.h),
+    rightIcon: Container(
+      padding: EdgeInsets.fromLTRB(14.h, 16.v, 12.h, 14.v),
+      margin: EdgeInsets.only(left: 30.h),
+      decoration: BoxDecoration(
+        color: appTheme.whiteA700,
+        borderRadius: BorderRadius.circular(24.h),
+      ),
+      child: CustomImageView(
+        imagePath: ImageConstant.imgArrowrightPrimary17x21,
+        height: 17.v,
+        width: 21.h,
+      ),
+    ),
+    onPressed: () {
+      updateUserData();
+    },
+  );
+}
 
 }

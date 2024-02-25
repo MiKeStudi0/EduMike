@@ -1,7 +1,6 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
@@ -16,6 +15,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/intl.dart';
 
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(FillYourProfileScreen());
+}
+
+
+
 Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
   // Get the current user
   User? user = FirebaseAuth.instance.currentUser;
@@ -25,12 +32,20 @@ Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
   }
 
   // Retrieve the user document from Firestore
-  DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-
+  DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)    
+      .get();
   return snapshot;
 }
 
+
+
+
+
+
+
+ 
 // ignore_for_file: must_be_immutable
 class FillYourProfileScreen extends StatefulWidget {
   FillYourProfileScreen({Key? key}) : super(key: key);
@@ -237,22 +252,19 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
         child: Stack(alignment: Alignment.center, children: [
           Align(
               alignment: Alignment.center,
-              child: GestureDetector(
-                  onTap: () async {
-                    try {
-                      await addUserToFirestore();
-                      print('User data added to Firestore successfully!');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
-                      );
-                    } catch (e) {
-                      print('Error adding user data to Firestore: $e');
-                    }
-                  },
-                  child: Card(
+              child:GestureDetector(
+  onTap: () async {
+    try {
+      await addUserToFirestore();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
+      );
+    } catch (e) {
+      print('Error adding user data to Firestore: $e');
+    }
+  },
+  child: Card(
                       clipBehavior: Clip.antiAlias,
                       elevation: 0,
                       margin: const EdgeInsets.all(0),
