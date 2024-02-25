@@ -43,25 +43,6 @@ class MyCoursePage extends StatelessWidget {
                         child: _buildSelectedView(context),
                       ),
                       SizedBox(height: 12.v),
-                      CustomElevatedButton(
-                        text: "Continue Courses",
-                        margin: EdgeInsets.only(right: 10.h),
-                        rightIcon: Container(
-                            padding:
-                                EdgeInsets.fromLTRB(14.h, 16.v, 12.h, 14.v),
-                            margin: EdgeInsets.only(left: 30.h),
-                            decoration: BoxDecoration(
-                                color: appTheme.whiteA700,
-                                borderRadius: BorderRadius.circular(24.h)),
-                            child: CustomImageView(
-                                imagePath:
-                                    ImageConstant.imgArrowrightPrimary17x21,
-                                height: 17.v,
-                                width: 21.h)),
-                        onPressed: () {
-                          onTapContinueCourses(context);
-                        },
-                      ),
                     ]))));
   }
 
@@ -120,9 +101,5 @@ class MyCoursePage extends StatelessWidget {
 
   onTapArrowDown(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.homemainpageContainerScreen);
-  }
-
-  onTapContinueCourses(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.categoryScreen);
   }
 }
