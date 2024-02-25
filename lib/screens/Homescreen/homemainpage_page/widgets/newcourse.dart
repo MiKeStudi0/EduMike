@@ -132,8 +132,8 @@ class _CourseListState extends State<CourseList> {
     }).toList();
 
     return SizedBox(
-      height: 500.h,
-      width: 450.h,
+      height: 340.v,
+      width: 400.h,
       child: Column(
         children: [
           // Filter Widget in the Body
