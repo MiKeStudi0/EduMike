@@ -1,5 +1,11 @@
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Dropdownlist.dart';
+import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
+import 'package:edumike/screens/Homescreen/profiles_page/profiles_page.dart';
+import 'package:edumike/screens/uploadscreen.dart';
 import 'package:flutter/material.dart';
+
+import '../screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 
 // ignore: must_be_immutable
 class CustomBottomBar extends StatefulWidget {
@@ -16,32 +22,32 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 
   List<BottomMenuModel> bottomMenuList = [
     BottomMenuModel(
-      icon: ImageConstant.imgNavHome,
+      icon: ImageConstant.imgNavHomeNot,
       activeIcon: ImageConstant.imgNavHome,
       title: "Home".toUpperCase(),
       type: BottomBarEnum.Home,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavMyCourses,
-      activeIcon: ImageConstant.imgNavMyCourses,
+      activeIcon: ImageConstant.imgNavMyCoursesActive,
       title: "My Courses".toUpperCase(),
       type: BottomBarEnum.Mycourses,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavIndox,
-      activeIcon: ImageConstant.imgNavIndox,
+      activeIcon: ImageConstant.imgNavIndoxActive,
       title: "Indox".toUpperCase(),
       type: BottomBarEnum.Indox,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavBookMark,
-      activeIcon: ImageConstant.imgNavBookMark,
+      activeIcon: ImageConstant.imgNavBookMarkActive,
       title: "Book Mark".toUpperCase(),
       type: BottomBarEnum.Bookmark,
     ),
     BottomMenuModel(
       icon: ImageConstant.imgNavProfile,
-      activeIcon: ImageConstant.imgNavProfile,
+      activeIcon: ImageConstant.imgNavProfileActive,
       title: "Profile".toUpperCase(),
       type: BottomBarEnum.Profile,
     )
@@ -165,5 +171,70 @@ class DefaultWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class HomemainpageContainerScreen extends StatelessWidget {
+  HomemainpageContainerScreen({Key? key}) : super(key: key);
+
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: appTheme.whiteA700,
+        body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: Navigator(
+              key: navigatorKey,
+              initialRoute: AppRoutes.homemainpagePage,
+              onGenerateRoute: (routeSetting) => PageRouteBuilder(
+                pageBuilder: (ctx, ani, ani1) =>
+                    getCurrentPage(routeSetting.name!),
+                transitionDuration: Duration(seconds: 0),
+              ),
+            ),
+          ),
+        ),
+        bottomNavigationBar: CustomBottomBar(),
+      ),
+    );
+  }
+
+  String getCurrentRoute(BottomBarEnum type) {
+    switch (type) {
+      case BottomBarEnum.Home:
+        return AppRoutes.homemainpagePage;
+      case BottomBarEnum.Mycourses:
+        return AppRoutes.myCoursePage;
+      case BottomBarEnum.Indox:
+        return AppRoutes.uploadscreen;
+      case BottomBarEnum.Bookmark:
+        return AppRoutes.listview;
+      case BottomBarEnum.Profile:
+        return AppRoutes.profilesPage;
+      default:
+        return "/";
+    }
+  }
+
+  Widget getCurrentPage(String currentRoute) {
+    switch (currentRoute) {
+      case AppRoutes.homemainpagePage:
+        return HomemainpagePage();
+      case AppRoutes.myCoursePage:
+        return MyCoursePage();
+      case AppRoutes.uploadscreen:
+        return UploadDataPage();
+      case AppRoutes.listview:
+        return FirestoreListView();
+      case AppRoutes.profilesPage:
+        return ProfilesPage();
+      default:
+        return DefaultWidget();
+    }
   }
 }

@@ -57,7 +57,6 @@ class ImageConstant {
 
   static String imgFill1 = '$imagePath/img_circle.png';
 
-
   static String imgCircle = '$imagePath/img_google.png';
 
   static String imgCirclePrimarycontainer = '$imagePath/img_group_3.png';
@@ -83,9 +82,8 @@ class ImageConstant {
 
   static String imageNotFound = 'assets/images/image_not_found.png';
 
-
   //Remaining images are for HomeScreen
-  
+
   static String imagePathHome = 'assets/images/home_image';
 
   // HelpCare images
@@ -124,6 +122,8 @@ class ImageConstant {
   static String imgUserBlueGray90001 =
       '$imagePathHome/img_user_blue_gray_900_01.png';
 
+  static String paymentOption = '$imagePathHome/Paymentoption.svg';
+
   static String imgTelevisionBlueGray90001 =
       '$imagePathHome/img_television_blue_gray_900_01.png';
 
@@ -140,19 +140,23 @@ class ImageConstant {
 
   static String imgClock = '$imagePathHome/img_clock.svg';
 
-  static String imgNavProfilePrimary = '$imagePathHome/img_nav_profile_primary.svg';
+  static String imgNavProfilePrimary =
+      '$imagePathHome/img_nav_profile_primary.svg';
 
   // 6_EDIT PROFILES images
-  static String imgTelevisionTeal700 = '$imagePathHome/img_television_teal_700.svg';
+  static String imgTelevisionTeal700 =
+      '$imagePathHome/img_television_teal_700.svg';
 
   static String imgCalendar1 = '$imagePathHome/img_calendar.svg';
 
   static String imgLockSecondarycontainer =
       '$imagePathHome/img_lock_secondarycontainer.svg';
 
-  static String imgTelevisionGray1001 = '$imagePathHome/img_television_gray_100.svg';
+  static String imgTelevisionGray1001 =
+      '$imagePathHome/img_television_gray_100.svg';
 
-  static String imgArrowDownGray900 = '$imagePathHome/img_arrow_down_gray_900.svg';
+  static String imgArrowDownGray900 =
+      '$imagePathHome/img_arrow_down_gray_900.svg';
 
   // 17_INVITE FRIENDS images
   static String imgFacebook = '$imagePathHome/img_facebook.svg';
@@ -181,11 +185,13 @@ class ImageConstant {
 
   static String imgQuestionPaper = '$imagePathHome/img_question_paper.png';
 
-  static String imgAcademicCalender = '$imagePathHome/img_academic_calender.png';
+  static String imgAcademicCalender =
+      '$imagePathHome/img_academic_calender.png';
 
   static String imgContact = '$imagePathHome/img_contact.png';
 
-  static String imgTelevisionBlue600 = '$imagePathHome/img_television_blue_600.svg';
+  static String imgTelevisionBlue600 =
+      '$imagePathHome/img_television_blue_600.svg';
 
   static String imgComputer = '$imagePathHome/img_computer.svg';
 
@@ -202,7 +208,8 @@ class ImageConstant {
   static String imgFaq = '$imagePathHome/img_faq.png';
 
   // Common images
-  static String imgThumbsUp = '$imagePathHome/img_thumbs_up.svg';
+
+  static String imgNotification = '$imagePathHome/img_Notification.svg';
 
   static String imgQrcode = '$imagePathHome/img_qrcode.svg';
 
@@ -219,9 +226,12 @@ class ImageConstant {
   static String imgArrowLeftBlueA40001 =
       '$imagePathHome/img_arrow_left_blue_a400_01.svg';
 
+  static String imgCardEdit = '$imagePathHome/imgCardEdit.svg';
+
   static String imgTriangle1 = '$imagePathHome/img_triangle.svg';
 
-  static String imgArrowRightPrimary = '$imagePathHome/img_arrow_right_primary.svg';
+  static String imgArrowRightPrimary =
+      '$imagePathHome/img_arrow_right_primary.svg';
 
   static String imgBookmark = '$imagePathHome/img_bookmark.svg';
 
@@ -229,13 +239,25 @@ class ImageConstant {
 
   static String imgNavHome = '$imagePathHome/img_nav_home.svg';
 
+  static String imgNavHomeNot = '$imagePathHome/img_nav_homeNot.svg';
+
   static String imgNavMyCourses = '$imagePathHome/img_nav_my_courses.svg';
+  static String imgNavMyCoursesActive =
+      '$imagePathHome/img_nav_my_coursesActive.svg';
 
   static String imgNavIndox = '$imagePathHome/img_nav_indox.svg';
 
+  static String imgNavIndoxActive = '$imagePathHome/img_nav_indoxActive.svg';
+
   static String imgNavBookMark = '$imagePathHome/img_nav_book_mark.svg';
 
+  static String imgNavBookMarkActive =
+      '$imagePathHome/img_nav_book_markActive.svg';
+
   static String imgNavProfile = '$imagePathHome/img_nav_profile.svg';
+
+  static String imgNavProfileActive =
+      '$imagePathHome/img_nav_profileActive.svg';
 
   static String imgArrowDown1 = '$imagePathHome/img_arrow_down.svg';
 

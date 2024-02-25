@@ -87,7 +87,7 @@ class CustomDropDown extends StatelessWidget {
               value: value,
               child: Text(
                 value,
-                overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.fade,
                 style: hintStyle ?? theme.textTheme.bodyLarge,
               ),
             );
@@ -97,6 +97,7 @@ class CustomDropDown extends StatelessWidget {
           onChanged: (value) {
             onChanged!(value.toString());
           },
+          isExpanded: true,
         ),
       );
   InputDecoration get decoration => InputDecoration(

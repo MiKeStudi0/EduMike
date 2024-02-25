@@ -1,3 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edumike/screens/Homescreen/add_university_card_screen/add_university_card_screen.dart';
+import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../homemainpage_page/widgets/category_item_widget.dart';
 import '../homemainpage_page/widgets/userprofile_item_widget.dart';
 import 'package:edumike/core/app_export.dart';
@@ -9,10 +15,69 @@ import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
-class HomemainpagePage extends StatelessWidget {
+class HomemainpagePage extends StatefulWidget {
   HomemainpagePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomemainpagePage> createState() => _HomemainpagePageState();
+}
+
+class _HomemainpagePageState extends State<HomemainpagePage> {
+  final GlobalKey<HomemainpagePageState> homeMainPageKey =
+      GlobalKey<HomemainpagePageState>();
+
   TextEditingController searchController = TextEditingController();
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
+    // Get the current user
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      throw Exception('User not authenticated');
+    }
+
+    // Retrieve the user document from Firestore
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('carddata')
+        .doc(user.uid)
+        .get();
+
+    return snapshot;
+  }
+
+  Widget carddata(BuildContext context) {
+    return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      future: getUserDocument(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While waiting for the data to load, show a loading indicator
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          // If an error occurs while fetching the data, show the error message
+          return Text('Error: ${snapshot.error}');
+        } else {
+          // If the data is successfully fetched, extract the values
+          String? university = snapshot.data?.data()?['university'];
+          String? degree = snapshot.data?.data()?['degree'];
+          String? course = snapshot.data?.data()?['course'];
+          String? semester = snapshot.data?.data()?['semester'];
+
+          if (university == null ||
+              degree == null ||
+              course == null ||
+              semester == null) {
+            return _buildUniversityCard1(
+                context, university, degree, course, semester);
+          }
+
+          // Call _buildUniversityCard with the retrieved values
+          return _buildUniversityCard(
+              context, university, degree, course, semester);
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +99,10 @@ class HomemainpagePage extends StatelessWidget {
                                   controller: searchController,
                                   hintText: "Search for..")),
                           SizedBox(height: 30.v),
-                          _buildUniversityCard(context),
+                          carddata(context),
                           SizedBox(height: 29.v),
+
+                          // _buildUserCourse(context),
                           Padding(
                               padding: EdgeInsets.only(left: 14.h, right: 56.h),
                               child: _buildTopMentor(context,
@@ -43,8 +110,8 @@ class HomemainpagePage extends StatelessWidget {
                           SizedBox(height: 8.v),
                           _buildCategory(context),
                           SizedBox(height: 18.v),
-                          _buildFrameTen(context),
-                          SizedBox(height: 45.v),
+                          _buildCourse(context),
+                          SizedBox(height: 15.v),
                           Padding(
                               padding: EdgeInsets.only(left: 14.h, right: 56.h),
                               child: _buildTopMentor(context,
@@ -55,7 +122,10 @@ class HomemainpagePage extends StatelessWidget {
                           SizedBox(height: 10.v),
                           _buildUserProfile(context),
                           SizedBox(height: 43.v),
-                          _buildFrameEleven(context)
+                          ElevatedButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CourseList()));
+                          }, child: Text('Course List')),
+                          //  _buildUserCourse(context),
                         ]))))));
   }
 
@@ -73,8 +143,8 @@ class HomemainpagePage extends StatelessWidget {
                   text: "What Would you like to learn Today? Search Below.")
             ])),
         actions: [
-          AppbarTrailingIconbutton(
-              imagePath: ImageConstant.imgThumbsUp,
+          AppbarTrailNotification(
+              imagePath: ImageConstant.imgNotification,
               margin: EdgeInsets.fromLTRB(34.h, 16.v, 34.h, 13.v),
               onTap: () {
                 onTapThumbsUp(context);
@@ -83,7 +153,13 @@ class HomemainpagePage extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildUniversityCard(BuildContext context) {
+  Widget _buildUniversityCard(
+    BuildContext context,
+    String? university,
+    String? degree,
+    String? course,
+    String? semester,
+  ) {
     return Card(
         clipBehavior: Clip.antiAlias,
         elevation: 0,
@@ -113,13 +189,186 @@ class HomemainpagePage extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.only(left: 158.h)),
               CustomImageView(
-                  imagePath: ImageConstant.imgTelevision,
+                  imagePath: ImageConstant.imgCardEdit,
                   height: 24.adaptSize,
                   width: 24.adaptSize,
                   alignment: Alignment.topRight,
                   margin: EdgeInsets.only(top: 13.v, right: 15.h),
                   onTap: () {
-                    onTapImgTelevision(context);
+                    _showBottomSheet(context);
+                  }),
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                      padding:
+                          EdgeInsets.only(left: 18.h, top: 13.v, right: 92.h),
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.only(right: 22.h),
+                                child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(bottom: 3.v),
+                                          child: Text("Selected ",
+                                              style: CustomTextStyles
+                                                  .titleLargeMulishAmberA200)),
+                                      Spacer(),
+                                      CustomImageView(
+                                          imagePath: ImageConstant
+                                              .imgArrowLeftBlueA40001,
+                                          height: 19.v,
+                                          width: 14.h,
+                                          margin: EdgeInsets.only(top: 11.v)),
+                                      Container(
+                                          height: 10.v,
+                                          width: 40.h,
+                                          margin: EdgeInsets.only(
+                                              left: 29.h,
+                                              top: 17.v,
+                                              bottom: 3.v),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.h),
+                                              border: Border.all(
+                                                  color: appTheme.blueA40001,
+                                                  width: 2.h,
+                                                  strokeAlign:
+                                                      strokeAlignCenter)))
+                                    ])),
+                            SizedBox(height: 1.v),
+                            SizedBox(
+                                height: 38.v,
+                                width: 360.h,
+                                child: Stack(
+                                    alignment: Alignment.topCenter,
+                                    children: [
+                                      CustomImageView(
+                                          imagePath: ImageConstant.imgTriangle,
+                                          height: 8.adaptSize,
+                                          width: 8.adaptSize,
+                                          alignment: Alignment.bottomRight,
+                                          margin: EdgeInsets.only(right: 62.h)),
+                                      Align(
+                                          alignment: Alignment.topCenter,
+                                          child: SizedBox(
+                                              width: 248.h,
+                                              child: Text(
+                                                  "Recommendation & Materials Based on Your Selected Course .!",
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: CustomTextStyles
+                                                      .labelLargeMulishGray200)))
+                                    ])),
+                            SizedBox(height: 7.v),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 150.h,
+                                  child: Text(
+                                    university!.toUpperCase(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: CustomTextStyles.titleSmallWhiteA700,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 38.h),
+                                  child: Container(
+                                    width: 60.h,
+                                    child: Text(
+                                      degree!.toUpperCase(),
+                                      overflow: TextOverflow.fade,
+                                      style:
+                                          CustomTextStyles.titleSmallWhiteA700,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(height: 13.v),
+                            Padding(
+                              padding: EdgeInsets.only(right: 38.h),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width: 150.h,
+                                    child: Text(
+                                      course!.toUpperCase(),
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          CustomTextStyles.titleSmallWhiteA700,
+                                    ),
+                                  ),
+                                  Stack(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 5.0),
+                                        child: Text(
+                                          semester!.toUpperCase(),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: CustomTextStyles
+                                              .titleSmallWhiteA700,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ])))
+            ])));
+  }
+
+  Widget _buildUniversityCard1(
+    BuildContext context,
+    String? university,
+    String? degree,
+    String? course,
+    String? semester,
+  ) {
+    return Card(
+        clipBehavior: Clip.antiAlias,
+        elevation: 0,
+        color: theme.colorScheme.primary,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadiusStyle.roundedBorder22),
+        child: Container(
+            height: 180.v,
+            width: 360.h,
+            decoration: AppDecoration.fillPrimary
+                .copyWith(borderRadius: BorderRadiusStyle.roundedBorder22),
+            child: Stack(alignment: Alignment.topLeft, children: [
+              CustomImageView(
+                  imagePath: ImageConstant.imgPath2,
+                  height: 76.v,
+                  width: 181.h,
+                  alignment: Alignment.bottomRight),
+              CustomImageView(
+                  imagePath: ImageConstant.imgPath3,
+                  height: 72.v,
+                  width: 156.h,
+                  alignment: Alignment.topLeft),
+              CustomImageView(
+                  imagePath: ImageConstant.imgArrowLeft,
+                  height: 28.v,
+                  width: 21.h,
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(left: 158.h)),
+              CustomImageView(
+                  imagePath: ImageConstant.imgCardEdit,
+                  height: 24.adaptSize,
+                  width: 24.adaptSize,
+                  alignment: Alignment.topRight,
+                  margin: EdgeInsets.only(top: 13.v, right: 15.h),
+                  onTap: () {
+                    _showBottomSheet(context);
                   }),
               Align(
                   alignment: Alignment.topLeft,
@@ -205,7 +454,7 @@ class HomemainpagePage extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text("Course".toUpperCase(),
+                                      Text("course".toUpperCase(),
                                           style: CustomTextStyles
                                               .titleSmallWhiteA700),
                                       Text("semester".toUpperCase(),
@@ -233,191 +482,29 @@ class HomemainpagePage extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildFrameTen(BuildContext context) {
+  Widget _buildCourse(BuildContext context) {
     return SizedBox(
-        height: 240.v,
-        width: 414.h,
-        child: Stack(alignment: Alignment.bottomRight, children: [
+      height: 240.v,
+      width: 414.h,
+      child: Stack(
+        alignment: Alignment.bottomRight,
+        children: [
           Align(
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: IntrinsicWidth(
-                      child: GestureDetector(
-                          onTap: () {
-                            onTapOne(context);
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                    height: 240.v,
-                                    width: 280.h,
-                                    child: Stack(
-                                        alignment: Alignment.topCenter,
-                                        children: [
-                                          Align(
-                                              alignment: Alignment.center,
-                                              child: Container(
-                                                  height: 240.v,
-                                                  width: 280.h,
-                                                  decoration: BoxDecoration(
-                                                      color: appTheme.whiteA700,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.h),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: appTheme
-                                                                .black900
-                                                                .withOpacity(
-                                                                    0.08),
-                                                            spreadRadius: 2.h,
-                                                            blurRadius: 2.h,
-                                                            offset:
-                                                                Offset(0, 4))
-                                                      ]))),
-                                          Align(
-                                              alignment: Alignment.topCenter,
-                                              child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                        height: 134.v,
-                                                        width: 280.h,
-                                                        decoration: BoxDecoration(
-                                                            color: appTheme
-                                                                .black900,
-                                                            borderRadius:
-                                                                BorderRadius.vertical(
-                                                                    top: Radius
-                                                                        .circular(
-                                                                            20.h)))),
-                                                    SizedBox(height: 10.v),
-                                                    Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 15.h,
-                                                                right: 19.h),
-                                                        child:
-                                                            _buildGraphicDesign(
-                                                                context,
-                                                                text:
-                                                                    "Syllabus")),
-                                                    SizedBox(height: 4.v),
-                                                    Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 14.h),
-                                                        child: Text(
-                                                            "Computer Network",
-                                                            style: theme
-                                                                .textTheme
-                                                                .titleMedium)),
-                                                    SizedBox(height: 9.v),
-                                                    Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 13.h),
-                                                        child: _buildDetails(
-                                                            context,
-                                                            fortyTwoText: "4.2",
-                                                            separatorText: "|",
-                                                            stdCounterText:
-                                                                "7830 Std"))
-                                                  ]))
-                                        ])),
-                                Container(
-                                    height: 240.v,
-                                    width: 280.h,
-                                    margin: EdgeInsets.only(left: 15.h),
-                                    child: Stack(
-                                        alignment: Alignment.topCenter,
-                                        children: [
-                                          Align(
-                                              alignment: Alignment.center,
-                                              child: Container(
-                                                  height: 240.v,
-                                                  width: 280.h,
-                                                  decoration: BoxDecoration(
-                                                      color: appTheme.whiteA700,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.h),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: appTheme
-                                                                .black900
-                                                                .withOpacity(
-                                                                    0.08),
-                                                            spreadRadius: 2.h,
-                                                            blurRadius: 2.h,
-                                                            offset:
-                                                                Offset(0, 4))
-                                                      ]))),
-                                          Align(
-                                              alignment: Alignment.topCenter,
-                                              child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Container(
-                                                        height: 134.v,
-                                                        width: 280.h,
-                                                        decoration: BoxDecoration(
-                                                            color: appTheme
-                                                                .black900,
-                                                            borderRadius:
-                                                                BorderRadius.vertical(
-                                                                    top: Radius
-                                                                        .circular(
-                                                                            20.h)))),
-                                                    SizedBox(height: 10.v),
-                                                    CustomImageView(
-                                                        imagePath: ImageConstant
-                                                            .imgBookmark,
-                                                        height: 18.v,
-                                                        width: 14.h,
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        margin: EdgeInsets.only(
-                                                            right: 19.h)),
-                                                    SizedBox(height: 4.v),
-                                                    Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 14.h),
-                                                        child: Text(
-                                                            "Computer Network",
-                                                            style: theme
-                                                                .textTheme
-                                                                .titleMedium)),
-                                                    SizedBox(height: 9.v),
-                                                    Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 13.h),
-                                                        child: _buildDetails(
-                                                            context,
-                                                            fortyTwoText: "4.2",
-                                                            separatorText: "|",
-                                                            stdCounterText:
-                                                                "7830 Std"))
-                                                  ]))
-                                        ]))
-                              ]))))),
-          Align(
-              alignment: Alignment.bottomRight,
-              child: Padding(
-                  padding: EdgeInsets.only(right: 55.h, bottom: 79.v),
-                  child: Text("Syllabus",
-                      style: CustomTextStyles.labelLargeMulishOrangeA700)))
-        ]));
+            alignment: Alignment.center,
+            child: IntrinsicWidth(
+              child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CategoryScreen()),
+                    );
+                  },
+                  child: CourseWidget()),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Section Widget
@@ -438,199 +525,25 @@ class HomemainpagePage extends StatelessWidget {
             }));
   }
 
-  /// Section Widget
-  Widget _buildFrameEleven(BuildContext context) {
-    return SizedBox(
-        height: 240.v,
-        width: 414.h,
-        child: Stack(alignment: Alignment.bottomRight, children: [
-          Align(
-              alignment: Alignment.center,
-              child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: IntrinsicWidth(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                        SizedBox(
-                            height: 240.v,
-                            width: 280.h,
-                            child: Stack(
-                                alignment: Alignment.topCenter,
-                                children: [
-                                  Align(
-                                      alignment: Alignment.center,
-                                      child: Container(
-                                          height: 240.v,
-                                          width: 280.h,
-                                          decoration: BoxDecoration(
-                                              color: appTheme.whiteA700,
-                                              borderRadius:
-                                                  BorderRadius.circular(20.h),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: appTheme.black900
-                                                        .withOpacity(0.08),
-                                                    spreadRadius: 2.h,
-                                                    blurRadius: 2.h,
-                                                    offset: Offset(0, 4))
-                                              ]))),
-                                  Align(
-                                      alignment: Alignment.topCenter,
-                                      child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                height: 134.v,
-                                                width: 280.h,
-                                                decoration: BoxDecoration(
-                                                    color: appTheme.black900,
-                                                    borderRadius:
-                                                        BorderRadius.vertical(
-                                                            top:
-                                                                Radius.circular(
-                                                                    20.h)))),
-                                            SizedBox(height: 10.v),
-                                            Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 15.h, right: 19.h),
-                                                child: _buildGraphicDesign(
-                                                    context,
-                                                    text: "Syllabus")),
-                                            SizedBox(height: 4.v),
-                                            Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 14.h),
-                                                child: Text("Computer Network",
-                                                    style: theme.textTheme
-                                                        .titleMedium)),
-                                            SizedBox(height: 9.v),
-                                            Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 13.h),
-                                                child: _buildDetails(context,
-                                                    fortyTwoText: "4.2",
-                                                    separatorText: "|",
-                                                    stdCounterText: "7830 Std"))
-                                          ]))
-                                ])),
-                        Container(
-                            height: 240.v,
-                            width: 280.h,
-                            margin: EdgeInsets.only(left: 15.h),
-                            child: Stack(
-                                alignment: Alignment.topCenter,
-                                children: [
-                                  Align(
-                                      alignment: Alignment.center,
-                                      child: Container(
-                                          height: 240.v,
-                                          width: 280.h,
-                                          decoration: BoxDecoration(
-                                              color: appTheme.whiteA700,
-                                              borderRadius:
-                                                  BorderRadius.circular(20.h),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: appTheme.black900
-                                                        .withOpacity(0.08),
-                                                    spreadRadius: 2.h,
-                                                    blurRadius: 2.h,
-                                                    offset: Offset(0, 4))
-                                              ]))),
-                                  Align(
-                                      alignment: Alignment.topCenter,
-                                      child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                height: 134.v,
-                                                width: 280.h,
-                                                decoration: BoxDecoration(
-                                                    color: appTheme.black900,
-                                                    borderRadius:
-                                                        BorderRadius.vertical(
-                                                            top:
-                                                                Radius.circular(
-                                                                    20.h)))),
-                                            SizedBox(height: 10.v),
-                                            CustomImageView(
-                                                imagePath:
-                                                    ImageConstant.imgBookmark,
-                                                height: 18.v,
-                                                width: 14.h,
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                margin: EdgeInsets.only(
-                                                    right: 19.h)),
-                                            SizedBox(height: 4.v),
-                                            Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 14.h),
-                                                child: Text("Computer Network",
-                                                    style: theme.textTheme
-                                                        .titleMedium)),
-                                            SizedBox(height: 9.v),
-                                            Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 13.h),
-                                                child: _buildDetails(context,
-                                                    fortyTwoText: "4.2",
-                                                    separatorText: "|",
-                                                    stdCounterText: "7830 Std"))
-                                          ]))
-                                ]))
-                      ])))),
-          Align(
-              alignment: Alignment.bottomRight,
-              child: GestureDetector(
-                  onTap: () {
-                    onTapTxtGraphicDesign(context);
-                  },
-                  child: Padding(
-                      padding: EdgeInsets.only(right: 55.h, bottom: 79.v),
-                      child: Text("Syllabus",
-                          style: CustomTextStyles.labelLargeMulishOrangeA700))))
-        ]));
-  }
-
-  /// Common widget
-  Widget _buildDetails(
-    BuildContext context, {
-    required String fortyTwoText,
-    required String separatorText,
-    required String stdCounterText,
-  }) {
-    return Row(children: [
-      Container(
-          width: 32.h,
-          margin: EdgeInsets.only(top: 3.v),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CustomImageView(
-                imagePath: ImageConstant.imgSignal,
-                height: 11.v,
-                width: 12.h,
-                margin: EdgeInsets.only(bottom: 2.v)),
-            Text(fortyTwoText,
-                style: theme.textTheme.labelMedium!
-                    .copyWith(color: appTheme.blueGray90001))
-          ])),
-      Padding(
-          padding: EdgeInsets.only(left: 16.h),
-          child: Text(separatorText,
-              style: CustomTextStyles.titleSmallBlack900
-                  .copyWith(color: appTheme.black900))),
-      Padding(
-          padding: EdgeInsets.only(left: 16.h, top: 3.v),
-          child: Text(stdCounterText,
-              style: theme.textTheme.labelMedium!
-                  .copyWith(color: appTheme.blueGray90001)))
-    ]);
+  /// popup varunnath
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(18.0)),
+          child: FractionallySizedBox(
+            heightFactor: 0.87,
+            child: Container(
+              // Set a specific height, you can adjust this value based on your needs
+              height: MediaQuery.of(context).size.height * 0.87,
+              child: AddUniversityCardScreen(),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   /// Common widget
@@ -686,11 +599,6 @@ class HomemainpagePage extends StatelessWidget {
     Navigator.pushNamed(context, AppRoutes.appNotificationsScreen);
   }
 
-  /// Navigates to the addUniversityCardScreen when the action is triggered.
-  onTapImgTelevision(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.addUniversityCardScreen);
-  }
-
   /// Navigates to the categoryScreen when the action is triggered.
   onTapOne(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.categoryScreen);
@@ -705,4 +613,308 @@ class HomemainpagePage extends StatelessWidget {
   onTapTxtGraphicDesign(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.categoryScreen);
   }
+
+  @override
+  HomemainpagePageState createState() => HomemainpagePageState();
 }
+
+class HomemainpagePageState extends State<HomemainpagePage> {
+  // Other state properties and methods...
+
+  // Define a method to refresh the homepage
+  void refreshHomePage() {
+    setState(() {
+      // Refresh logic here...
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
+  }
+}
+
+
+class Course {
+  final String courseName;
+  final String category;
+  final String courseCode;
+  final String courseCredit;
+
+  Course({
+    required this.courseName,
+    required this.category,
+    required this.courseCode,
+    required this.courseCredit,
+  });
+}
+
+final List<Course> courseList = [
+  Course(
+      courseName: 'Flutter',
+      category: 'Syllabus',
+      courseCode: 'CSE 101',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Django',
+      category: 'Notes',
+      courseCode: 'CSE 102',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Laravel',
+      category: 'Notes',
+      courseCode: 'CSE 103',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'React',
+      category: 'Notes',
+      courseCode: 'CSE 104',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Vue',
+      category: 'Notes',
+      courseCode: 'CSE 105',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Angular',
+      category: 'Notes',
+      courseCode: 'CSE 106',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Swift',
+      category: 'Syllabus',
+      courseCode: 'CSE 107',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Kotlin',
+      category: 'Syllabus',
+      courseCode: 'CSE 108',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Rust',
+      category: 'Syllabus',
+      courseCode: 'CSE 109',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Dart',
+      category: 'Syllabus',
+      courseCode: 'CSE 110',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'JavaScript',
+      category: 'Notes',
+      courseCode: 'CSE 111',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'TypeScript',
+      category: 'Notes',
+      courseCode: 'CSE 112',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'PHP',
+      category: 'Notes',
+      courseCode: 'CSE 113',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'HTML',
+      category: 'Notes',
+      courseCode: 'CSE 114',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'CSS',
+      category: 'Notes',
+      courseCode: 'CSE 115',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'SQL',
+      category: 'Notes',
+      courseCode: 'CSE 116',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'MongoDB',
+      category: 'Notes',
+      courseCode: 'CSE 117',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Firebase',
+      category: 'Notes',
+      courseCode: 'CSE 118',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'PostgreSQL',
+      category: 'Notes',
+      courseCode: 'CSE 119',
+      courseCredit: '3.0'),
+];
+
+class CourseList extends StatefulWidget {
+  const CourseList({Key? key}) : super(key: key);
+
+  @override
+  State<CourseList> createState() => _CourseListState();
+}
+
+class _CourseListState extends State<CourseList> {
+  final List<String> categories = ['Syllabus', 'Notes'];
+  String selectedCategory = 'Syllabus';
+
+  @override
+  Widget build(BuildContext context) {
+    final filteredCourses = courseList.where((course) {
+      return selectedCategory.isEmpty || selectedCategory == course.category;
+    }).toList();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Course List'),
+      ),
+      body: Column(
+        children: [
+          // Category Selection Widget
+          Container(
+            height: 50,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: categories
+                  .map(
+                    (category) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FilterChip(
+                        label: Text(category),
+                        selected: selectedCategory == category,
+                        onSelected: (selected) {
+                          setState(() {
+                            selectedCategory = selected ? category : 'Syllabus';
+                          });
+                        },
+                        selectedColor:
+                            selectedCategory == 'Syllabus' || selectedCategory == 'Notes'
+                                ? Colors.green
+                                : null,
+                        labelStyle: TextStyle(
+                          color: selectedCategory == category ? Colors.white : null,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          // Course List
+          Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const SizedBox(width: 10),
+              scrollDirection: Axis.horizontal,
+              itemCount: filteredCourses.length,
+              itemBuilder: (context, index) {
+                final course = filteredCourses[index];
+                return _buildCourseList(context, course);
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCourseList(BuildContext context, Course course) {
+    return SizedBox(
+      height: 240,
+      width: 280,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Container(
+            height: 240,
+            width: 280,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  spreadRadius: 2,
+                  blurRadius: 2,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 134,
+                width: 280,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: EdgeInsets.only(left: 15, right: 19),
+                child: SizedBox(
+                  width: 245,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 1),
+                        child: Text(
+                          course.category,
+                          style: TextStyle(
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ),
+                      // Replace this with your bookmark icon
+                      Icon(Icons.bookmark),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 4),
+              Padding(
+                padding: EdgeInsets.only(left: 14),
+                child: Text(course.courseName),
+              ),
+              SizedBox(height: 9),
+              Padding(
+                padding: EdgeInsets.only(left: 13),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 32,
+                      margin: EdgeInsets.only(top: 3),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Replace this with your signal icon
+                          //Icon(Icons.signal),
+                          Text(course.courseCredit),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 16),
+                      child: Text("|"),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 16, top: 3),
+                      child: Text(course.courseCode),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+

@@ -1,3 +1,5 @@
+import 'package:edumike/screens/Dropdownlist.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 import 'package:edumike/screens/loginscreen/authenticate_user.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/screens/loginscreen/intro_one_screen.dart';
@@ -28,25 +30,18 @@ import 'package:edumike/screens/Homescreen/search_screen/search_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/screens/Homescreen/subscription_screen/subscription_screen.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
-
-
-
-
-
-
-
-
-
-
+import 'package:edumike/screens/uploadscreen.dart';
 
 class AppRoutes {
   static const String introOneScreen = '/intro_one_screen';
 
+  static const String listview = '/list view';
+
+  static const String uploadscreen = '/upload_screen';
+
   static const String letSYouInScreen = '/let_s_you_in_screen';
 
   static const String registerNowScreen = '/register_now_screen';
-
-  static const String homescreen = '/homepage';
 
   static const String loginScreen = '/login_screen';
 
@@ -67,9 +62,8 @@ class AppRoutes {
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
-
   //Remaining is for HomeScreen
-   static const String homemainpagePage = '/homemainpage_page';
+  static const String homemainpagePage = '/homemainpage_page';
 
   static const String homemainpageContainerScreen =
       '/homemainpage_container_screen';
@@ -111,11 +105,11 @@ class AppRoutes {
 
   static const String appNavigationHomeScreen = '/home_app_navigation_screen';
 
-
   static Map<String, WidgetBuilder> routes = {
     introOneScreen: (context) => const IntroOneScreen(),
     letSYouInScreen: (context) => const LetSYouInScreen(),
     registerNowScreen: (context) => RegisterNowScreen(),
+    uploadscreen: (context) => UploadDataPage(),
     loginScreen: (context) => LoginScreen(),
     authScreen: (context) => const AuthPage(),
     fillYourProfileScreen: (context) => FillYourProfileScreen(),
@@ -123,11 +117,13 @@ class AppRoutes {
     forgotPasswordScreen: (context) => const ForgotPasswordScreen(),
     verifyMailScreen: (context) => const VerifyMailScreen(),
     createNewPasswordScreen: (context) => CreateNewPasswordScreen(),
-    verifyForgotPasswordOneScreen: (context) => const VerifyForgotPasswordOneScreen(),
+    verifyForgotPasswordOneScreen: (context) =>
+        const VerifyForgotPasswordOneScreen(),
     appNavigationScreen: (context) => const AppNavigationScreen(),
-
+    listview: (context) => FirestoreListView(),
     //Remaining is for HomeScreen
-     homemainpageContainerScreen: (context) => HomemainpageContainerScreen(),
+    homemainpageContainerScreen: (context) => HomemainpageContainerScreen(),
+    homemainpagePage: (context) => HomemainpagePage(),
     addUniversityCardScreen: (context) => AddUniversityCardScreen(),
     helpcareScreen: (context) => const HelpcareScreen(),
     editProfilesScreen: (context) => EditProfilesScreen(),
@@ -136,12 +132,12 @@ class AppRoutes {
     removeBookmarkScreen: (context) => const RemoveBookmarkScreen(),
     addSubscribeScreen: (context) => const AddSubscribeScreen(),
     appNotificationsScreen: (context) => AppNotificationsScreen(),
-    subscriptionNotificationsScreen: (context) => SubscriptionNotificationsScreen(),
+    subscriptionNotificationsScreen: (context) =>
+        SubscriptionNotificationsScreen(),
     searchScreen: (context) => SearchScreen(),
     modulesScreen: (context) => const ModulesScreen(),
     subscriptionScreen: (context) => SubscriptionScreen(),
     categoryScreen: (context) => CategoryScreen(),
     appNavigationHomeScreen: (context) => const AppNavigationScreen()
-  
   };
 }

@@ -6,8 +6,9 @@ import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_elevated_buttonHome.dart';
 import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// ignore_for_file: must_be_immutable
+// ignore: must_be_immutable
 class MyCoursePage extends StatelessWidget {
   MyCoursePage({Key? key}) : super(key: key);
 
@@ -26,39 +27,44 @@ class MyCoursePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomSearchView(
-                          controller: searchController,
-                          hintText: "Search for …",
-                          contentPadding: EdgeInsets.only(
-                              left: 15.h, top: 21.v, bottom: 21.v)),
+                        controller: searchController,
+                        hintText: "Search for …",
+                        contentPadding: EdgeInsets.only(
+                          left: 15.h,
+                          top: 21.v,
+                          bottom: 21.v,
+                        ),
+                      ),
                       SizedBox(height: 15.v),
                       Text("Current Semester",
                           style: CustomTextStyles.titleMediumBold),
                       SizedBox(height: 19.v),
-                      _buildSelectedView(context),
-                      Spacer(),
+                      Expanded(
+                        child: _buildSelectedView(context),
+                      ),
                       SizedBox(height: 12.v),
                       CustomElevatedButton(
-                          text: "Continue Courses",
-                          margin: EdgeInsets.only(right: 10.h),
-                          rightIcon: Container(
-                              padding:
-                                  EdgeInsets.fromLTRB(14.h, 16.v, 12.h, 14.v),
-                              margin: EdgeInsets.only(left: 30.h),
-                              decoration: BoxDecoration(
-                                  color: appTheme.whiteA700,
-                                  borderRadius: BorderRadius.circular(24.h)),
-                              child: CustomImageView(
-                                  imagePath:
-                                      ImageConstant.imgArrowrightPrimary17x21,
-                                  height: 17.v,
-                                  width: 21.h)),
-                          onPressed: () {
-                            onTapContinueCourses(context);
-                          })
+                        text: "Continue Courses",
+                        margin: EdgeInsets.only(right: 10.h),
+                        rightIcon: Container(
+                            padding:
+                                EdgeInsets.fromLTRB(14.h, 16.v, 12.h, 14.v),
+                            margin: EdgeInsets.only(left: 30.h),
+                            decoration: BoxDecoration(
+                                color: appTheme.whiteA700,
+                                borderRadius: BorderRadius.circular(24.h)),
+                            child: CustomImageView(
+                                imagePath:
+                                    ImageConstant.imgArrowrightPrimary17x21,
+                                height: 17.v,
+                                width: 21.h)),
+                        onPressed: () {
+                          onTapContinueCourses(context);
+                        },
+                      ),
                     ]))));
   }
 
-  /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
         leadingWidth: 61.h,
@@ -72,26 +78,50 @@ class MyCoursePage extends StatelessWidget {
             text: "Courses", margin: EdgeInsets.only(left: 12.h)));
   }
 
-  /// Section Widget
   Widget _buildSelectedView(BuildContext context) {
-    return ListView.separated(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        separatorBuilder: (context, index) {
-          return SizedBox(height: 12.v);
-        },
-        itemCount: 3,
-        itemBuilder: (context, index) {
-          return SelectedviewItemWidget();
-        });
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection(
+              '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers')
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(child: Text("Loading..."));
+        }
+
+        final documents = snapshot.data!.docs;
+
+        return ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          separatorBuilder: (context, index) {
+            return SizedBox(height: 12.v);
+          },
+          itemCount: documents.length,
+          itemBuilder: (context, index) {
+            final documentData = documents[index].data()
+                as Map<String, dynamic>; // Casting to Map<String, dynamic>
+            // Assuming 'courseName' is a field in your Firestore documents
+            final courseName = documentData['courseName'];
+            final courseCode = documentData['courseCode'];
+            // Check if courseName is not null before passing it to SelectedviewItemWidget
+            if (courseName != null) {
+              return SelectedviewItemWidget(
+                  courseName: courseName, courseCode: courseCode);
+            } else {
+              // Handle the case when courseName is null, maybe show a placeholder or log an error
+              return SizedBox.shrink();
+            }
+          },
+        );
+      },
+    );
   }
 
-  /// Navigates to the homemainpageContainerScreen when the action is triggered.
   onTapArrowDown(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.homemainpageContainerScreen);
   }
 
-  /// Navigates to the categoryScreen when the action is triggered.
   onTapContinueCourses(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.categoryScreen);
   }

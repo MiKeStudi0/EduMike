@@ -29,7 +29,8 @@ class GoogleAuth {
       User? firebaseUser = FirebaseAuth.instance.currentUser;
       if (firebaseUser != null) {
         // User is already registered, navigate to the home screen
-        Navigator.pushNamed(context, AppRoutes.homescreen);
+        Navigator.pushReplacementNamed(
+            context, AppRoutes.homemainpageContainerScreen);
       } else {
         // User is not registered, navigate to the profile screen
         Navigator.pushNamed(context, AppRoutes.fillYourProfileScreen);
