@@ -267,10 +267,12 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
   }
 
   /// Navigates to the homemainpageContainerScreen when the action is triggered.
+  // onTapYesChange(BuildContext context) {
+  //   uploadCardData();
+  //   Navigator.pop(context);
+  // }
   onTapYesChange(BuildContext context) {
     uploadCardData();
-
-    // Use PageRouteBuilder for custom transition
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
