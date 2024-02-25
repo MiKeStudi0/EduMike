@@ -132,19 +132,13 @@ class _CourseListState extends State<CourseList> {
     }).toList();
 
     return SizedBox(
-<<<<<<< HEAD
-      height: 330.h,
-      width: 450.v,
-=======
       height: 340.v,
       width: 400.h,
->>>>>>> 2746a9f699f59b59141859522b6f0abf929be8a0
       child: Column(
         children: [
           // Filter Widget in the Body
           Container(
-            height: 1.h,
-      width: 450.v,
+            height: 50,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: categories
@@ -234,17 +228,19 @@ class _CourseListState extends State<CourseList> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 1),
-                        child: Text(
-                          course.category,
-                          style: TextStyle(
-                            color: Colors.orange,
-                          ),
+                      SizedBox(
+                        child: Padding(
+                          padding: EdgeInsets.only(bottom: 1),
+                          child: Text(course.category,
+                              style: CustomTextStyles.labelLargeMulishOrangeA700
+                                  .copyWith(color: appTheme.orangeA700)),
                         ),
                       ),
                       // Replace this with your bookmark icon
-                      Icon(Icons.bookmark),
+                      CustomImageView(
+                          imagePath: ImageConstant.imgBookmark,
+                          height: 18.v,
+                          width: 14.h)
                     ],
                   ),
                 ),
@@ -252,7 +248,10 @@ class _CourseListState extends State<CourseList> {
               SizedBox(height: 4),
               Padding(
                 padding: EdgeInsets.only(left: 14),
-                child: Text(course.courseName),
+                child: Text(course.courseName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium),
               ),
               SizedBox(height: 9),
               Padding(
@@ -272,17 +271,23 @@ class _CourseListState extends State<CourseList> {
                             width: 12.h,
                             margin: EdgeInsets.only(bottom: 2.v),
                           ),
-                          Text(course.courseCredit),
+                          Text(course.courseCredit,
+                              style: theme.textTheme.labelMedium!
+                                  .copyWith(color: appTheme.blueGray90001)),
                         ],
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 16),
-                      child: Text("|"),
+                      child: Text("|",
+                          style: CustomTextStyles.titleSmallBlack900
+                              .copyWith(color: appTheme.black900)),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 16, top: 3),
-                      child: Text(course.courseCode),
+                      child: Text(course.courseCode,
+                          style: theme.textTheme.labelMedium!
+                              .copyWith(color: appTheme.blueGray90001)),
                     ),
                   ],
                 ),
