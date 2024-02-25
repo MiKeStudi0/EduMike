@@ -114,9 +114,14 @@ class HomemainpagePage extends StatelessWidget {
                           SizedBox(height: 10.v),
                           _buildUserProfile(context),
                           SizedBox(height: 43.v),
-                          ElevatedButton(onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CourseList()));
-                          }, child: Text('Course List')),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => CourseList()));
+                              },
+                              child: Text('Course List')),
                           //  _buildUserCourse(context),
                         ]))))));
   }
@@ -607,7 +612,6 @@ class HomemainpagePage extends StatelessWidget {
   }
 }
 
-
 class Course {
   final String courseName;
   final String category;
@@ -760,12 +764,14 @@ class _CourseListState extends State<CourseList> {
                             selectedCategory = selected ? category : 'Syllabus';
                           });
                         },
-                        selectedColor:
-                            selectedCategory == 'Syllabus' || selectedCategory == 'Notes'
-                                ? Colors.green
-                                : null,
+                        selectedColor: selectedCategory == 'Syllabus' ||
+                                selectedCategory == 'Notes'
+                            ? Colors.green
+                            : null,
                         labelStyle: TextStyle(
-                          color: selectedCategory == category ? Colors.white : null,
+                          color: selectedCategory == category
+                              ? Colors.white
+                              : null,
                         ),
                       ),
                     ),
@@ -888,5 +894,3 @@ class _CourseListState extends State<CourseList> {
     );
   }
 }
-
-

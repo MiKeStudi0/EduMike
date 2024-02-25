@@ -75,55 +75,55 @@ class ProfilesPage extends StatelessWidget {
                                                             .imgLock)))
                                           ]))),
                               SizedBox(height: 7.v),
-                              // FutureBuilder<DocumentSnapshot>(
-                              //   future: getUserDocument(),
-                              //   builder: (context, snapshot) {
-                              //     if (snapshot.connectionState ==
-                              //         ConnectionState.waiting) {
-                              //       // Return a loading indicator while data is being fetched
-                              //       return CircularProgressIndicator();
-                              //     } else if (snapshot.hasError) {
-                              //       // Handle error
-                              //       return Text('Error: ${snapshot.error}');
-                              //     } else if (!snapshot.hasData ||
-                              //         snapshot.data == null) {
-                              //       // Handle null or missing data
-                              //       return Text('No data available');
-                              //     } else {
-                              //       // Extract the full name and email from the snapshot data
-                              //       String? fullName =
-                              //           snapshot.data!['fullname'];
-                              //       String? email = snapshot.data!['email'];
+                              FutureBuilder<DocumentSnapshot>(
+                                future: getUserDocument(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    // Return a loading indicator while data is being fetched
+                                    return CircularProgressIndicator();
+                                  } else if (snapshot.hasError) {
+                                    // Handle error
+                                    return Text('Error: ${snapshot.error}');
+                                  } else if (!snapshot.hasData ||
+                                      snapshot.data == null) {
+                                    // Handle null or missing data
+                                    return Text('No data available');
+                                  } else {
+                                    // Extract the full name and email from the snapshot data
+                                    String? fullName =
+                                        snapshot.data!['fullname'];
+                                    String? email = snapshot.data!['email'];
 
-                              //       // Check if full name is null
-                              //       if (fullName == null) {
-                              //         // Full name not found in the snapshot
-                              //         return Text('Full name not found');
-                              //       }
+                                    // Check if full name is null
+                                    if (fullName == null) {
+                                      // Full name not found in the snapshot
+                                      return Text('Full name not found');
+                                    }
 
-                              //       // Build the column to display full name and email
-                              //       return Row(
-                              //         mainAxisAlignment:
-                              //             MainAxisAlignment.center,
-                              //         children: [
-                              //           Column(
-                              //             children: [
-                              //               Text('Welcome, $fullName',
-                              //                   style: theme
-                              //                       .textTheme.headlineSmall),
-                              //               const SizedBox(
-                              //                   height:
-                              //                       8), // Adjust the spacing between the texts as needed
-                              //               Text('$email',
-                              //                   style: theme
-                              //                       .textTheme.headlineSmall),
-                              //             ],
-                              //           ),
-                              //         ],
-                              //       );
-                              //     }
-                              //   },
-                              // ),
+                                    // Build the column to display full name and email
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Text('Welcome, $fullName',
+                                                style: theme
+                                                    .textTheme.headlineSmall),
+                                            const SizedBox(
+                                                height:
+                                                    8), // Adjust the spacing between the texts as needed
+                                            Text('$email',
+                                                style: theme
+                                                    .textTheme.headlineSmall),
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                },
+                              ),
 
                               /* Align(
                                   alignment: Alignment.center,

@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
-          
+          theme: theme,
           title: 'EduWise',
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoutes.authScreen,
