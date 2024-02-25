@@ -15,8 +15,16 @@ import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
-class HomemainpagePage extends StatelessWidget {
+class HomemainpagePage extends StatefulWidget {
   HomemainpagePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomemainpagePage> createState() => _HomemainpagePageState();
+}
+
+class _HomemainpagePageState extends State<HomemainpagePage> {
+  final GlobalKey<HomemainpagePageState> homeMainPageKey =
+      GlobalKey<HomemainpagePageState>();
 
   TextEditingController searchController = TextEditingController();
 
@@ -295,15 +303,15 @@ class HomemainpagePage extends StatelessWidget {
                                     ),
                                   ),
                                   Stack(
-                                    
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 5.0),
+                                        padding:
+                                            const EdgeInsets.only(right: 5.0),
                                         child: Text(
                                           semester!.toUpperCase(),
                                           overflow: TextOverflow.ellipsis,
-                                          style:
-                                              CustomTextStyles.titleSmallWhiteA700,
+                                          style: CustomTextStyles
+                                              .titleSmallWhiteA700,
                                         ),
                                       ),
                                     ],
@@ -601,5 +609,25 @@ class HomemainpagePage extends StatelessWidget {
   /// Navigates to the categoryScreen when the action is triggered.
   onTapTxtGraphicDesign(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.categoryScreen);
+  }
+
+  @override
+  HomemainpagePageState createState() => HomemainpagePageState();
+}
+
+class HomemainpagePageState extends State<HomemainpagePage> {
+  // Other state properties and methods...
+
+  // Define a method to refresh the homepage
+  void refreshHomePage() {
+    setState(() {
+      // Refresh logic here...
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    throw UnimplementedError();
   }
 }

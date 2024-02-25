@@ -48,7 +48,7 @@ class _CourseWidgetState extends State<CourseWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 240.v,
+      height: 224.5.h,
       width: 414.h,
       child: ListView.separated(
           separatorBuilder: (BuildContext context, int index) {

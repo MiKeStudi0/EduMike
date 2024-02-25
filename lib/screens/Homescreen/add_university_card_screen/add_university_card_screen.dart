@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 import 'package:edumike/widgets/custom_drop_down_home.dart';
 import 'package:edumike/widgets/custom_elevated_buttonHome.dart';
 import 'package:edumike/widgets/custom_outlined_button_home.dart';
@@ -268,6 +269,21 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
   /// Navigates to the homemainpageContainerScreen when the action is triggered.
   onTapYesChange(BuildContext context) {
     uploadCardData();
-    Navigator.pop(context);
+
+    // Use PageRouteBuilder for custom transition
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration(milliseconds: 500), // Adjust as needed
+        pageBuilder: (_, __, ___) => HomemainpagePage(),
+        transitionsBuilder: (_, animation, __, child) {
+          // Apply a fade transition
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    );
   }
 }
