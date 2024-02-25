@@ -1,7 +1,6 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
@@ -22,6 +21,8 @@ void main() async{
   runApp(FillYourProfileScreen());
 }
 
+
+
 Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
   // Get the current user
   User? user = FirebaseAuth.instance.currentUser;
@@ -35,11 +36,11 @@ Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
       .collection('users')
       .doc(user.uid)    
       .get();
-print(user.uid);
-
   return snapshot;
 
 }
+
+
 
 
 
@@ -267,7 +268,6 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   onTap: () async {
     try {
       await addUserToFirestore();
-      print('User data added to Firestore successfully!');
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
