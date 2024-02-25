@@ -15,26 +15,103 @@ class Course {
     required this.courseCredit,
   });
 }
+
 final List<Course> courseList = [
-  Course(courseName: 'Flutter', category: 'Syllabus', courseCode: 'CSE 101', courseCredit: '3.0'),
-  Course(courseName: 'Django', category: 'Notes', courseCode: 'CSE 102', courseCredit: '3.0'),
-  Course(courseName: 'Laravel', category: 'Notes', courseCode: 'CSE 103', courseCredit: '3.0'),
-  Course(courseName: 'React', category: 'Notes' , courseCode: 'CSE 104', courseCredit: '3.0'),
-  Course(courseName: 'Vue', category: 'Notes',  courseCode: 'CSE 105', courseCredit: '3.0'),
-  Course(courseName: 'Angular', category: 'Notes' , courseCode: 'CSE 106', courseCredit: '3.0'),
-  Course(courseName: 'Swift', category: 'Syllabus' , courseCode: 'CSE 107', courseCredit: '3.0'),
-  Course(courseName: 'Kotlin', category: 'Syllabus'  , courseCode: 'CSE 108', courseCredit: '3.0'),
-  Course(courseName: 'Rust', category: 'Syllabus' , courseCode: 'CSE 109', courseCredit: '3.0'),
-  Course(courseName: 'Dart', category: 'Syllabus' , courseCode: 'CSE 110', courseCredit: '3.0'),
-  Course(courseName: 'JavaScript', category: 'Notes'  , courseCode: 'CSE 111', courseCredit: '3.0'),
-  Course(courseName: 'TypeScript', category: 'Notes'  , courseCode: 'CSE 112', courseCredit: '3.0'),
-  Course(courseName: 'PHP', category: 'Notes' , courseCode: 'CSE 113', courseCredit: '3.0'),
-  Course(courseName: 'HTML', category: 'Notes'  , courseCode: 'CSE 114', courseCredit: '3.0'),
-  Course(courseName: 'CSS', category: 'Notes' , courseCode: 'CSE 115', courseCredit: '3.0'),
-  Course(courseName: 'SQL', category: 'Notes' , courseCode: 'CSE 116', courseCredit: '3.0'),
-  Course(courseName: 'MongoDB', category: 'Notes' , courseCode: 'CSE 117', courseCredit: '3.0'),
-  Course(courseName: 'Firebase', category: 'Notes'  , courseCode: 'CSE 118', courseCredit: '3.0'),
-  Course(courseName: 'PostgreSQL', category: 'Notes' , courseCode: 'CSE 119', courseCredit: '3.0'),
+  Course(
+      courseName: 'Flutter',
+      category: 'Syllabus',
+      courseCode: 'CSE 101',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Django',
+      category: 'Notes',
+      courseCode: 'CSE 102',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Laravel',
+      category: 'Notes',
+      courseCode: 'CSE 103',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'React',
+      category: 'Notes',
+      courseCode: 'CSE 104',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Vue',
+      category: 'Notes',
+      courseCode: 'CSE 105',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Angular',
+      category: 'Notes',
+      courseCode: 'CSE 106',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Swift',
+      category: 'Syllabus',
+      courseCode: 'CSE 107',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Kotlin',
+      category: 'Syllabus',
+      courseCode: 'CSE 108',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Rust',
+      category: 'Syllabus',
+      courseCode: 'CSE 109',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Dart',
+      category: 'Syllabus',
+      courseCode: 'CSE 110',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'JavaScript',
+      category: 'Notes',
+      courseCode: 'CSE 111',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'TypeScript',
+      category: 'Notes',
+      courseCode: 'CSE 112',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'PHP',
+      category: 'Notes',
+      courseCode: 'CSE 113',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'HTML',
+      category: 'Notes',
+      courseCode: 'CSE 114',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'CSS',
+      category: 'Notes',
+      courseCode: 'CSE 115',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'SQL',
+      category: 'Notes',
+      courseCode: 'CSE 116',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'MongoDB',
+      category: 'Notes',
+      courseCode: 'CSE 117',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'Firebase',
+      category: 'Notes',
+      courseCode: 'CSE 118',
+      courseCredit: '3.0'),
+  Course(
+      courseName: 'PostgreSQL',
+      category: 'Notes',
+      courseCode: 'CSE 119',
+      courseCredit: '3.0'),
 ];
 
 class CourseList extends StatefulWidget {
@@ -54,11 +131,10 @@ class _CourseListState extends State<CourseList> {
       return selectedCategory.isEmpty || selectedCategory == course.category;
     }).toList();
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Course List'),
-      ),
-      body: Column(
+    return SizedBox(
+      height: 500.h,
+      width: 450.h,
+      child: Column(
         children: [
           // Filter Widget in the Body
           Container(
@@ -77,12 +153,14 @@ class _CourseListState extends State<CourseList> {
                             selectedCategory = selected ? category : 'Syllabus';
                           });
                         },
-                        selectedColor:
-                            selectedCategory == 'Syllabus' || selectedCategory == 'Notes'
-                                ? Colors.green
-                                : null,
+                        selectedColor: selectedCategory == 'Syllabus' ||
+                                selectedCategory == 'Notes'
+                            ? Colors.green
+                            : null,
                         labelStyle: TextStyle(
-                          color: selectedCategory == category ? Colors.white : null,
+                          color: selectedCategory == category
+                              ? Colors.white
+                              : null,
                         ),
                       ),
                     ),
@@ -109,8 +187,8 @@ class _CourseListState extends State<CourseList> {
 
   Widget _buildCourseList(BuildContext context, Course course) {
     return SizedBox(
-      height: 240,
-      width: 280,
+      height: 240.v,
+      width: 280.h,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -182,7 +260,7 @@ class _CourseListState extends State<CourseList> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           // Replace this with your signal icon
-                                                    CustomImageView(
+                          CustomImageView(
                             imagePath: ImageConstant.imgSignal,
                             height: 11.v,
                             width: 12.h,
