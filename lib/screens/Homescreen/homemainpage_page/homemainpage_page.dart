@@ -107,18 +107,18 @@ class HomemainpagePage extends StatelessWidget {
                   SizedBox(height: 8.v),
                   // /_buildCategory(context),
                   // SizedBox(height: 18.v),
-                  _buildCourse(context),
-                  // SizedBox(height: 15.v),
-                  // Padding(
-                  //     padding: EdgeInsets.only(left: 14.h, right: 56.h),
-                  //     child: _buildTopMentor(context,
-                  //         text: "Top Subscription",
-                  //         seeAll: "See All", onTapSeeAll: () {
-                  //       onTapTxtSeeAll(context);
-                  //     })),
-                  // SizedBox(height: 10.v),
-                  // _buildUserProfile(context),
-                  // SizedBox(height: 43.v),
+                  // _buildCourse(context),
+                  SizedBox(height: 15.v),
+                  Padding(
+                      padding: EdgeInsets.only(left: 14.h, right: 56.h),
+                      child: _buildTopMentor(context,
+                          text: "Top Subscription",
+                          seeAll: "See All", onTapSeeAll: () {
+                        onTapTxtSeeAll(context);
+                      })),
+                  SizedBox(height: 10.v),
+                  _buildUserProfile(context),
+                  SizedBox(height: 43.v),
                   ElevatedButton(
                       onPressed: () {
                         Navigator.push(
