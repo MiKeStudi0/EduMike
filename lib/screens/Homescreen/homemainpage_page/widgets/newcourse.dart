@@ -29,12 +29,39 @@ class CourseList extends StatefulWidget {
 }
 
 class _CourseListState extends State<CourseList> {
+   List<String> dataList = [];
   @override
   void initState() {
     super.initState();
     fetchCoursesData();
-  }
+    fetchData();
 
+  }
+  Future<void> fetchData() async {
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  List<String> collectionPaths = ['/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers/BASICS OF CIVIL & MECHANICAL ENGINEERING/Refers', '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers'];
+
+  for (String collectionPath in collectionPaths) {
+    // Reference to the specific collection using the path
+    CollectionReference collectionReference = firestore.collection(collectionPath);
+
+    QuerySnapshot querySnapshot = await collectionReference.get();
+
+    for (QueryDocumentSnapshot documentSnapshot in querySnapshot.docs) {
+      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+dataList.add('Data from $collectionPath: $data');
+      print('Data from $collectionPath: $data');
+      printDataList();
+    }
+  }
+}
+ void printDataList() {
+    // Print each item in the list
+    for (String item in dataList) {
+      print(item);
+    }
+  }
   Future<void> fetchCoursesData() async {
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
