@@ -103,12 +103,12 @@ class HomemainpagePage extends StatelessWidget {
                       padding: EdgeInsets.only(left: 14.h, right: 56.h),
                       child: _buildTopMentor(context,
                           text: "My Courses", seeAll: "See All")),
-                 Padding(padding: EdgeInsets.only(left: 10.v,), child: CourseList()),
+                 Padding(padding: EdgeInsets.only(left: 5.v,), child: CourseListBlock()),
                   
-                  SizedBox(height: 8.v),
+                  //SizedBox(height: 8.v),
                   // /_buildCategory(context),
                   // SizedBox(height: 18.v),
-                   _buildCourse(context),
+                  // _buildCourse(context),
                   SizedBox(height: 15.v),
                   Padding(
                       padding: EdgeInsets.only(left: 14.h, right: 56.h),
@@ -125,7 +125,7 @@ class HomemainpagePage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DocumentIdsScreen(),));
+                                builder: (context) => CourseListBlock(),));
                       },
                       child: Text('Course List')),
 
