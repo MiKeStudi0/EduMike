@@ -116,7 +116,7 @@ class ProfilesPage extends StatelessWidget {
                                                     8), // Adjust the spacing between the texts as needed
                                             Text('$email',
                                                 style: theme
-                                                    .textTheme.headlineSmall),
+                                                    .textTheme.titleSmall),
                                           ],
                                         ),
                                       ],
@@ -439,7 +439,7 @@ class ProfilesPage extends StatelessWidget {
   /// Navigates to the termsConditionsScreen when the action is triggered.
   onTapSeven(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const TermsConditionsScreen()));
+        MaterialPageRoute(builder: (context) =>  TermsConditionsScreen()));
   }
 
   /// Navigates to the inviteFriendsScreen when the action is triggered.

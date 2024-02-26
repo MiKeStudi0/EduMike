@@ -1,34 +1,45 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:country_pickers/country.dart';
-import 'package:country_pickers/country_pickers.dart';
-import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
-import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
-import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
-import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
-import 'package:edumike/widgets/custom_icon_button.dart';
-import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:edumike/core/app_export.dart';
+import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
+import 'package:edumike/widgets/app_bar/appbar_title.dart';
+import 'package:edumike/widgets/custom_icon_button.dart';
+import 'package:edumike/widgets/custom_text_form_field.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-
-
-
-// ignore: must_be_immutable
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(EditProfilesScreen());
+}
+ 
+// ignore_for_file: must_be_immutable
 class EditProfilesScreen extends StatefulWidget {
-  
-  EditProfilesScreen({Key? key})
-      : super(
-          key: key,
-        );
+  EditProfilesScreen({Key? key}) : super(key: key);
 
   @override
-  State<EditProfilesScreen> createState() => _EditProfilesScreenState();
+  State<EditProfilesScreen> createState() => _FillYourProfileScreenState();
 }
 
-class _EditProfilesScreenState extends State<EditProfilesScreen> {
-   TextEditingController fullNameController = TextEditingController();
+class _FillYourProfileScreenState extends State<EditProfilesScreen> {
+  TextEditingController fullNameEditTextController = TextEditingController();
+  late final String gendervalue;
+  // DateTime _picked=DateTime.now();
+
+  
+
+  FocusNode emailFocusNode = FocusNode();
+
+  FocusNode dateofbirthFocusNode = FocusNode();
+
+  FocusNode fullnameFocusNode = FocusNode();
+
+  FocusNode nicknameFocusNode = FocusNode();
+
+  TextEditingController fullNameController = TextEditingController();
 
   TextEditingController nameController = TextEditingController();
 
@@ -60,20 +71,6 @@ class _EditProfilesScreenState extends State<EditProfilesScreen> {
     'gender': genderController.text,
      'phone': phoneNumberController.text,
   });}
-  /*await userDocRef.update({
-    'fullname': fullNameController,
-    'nickname': nameController.text,
-    'dateofbirth': dateOfBirthController.text,
-    'email': emailController.text,
-    'gender': genderController,
-    'phone': phoneNumberController.text,
-    // Add other fields as needed
-  });}*/
-
-  
- 
-
-  Country selectedCountry = CountryPickerUtils.getCountryByPhoneCode('91');
 
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -81,24 +78,23 @@ class _EditProfilesScreenState extends State<EditProfilesScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: appTheme.whiteA700,
-        resizeToAvoidBottomInset: false,
-        appBar: _buildAppBar(context),
-        body: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.only(top: 10.v),
-            child: Container(
-              margin: EdgeInsets.only(
-                left: 34.h,
-                right: 34.h,
-                bottom: 5.v,
-              ),
-              decoration: AppDecoration.fillGray,
-              child: Column(
-                children: [
-                  SizedBox(
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: _buildAppBar(context),
+            body: SizedBox(
+                width: SizeUtils.width,
+                child: SingleChildScrollView(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: Form(
+                        key: _formKey,
+                        child: Container(
+                          color: appTheme.blue50,
+                            width: double.maxFinite,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 34.h, vertical: 29.v),
+                            child: Column(children: [
+                              SizedBox(
                     height: 94.v,
                     width: 93.h,
                     child: Stack(
@@ -138,87 +134,42 @@ class _EditProfilesScreenState extends State<EditProfilesScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 40.v),
-                  _buildFullName(context),
-                  SizedBox(height: 18.v),
-                  _buildName(context),
-                  SizedBox(height: 18.v),
-                  _buildDateOfBirth(context),
-                  SizedBox(height: 18.v),
-                  _buildEmail(context),
-                  SizedBox(height: 18.v),
-                  _buildPhoneNumber(context),
-                  SizedBox(height: 18.v),
-                   _buildgender(context),
-                  SizedBox(height: 18.v),
-                  _buildUpdateButton(),
-                  SizedBox(height: 10.v),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
+                              SizedBox(height: 30.v),
+                              _buildFullNameEditText(context),
+                              SizedBox(height: 20.v),
+                              _buildNameEditText(context),
+                              SizedBox(height: 20.v),
+                              _buildDateOfBirthEditText(context),
+                              SizedBox(height: 20.v),
+                              _buildEmailEditText(context),
+                              SizedBox(height: 20.v),
+                              _buildPhoneNumber(context),
+                              SizedBox(height: 20.v),
+                              _buildgender(context),
+                              SizedBox(height: 20.v),
+                              _buildUpdateButton(),
+                              SizedBox(height: 5.v)
+                            ])))))));
   }
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return CustomAppBar(
-      leadingWidth: 61.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgArrowDown,
-        margin: EdgeInsets.only(
-          left: 35.h,
-          top: 18.v,
-          bottom: 17.v,
-        ),
-      ),
-      title: AppbarSubtitle(
-        text: "Edit Profile",
-        margin: EdgeInsets.only(left: 12.h),
-      ),
-    );
-  }
+  return AppBar(
+ backgroundColor: appTheme.blue50,    leadingWidth: 61.h,
+    leading: AppbarLeadingImage(
+      imagePath: ImageConstant.imgArrowDown,
+      margin: EdgeInsets.only(left: 35.h, top: 18.v, bottom: 17.v),
+    ),
+    title: AppbarTitle(
+      text: "Edit Your Profile",
+      margin: EdgeInsets.only(left: 12.h),
+    ),
+  );
+}
+
 
   /// Section Widget
- /*Widget _buildFullName(BuildContext context) {
-  // Get the current user
-  User? user = FirebaseAuth.instance.currentUser;
-
-  if (user == null) {
-    // User is not authenticated, handle accordingly
-    return Text('User not authenticated');
-  }
-
-  return StreamBuilder<DocumentSnapshot>(
-    stream: FirebaseFirestore.instance.collection('users').doc(user.uid).snapshots(),
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        // Return a loading indicator while data is being fetched
-        return CircularProgressIndicator();
-      } else if (snapshot.hasError) {
-        // Handle error
-        return Text('Error: ${snapshot.error}');
-      } else {
-        // Extract the full name from the snapshot data
-        String fullName = snapshot.data?.get('fullname') ?? ''; // Replace 'full_name' with the actual field name in your Firestore document
-
-        // Initialize the controller with the full name
-        fullNameController.text = fullName;
-
-        // Return the CustomTextFormField with the initialized controller
-        return CustomTextFormField(
-          controller: fullNameController,
-          hintText: "Full Name",
-        );
-      }
-    },
-  );
-}*/
-
-
-Widget _buildFullName(BuildContext context) {
+  Widget _buildFullNameEditText(BuildContext context) {
   return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
     future: getUserDocument(),
     builder: (context, snapshot) {
@@ -244,10 +195,7 @@ Widget _buildFullName(BuildContext context) {
         return CustomTextFormField(
           controller: fullNameController,
           hintText: "Full Name",
-          onChanged: (value) {
-            // Update the value of the controller when text changes
-            fullNameController.text = value;
-          },
+          contentPadding: EdgeInsets.only(left: 16.0,top: 35), // Adjust the left padding as needed
         );
       }
     },
@@ -255,14 +203,9 @@ Widget _buildFullName(BuildContext context) {
 }
 
 
-/*Widget _buildfullName(BuildContext context) {
-    return CustomTextFormField(
-      controller: fullNameController,
-      hintText: "full Name",
-    );
-  }*/
-  Widget _buildName(BuildContext context) {
-  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+  /// Section Widget
+  Widget _buildNameEditText(BuildContext context) {
+    return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
     future: getUserDocument(),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -287,6 +230,7 @@ Widget _buildFullName(BuildContext context) {
         return CustomTextFormField(
           controller: nameController,
           hintText: "nick Name",
+          contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
         );
       }
     },
@@ -294,14 +238,8 @@ Widget _buildFullName(BuildContext context) {
 }
 
   /// Section Widget
-  /*Widget _buildName(BuildContext context) {
-    return CustomTextFormField(
-      controller: nameController,
-      hintText: "Nick Name",
-    );
-  }*/
-  Widget _buildDateOfBirth(BuildContext context) {
-  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+  Widget _buildDateOfBirthEditText(BuildContext context) {
+    return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
     future: getUserDocument(),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -326,6 +264,7 @@ Widget _buildFullName(BuildContext context) {
         return CustomTextFormField(
           controller: dateOfBirthController,
           hintText: " dateofbirth",
+          contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
         );
       }
     },
@@ -333,31 +272,8 @@ Widget _buildFullName(BuildContext context) {
 }
 
   /// Section Widget
-  /*Widget _buildDateOfBirth(BuildContext context) {
-    return CustomTextFormField(
-      controller: dateOfBirthController,
-      hintText: "Date of Birth",
-      prefix: Container(
-        margin: EdgeInsets.fromLTRB(21.h, 20.v, 8.h, 20.v),
-        child: CustomImageView(
-          imagePath: ImageConstant.imgCalendar,
-          height: 20.v,
-          width: 18.h,
-        ),
-      ),
-      prefixConstraints: BoxConstraints(
-        maxHeight: 60.v,
-      ),
-      contentPadding: EdgeInsets.only(
-        top: 21.v,
-        right: 30.h,
-        bottom: 21.v,
-      ),
-    );
-  }*/
-
-  Widget _buildEmail(BuildContext context) {
-  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+  Widget _buildEmailEditText(BuildContext context) {
+   return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
     future: getUserDocument(),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -382,6 +298,7 @@ Widget _buildFullName(BuildContext context) {
         return CustomTextFormField(
           controller: emailController,
           hintText: " email",
+          contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
         );
       }
     },
@@ -389,32 +306,8 @@ Widget _buildFullName(BuildContext context) {
 }
 
   /// Section Widget
-  /*Widget _buildEmail(BuildContext context) {
-    return CustomTextFormField(
-      controller: emailController,
-      hintText: "Email",
-      textInputType: TextInputType.emailAddress,
-      prefix: Container(
-        margin: EdgeInsets.fromLTRB(20.h, 23.v, 7.h, 22.v),
-        child: CustomImageView(
-          imagePath: ImageConstant.imgLockSecondarycontainer,
-          height: 14.v,
-          width: 18.h,
-        ),
-      ),
-      prefixConstraints: BoxConstraints(
-        maxHeight: 60.v,
-      ),
-      contentPadding: EdgeInsets.only(
-        top: 21.v,
-        right: 30.h,
-        bottom: 21.v,
-      ),
-    );
-  }*/
-
   Widget _buildPhoneNumber(BuildContext context) {
-  return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+   return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
     future: getUserDocument(),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -439,24 +332,14 @@ Widget _buildFullName(BuildContext context) {
         return CustomTextFormField(
           controller: phoneNumberController,
           hintText: " phone",
+          contentPadding: EdgeInsets.only(left: 16.0,top: 35),
         );
       }
     },
   );
 }
 
-  /// Section Widget
-  /*Widget _buildPhoneNumber(BuildContext context) {
-    return CustomPhoneNumber(
-      country: selectedCountry,
-      controller: phoneNumberController,
-      onTap: (Country value) {
-        selectedCountry = value;
-      },
-    );
-  }*/
-
-  Widget _buildgender(BuildContext context) {
+Widget _buildgender(BuildContext context) {
   return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
     future: getUserDocument(),
     builder: (context, snapshot) {
@@ -482,6 +365,7 @@ Widget _buildFullName(BuildContext context) {
         return CustomTextFormField(
           controller: genderController,
           hintText: "gender ",
+          contentPadding: EdgeInsets.only(left: 16.0,top: 35),
         );
       }
     },
@@ -489,47 +373,7 @@ Widget _buildFullName(BuildContext context) {
 }
 
   /// Section Widget
-  /*Widget _buildColumn(BuildContext context) {
-    return Container(
-      width: 360.h,
-      padding: EdgeInsets.symmetric(
-        horizontal: 22.h,
-        vertical: 20.v,
-      ),
-      decoration: AppDecoration.outlineBlack900.copyWith(
-        borderRadius: BorderRadiusStyle.roundedBorder10,
-      ),
-      child: Text(
-        "Student",
-        style: CustomTextStyles.titleSmallGray800,
-      ),
-    );
-  }*/
-
-  /// Section Widget
-  /*Widget _buildButton(BuildContext context) {
-    return CustomElevatedButton(
-      text: "Update",
-      margin: EdgeInsets.symmetric(horizontal: 5.h),
-      rightIcon: Container(
-        padding: EdgeInsets.fromLTRB(14.h, 16.v, 12.h, 14.v),
-        margin: EdgeInsets.only(left: 30.h),
-        decoration: BoxDecoration(
-          color: appTheme.whiteA700,
-          borderRadius: BorderRadius.circular(
-            24.h,
-          ),
-        ),
-        child: CustomImageView(
-          imagePath: ImageConstant.imgArrowrightPrimary17x21,
-          height: 17.v,
-          width: 21.h,
-        ),
-      ),
-    );
-  }
-}*/
-Widget _buildUpdateButton() {
+  Widget _buildUpdateButton() {
   return CustomElevatedButton(
     text: "Update",
     margin: EdgeInsets.symmetric(horizontal: 5.h),
@@ -552,4 +396,9 @@ Widget _buildUpdateButton() {
   );
 }
 
-}
+  /// Navigates to the congratulationsScreen when the action is triggered.
+  
+    // Use the user ID as the document ID
+    
+  }
+
