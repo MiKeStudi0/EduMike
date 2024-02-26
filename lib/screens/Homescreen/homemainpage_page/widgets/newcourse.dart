@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_image_view.dart';
 import 'package:flutter/material.dart';
@@ -7,112 +8,18 @@ class Course {
   final String category;
   final String courseCode;
   final String courseCredit;
+  final String selectedDocumentId;
 
   Course({
     required this.courseName,
     required this.category,
     required this.courseCode,
     required this.courseCredit,
+    required this.selectedDocumentId,
   });
 }
 
-final List<Course> courseList = [
-  Course(
-      courseName: 'Flutter',
-      category: 'Syllabus',
-      courseCode: 'CSE 101',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'Django',
-      category: 'Notes',
-      courseCode: 'CSE 102',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'Laravel',
-      category: 'Notes',
-      courseCode: 'CSE 103',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'React',
-      category: 'Notes',
-      courseCode: 'CSE 104',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'Vue',
-      category: 'Notes',
-      courseCode: 'CSE 105',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'Angular',
-      category: 'Notes',
-      courseCode: 'CSE 106',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'Swift',
-      category: 'Syllabus',
-      courseCode: 'CSE 107',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'Kotlin',
-      category: 'Syllabus',
-      courseCode: 'CSE 108',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'Rust',
-      category: 'Syllabus',
-      courseCode: 'CSE 109',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'Dart',
-      category: 'Syllabus',
-      courseCode: 'CSE 110',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'JavaScript',
-      category: 'Notes',
-      courseCode: 'CSE 111',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'TypeScript',
-      category: 'Notes',
-      courseCode: 'CSE 112',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'PHP',
-      category: 'Notes',
-      courseCode: 'CSE 113',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'HTML',
-      category: 'Notes',
-      courseCode: 'CSE 114',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'CSS',
-      category: 'Notes',
-      courseCode: 'CSE 115',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'SQL',
-      category: 'Notes',
-      courseCode: 'CSE 116',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'MongoDB',
-      category: 'Notes',
-      courseCode: 'CSE 117',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'Firebase',
-      category: 'Notes',
-      courseCode: 'CSE 118',
-      courseCredit: '3.0'),
-  Course(
-      courseName: 'PostgreSQL',
-      category: 'Notes',
-      courseCode: 'CSE 119',
-      courseCredit: '3.0'),
-];
+List<Course> courseList = [];
 
 class CourseList extends StatefulWidget {
   const CourseList({Key? key}) : super(key: key);
@@ -122,8 +29,38 @@ class CourseList extends StatefulWidget {
 }
 
 class _CourseListState extends State<CourseList> {
-  final List<String> categories = ['Syllabus', 'Notes'];
-  String selectedCategory = 'Syllabus';
+  @override
+  void initState() {
+    super.initState();
+    fetchCoursesData();
+  }
+
+  Future<void> fetchCoursesData() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection(
+              '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers/BASICS OF CIVIL & MECHANICAL ENGINEERING/Refers/') // Replace with your actual collection path
+          .get();
+
+      courseList = snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return Course(
+          category: doc.id,
+          courseName: data['courseName'] ?? '',
+          selectedDocumentId: data['category'] ?? '',
+          courseCode: data['courseCode'] ?? '',
+          courseCredit: data['courseCredit'] ?? '',
+        );
+      }).toList();
+
+      setState(() {});
+    } catch (e) {
+      print("Error fetching course data: $e");
+    }
+  }
+
+  final List<String> categories = ['SYLLABUS', 'Notes'];
+  String selectedCategory = 'SYLLABUS';
 
   @override
   Widget build(BuildContext context) {
@@ -132,8 +69,8 @@ class _CourseListState extends State<CourseList> {
     }).toList();
 
     return SizedBox(
-      height: 340.v,
-      width: 400.h,
+      height: 340.h,
+      width: 400.v,
       child: Column(
         children: [
           // Filter Widget in the Body
@@ -155,8 +92,8 @@ class _CourseListState extends State<CourseList> {
                         },
                         selectedColor: selectedCategory == 'Syllabus' ||
                                 selectedCategory == 'Notes'
-                            ? appTheme.blueA700
-                            : null,
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.primary,
                         labelStyle: TextStyle(
                           color: selectedCategory == category
                               ? Colors.white
@@ -187,14 +124,14 @@ class _CourseListState extends State<CourseList> {
 
   Widget _buildCourseList(BuildContext context, Course course) {
     return SizedBox(
-      height: 240.v,
-      width: 280.h,
+      height: 245.h,
+      width: 290.v,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
           Container(
-            height: 240,
-            width: 280,
+            height: 245.h,
+            width: 290.v,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -203,7 +140,7 @@ class _CourseListState extends State<CourseList> {
                   color: Colors.black.withOpacity(0.08),
                   spreadRadius: 2,
                   blurRadius: 2,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -215,68 +152,79 @@ class _CourseListState extends State<CourseList> {
               Container(
                 height: 134,
                 width: 280,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Padding(
-                padding: EdgeInsets.only(left: 15, right: 19),
+                padding: const EdgeInsets.only(left: 15, right: 19),
                 child: SizedBox(
                   width: 245,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 1),
-                        child: Text(
-                          course.category,
-                          style: TextStyle(
-                            color: Colors.orange,
-                          ),
+                      SizedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 1),
+                          child: Text(course.category,
+                              style: CustomTextStyles.labelLargeMulishOrangeA700
+                                  .copyWith(color: appTheme.orangeA700)),
                         ),
                       ),
                       // Replace this with your bookmark icon
-                      Icon(Icons.bookmark),
+                      CustomImageView(
+                          imagePath: ImageConstant.imgBookmark,
+                          height: 18,
+                          width: 14)
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Padding(
-                padding: EdgeInsets.only(left: 14),
-                child: Text(course.courseName),
+                padding: const EdgeInsets.only(left: 14, right: 10),
+                child: Text(course.courseName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium),
               ),
-              SizedBox(height: 9),
+              const SizedBox(height: 9),
               Padding(
-                padding: EdgeInsets.only(left: 13),
+                padding: const EdgeInsets.only(left: 13),
                 child: Row(
                   children: [
                     Container(
                       width: 32,
-                      margin: EdgeInsets.only(top: 3),
+                      margin: const EdgeInsets.only(top: 3),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           // Replace this with your signal icon
                           CustomImageView(
                             imagePath: ImageConstant.imgSignal,
-                            height: 11.v,
-                            width: 12.h,
-                            margin: EdgeInsets.only(bottom: 2.v),
+                            height: 11,
+                            width: 12,
+                            margin: EdgeInsets.only(bottom: 2),
                           ),
-                          Text(course.courseCredit),
+                          Text(course.courseCredit,
+                              style: theme.textTheme.labelMedium!
+                                  .copyWith(color: appTheme.blueGray90001)),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 16),
-                      child: Text("|"),
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Text("|",
+                          style: CustomTextStyles.titleSmallBlack900
+                              .copyWith(color: appTheme.black900)),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 16, top: 3),
-                      child: Text(course.courseCode),
+                      padding: const EdgeInsets.only(left: 16, top: 3),
+                      child: Text(course.courseCode,
+                          style: theme.textTheme.labelMedium!
+                              .copyWith(color: appTheme.blueGray90001)),
                     ),
                   ],
                 ),

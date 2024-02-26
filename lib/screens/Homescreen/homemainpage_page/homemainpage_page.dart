@@ -102,11 +102,12 @@ class HomemainpagePage extends StatelessWidget {
                       padding: EdgeInsets.only(left: 14.h, right: 56.h),
                       child: _buildTopMentor(context,
                           text: "My Courses", seeAll: "See All")),
-                  CourseList(),
+                 Padding(padding: EdgeInsets.only(left: 10.v,), child: CourseList()),
+                  
                   SizedBox(height: 8.v),
                   // /_buildCategory(context),
                   // SizedBox(height: 18.v),
-                  // _buildCourse(context),
+                   _buildCourse(context),
                   SizedBox(height: 15.v),
                   Padding(
                       padding: EdgeInsets.only(left: 14.h, right: 56.h),
