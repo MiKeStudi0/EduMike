@@ -6,6 +6,7 @@ class DocumentIdsScreen extends StatefulWidget {
   _DocumentIdsScreenState createState() => _DocumentIdsScreenState();
 }
 
+
 class _DocumentIdsScreenState extends State<DocumentIdsScreen> {
   List<Map<String, dynamic>> documentData = [];
 
@@ -24,11 +25,21 @@ class _DocumentIdsScreenState extends State<DocumentIdsScreen> {
       for (QueryDocumentSnapshot doc in querySnapshot.docs) {
         Map<String, dynamic> data = {
           'id': doc.id,
-          // Replace 'field1', 'field2', etc. with the actual field names
           'courseName': doc.get('courseName'),
           'courseCode': doc.get('courseCode'),
+          // Initialize 'category' with a default value
+          'category': 'DefaultCategory',
           // Add more fields as needed
         };
+
+        // Check if there's a nested subcollection 'Refers'
+        QuerySnapshot subcollectionSnapshot = await doc.reference.collection('Refers').get();
+        if (subcollectionSnapshot.docs.isNotEmpty) {
+          // If the subcollection is not empty, get the first document
+          QueryDocumentSnapshot subDoc = subcollectionSnapshot.docs.first;
+          // Update the 'category' field from the nested subcollection
+          data['category'] = subDoc.get('category');
+        }
 
         documentData.add(data);
 
@@ -37,12 +48,10 @@ class _DocumentIdsScreenState extends State<DocumentIdsScreen> {
         await fetchDocumentData(nestedCollectionPath);
       }
 
-      setState(() {
-        // Update the state after adding all document data
-        documentData = List.from(documentData);
-      });
-    } catch (e) {
-      print('Error getting document data: $e');
+      setState(() {});
+    } catch (e, stackTrace) {
+      print('Error getting document data: $e\n$stackTrace');
+      // Show an error message to the user if needed
     }
   }
 
@@ -62,6 +71,7 @@ class _DocumentIdsScreenState extends State<DocumentIdsScreen> {
               children: [
                 Text('courseName: ${documentData[index]['courseName']}'),
                 Text('courseCode: ${documentData[index]['courseCode']}'),
+                Text('category: ${documentData[index]['category']}'),
                 // Add more fields as needed
               ],
             ),
