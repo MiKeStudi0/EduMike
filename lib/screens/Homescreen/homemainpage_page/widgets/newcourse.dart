@@ -155,7 +155,7 @@ class _CourseListState extends State<CourseList> {
                         },
                         selectedColor: selectedCategory == 'Syllabus' ||
                                 selectedCategory == 'Notes'
-                            ? Colors.green
+                            ? appTheme.blueA700
                             : null,
                         labelStyle: TextStyle(
                           color: selectedCategory == category
