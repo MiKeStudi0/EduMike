@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edumike/core/app_export.dart';
+import 'package:edumike/widgets/custom_image_view.dart';
 
-class DocumentIdsScreen extends StatefulWidget {
-  @override
-  _DocumentIdsScreenState createState() => _DocumentIdsScreenState();
+class Course {
+  final String courseName;
+  final String category;
+  final String courseCode;
+  final String courseCredit;
+  final String selectedDocumentId;
+
+  Course({
+    required this.courseName,
+    required this.category,
+    required this.courseCode,
+    required this.courseCredit,
+    required this.selectedDocumentId,
+  });
 }
 
+class CourseListBlock extends StatefulWidget {
+  @override
+  _CourseListBlockState createState() => _CourseListBlockState();
+}
 
-class _DocumentIdsScreenState extends State<DocumentIdsScreen> {
-  List<Map<String, dynamic>> documentData = [];
+class _CourseListBlockState extends State<CourseListBlock> {
+  List<Course> courseList = [];
+  final List<String> categories = ['SYLLABUS', 'Notes'];
+  String selectedCategory = 'SYLLABUS';
 
   @override
   void initState() {
@@ -27,56 +46,203 @@ class _DocumentIdsScreenState extends State<DocumentIdsScreen> {
           'id': doc.id,
           'courseName': doc.get('courseName'),
           'courseCode': doc.get('courseCode'),
-          // Initialize 'category' with a default value
+          'courseCredit': doc.get('courseCredit'),
           'category': 'DefaultCategory',
-          // Add more fields as needed
         };
 
-        // Check if there's a nested subcollection 'Refers'
         QuerySnapshot subcollectionSnapshot = await doc.reference.collection('Refers').get();
         if (subcollectionSnapshot.docs.isNotEmpty) {
-          // If the subcollection is not empty, get the first document
           QueryDocumentSnapshot subDoc = subcollectionSnapshot.docs.first;
-          // Update the 'category' field from the nested subcollection
           data['category'] = subDoc.get('category');
         }
 
-        documentData.add(data);
+        Course course = Course(
+          courseName: doc.get('courseName'),
+          category: data['category'],
+          courseCode: doc.get('courseCode'),
+          courseCredit: doc.get('courseCredit'),
+          selectedDocumentId: doc.id,
+        );
 
-        // Assuming $documentIds is a field within the document, adapt accordingly
+        courseList.add(course);
+
         String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
         await fetchDocumentData(nestedCollectionPath);
+        print('Data from $collectionPath: $data');
       }
 
       setState(() {});
     } catch (e, stackTrace) {
       print('Error getting document data: $e\n$stackTrace');
-      // Show an error message to the user if needed
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Document Data'),
+    final filteredCourses = courseList.where((course) {
+      return selectedCategory.isEmpty || selectedCategory == course.category;
+    }).toList();
+
+    return SizedBox(
+      height: 340.h,
+      width: 400.v,
+      child: Column(
+        children: [
+          Container(
+            height: 50,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: categories
+                  .map(
+                    (category) => Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: FilterChip(
+                        label: Text(category),
+                        selected: selectedCategory == category,
+                        onSelected: (selected) {
+                          setState(() {
+                            selectedCategory = selected ? category : 'SYLLABUS';
+                          });
+                        },
+                        selectedColor: selectedCategory == 'SYLLABUS' ||
+                            selectedCategory == 'Notes'
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.primary,
+                        labelStyle: TextStyle(
+                          color: selectedCategory == category
+                              ? Colors.white
+                              : null,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          Expanded(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const SizedBox(width: 10),
+              scrollDirection: Axis.horizontal,
+              itemCount: filteredCourses.length,
+              itemBuilder: (context, index) {
+                final course = filteredCourses[index];
+                return _buildCourseList(context, course, index);
+              },
+            ),
+          ),
+        ],
       ),
-      body: ListView.builder(
-        itemCount: documentData.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('ID: ${documentData[index]['id']}'),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('courseName: ${documentData[index]['courseName']}'),
-                Text('courseCode: ${documentData[index]['courseCode']}'),
-                Text('category: ${documentData[index]['category']}'),
-                // Add more fields as needed
+    );
+  }
+
+  Widget _buildCourseList(BuildContext context, Course course, int index) {
+    return SizedBox(
+      height: 245.h,
+      width: 290.v,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          Container(
+            height: 245.h,
+            width: 290.v,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.08),
+                  spreadRadius: 2,
+                  blurRadius: 2,
+                  offset: const Offset(0, 4),
+                ),
               ],
             ),
-          );
-        },
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 134,
+                width: 280,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 19),
+                child: SizedBox(
+                  width: 245,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 1),
+                          child: Text(course.category,
+                              style: CustomTextStyles.labelLargeMulishOrangeA700
+                                  .copyWith(color: appTheme.orangeA700)),
+                        ),
+                      ),
+                      CustomImageView(
+                          imagePath: ImageConstant.imgBookmark,
+                          height: 18,
+                          width: 14)
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 14, right: 10),
+                child: Text(course.courseName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.titleMedium),
+              ),
+              const SizedBox(height: 9),
+              Padding(
+                padding: const EdgeInsets.only(left: 13),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 32,
+                      margin: const EdgeInsets.only(top: 3),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomImageView(
+                            imagePath: ImageConstant.imgSignal,
+                            height: 11,
+                            width: 12,
+                            margin: EdgeInsets.only(bottom: 2),
+                          ),
+                          Text(course.courseCredit,
+                              style: theme.textTheme.labelMedium!
+                                  .copyWith(color: appTheme.blueGray90001)),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16),
+                      child: Text("|",
+                          style: CustomTextStyles.titleSmallBlack900
+                              .copyWith(color: appTheme.black900)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, top: 3),
+                      child: Text(course.courseCode,
+                          style: theme.textTheme.labelMedium!
+                              .copyWith(color: appTheme.blueGray90001)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
