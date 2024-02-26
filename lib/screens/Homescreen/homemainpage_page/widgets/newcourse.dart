@@ -92,7 +92,7 @@ class _CourseListState extends State<CourseList> {
                         selectedColor: selectedCategory == 'Syllabus' ||
                             selectedCategory == 'Notes'
                             ? theme.colorScheme.primary
-                            : null,
+                            : theme.colorScheme.primary,
                         labelStyle: TextStyle(
                           color: selectedCategory == category
                               ? Colors.white
