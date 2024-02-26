@@ -3,6 +3,7 @@ import 'package:edumike/screens/Homescreen/add_university_card_screen/add_univer
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/newcourse.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../homemainpage_page/widgets/category_item_widget.dart';
@@ -124,9 +125,11 @@ class HomemainpagePage extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CourseList()));
+                                builder: (context) => DocumentIdsScreen(),));
                       },
                       child: Text('Course List')),
+
+                      
                   //  _buildUserCourse(context),
                 ],
               ),
