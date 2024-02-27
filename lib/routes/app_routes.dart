@@ -128,7 +128,7 @@ class AppRoutes {
     helpcareScreen: (context) => const HelpcareScreen(),
     editProfilesScreen: (context) => EditProfilesScreen(),
     inviteFriendsScreen: (context) => const InviteFriendsScreen(),
-    termsConditionsScreen: (context) =>  const TermsConditionsScreen(),
+    termsConditionsScreen: (context) => const TermsConditionsScreen(),
     removeBookmarkScreen: (context) => const RemoveBookmarkScreen(),
     addSubscribeScreen: (context) => const AddSubscribeScreen(),
     appNotificationsScreen: (context) => AppNotificationsScreen(),
