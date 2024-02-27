@@ -288,9 +288,14 @@ class CategoryScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
         leadingWidth: 61.h,
-        leading: AppbarLeadingImage(
-            imagePath: ImageConstant.imgArrowDown,
-            margin: EdgeInsets.only(left: 35.h, top: 17.v, bottom: 18.v)),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: AppbarLeadingImage(
+              imagePath: ImageConstant.imgArrowDown,
+              margin: EdgeInsets.only(left: 35.h, top: 17.v, bottom: 18.v)),
+        ),
         title: AppbarSubtitle(
             text: "All Category", margin: EdgeInsets.only(left: 12.h)));
   }
