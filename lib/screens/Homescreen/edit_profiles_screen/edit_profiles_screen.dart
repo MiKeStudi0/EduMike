@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'package:edumike/core/utils/image_utils.dart';
 import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,12 +11,16 @@ import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(EditProfilesScreen());
 }
+
+
  
 // ignore_for_file: must_be_immutable
 class EditProfilesScreen extends StatefulWidget {
@@ -25,11 +31,21 @@ class EditProfilesScreen extends StatefulWidget {
 }
 
 class _FillYourProfileScreenState extends State<EditProfilesScreen> {
+  Uint8List? _image;
+
+  void selectImage()async{
+    Uint8List img= await pickImage(ImageSource.gallery);
+    setState(() {
+          _image = img;
+
+    });
+  }
+
+
+
   TextEditingController fullNameEditTextController = TextEditingController();
   late final String gendervalue;
   // DateTime _picked=DateTime.now();
-
-  
 
   FocusNode emailFocusNode = FocusNode();
 
@@ -49,6 +65,20 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
     TextEditingController genderController = TextEditingController();
       TextEditingController phoneNumberController = TextEditingController();
+
+      Future<void> _selectdate() async {
+    DateTime? _picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2500));
+    if (_picked != null) {
+      setState(() {
+        dateOfBirthController.text =
+            DateFormat('yyyy-MM-dd').format(_picked);
+      });
+    }
+  }
 
   Future<void> updateUserData() async {
   User? user = FirebaseAuth.instance.currentUser;
@@ -100,38 +130,58 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                     child: Stack(
                       alignment: Alignment.bottomRight,
                       children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            height: 93.adaptSize,
-                            width: 93.adaptSize,
-                            decoration: BoxDecoration(
-                              color: appTheme.whiteA700,
-                              borderRadius: BorderRadius.circular(
-                                46.h,
-                              ),
-                              border: Border.all(
-                                color: appTheme.teal700,
-                                width: 3.h,
-                                strokeAlign: strokeAlignOutside,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(right: 9.h),
-                          child: CustomIconButton(
-                            height: 33.adaptSize,
-                            width: 33.adaptSize,
-                            padding: EdgeInsets.all(7.h),
-                            decoration: IconButtonStyleHelper.outlineTeal,
-                            alignment: Alignment.bottomRight,
-                            child: CustomImageView(
-                              imagePath: ImageConstant.imgTelevisionTeal700,
-                            ),
-                          ),
-                        ),
-                      ],
+                        _image!=null?
+                       Container(
+  decoration: BoxDecoration(
+    shape: BoxShape.circle,
+    border: Border.all(
+      color: appTheme.teal700, // Set border color here
+      width: 4, // Set border width here
+    ),
+  ),
+  child: CircleAvatar(
+    radius: 64,
+   backgroundImage: MemoryImage(_image!),
+    // Add child here if needed
+  ),
+):
+                        
+   Container(
+  decoration: BoxDecoration(
+    shape: BoxShape.circle,
+    border: Border.all(
+      color: appTheme.teal700, // Set border color here
+      width: 4, // Set border width here
+    ),
+  ),
+  child: CircleAvatar(
+    radius: 64,
+    backgroundColor: Colors.white,
+    // Add child here if needed
+  ),
+),
+  Padding(
+    padding: EdgeInsets.only(right: 9.h),
+    child: CustomIconButton(
+      height: 33.adaptSize,
+      width: 33.adaptSize,
+      padding: EdgeInsets.all(7.h),
+      decoration: IconButtonStyleHelper.outlineTeal,
+      alignment: Alignment.bottomRight,
+      child: Container(
+        child: GestureDetector(
+          child: CustomImageView(
+            imagePath: ImageConstant.imgTelevisionTeal700,
+            onTap: () {
+              selectImage();
+            },
+          ),
+        ),
+      ),
+    ),
+  ),
+]
+
                     ),
                   ),
                               SizedBox(height: 30.v),
@@ -261,10 +311,23 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
         dateOfBirthController.text = dob;
 
         // Return the CustomTextFormField with the initialized controller
-        return CustomTextFormField(
-          controller: dateOfBirthController,
-          hintText: " dateofbirth",
-          contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
+        return Container(
+          child: CustomTextFormField(
+            controller: dateOfBirthController,
+            hintText: " dateofbirth",
+            contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
+            prefix: Container(
+            margin: EdgeInsets.fromLTRB(21.h, 20.v, 8.h, 20.v),
+            child: GestureDetector(
+              child: CustomImageView(
+                  onTap: () {
+                    _selectdate();
+                  },
+                  imagePath: ImageConstant.imgCalendar,
+                  height: 20.v,
+                  width: 18.h),
+            )),
+          ),
         );
       }
     },
