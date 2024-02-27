@@ -1,3 +1,4 @@
+import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
@@ -32,14 +33,14 @@ class _CourseListBlockState extends State<CourseListBlock> {
   @override
   void initState() {
     super.initState();
-    fetchDocumentData('/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers');
+    fetchDocumentData(
+        '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers');
   }
 
   Future<void> fetchDocumentData(String collectionPath) async {
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-          .collection(collectionPath)
-          .get();
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection(collectionPath).get();
 
       for (QueryDocumentSnapshot doc in querySnapshot.docs) {
         Map<String, dynamic> data = {
@@ -50,7 +51,8 @@ class _CourseListBlockState extends State<CourseListBlock> {
           'category': 'DefaultCategory',
         };
 
-        QuerySnapshot subcollectionSnapshot = await doc.reference.collection('Refers').get();
+        QuerySnapshot subcollectionSnapshot =
+            await doc.reference.collection('Refers').get();
         if (subcollectionSnapshot.docs.isNotEmpty) {
           QueryDocumentSnapshot subDoc = subcollectionSnapshot.docs.first;
           data['category'] = subDoc.get('category');
@@ -105,7 +107,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                           });
                         },
                         selectedColor: selectedCategory == 'SYLLABUS' ||
-                            selectedCategory == 'Notes'
+                                selectedCategory == 'Notes'
                             ? theme.colorScheme.primary
                             : theme.colorScheme.primary,
                         labelStyle: TextStyle(
@@ -136,113 +138,124 @@ class _CourseListBlockState extends State<CourseListBlock> {
   }
 
   Widget _buildCourseList(BuildContext context, Course course, int index) {
-    return SizedBox(
-      height: 245.h,
-      width: 290.v,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Container(
-            height: 245.h,
-            width: 290.v,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  spreadRadius: 2,
-                  blurRadius: 2,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-          ),
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 134,
-                width: 280,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CategoryScreen(),
+            ));
+      },
+      child: SizedBox(
+        height: 245.h,
+        width: 290.v,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              height: 245.h,
+              width: 290.v,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    spreadRadius: 2,
+                    blurRadius: 2,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 15, right: 19),
-                child: SizedBox(
-                  width: 245,
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 134,
+                  width: 280,
+                  decoration: const BoxDecoration(
+                    color: Colors.black,
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20)),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 19),
+                  child: SizedBox(
+                    width: 245,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 1),
+                            child: Text(course.category,
+                                style: CustomTextStyles
+                                    .labelLargeMulishOrangeA700
+                                    .copyWith(color: appTheme.orangeA700)),
+                          ),
+                        ),
+                        CustomImageView(
+                            imagePath: ImageConstant.imgBookmark,
+                            height: 18,
+                            width: 14)
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.only(left: 14, right: 10),
+                  child: Text(course.courseName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: theme.textTheme.titleMedium),
+                ),
+                const SizedBox(height: 9),
+                Padding(
+                  padding: const EdgeInsets.only(left: 13),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 1),
-                          child: Text(course.category,
-                              style: CustomTextStyles.labelLargeMulishOrangeA700
-                                  .copyWith(color: appTheme.orangeA700)),
+                      Container(
+                        width: 32,
+                        margin: const EdgeInsets.only(top: 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomImageView(
+                              imagePath: ImageConstant.imgSignal,
+                              height: 11,
+                              width: 12,
+                              margin: EdgeInsets.only(bottom: 2),
+                            ),
+                            Text(course.courseCredit,
+                                style: theme.textTheme.labelMedium!
+                                    .copyWith(color: appTheme.blueGray90001)),
+                          ],
                         ),
                       ),
-                      CustomImageView(
-                          imagePath: ImageConstant.imgBookmark,
-                          height: 18,
-                          width: 14)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Text("|",
+                            style: CustomTextStyles.titleSmallBlack900
+                                .copyWith(color: appTheme.black900)),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16, top: 3),
+                        child: Text(course.courseCode,
+                            style: theme.textTheme.labelMedium!
+                                .copyWith(color: appTheme.blueGray90001)),
+                      ),
                     ],
                   ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Padding(
-                padding: const EdgeInsets.only(left: 14, right: 10),
-                child: Text(course.courseName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.titleMedium),
-              ),
-              const SizedBox(height: 9),
-              Padding(
-                padding: const EdgeInsets.only(left: 13),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 32,
-                      margin: const EdgeInsets.only(top: 3),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgSignal,
-                            height: 11,
-                            width: 12,
-                            margin: EdgeInsets.only(bottom: 2),
-                          ),
-                          Text(course.courseCredit,
-                              style: theme.textTheme.labelMedium!
-                                  .copyWith(color: appTheme.blueGray90001)),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16),
-                      child: Text("|",
-                          style: CustomTextStyles.titleSmallBlack900
-                              .copyWith(color: appTheme.black900)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16, top: 3),
-                      child: Text(course.courseCode,
-                          style: theme.textTheme.labelMedium!
-                              .copyWith(color: appTheme.blueGray90001)),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
