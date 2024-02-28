@@ -65,7 +65,8 @@ dataList.add('Data from $collectionPath: $data');
   Future<void> fetchCoursesData() async {
     try {
       QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection('/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers/BASICS OF CIVIL & MECHANICAL ENGINEERING/Refers/') // Replace with your actual collection path
+          .collection(
+              '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers/BASICS OF CIVIL & MECHANICAL ENGINEERING/Refers/') // Replace with your actual collection path
           .get();
 
       courseList = snapshot.docs.map((doc) {
@@ -117,7 +118,7 @@ dataList.add('Data from $collectionPath: $data');
                           });
                         },
                         selectedColor: selectedCategory == 'Syllabus' ||
-                            selectedCategory == 'Notes'
+                                selectedCategory == 'Notes'
                             ? theme.colorScheme.primary
                             : theme.colorScheme.primary,
                         labelStyle: TextStyle(

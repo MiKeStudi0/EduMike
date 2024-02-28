@@ -1,8 +1,8 @@
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
-import 'package:edumike/widgets/custom_image_view.dart';
 
 class Course {
   final String courseName;
@@ -29,12 +29,78 @@ class _CourseListBlockState extends State<CourseListBlock> {
   List<Course> courseList = [];
   final List<String> categories = ['SYLLABUS', 'Notes'];
   String selectedCategory = 'SYLLABUS';
+  String? _selecteduniversity;
+  String? _selecteddegree;
+  String? _selectedcourse;
+  String? _selectedsemester;
 
   @override
   void initState() {
     super.initState();
-    fetchDocumentData(
-        '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers');
+    initializeData();
+  }
+
+  Future<void> initializeData() async {
+    // Retrieve card data
+    Map<String, String?>? cardData = await getCardData();
+
+    if (cardData != null) {
+      setState(() {
+        // Store retrieved values in variables
+        _selecteduniversity = cardData['university'];
+        _selecteddegree = cardData['degree'];
+        _selectedcourse = cardData['course'];
+        _selectedsemester = cardData['semester'];
+      });
+
+      // Use the retrieved values in fetchDocumentData method
+      fetchDocumentData(
+          '/University/$_selecteduniversity/Refers/$_selecteddegree/Refers/$_selectedcourse/Refers/$_selectedsemester/Refers');
+    }
+  }
+
+  Future<Map<String, String?>?> getCardData() async {
+    try {
+      // Get the current user
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Reference to the "carddata" collection
+        DocumentSnapshot<Map<String, dynamic>> snapshot =
+            await FirebaseFirestore.instance
+                .collection('carddata')
+                .doc(user.uid)
+                .get();
+
+        // Check if the document exists
+        if (snapshot.exists) {
+          // Extract field values from the document data
+          String? _selecteduniversity = snapshot.data()?['university'];
+          String? _selecteddegree = snapshot.data()?['degree'];
+          String? _selectedcourse = snapshot.data()?['course'];
+          String? _selectedsemester = snapshot.data()?['semester'];
+
+          // Return the card data as a map
+          return {
+            'university': _selecteduniversity,
+            'degree': _selecteddegree,
+            'course': _selectedcourse,
+            'semester': _selectedsemester,
+          };
+        } else {
+          // Return null if the document doesn't exist
+          return null;
+        }
+      } else {
+        // Handle case when user is not authenticated
+        print('User not authenticated');
+        return null;
+      }
+    } catch (e) {
+      // Print an error message if an error occurs
+      print('Error retrieving card data: $e');
+      return null;
+    }
   }
 
   Future<void> fetchDocumentData(String collectionPath) async {
