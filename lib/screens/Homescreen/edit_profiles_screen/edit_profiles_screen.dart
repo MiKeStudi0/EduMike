@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 import 'package:edumike/core/utils/image_utils.dart';
 import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
@@ -13,6 +14,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,15 +33,60 @@ class EditProfilesScreen extends StatefulWidget {
 }
 
 class _FillYourProfileScreenState extends State<EditProfilesScreen> {
-  Uint8List? _image;
+Uint8List? _image;
 
-  void selectImage()async{
-    Uint8List img= await pickImage(ImageSource.gallery);
+void selectImage(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Select Image From"),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+              getImage(ImageSource.camera);
+            },
+            child: Text("Camera"),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close the dialog
+              getImage(ImageSource.gallery);
+            },
+            child: Text("Gallery"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> getImage(ImageSource source) async {
+  Uint8List? img = await pickImage(source);
+  if (img != null) {
     setState(() {
-          _image = img;
-
+      _image = img;
     });
+   // uploadImageToFirestore(_image!);
   }
+}
+
+// Function to pick an image
+Future<Uint8List?> pickImage(ImageSource source) async {
+  XFile? pickedFile = await ImagePicker().pickImage(source: source);
+  if (pickedFile != null) {
+    // Read the picked file and return its bytes
+    return await pickedFile.readAsBytes();
+  } else {
+    // User canceled the picker
+    return null;
+  }
+}
+
+
+
+
 
 
 
@@ -68,7 +115,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
       Future<void> _selectdate() async {
     DateTime? _picked = await showDatePicker(
-        context: context,
+        context:context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
         lastDate: DateTime(2500));
@@ -80,7 +127,48 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     }
   }
 
-  Future<void> updateUserData() async {
+//   // Retrieve user data including profile image
+// Future<void> getUserData() async {
+//   User? user = FirebaseAuth.instance.currentUser;
+//   if (user == null) {
+//     throw Exception('User not authenticated');
+//   }
+
+//   String userId = user.uid;
+
+//   CollectionReference userCollection =
+//       FirebaseFirestore.instance.collection('users');
+
+//   DocumentSnapshot<Map<String, dynamic>> snapshot =
+//       await userCollection.doc(userId).get();
+
+//   if (snapshot.exists) {
+//     Map<String, dynamic> userData = snapshot.data()!;
+    
+//     // Get profile image base64 string from user data
+//     String? base64Image = userData['profileImage'];
+
+//     // Decode base64 string to bytes
+//     if (base64Image != null) {
+//       Uint8List imageBytes = base64Decode(base64Image);
+//       // Now you have the image bytes, you can display it using MemoryImage or FileImage
+//       setState(() {
+//         _image = imageBytes;
+//       });
+//     }
+//   }
+// }
+
+// Call getUserData() to retrieve user data including profile image
+// // This can be done in initState or wherever you want to fetch the data
+// @override
+// void initState() {
+//   super.initState();
+//   getUserData();
+// }
+
+
+   Future<void> updateUserData() async {
   User? user = FirebaseAuth.instance.currentUser;
   if (user == null) {
     throw Exception('User not authenticated');
@@ -88,19 +176,27 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
   String userId = user.uid;
 
+
+
   // Replace 'users' with your Firestore collection name
   CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
 
   // Replace the field names and values as per your data structure
-  await userCollection.doc(userId).set({
+  Map<String, dynamic> userData = {
     'fullname': fullNameController.text,
     'nickname': nameController.text,
     'dateofbirth': dateOfBirthController.text,
     'email': emailController.text,
     'gender': genderController.text,
-     'phone': phoneNumberController.text,
-  });}
+    'phone': phoneNumberController.text,
+  };
+
+  // Update the user document with the user data
+  await userCollection.doc(userId).set(userData);
+}
+
+
 
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -173,7 +269,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
           child: CustomImageView(
             imagePath: ImageConstant.imgTelevisionTeal700,
             onTap: () {
-              selectImage();
+              selectImage(context);
             },
           ),
         ),
