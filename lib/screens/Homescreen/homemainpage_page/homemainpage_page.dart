@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/screens/Homescreen/add_university_card_screen/add_university_card_screen.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/newcourse.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -100,7 +99,7 @@ class HomemainpagePage extends StatelessWidget {
 
                   // _buildUserCourse(context),
                   Padding(
-                      padding: EdgeInsets.only(left: 14.h, right: 56.h),
+                      padding: EdgeInsets.only(left: 18.h, right: 50.h),
                       child: _buildTopMentor(context,
                           text: "My Courses", seeAll: "See All")),
                  Padding(padding: EdgeInsets.only(left: 5.v,), child: CourseListBlock()),
@@ -110,24 +109,24 @@ class HomemainpagePage extends StatelessWidget {
                   // SizedBox(height: 18.v),
                   // _buildCourse(context),
                   SizedBox(height: 15.v),
-                  Padding(
-                      padding: EdgeInsets.only(left: 14.h, right: 56.h),
-                      child: _buildTopMentor(context,
-                          text: "Top Subscription",
-                          seeAll: "See All", onTapSeeAll: () {
-                        onTapTxtSeeAll(context);
-                      })),
-                  SizedBox(height: 10.v),
-                  _buildUserProfile(context),
-                  SizedBox(height: 43.v),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => CourseListBlock(),));
-                      },
-                      child: Text('Course List')),
+                  // Padding(
+                  //     padding: EdgeInsets.only(left: 14.h, right: 56.h),
+                  //     child: _buildTopMentor(context,
+                  //         text: "Top Subscription",
+                  //         seeAll: "See All", onTapSeeAll: () {
+                  //       onTapTxtSeeAll(context);
+                  //     })),
+                  // SizedBox(height: 10.v),
+                  // _buildUserProfile(context),
+                  // SizedBox(height: 43.v),
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => CourseListBlock(),));
+                  //     },
+                  //     child: Text('Course List')),
 
                       
                   //  _buildUserCourse(context),

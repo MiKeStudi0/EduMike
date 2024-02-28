@@ -1,11 +1,9 @@
 import 'package:edumike/core/app_export.dart';
-import 'package:edumike/screens/Dropdownlist.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 import 'package:edumike/screens/Homescreen/indoxmainpage_page/indoxmainpage_page.dart';
 import 'package:edumike/screens/Homescreen/my_bookmark_page/my_bookmark_page.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:edumike/screens/Homescreen/profiles_page/profiles_page.dart';
-import 'package:edumike/screens/uploadscreen.dart';
 import 'package:edumike/widgets/custom_bottom_bar.dart';
 import 'package:flutter/material.dart';
 

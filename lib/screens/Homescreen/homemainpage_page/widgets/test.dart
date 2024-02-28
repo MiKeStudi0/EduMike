@@ -1,10 +1,8 @@
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/user_card_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
-import 'package:edumike/widgets/custom_image_view.dart';
 
 class Course {
   final String courseName;
