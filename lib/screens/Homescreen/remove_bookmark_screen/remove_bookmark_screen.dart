@@ -11,9 +11,7 @@ class RemoveBookmarkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
+    return Container(
           width: double.maxFinite,
           padding: EdgeInsets.symmetric(
             horizontal: 34.h,
@@ -37,9 +35,7 @@ class RemoveBookmarkScreen extends StatelessWidget {
               SizedBox(height: 5.v),
             ],
           ),
-        ),
-      ),
-    );
+        );
   }
 
   /// Section Widget

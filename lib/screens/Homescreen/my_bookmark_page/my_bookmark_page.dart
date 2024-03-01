@@ -1,4 +1,5 @@
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Homescreen/remove_bookmark_screen/remove_bookmark_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
@@ -195,14 +196,21 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                               height: 16.v,
                               width: 12.h,
                               alignment: Alignment.center,
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RemoveBookmarkScreen(),
+                                  ),
+                                );
+                              },
                             ),
-                            CustomImageView(
-                              imagePath: ImageConstant.imgBookmarkPrimary,
-                              height: 16.v,
-                              width: 12.h,
-                              alignment: Alignment.center,
-                            ),
+                            // CustomImageView(
+                            //   imagePath: ImageConstant.imgBookmarkPrimary,
+                            //   height: 16.v,
+                            //   width: 12.h,
+                            //   alignment: Alignment.center,
+                            // ),
                           ],
                         ),
                       ),
