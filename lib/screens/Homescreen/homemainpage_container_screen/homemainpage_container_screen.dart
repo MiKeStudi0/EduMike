@@ -9,7 +9,17 @@ import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class HomemainpageContainerScreen extends StatelessWidget {
-  HomemainpageContainerScreen({Key? key}) : super(key: key);
+     final String? university;
+  final String? degree;
+  final String? course;
+  final String? semester;
+
+  HomemainpageContainerScreen({
+     this.university,
+     this.degree,
+    this.course,
+     this.semester,
+  });
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
@@ -59,7 +69,7 @@ class HomemainpageContainerScreen extends StatelessWidget {
       case AppRoutes.homemainpagePage:
         return HomemainpagePage();
       case AppRoutes.myCoursePage:
-        return MyCoursePage();
+        return MyCoursePage(university: university,degree: degree,course: course,semester: semester,);
       case AppRoutes.myBookmarkPage:
         return MyBookmarkPage();
       case AppRoutes.indoxmainpagePage:

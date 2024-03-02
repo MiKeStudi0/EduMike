@@ -54,7 +54,9 @@ dependencies:
   flutter_screenutil: ^5.9.0
   image_picker: ^1.0.7
   path: ^1.9.0
-  shared_preferences: ^2.2.2
+  marquee: ^2.2.3
+  provider: ^6.1.2
+  flutter_slidable: ^3.0.1
   
 
 dev_dependencies:

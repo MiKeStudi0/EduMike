@@ -1,5 +1,6 @@
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
@@ -33,11 +34,93 @@ class _CourseListBlockState extends State<CourseListBlock> {
   String? _selecteddegree;
   String? _selectedcourse;
   String? _selectedsemester;
-
+  List<String> bookmarkedCourses = [];
   @override
   void initState() {
     super.initState();
     initializeData();
+    loadBookmarkedCourses();
+  }
+void _addToBookmarkCollection(Course course) async {
+  try {
+    // Get the current user
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Reference to the user's bookmarks subcollection
+      CollectionReference<Map<String, dynamic>> userBookmarksCollection =
+          FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bookmarks');
+
+      // Check if a document with the same data already exists
+      QuerySnapshot<Map<String, dynamic>> existingDocs =
+          await userBookmarksCollection
+              .where('courseCode', isEqualTo: course.courseCode)
+              .where('university', isEqualTo: _selecteduniversity)
+              .where('degree', isEqualTo: _selecteddegree)
+              .where('course', isEqualTo: _selectedcourse)
+              .where('semester', isEqualTo: _selectedsemester)
+              .get();
+
+      if (existingDocs.docs.isEmpty) {
+        // Add the data to the user's bookmarks subcollection
+        await userBookmarksCollection.add({
+          'category': course.category,
+          'courseName': course.courseName,
+          'courseCode': course.courseCode,
+          'courseCredit': course.courseCredit,
+          'university': _selecteduniversity,
+          'degree': _selecteddegree,
+          'course': _selectedcourse,
+          'semester': _selectedsemester,
+        });
+
+        // Optionally show a confirmation message or perform any other action
+        print('Bookmark added successfully!');
+        // Update the list of bookmarked courses
+        loadBookmarkedCourses();
+      } else {
+        // Bookmark already exists, delete it
+        String documentId = existingDocs.docs.first.id;
+        await userBookmarksCollection.doc(documentId).delete();
+        // Optionally show a confirmation message or perform any other action
+        print('Bookmark removed successfully!');
+        // Update the list of bookmarked courses
+        loadBookmarkedCourses();
+      }
+    }
+  } catch (e) {
+    // Handle errors
+    print('Error updating bookmark: $e');
+  }
+}
+
+
+  void loadBookmarkedCourses() async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Reference to the user's bookmarks subcollection
+        CollectionReference<Map<String, dynamic>> userBookmarksCollection =
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .collection('bookmarks');
+
+        // Get the list of bookmarked courses
+        QuerySnapshot<Map<String, dynamic>> snapshot =
+            await userBookmarksCollection.get();
+
+        setState(() {
+          bookmarkedCourses =
+              snapshot.docs.map((doc) => doc['courseCode'] as String).toList();
+          // Explicitly cast the result to List<String>
+        });
+      }
+    } catch (e) {
+      // Handle errors
+      print('Error loading bookmarked courses: $e');
+    }
   }
 
   Future<void> initializeData() async {
@@ -204,6 +287,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
   }
 
   Widget _buildCourseList(BuildContext context, Course course, int index) {
+    bool isBookmarked = bookmarkedCourses.contains(course.courseCode);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -264,10 +348,24 @@ class _CourseListBlockState extends State<CourseListBlock> {
                                     .copyWith(color: appTheme.orangeA700)),
                           ),
                         ),
-                        CustomImageView(
+                        GestureDetector(
+                          onTap: () {
+                            _addToBookmarkCollection(course);
+                          },
+                          child: isBookmarked
+                        ? CustomImageView(
+                            imagePath: ImageConstant.imgBookmarkPrimary, // Change to your bookmarked icon
+                            height: 18,
+                            width: 14,
+                            color: Colors.blue, // Change to your desired color
+                          )
+                        : CustomImageView(
                             imagePath: ImageConstant.imgBookmark,
                             height: 18,
-                            width: 14)
+                            width: 14,
+                          ),
+
+                        ),
                       ],
                     ),
                   ),

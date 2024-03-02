@@ -66,14 +66,8 @@ class SelectedviewItemWidget extends StatelessWidget {
             SizedBox(
                 width:
                     10), // Add some spacing between the text and bookmark icon
-            Padding(
-              padding: EdgeInsets.only(right: 9.h, top: 5.h),
-              child: CustomImageView(
-                imagePath: ImageConstant.imgBookmarkPrimary22x18,
-                height: 22.v,
-                width: 18.h,
-              ),
-            ),
+           
+            
           ],
         ),
       ),
