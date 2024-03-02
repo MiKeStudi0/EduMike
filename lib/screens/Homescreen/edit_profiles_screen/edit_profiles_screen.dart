@@ -1,9 +1,8 @@
-import 'dart:convert';
 import 'dart:typed_data';
-import 'package:edumike/core/utils/image_utils.dart';
 import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
@@ -20,6 +19,29 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(EditProfilesScreen());
+}
+
+Future<String?> uploadImageToFirebaseStorage(String imageName, Uint8List file) async {
+  try {
+    // Create a Reference to the image file location in Firebase Storage
+    Reference storageReference = FirebaseStorage.instance.ref().child(imageName);
+
+    // Upload the image file to Firebase Storage
+    UploadTask uploadTask = storageReference.putData(file);
+
+    // Await for the upload to complete
+    await uploadTask.whenComplete(() => null);
+
+    // Get the download URL of the uploaded image
+    String imageUrl = await storageReference.getDownloadURL();
+
+    // Return the download URL of the uploaded image
+    return imageUrl;
+  } catch (error) {
+    // Handle any errors that occur during the upload process
+    print("Error uploading image: $error");
+    return null;
+  }
 }
 
 
@@ -68,9 +90,19 @@ Future<void> getImage(ImageSource source) async {
     setState(() {
       _image = img;
     });
-   // uploadImageToFirestore(_image!);
+    String? imageUrl = await uploadImageToFirebaseStorage("new_image.jpg", _image!);
+    if (imageUrl != null) {
+      await updateUserData(imageUrl); // Update user data with the image URL
+      print('Image uploaded. URL: $imageUrl');
+    } else {
+      // Error uploading image
+      print('Error uploading image to Firebase Storage');
+    }
   }
 }
+
+
+
 
 // Function to pick an image
 Future<Uint8List?> pickImage(ImageSource source) async {
@@ -83,11 +115,6 @@ Future<Uint8List?> pickImage(ImageSource source) async {
     return null;
   }
 }
-
-
-
-
-
 
 
   TextEditingController fullNameEditTextController = TextEditingController();
@@ -168,15 +195,13 @@ Future<Uint8List?> pickImage(ImageSource source) async {
 // }
 
 
-   Future<void> updateUserData() async {
+ Future<void> updateUserData(String imageUrl) async {
   User? user = FirebaseAuth.instance.currentUser;
   if (user == null) {
     throw Exception('User not authenticated');
   }
 
   String userId = user.uid;
-
-
 
   // Replace 'users' with your Firestore collection name
   CollectionReference userCollection =
@@ -190,13 +215,12 @@ Future<Uint8List?> pickImage(ImageSource source) async {
     'email': emailController.text,
     'gender': genderController.text,
     'phone': phoneNumberController.text,
+    'imageUrl': imageUrl, // Add the imageUrl to userData
   };
 
-  // Update the user document with the user data
+  // Update user data in Firestore
   await userCollection.doc(userId).set(userData);
 }
-
-
 
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -549,11 +573,25 @@ Widget _buildgender(BuildContext context) {
         width: 21.h,
       ),
     ),
-    onPressed: () {
-      updateUserData();
+    onPressed: () async {
+      if (_image != null) {
+        // Call the updateUserData function directly with the image URL
+        String? imageUrl = await uploadImageToFirebaseStorage("new_image.jpg", _image!);
+        if (imageUrl != null) {
+          await updateUserData(imageUrl); // Update user data with the image URL
+          print('Image uploaded. URL: $imageUrl');
+        } else {
+          // Error uploading image
+          print('Error uploading image to Firebase Storage');
+        }
+      } else {
+        // Handle the case when no image is selected
+        print('No image selected');
+      }
     },
   );
 }
+
 
   /// Navigates to the congratulationsScreen when the action is triggered.
   
