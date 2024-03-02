@@ -61,7 +61,7 @@ class ModulesScreen extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: _buildContinueColumn(context),
+        
       ),
     );
   }
@@ -86,32 +86,5 @@ class ModulesScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildContinueColumn(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: 39.h,
-        right: 39.h,
-        bottom: 53.v,
-      ),
-      decoration: AppDecoration.outlineBlack9002,
-      child: CustomElevatedButton(
-        text: "Continue",
-        rightIcon: Container(
-          padding: EdgeInsets.fromLTRB(14.h, 16.v, 12.h, 14.v),
-          margin: EdgeInsets.only(left: 30.h),
-          decoration: BoxDecoration(
-            color: appTheme.whiteA700,
-            borderRadius: BorderRadius.circular(
-              24.h,
-            ),
-          ),
-          child: CustomImageView(
-            imagePath: ImageConstant.imgArrowrightPrimary17x21,
-            height: 17.v,
-            width: 21.h,
-          ),
-        ),
-      ),
-    );
-  }
+ 
 }

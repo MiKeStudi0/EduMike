@@ -1,4 +1,5 @@
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/widgets/custom_icon_button_home.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class SelectedviewItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ModulesScreen()));
+            context, MaterialPageRoute(builder: (context) => CategoryScreen()));
       },
       child: Container(
         padding: EdgeInsets.only(

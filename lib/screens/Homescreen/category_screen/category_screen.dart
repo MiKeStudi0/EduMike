@@ -1,8 +1,10 @@
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_search_view_home.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
@@ -66,20 +68,29 @@ class CategoryScreen extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 2.v, bottom: 1.v),
-                                            child: Column(children: [
-                                              CustomImageView(
-                                                  imagePath:
-                                                      ImageConstant.imgTextbook,
-                                                  height: 53.adaptSize,
-                                                  width: 53.adaptSize),
-                                              SizedBox(height: 8.v),
-                                              Text("Text Book",
-                                                  style: CustomTextStyles
-                                                      .titleSmallBluegray90001_1)
-                                            ])),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ModulesScreen()));
+                                          },
+                                          child: Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 2.v, bottom: 1.v),
+                                              child: Column(children: [
+                                                CustomImageView(
+                                                    imagePath: ImageConstant
+                                                        .imgTextbook,
+                                                    height: 53.adaptSize,
+                                                    width: 53.adaptSize),
+                                                SizedBox(height: 8.v),
+                                                Text("Text Book",
+                                                    style: CustomTextStyles
+                                                        .titleSmallBluegray90001_1)
+                                              ])),
+                                        ),
                                         Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
