@@ -67,14 +67,7 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       title: Text('Inbox'),
-      actions: [
-        IconButton(
-          icon: Icon(Icons.logout),
-          onPressed: () async {
-            await FirebaseAuth.instance.signOut();
-          },
-        ),
-      ],
+     
     );
   }
 
