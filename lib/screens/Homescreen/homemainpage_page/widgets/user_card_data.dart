@@ -8,9 +8,11 @@ class CardDataRepository {
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
-        // Reference to the "carddata" collection
+        // Access the "carddata" document under the user's ID
         DocumentSnapshot<Map<String, dynamic>> snapshot =
             await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
                 .collection('carddata')
                 .doc(user.uid)
                 .get();
@@ -36,13 +38,11 @@ class CardDataRepository {
         }
       } else {
         // Handle case when user is not authenticated
-        print('User not authenticated');
-        return null;
+        throw 'User not authenticated';
       }
     } catch (e) {
-      // Print an error message if an error occurs
-      print('Error retrieving card data: $e');
-      return null;
+      // Propagate the error for handling in the calling code
+      throw 'Error retrieving card data: $e';
     }
   }
 }

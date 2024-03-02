@@ -25,23 +25,21 @@ class HomemainpagePage extends StatelessWidget {
   String? semester;
   TextEditingController searchController = TextEditingController();
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
-    // Get the current user
-    User? user = FirebaseAuth.instance.currentUser;
+Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
+  User? user = FirebaseAuth.instance.currentUser;
 
-    if (user == null) {
-      throw Exception('User not authenticated');
-    }
-
-    // Retrieve the user document from Firestore
-    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
-        .instance
-        .collection('carddata')
-        .doc(user.uid)
-        .get();
-
-    return snapshot;
+  if (user == null) {
+    throw Exception('User not authenticated');
   }
+
+  return await FirebaseFirestore.instance
+      .collection('users')  // Replace 'users' with the name of your root collection
+      .doc(user.uid)
+      .collection('carddata')  // Replace 'carddata' with the name of your sub-collection
+      .doc(user.uid)
+      .get();
+}
+
 Widget carddata(BuildContext context) {
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
       future: getUserDocument(),
