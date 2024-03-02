@@ -41,62 +41,59 @@ class _CourseListBlockState extends State<CourseListBlock> {
     initializeData();
     loadBookmarkedCourses();
   }
+void _addToBookmarkCollection(Course course) async {
+  try {
+    // Get the current user
+    User? user = FirebaseAuth.instance.currentUser;
 
-  void _addToBookmarkCollection(Course course) async {
-    try {
-      // Get the current user
-      User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      // Reference to the user's bookmarks subcollection
+      CollectionReference<Map<String, dynamic>> userBookmarksCollection =
+          FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bookmarks');
 
-      if (user != null) {
-        // Reference to the user's bookmarks subcollection
-        CollectionReference<Map<String, dynamic>> userBookmarksCollection =
-            FirebaseFirestore.instance
-                .collection('users')
-                .doc(user.uid)
-                .collection('bookmarks');
+      // Check if a document with the same data already exists
+      QuerySnapshot<Map<String, dynamic>> existingDocs =
+          await userBookmarksCollection
+              .where('courseCode', isEqualTo: course.courseCode)
+              .where('university', isEqualTo: _selecteduniversity)
+              .where('degree', isEqualTo: _selecteddegree)
+              .where('course', isEqualTo: _selectedcourse)
+              .where('semester', isEqualTo: _selectedsemester)
+              .get();
 
-        // Check if a document with the same data already exists
-        QuerySnapshot<Map<String, dynamic>> existingDocs =
-            await userBookmarksCollection
-                .where('courseCode', isEqualTo: course.courseCode)
-                .where('university', isEqualTo: _selecteduniversity)
-                .where('degree', isEqualTo: _selecteddegree)
-                .where('course', isEqualTo: _selectedcourse)
-                .where('semester', isEqualTo: _selectedsemester)
-                .get();
+      if (existingDocs.docs.isEmpty) {
+        // Add the data to the user's bookmarks subcollection
+        await userBookmarksCollection.add({
+          'category': course.category,
+          'courseName': course.courseName,
+          'courseCode': course.courseCode,
+          'courseCredit': course.courseCredit,
+          'university': _selecteduniversity,
+          'degree': _selecteddegree,
+          'course': _selectedcourse,
+          'semester': _selectedsemester,
+        });
 
-        if (existingDocs.docs.isEmpty) {
-          // Add the data to the user's bookmarks subcollection
-          await userBookmarksCollection.add({
-            'category': course.category,
-            'courseName': course.courseName,
-            'courseCode': course.courseCode,
-            'courseCredit': course.courseCredit,
-            'university': _selecteduniversity,
-            'degree': _selecteddegree,
-            'course': _selectedcourse,
-            'semester': _selectedsemester,
-          });
-
-          // Optionally show a confirmation message or perform any other action
-          print('Bookmark added successfully!');
-          // Update the list of bookmarked courses
-          loadBookmarkedCourses();
-        } else {
-          // Bookmark already exists, delete it
-          String documentId = existingDocs.docs.first.id;
-          await userBookmarksCollection.doc(documentId).delete();
-          // Optionally show a confirmation message or perform any other action
-          print('Bookmark removed successfully!');
-          // Update the list of bookmarked courses
-          loadBookmarkedCourses();
-        }
+        // Optionally show a confirmation message or perform any other action
+        print('Bookmark added successfully!');
+        // Update the list of bookmarked courses
+        loadBookmarkedCourses();
+      } else {
+        // Bookmark already exists, delete it
+        String documentId = existingDocs.docs.first.id;
+        await userBookmarksCollection.doc(documentId).delete();
+        // Optionally show a confirmation message or perform any other action
+        print('Bookmark removed successfully!');
+        // Update the list of bookmarked courses
+        loadBookmarkedCourses();
       }
-    } catch (e) {
-      // Handle errors
-      print('Error updating bookmark: $e');
     }
+  } catch (e) {
+    // Handle errors
+    print('Error updating bookmark: $e');
   }
+}
+
 
   void loadBookmarkedCourses() async {
     try {
@@ -154,8 +151,6 @@ class _CourseListBlockState extends State<CourseListBlock> {
         // Reference to the "carddata" collection
         DocumentSnapshot<Map<String, dynamic>> snapshot =
             await FirebaseFirestore.instance
-                .collection('users')
-                .doc(user.uid)
                 .collection('carddata')
                 .doc(user.uid)
                 .get();
@@ -358,19 +353,18 @@ class _CourseListBlockState extends State<CourseListBlock> {
                             _addToBookmarkCollection(course);
                           },
                           child: isBookmarked
-                              ? CustomImageView(
-                                  imagePath: ImageConstant
-                                      .imgBookmarkPrimary, // Change to your bookmarked icon
-                                  height: 18,
-                                  width: 14,
-                                  color: Colors
-                                      .blue, // Change to your desired color
-                                )
-                              : CustomImageView(
-                                  imagePath: ImageConstant.imgBookmark,
-                                  height: 18,
-                                  width: 14,
-                                ),
+                        ? CustomImageView(
+                            imagePath: ImageConstant.imgBookmarkPrimary, // Change to your bookmarked icon
+                            height: 18,
+                            width: 14,
+                            color: Colors.blue, // Change to your desired color
+                          )
+                        : CustomImageView(
+                            imagePath: ImageConstant.imgBookmark,
+                            height: 18,
+                            width: 14,
+                          ),
+
                         ),
                       ],
                     ),
