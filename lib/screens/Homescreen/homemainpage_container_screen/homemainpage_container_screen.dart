@@ -9,6 +9,11 @@ import 'package:edumike/widgets/custom_bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+String universityField = '';
+String degreeField = '';
+String courseField = '';
+String semesterField = '';
+
 // ignore_for_file: must_be_immutable
 class HomemainpageContainerScreen extends StatelessWidget {
   final String? university;
@@ -25,10 +30,6 @@ class HomemainpageContainerScreen extends StatelessWidget {
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
-  String universityField = '';
-  String degreeField = '';
-  String courseField = '';
-  String semesterField = '';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
