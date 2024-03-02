@@ -11,6 +11,8 @@ class CardDataRepository {
         // Reference to the "carddata" collection
         DocumentSnapshot<Map<String, dynamic>> snapshot =
             await FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
                 .collection('carddata')
                 .doc(user.uid)
                 .get();

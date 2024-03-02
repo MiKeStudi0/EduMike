@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class HomemainpagePage extends StatelessWidget {
   HomemainpagePage({Key? key}) : super(key: key);
- String? university;
+  String? university;
   String? degree;
   String? course;
   String? semester;
@@ -36,13 +36,15 @@ class HomemainpagePage extends StatelessWidget {
     // Retrieve the user document from Firestore
     DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
         .instance
+        .collection('users')
+        .doc(user.uid)
         .collection('carddata')
         .doc(user.uid)
         .get();
-
     return snapshot;
   }
-Widget carddata(BuildContext context) {
+
+  Widget carddata(BuildContext context) {
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
       future: getUserDocument(),
       builder: (context, snapshot) {
@@ -106,9 +108,12 @@ Widget carddata(BuildContext context) {
                       child: _buildTopMentor(context,
                           text: "My Courses", seeAll: "See All")),
 
+                  Padding(
+                      padding: EdgeInsets.only(
+                        left: 5.v,
+                      ),
+                      child: CourseListBlock()),
 
-                 Padding(padding: EdgeInsets.only(left: 5.v,), child: CourseListBlock()),
-                  
                   //SizedBox(height: 8.v),
                   // /_buildCategory(context),
                   // SizedBox(height: 18.v),
@@ -133,7 +138,6 @@ Widget carddata(BuildContext context) {
                   //     },
                   //     child: Text('Course List')),
 
-                      
                   //  _buildUserCourse(context),
                 ],
               ),
@@ -621,10 +625,15 @@ Widget carddata(BuildContext context) {
 
   /// Navigates to the subscriptionScreen when the action is triggered.
   onTapTxtSeeAll(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyCoursePage( university: university,  // Pass the actual values here
-        degree: degree,
-        course: course,
-        semester: semester,)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MyCoursePage(
+                  university: university, // Pass the actual values here
+                  degree: degree,
+                  course: course,
+                  semester: semester,
+                )));
   }
 
   /// Navigates to the categoryScreen when the action is triggered.

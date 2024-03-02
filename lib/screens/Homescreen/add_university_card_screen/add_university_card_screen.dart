@@ -109,11 +109,15 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
 
       if (user != null) {
         // Reference to the "carddata" collection
-        CollectionReference cardDataCollection =
-            FirebaseFirestore.instance.collection('carddata');
+        DocumentReference<Map<String, dynamic>> cardDataCollection =
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .collection('carddata')
+                .doc(user.uid);
 
-        // Add a new document to the "carddata" collection with the user's ID
-        await cardDataCollection.doc(user.uid).set({
+        // Add a new document to the "carddata" collection with auto-generated ID
+        await cardDataCollection.set({
           'university': _selectedUniversityId,
           'degree': _selectedDegreeId,
           'course': _selectedCourseId,
