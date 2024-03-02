@@ -3,6 +3,7 @@ import 'package:edumike/screens/Homescreen/add_university_card_screen/add_univer
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
+import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../homemainpage_page/widgets/category_item_widget.dart';
@@ -18,7 +19,10 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class HomemainpagePage extends StatelessWidget {
   HomemainpagePage({Key? key}) : super(key: key);
-
+ String? university;
+  String? degree;
+  String? course;
+  String? semester;
   TextEditingController searchController = TextEditingController();
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
@@ -38,8 +42,7 @@ class HomemainpagePage extends StatelessWidget {
 
     return snapshot;
   }
-
-  Widget carddata(BuildContext context) {
+Widget carddata(BuildContext context) {
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
       future: getUserDocument(),
       builder: (context, snapshot) {
@@ -51,10 +54,10 @@ class HomemainpagePage extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         } else {
           // If the data is successfully fetched, extract the values
-          String? university = snapshot.data?.data()?['university'];
-          String? degree = snapshot.data?.data()?['degree'];
-          String? course = snapshot.data?.data()?['course'];
-          String? semester = snapshot.data?.data()?['semester'];
+          university = snapshot.data?.data()?['university'];
+          degree = snapshot.data?.data()?['degree'];
+          course = snapshot.data?.data()?['course'];
+          semester = snapshot.data?.data()?['semester'];
 
           if (university == null ||
               degree == null ||
@@ -102,6 +105,8 @@ class HomemainpagePage extends StatelessWidget {
                       padding: EdgeInsets.only(left: 18.h, right: 50.h),
                       child: _buildTopMentor(context,
                           text: "My Courses", seeAll: "See All")),
+
+
                  Padding(padding: EdgeInsets.only(left: 5.v,), child: CourseListBlock()),
                   
                   //SizedBox(height: 8.v),
@@ -570,7 +575,7 @@ class HomemainpagePage extends StatelessWidget {
       Spacer(),
       GestureDetector(
           onTap: () {
-            onTapSeeAll!.call();
+            onTapTxtSeeAll(context);
           },
           child: Padding(
               padding: EdgeInsets.symmetric(vertical: 5.v),
@@ -616,7 +621,10 @@ class HomemainpagePage extends StatelessWidget {
 
   /// Navigates to the subscriptionScreen when the action is triggered.
   onTapTxtSeeAll(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.subscriptionScreen);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => MyCoursePage( university: university,  // Pass the actual values here
+        degree: degree,
+        course: course,
+        semester: semester,)));
   }
 
   /// Navigates to the categoryScreen when the action is triggered.

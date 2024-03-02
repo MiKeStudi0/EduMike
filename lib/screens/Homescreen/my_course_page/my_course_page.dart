@@ -10,7 +10,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // ignore: must_be_immutable
 class MyCoursePage extends StatelessWidget {
-  MyCoursePage({Key? key}) : super(key: key);
+   final String? university;
+  final String? degree;
+  final String? course;
+  final String? semester;
+
+  MyCoursePage({
+     this.university,
+     this.degree,
+    this.course,
+     this.semester,
+  });
+ 
 
   TextEditingController searchController = TextEditingController();
 
@@ -63,7 +74,7 @@ class MyCoursePage extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection(
-              '/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers')
+              '/University/$university/Refers/$degree/Refers/$course/Refers/$semester/Refers')
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
