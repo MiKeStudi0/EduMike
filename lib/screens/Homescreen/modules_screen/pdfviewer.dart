@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+
 class PdfViewer extends StatefulWidget {
   final String pdfUrl;
 
@@ -15,10 +15,21 @@ class _PdfViewerState extends State<PdfViewer> {
   Widget build(BuildContext context) {
     print('PDF Viewer: PDF URL: ${widget.pdfUrl}');
     return Scaffold(
-      appBar: AppBar(
-        title: Text('PDF Viewer'),
+      appBar: _buildAppBar(context),
+      body: SfPdfViewer.network(
+        widget.pdfUrl,
+        canShowPageLoadingIndicator: true,
+        scrollDirection: PdfScrollDirection.vertical, // or PdfScrollDirection.horizontal
       ),
-      body: SfPdfViewer.network(widget.pdfUrl,canShowPageLoadingIndicator: true,),
+    );
+  }
+
+
+    PreferredSizeWidget _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: const Text('PDF Viewer', style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))) ,
+      backgroundColor: const Color.fromARGB(255, 66, 188, 249),
+     
     );
   }
 }
