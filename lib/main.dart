@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:edumike/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,21 @@ void main() async {
   );
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
+    
   ]);
 
   ///Please update theme as per your need if required.
   ThemeHelper().changeTheme('primary');
   runApp(MyApp());
+
+  
+  AndroidDeviceInfo? androidInfo;
+  try {
+    androidInfo = await DeviceInfoPlugin().androidInfo;
+    print('Android version: ${androidInfo.version}');
+  } catch (e) {
+    print('Failed to get Android version: $e');
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -24,6 +35,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(

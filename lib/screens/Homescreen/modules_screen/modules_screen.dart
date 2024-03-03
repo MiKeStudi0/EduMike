@@ -1,4 +1,5 @@
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Homescreen/modules_screen/pdfviewer.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,9 +19,8 @@ class ModulesScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                Row(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                
                 children: [
                   Padding(
                     padding: EdgeInsets.only(bottom: 6.v),
@@ -36,7 +36,7 @@ class ModulesScreen extends StatelessWidget {
                             style: CustomTextStyles.titleSmallJostff202244,
                           ),
                           TextSpan(
-                            text: "Introducation",
+                            text: "Introduction",
                             style: CustomTextStyles.titleSmallJostff00acea,
                           ),
                         ],
@@ -60,7 +60,7 @@ class ModulesScreen extends StatelessWidget {
                 stream: FirebaseFirestore.instance.collection('/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers/BASICS OF CIVIL & MECHANICAL ENGINEERING/Refers/SYLLABUS/Refers').snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator(); // Show a loading indicator while fetching data
+                    return CircularProgressIndicator();
                   }
 
                   if (snapshot.hasError) {
@@ -82,10 +82,8 @@ class ModulesScreen extends StatelessWidget {
                         return ListTile(
                           title: Text(pdfName),
                           onTap: () {
-                            // Open the PDF or perform any action when the item is tapped
-                            // You may want to navigate to a PDF viewer screen or a WebView
-                            // with the PDF URL.
-                            print('PDF Name: $pdfName, PDF URL: $pdfUrl');
+                             print('Item tapped: PDF Name: $pdfName, PDF URL: $pdfUrl');
+                            _navigateToPdfViewer(context, pdfUrl);
                           },
                         );
                       },
@@ -96,6 +94,17 @@ class ModulesScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _navigateToPdfViewer(BuildContext context, String pdfUrl) {
+      print('Navigating to PDF Viewer with URL: $pdfUrl');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PdfViewer(pdfUrl: pdfUrl),
+
       ),
     );
   }
