@@ -18,7 +18,7 @@ class _PdfViewerState extends State<PdfViewer> {
       appBar: _buildAppBar(context),
       body: SfPdfViewer.network(
         widget.pdfUrl,
-        canShowPageLoadingIndicator: true,
+        canShowPageLoadingIndicator: false,
         scrollDirection: PdfScrollDirection.vertical, // or PdfScrollDirection.horizontal
       ),
     );

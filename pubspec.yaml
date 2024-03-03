@@ -61,6 +61,10 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^24.2.8
   device_info_plus: ^9.1.2
   hive: ^2.2.3
+
+  dio: ^5.4.1
+  pdfx: ^2.6.0
+  
   
 
 dev_dependencies:
