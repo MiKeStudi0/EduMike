@@ -362,10 +362,14 @@ Future<Uint8List?> pickImage(ImageSource source) async {
         fullNameController.text = fullName;
 
         // Return the CustomTextFormField with onChanged callback to update the controller
-        return CustomTextFormField(
-          controller: fullNameController,
-          hintText: "Full Name",
-          contentPadding: EdgeInsets.only(left: 16.0,top: 35), // Adjust the left padding as needed
+        return Container(
+          decoration: AppDecoration.outlineBlack
+            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
+          child: CustomTextFormField(
+            controller: fullNameController,
+            hintText: "Full Name",
+            contentPadding: EdgeInsets.only(left: 16.0,top: 35), // Adjust the left padding as needed
+          ),
         );
       }
     },
@@ -397,10 +401,14 @@ Future<Uint8List?> pickImage(ImageSource source) async {
         nameController.text = nickName;
 
         // Return the CustomTextFormField with the initialized controller
-        return CustomTextFormField(
-          controller: nameController,
-          hintText: "nick Name",
-          contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
+        return Container(
+          decoration: AppDecoration.outlineBlack
+            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
+          child: CustomTextFormField(
+            controller: nameController,
+            hintText: "nick Name",
+            contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
+          ),
         );
       }
     },
@@ -432,6 +440,8 @@ Future<Uint8List?> pickImage(ImageSource source) async {
 
         // Return the CustomTextFormField with the initialized controller
         return Container(
+          decoration: AppDecoration.outlineBlack
+            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
           child: CustomTextFormField(
             controller: dateOfBirthController,
             hintText: " dateofbirth",
@@ -478,10 +488,14 @@ Future<Uint8List?> pickImage(ImageSource source) async {
         emailController.text = email;
 
         // Return the CustomTextFormField with the initialized controller
-        return CustomTextFormField(
-          controller: emailController,
-          hintText: " email",
-          contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
+        return Container(
+          decoration: AppDecoration.outlineBlack
+            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
+          child: CustomTextFormField(
+            controller: emailController,
+            hintText: " email",
+            contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
+          ),
         );
       }
     },
@@ -512,10 +526,14 @@ Future<Uint8List?> pickImage(ImageSource source) async {
         phoneNumberController.text = phone;
 
         // Return the CustomTextFormField with the initialized controller
-        return CustomTextFormField(
-          controller: phoneNumberController,
-          hintText: " phone",
-          contentPadding: EdgeInsets.only(left: 16.0,top: 35),
+        return Container(
+          decoration: AppDecoration.outlineBlack
+            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
+          child: CustomTextFormField(
+            controller: phoneNumberController,
+            hintText: " phone",
+            contentPadding: EdgeInsets.only(left: 16.0,top: 35),
+          ),
         );
       }
     },
@@ -545,10 +563,14 @@ Widget _buildgender(BuildContext context) {
         genderController.text = gender;
 
         // Return the CustomTextFormField with the initialized controller
-        return CustomTextFormField(
-          controller: genderController,
-          hintText: "gender ",
-          contentPadding: EdgeInsets.only(left: 16.0,top: 35),
+        return Container(
+          decoration: AppDecoration.outlineBlack
+            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
+          child: CustomTextFormField(
+            controller: genderController,
+            hintText: "gender ",
+            contentPadding: EdgeInsets.only(left: 16.0,top: 35),
+          ),
         );
       }
     },

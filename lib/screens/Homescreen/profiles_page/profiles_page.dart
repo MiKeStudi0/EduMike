@@ -178,7 +178,7 @@ class ProfilesPage extends StatelessWidget {
   Widget _buildOne(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        onTapOne(context);
+       Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilesScreen()));
       },
       child: Padding(
         padding: EdgeInsets.only(left: 20.h),
