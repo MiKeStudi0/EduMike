@@ -8,6 +8,7 @@ import 'core/app_export.dart';
 var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
           theme: theme,
           title: 'EduWise',
           debugShowCheckedModeBanner: false,
+          
           initialRoute: AppRoutes.authScreen,
           routes: AppRoutes.routes,
         );

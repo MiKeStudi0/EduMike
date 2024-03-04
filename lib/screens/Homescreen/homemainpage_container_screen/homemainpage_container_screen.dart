@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/newcourse.dart';
@@ -9,6 +10,7 @@ import 'package:edumike/screens/Homescreen/profiles_page/profiles_page.dart';
 import 'package:edumike/widgets/custom_bottom_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CardDataRepository {
   Future<Map<String, String?>?> getCardData(String userId) async {
@@ -17,9 +19,9 @@ class CardDataRepository {
       DocumentSnapshot<Map<String, dynamic>> snapshot =
           await FirebaseFirestore.instance
               .collection('users')
-              .doc(userId)  // Use the provided userId parameter
+              .doc(userId) // Use the provided userId parameter
               .collection('carddata')
-              .doc(userId)  // Use the provided userId parameter
+              .doc(userId) // Use the provided userId parameter
               .get();
 
       // Check if the document exists
@@ -49,30 +51,28 @@ class CardDataRepository {
   }
 }
 
-// ignore_for_file: must_be_immutable
 class HomemainpageContainerScreen extends StatefulWidget {
-     final String? university;
+  final String? university;
   final String? degree;
   final String? course;
   final String? semester;
 
   HomemainpageContainerScreen({
-     this.university,
-     this.degree,
+    this.university,
+    this.degree,
     this.course,
-     this.semester,
+    this.semester,
   });
 
   @override
-  State<HomemainpageContainerScreen> createState() => _HomemainpageContainerScreenState();
+  State<HomemainpageContainerScreen> createState() =>
+      _HomemainpageContainerScreenState();
 }
 
-class _HomemainpageContainerScreenState extends State<HomemainpageContainerScreen> {
+class _HomemainpageContainerScreenState
+    extends State<HomemainpageContainerScreen> {
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
- 
-
-
+  int _currentIndex = 0;
 
   String? _selecteduniversity;
 
@@ -90,16 +90,15 @@ class _HomemainpageContainerScreenState extends State<HomemainpageContainerScree
     initializeData();
   }
 
-  
-
- Future<void> initializeData() async {
+  Future<void> initializeData() async {
     try {
       // Get the current user
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
         // Use the user's ID dynamically for fetching card data
-        Map<String, String?>? cardData = await CardDataRepository().getCardData(user.uid);
+        Map<String, String?>? cardData =
+            await CardDataRepository().getCardData(user.uid);
 
         if (cardData != null) {
           setState(() {
@@ -128,8 +127,8 @@ class _HomemainpageContainerScreenState extends State<HomemainpageContainerScree
 
       if (user != null) {
         // Reference to the "carddata" collection
-       
- DocumentSnapshot<Map<String, dynamic>> snapshot =
+
+        DocumentSnapshot<Map<String, dynamic>> snapshot =
             await FirebaseFirestore.instance
                 .collection('users')
                 .doc(user.uid)
@@ -157,7 +156,7 @@ class _HomemainpageContainerScreenState extends State<HomemainpageContainerScree
           return null;
         }
       } else {
-        // Handle case when user is not authenticated
+        // Handle case when the user is not authenticated
         print('User not authenticated');
         return null;
       }
@@ -168,101 +167,118 @@ class _HomemainpageContainerScreenState extends State<HomemainpageContainerScree
     }
   }
 
-Future<void> fetchDocumentData(String collectionPath) async {
-  try {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(collectionPath).get();
+  Future<void> fetchDocumentData(String collectionPath) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection(collectionPath).get();
 
-    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-      Map<String, dynamic> data = {
-        'id': doc.id,
-        'courseName': doc.get('courseName'),
-        'courseCode': doc.get('courseCode'),
-        'courseCredit': doc.get('courseCredit'),
-        'category': 'DefaultCategory',
-      };
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        Map<String, dynamic> data = {
+          'id': doc.id,
+          'courseName': doc.get('courseName'),
+          'courseCode': doc.get('courseCode'),
+          'courseCredit': doc.get('courseCredit'),
+          'category': 'DefaultCategory',
+        };
 
-      QuerySnapshot subcollectionSnapshot = await doc.reference.collection('Refers').get();
-      if (subcollectionSnapshot.docs.isNotEmpty) {
-        QueryDocumentSnapshot subDoc = subcollectionSnapshot.docs.first;
-        data['category'] = subDoc.get('category');
+        QuerySnapshot subcollectionSnapshot =
+            await doc.reference.collection('Refers').get();
+        if (subcollectionSnapshot.docs.isNotEmpty) {
+          QueryDocumentSnapshot subDoc = subcollectionSnapshot.docs.first;
+          data['category'] = subDoc.get('category');
+        }
+
+        Course course = Course(
+          courseName: doc.get('courseName'),
+          category: data['category'],
+          courseCode: doc.get('courseCode'),
+          courseCredit: doc.get('courseCredit'),
+          selectedDocumentId: doc.id,
+        );
+
+        courseList.add(course);
+
+        String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
+        await fetchDocumentData(nestedCollectionPath);
+        print('Data from $collectionPath: $data');
       }
 
-      Course course = Course(
-        courseName: doc.get('courseName'),
-        category: data['category'],
-        courseCode: doc.get('courseCode'),
-        courseCredit: doc.get('courseCredit'),
-        selectedDocumentId: doc.id,
-      );
-
-      courseList.add(course);
-
-      String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
-      await fetchDocumentData(nestedCollectionPath);
-      print('Data from $collectionPath: $data');
+      setState(() {});
+    } catch (e, stackTrace) {
+      print('Error getting document data: $e\n$stackTrace');
     }
-
-    setState(() {});
-  } catch (e, stackTrace) {
-    print('Error getting document data: $e\n$stackTrace');
   }
-}
+
+  final navigationkey = GlobalKey<CurvedNavigationBarState>();
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            backgroundColor: appTheme.whiteA700,
-            body: Navigator(
-                key: navigatorKey,
-                initialRoute: AppRoutes.homemainpagePage,
-                onGenerateRoute: (routeSetting) => PageRouteBuilder(
-                    pageBuilder: (ctx, ani, ani1) =>
-                        getCurrentPage(routeSetting.name!),
-                    transitionDuration: Duration(seconds: 0))),
-            bottomNavigationBar: _buildBottomBar(context)));
+    final screens = [
+      HomemainpagePage(),
+      MyCoursePage(
+        university: _selecteduniversity,
+        degree: _selecteddegree,
+        course: _selectedcourse,
+        semester: _selectedsemester,
+      ),
+      IndoxmainpagePage(),
+      MyBookmarkPage(),
+      ProfilesPage(),
+    ];
+    String imagePathHome = 'assets/images/home_image';
+
+    return Scaffold(
+      bottomNavigationBar: CurvedNavigationBar(
+        buttonBackgroundColor: Color.fromARGB(255, 59, 131, 255),
+        items: <Widget>[
+          _buildIcon(0, 'assets/images/home_image/HomeScreen.svg',
+              '$imagePathHome/img_nav_homeNot.svg'),
+          _buildIcon(1, '$imagePathHome/CourseScreen.svg',
+              '$imagePathHome/img_nav_my_courses.svg'),
+          _buildIcon(2, '$imagePathHome/IndoxScreen.svg',
+              '$imagePathHome/img_nav_indox.svg'),
+          _buildIcon(3, '$imagePathHome/BookmarkScreen.svg',
+              '$imagePathHome/img_nav_book_mark.svg'),
+          _buildIcon(4, '$imagePathHome/ProfileScreen.svg',
+              '$imagePathHome/img_nav_profile.svg'),
+        ],
+        backgroundColor: Colors.transparent,
+        color: Color.fromARGB(255, 60, 118, 218),
+        height: 75,
+        index: _currentIndex,
+        onTap: (index) => setState(
+          () {
+            _currentIndex = index;
+          },
+        ),
+        key: navigationkey,
+      ),
+      backgroundColor: appTheme.whiteA700,
+      body: WillPopScope(
+        onWillPop: () async {
+          if (_currentIndex != 0) {
+            // If not on the home screen, navigate to the home screen
+            setState(() {
+              _currentIndex = 0;
+            });
+            return false;
+          } else {
+            // If on the home screen, allow the app to close
+            return true;
+          }
+        },
+        child: screens[_currentIndex],
+      ),
+    );
   }
 
-  /// Section Widget
-  Widget _buildBottomBar(BuildContext context) {
-    return CustomBottomBar(onChanged: (BottomBarEnum type) {
-      Navigator.pushNamed(navigatorKey.currentContext!, getCurrentRoute(type));
-    });
-  }
-
-  ///Handling route based on bottom click actions
-  String getCurrentRoute(BottomBarEnum type) {
-    switch (type) {
-      case BottomBarEnum.Home:
-        return AppRoutes.homemainpagePage;
-      case BottomBarEnum.Mycourses:
-        return AppRoutes.myCoursePage;
-      case BottomBarEnum.Indox:
-        return AppRoutes.indoxmainpagePage;
-      case BottomBarEnum.Bookmark:
-        return AppRoutes.myBookmarkPage;
-      case BottomBarEnum.Profile:
-        return AppRoutes.profilesPage;
-      default:
-        return "/";
-    }
-  }
-
-  ///Handling page based on route
-  Widget getCurrentPage(String currentRoute) {
-    switch (currentRoute) {
-      case AppRoutes.homemainpagePage:
-        return HomemainpagePage();
-      case AppRoutes.myCoursePage:
-        return MyCoursePage(university: _selecteduniversity,degree: _selecteddegree,course: _selectedcourse,semester: _selectedsemester,);
-      case AppRoutes.myBookmarkPage:
-        return const  MyBookmarkPage();
-      case AppRoutes.indoxmainpagePage:
-        return const IndoxmainpagePage();
-      case AppRoutes.profilesPage:
-        return ProfilesPage();
-      default:
-        return DefaultWidget();
-    }
+  _buildIcon(int index, String selectedImage, String unselectedImage) {
+    return Container(
+      height: 25,
+      width: 25,
+      child: SvgPicture.asset(
+          _currentIndex == index ? selectedImage : unselectedImage,
+          fit: BoxFit.contain),
+    );
   }
 }

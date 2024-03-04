@@ -64,6 +64,8 @@ dependencies:
 
   dio: ^5.4.1
   pdfx: ^2.6.0
+  curved_navigation_bar: ^1.0.3
+  shared_preferences: ^2.2.2
   
   
 

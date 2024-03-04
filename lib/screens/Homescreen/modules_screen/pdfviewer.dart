@@ -17,6 +17,7 @@ class _PdfViewerState extends State<PdfViewer> {
     return Scaffold(
       appBar: _buildAppBar(context),
       body: SfPdfViewer.network(
+        
         widget.pdfUrl,
         canShowPageLoadingIndicator: false,
         scrollDirection: PdfScrollDirection.vertical, // or PdfScrollDirection.horizontal
