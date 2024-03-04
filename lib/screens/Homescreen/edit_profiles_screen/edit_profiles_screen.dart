@@ -366,6 +366,10 @@ Future<Uint8List?> pickImage(ImageSource source) async {
           decoration: AppDecoration.outlineBlack
             .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
           child: CustomTextFormField(
+             prefix: Container(
+              margin: EdgeInsets.fromLTRB(21.h, 20.v, 8.h, 20.v),
+              child: Icon(Icons.person, color: appTheme.blueGray900, size: 20.v,)
+            ),
             controller: fullNameController,
             hintText: "Full Name",
             contentPadding: EdgeInsets.only(left: 16.0,top: 35), // Adjust the left padding as needed
@@ -405,6 +409,11 @@ Future<Uint8List?> pickImage(ImageSource source) async {
           decoration: AppDecoration.outlineBlack
             .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
           child: CustomTextFormField(
+            prefix: Container(
+              margin: EdgeInsets.fromLTRB(21.h, 20.v, 8.h, 20.v),
+              child: Icon(Icons.call, color: appTheme.blueGray900, size: 20.v,)
+            ),
+            
             controller: nameController,
             hintText: "nick Name",
             contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
@@ -449,13 +458,8 @@ Future<Uint8List?> pickImage(ImageSource source) async {
             prefix: Container(
             margin: EdgeInsets.fromLTRB(21.h, 20.v, 8.h, 20.v),
             child: GestureDetector(
-              child: CustomImageView(
-                  onTap: () {
-                    _selectdate();
-                  },
-                  imagePath: ImageConstant.imgCalendar,
-                  height: 20.v,
-                  width: 18.h),
+              child: Icon(Icons.calendar_month, color: appTheme.blueGray900, size: 20.v,),
+              onTap: () => _selectdate(),
             )),
           ),
         );
@@ -492,6 +496,10 @@ Future<Uint8List?> pickImage(ImageSource source) async {
           decoration: AppDecoration.outlineBlack
             .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
           child: CustomTextFormField(
+            prefix: Container(
+              margin: EdgeInsets.fromLTRB(21.h, 20.v, 8.h, 20.v),
+              child: Icon(Icons.email, color: appTheme.blueGray900, size: 20.v,)
+            ),
             controller: emailController,
             hintText: " email",
             contentPadding: EdgeInsets.only(left: 16.0,top: 35), 
@@ -530,6 +538,10 @@ Future<Uint8List?> pickImage(ImageSource source) async {
           decoration: AppDecoration.outlineBlack
             .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
           child: CustomTextFormField(
+            prefix: Container(
+              margin: EdgeInsets.fromLTRB(21.h, 20.v, 8.h, 20.v),
+              child: Icon(Icons.phone, color: appTheme.blueGray900, size: 20.v,)
+            ),
             controller: phoneNumberController,
             hintText: " phone",
             contentPadding: EdgeInsets.only(left: 16.0,top: 35),
@@ -567,6 +579,10 @@ Widget _buildgender(BuildContext context) {
           decoration: AppDecoration.outlineBlack
             .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
           child: CustomTextFormField(
+            prefix: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Icon(Icons.person_2_rounded, color: appTheme.blueGray900, size: 20.v,),
+            ),
             controller: genderController,
             hintText: "gender ",
             contentPadding: EdgeInsets.only(left: 16.0,top: 35),
@@ -596,28 +612,11 @@ Widget _buildgender(BuildContext context) {
       ),
     ),
     onPressed: () async {
-      if (_image != null) {
-        // Call the updateUserData function directly with the image URL
-        String? imageUrl = await uploadImageToFirebaseStorage("new_image.jpg", _image!);
-        if (imageUrl != null) {
-          await updateUserData(imageUrl); // Update user data with the image URL
-          print('Image uploaded. URL: $imageUrl');
-        } else {
-          // Error uploading image
-          print('Error uploading image to Firebase Storage');
-        }
-      } else {
-        // Handle the case when no image is selected
-        print('No image selected');
-      }
     },
   );
 }
 
 
-  /// Navigates to the congratulationsScreen when the action is triggered.
-  
-    // Use the user ID as the document ID
     
   }
 
