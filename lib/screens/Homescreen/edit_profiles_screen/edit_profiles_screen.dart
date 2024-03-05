@@ -21,7 +21,6 @@ class EditProfilesScreen extends StatefulWidget {
 }
 
 class _FillYourProfileScreenState extends State<EditProfilesScreen> {
-  
   TextEditingController fullnameEditTextController = TextEditingController();
   late final String gendervalue;
 
@@ -47,7 +46,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   late User _user;
   late DocumentSnapshot _userSnapshot;
- 
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -57,7 +56,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     _getUserData();
   }
 
-   Future<void> _getUserData() async {
+  Future<void> _getUserData() async {
     try {
       _user = _auth.currentUser!;
       _userSnapshot = await FirebaseFirestore.instance
@@ -86,271 +85,291 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
       // Handle error
     }
   }
-bool _isLoading = true;
+  ImageProvider<Object>? _getImageProvider() {
+  if (_selectedImage != null) {
+    return FileImage(File(_selectedImage!.path));
+  } else if (_userSnapshot['profileUrl'] != null) {
+    return NetworkImage(_userSnapshot['profileUrl']);
+  } else {
+    return AssetImage('assets/images/home_image/Profile.jpg');
+  }
+}
+
+
+
+
+  bool _isLoading = true;
 
   XFile? _selectedImage;
 
-  Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
+Future<void> _pickImage() async {
+  final ImagePicker _picker = ImagePicker();
 
-    // Show bottom sheet with options
-    await showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Wrap(
-          children: [
-            ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Choose from Gallery'),
-              onTap: () async {
-                Navigator.of(context).pop();
-                final XFile? pickedImage =
-                    await _picker.pickImage(source: ImageSource.gallery);
-                if (pickedImage != null) {
-                  setState(() {
-                    _selectedImage = pickedImage;
-                  });
-                }
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text('Take a Photo'),
-              onTap: () async {
-                Navigator.of(context).pop();
-                final XFile? pickedImage =
-                    await _picker.pickImage(source: ImageSource.camera);
-                if (pickedImage != null) {
-                  setState(() {
-                    _selectedImage = pickedImage;
-                  });
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
+  // Show bottom sheet with options
+  await showModalBottomSheet(
+    context: context,
+    builder: (BuildContext context) {
+      return Wrap(
+        children: [
+          ListTile(
+            leading: Icon(Icons.photo_library),
+            title: Text('Choose from Gallery'),
+            onTap: () async {
+              Navigator.of(context).pop();
+              final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+              if (pickedImage != null) {
+                setState(() {
+                  _selectedImage = pickedImage;
+                });
+              }
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.camera_alt),
+            title: Text('Take a Photo'),
+            onTap: () async {
+              Navigator.of(context).pop();
+              final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
+              if (pickedImage != null) {
+                setState(() {
+                  _selectedImage = pickedImage;
+                });
+              }
+            },
+          ),
+        ],
+      );
+    },
+  );
+
+  // Update the profile image if an image was selected
+  if (_selectedImage != null) {
+    setState(() {});
   }
+}
 
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(context),
             body: _isLoading
                 ? Center(child: CircularProgressIndicator())
-                :
-            
-             SizedBox(
-                width: SizeUtils.width,
-                child: SingleChildScrollView(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: Form(
-                        key: _formKey,
-                        child: Container(
-                            color: appTheme.blue50,
-                            width: double.maxFinite,
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 34.h, vertical: 29.v),
-                            child: Column(children: [
-                              SizedBox(
-                                height: 94.v,
-                                width: 93.h,
-                                child: Stack(
-                                    alignment: Alignment.bottomRight,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: appTheme
-                                                .teal700, // Set border color here
-                                            width: 4, // Set border width here
+                : SizedBox(
+                    width: SizeUtils.width,
+                    child: SingleChildScrollView(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Form(
+                            key: _formKey,
+                            child: Container(
+                                color: appTheme.blue50,
+                                width: double.maxFinite,
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 34.h, vertical: 29.v),
+                                child: Column(children: [
+                                  SizedBox(
+                                    height: 94.v,
+                                    width: 93.h,
+                                    child: Stack(
+                                        alignment: Alignment.bottomRight,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: appTheme
+                                                    .teal700, // Set border color here
+                                                width:
+                                                    4, // Set border width here
+                                              ),
+                                            ),
+                                            child: CircleAvatar(
+                                              radius: 64,
+                                              //backgroundImage: ,
+                                              // Add child here if needed
+                                            ),
                                           ),
-                                        ),
-                                        child: CircleAvatar(
-                                          radius: 64,
-                                          //backgroundImage: ,
-                                          // Add child here if needed
-                                        ),
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          border: Border.all(
-                                            color: appTheme
-                                                .teal700, // Set border color here
-                                            width: 4, // Set border width here
-                                          ),
-                                        ),
-                                        child: GestureDetector(
-                                          onTap: () => _pickImage(),
-                                          child: CircleAvatar(
-                                            radius: 64,
-                                            backgroundImage:  NetworkImage(
-                                                    _userSnapshot['profileUrl'])
-                                              
-                                            // Add child here if needed
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 9.h),
-                                        child: CustomIconButton(
-                                          height: 33.adaptSize,
-                                          width: 33.adaptSize,
-                                          padding: EdgeInsets.all(7.h),
-                                          decoration:
-                                              IconButtonStyleHelper.outlineTeal,
-                                          alignment: Alignment.bottomRight,
-                                          child: Container(
-                                            child: GestureDetector(
-                                              child: CustomImageView(
-                                                imagePath: ImageConstant
-                                                    .imgTelevisionTeal700,
-                                                onTap: () {
-                                                  null;
-                                                },
+                                          Container(
+  decoration: BoxDecoration(
+    shape: BoxShape.circle,
+    border: Border.all(
+      color: appTheme.teal700,
+      width: 4,
+    ),
+  ),
+  child: GestureDetector(
+    onTap: () => _pickImage(),
+    child: CircleAvatar(
+  key: UniqueKey(),
+  radius: 64,
+  backgroundImage: _getImageProvider(),
+),
+  ),
+),
+
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(right: 9.h),
+                                            child: CustomIconButton(
+                                              height: 33.adaptSize,
+                                              width: 33.adaptSize,
+                                              padding: EdgeInsets.all(7.h),
+                                              decoration: IconButtonStyleHelper
+                                                  .outlineTeal,
+                                              alignment: Alignment.bottomRight,
+                                              child: Container(
+                                                child: GestureDetector(
+                                                  child: CustomImageView(
+                                                    imagePath: ImageConstant
+                                                        .imgTelevisionTeal700,
+                                                    onTap: () {
+                                                      null;
+                                                    },
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                    ]),
-                              ),
-                              SizedBox(height: 30.v),
-                              Container(
-                                decoration: AppDecoration.outlineBlack.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder12),
-                                child: CustomTextFormField(
-                                  prefix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          21.h, 20.v, 8.h, 20.v),
-                                      child: Icon(
-                                        Icons.person,
-                                        color: appTheme.blueGray900,
-                                        size: 20.v,
-                                      )),
-                                  controller: fullnameController,
-                                  hintText: "Full Name",
-                                  contentPadding: EdgeInsets.only(
-                                      left: 16.0,
-                                      top:
-                                          35), // Adjust the left padding as needed
-                                ),
-                              ),
-                              SizedBox(height: 20.v),
-                              Container(
-                                decoration: AppDecoration.outlineBlack.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder12),
-                                child: CustomTextFormField(
-                                  prefix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          21.h, 20.v, 8.h, 20.v),
-                                      child: Icon(
-                                        Icons.call,
-                                        color: appTheme.blueGray900,
-                                        size: 20.v,
-                                      )),
-                                  controller: nameController,
-                                  hintText: "Nick Name",
-                                  contentPadding:
-                                      EdgeInsets.only(left: 16.0, top: 35),
-                                ),
-                              ),
-                              SizedBox(height: 20.v),
-                              Container(
-                                decoration: AppDecoration.outlineBlack.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder12),
-                                child: CustomTextFormField(
-                                  controller: dateOfBirthController,
-                                  hintText: " DOB",
-                                  contentPadding:
-                                      EdgeInsets.only(left: 16.0, top: 35),
-                                  prefix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          21.h, 20.v, 8.h, 20.v),
-                                      child: GestureDetector(
+                                        ]),
+                                  ),
+                                  SizedBox(height: 30.v),
+                                  Container(
+                                    decoration: AppDecoration.outlineBlack
+                                        .copyWith(
+                                            borderRadius: BorderRadiusStyle
+                                                .roundedBorder12),
+                                    child: CustomTextFormField(
+                                      prefix: Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              21.h, 20.v, 8.h, 20.v),
+                                          child: Icon(
+                                            Icons.person,
+                                            color: appTheme.blueGray900,
+                                            size: 20.v,
+                                          )),
+                                      controller: fullnameController,
+                                      hintText: "Full Name",
+                                      contentPadding: EdgeInsets.only(
+                                          left: 16.0,
+                                          top:
+                                              35), // Adjust the left padding as needed
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.v),
+                                  Container(
+                                    decoration: AppDecoration.outlineBlack
+                                        .copyWith(
+                                            borderRadius: BorderRadiusStyle
+                                                .roundedBorder12),
+                                    child: CustomTextFormField(
+                                      prefix: Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              21.h, 20.v, 8.h, 20.v),
+                                          child: Icon(
+                                            Icons.call,
+                                            color: appTheme.blueGray900,
+                                            size: 20.v,
+                                          )),
+                                      controller: nameController,
+                                      hintText: "Nick Name",
+                                      contentPadding:
+                                          EdgeInsets.only(left: 16.0, top: 35),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.v),
+                                  Container(
+                                    decoration: AppDecoration.outlineBlack
+                                        .copyWith(
+                                            borderRadius: BorderRadiusStyle
+                                                .roundedBorder12),
+                                    child: CustomTextFormField(
+                                      controller: dateOfBirthController,
+                                      hintText: " DOB",
+                                      contentPadding:
+                                          EdgeInsets.only(left: 16.0, top: 35),
+                                      prefix: Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              21.h, 20.v, 8.h, 20.v),
+                                          child: GestureDetector(
+                                            child: Icon(
+                                              Icons.calendar_month,
+                                              color: appTheme.blueGray900,
+                                              size: 20.v,
+                                            ),
+                                            onTap: () => (),
+                                          )),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.v),
+                                  Container(
+                                    decoration: AppDecoration.outlineBlack
+                                        .copyWith(
+                                            borderRadius: BorderRadiusStyle
+                                                .roundedBorder12),
+                                    child: CustomTextFormField(
+                                      prefix: Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              21.h, 20.v, 8.h, 20.v),
+                                          child: Icon(
+                                            Icons.email,
+                                            color: appTheme.blueGray900,
+                                            size: 20.v,
+                                          )),
+                                      controller: emailController,
+                                      hintText: " email",
+                                      contentPadding:
+                                          EdgeInsets.only(left: 16.0, top: 35),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.v),
+                                  Container(
+                                    decoration: AppDecoration.outlineBlack
+                                        .copyWith(
+                                            borderRadius: BorderRadiusStyle
+                                                .roundedBorder12),
+                                    child: CustomTextFormField(
+                                      prefix: Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                              21.h, 20.v, 8.h, 20.v),
+                                          child: Icon(
+                                            Icons.phone,
+                                            color: appTheme.blueGray900,
+                                            size: 20.v,
+                                          )),
+                                      controller: phoneNumberController,
+                                      hintText: " phone",
+                                      contentPadding:
+                                          EdgeInsets.only(left: 16.0, top: 35),
+                                    ),
+                                  ),
+                                  SizedBox(height: 20.v),
+                                  Container(
+                                    decoration: AppDecoration.outlineBlack
+                                        .copyWith(
+                                            borderRadius: BorderRadiusStyle
+                                                .roundedBorder12),
+                                    child: CustomTextFormField(
+                                      prefix: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
                                         child: Icon(
-                                          Icons.calendar_month,
+                                          Icons.person_2_rounded,
                                           color: appTheme.blueGray900,
                                           size: 20.v,
                                         ),
-                                        onTap: () => (),
-                                      )),
-                                ),
-                              ),
-                              SizedBox(height: 20.v),
-                              Container(
-                                decoration: AppDecoration.outlineBlack.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder12),
-                                child: CustomTextFormField(
-                                  prefix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          21.h, 20.v, 8.h, 20.v),
-                                      child: Icon(
-                                        Icons.email,
-                                        color: appTheme.blueGray900,
-                                        size: 20.v,
-                                      )),
-                                  controller: emailController,
-                                  hintText: " email",
-                                  contentPadding:
-                                      EdgeInsets.only(left: 16.0, top: 35),
-                                ),
-                              ),
-                              SizedBox(height: 20.v),
-                              Container(
-                                decoration: AppDecoration.outlineBlack.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder12),
-                                child: CustomTextFormField(
-                                  prefix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          21.h, 20.v, 8.h, 20.v),
-                                      child: Icon(
-                                        Icons.phone,
-                                        color: appTheme.blueGray900,
-                                        size: 20.v,
-                                      )),
-                                  controller: phoneNumberController,
-                                  hintText: " phone",
-                                  contentPadding:
-                                      EdgeInsets.only(left: 16.0, top: 35),
-                                ),
-                              ),
-                              SizedBox(height: 20.v),
-                              Container(
-                                decoration: AppDecoration.outlineBlack.copyWith(
-                                    borderRadius:
-                                        BorderRadiusStyle.roundedBorder12),
-                                child: CustomTextFormField(
-                                  prefix: Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Icon(
-                                      Icons.person_2_rounded,
-                                      color: appTheme.blueGray900,
-                                      size: 20.v,
+                                      ),
+                                      controller: genderController,
+                                      hintText: "Gender ",
+                                      contentPadding:
+                                          EdgeInsets.only(left: 16.0, top: 35),
                                     ),
                                   ),
-                                  controller: genderController,
-                                  hintText: "Gender ",
-                                  contentPadding:
-                                      EdgeInsets.only(left: 16.0, top: 35),
-                                ),
-                              ),
-                              SizedBox(height: 20.v),
-                              _buildUpdateButton(),
-                              SizedBox(height: 5.v)
-                            ])))))));
+                                  SizedBox(height: 20.v),
+                                  _buildUpdateButton(),
+                                  SizedBox(height: 5.v)
+                                ])))))));
   }
 
   /// Section Widget
@@ -390,9 +409,8 @@ bool _isLoading = true;
         try {
           // Step 1: Upload Image to Firebase Storage
           if (_selectedImage != null) {
-            Reference storageReference = FirebaseStorage.instance
-                .ref()
-                .child('user_images');
+            Reference storageReference =
+                FirebaseStorage.instance.ref().child('user_images');
             UploadTask uploadTask =
                 storageReference.putFile(File(_selectedImage!.path));
             await uploadTask.whenComplete(() => null);
@@ -430,10 +448,13 @@ bool _isLoading = true;
             genderController.text = genderController.text;
           });
 
+        
           // Optionally, you can show a success message or navigate to another screen.
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Profile updated successfully!')),
           );
+
+          Navigator.pop(context);
         } catch (error) {
           print("Error updating user data: $error");
           // Handle error
