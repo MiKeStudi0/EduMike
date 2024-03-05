@@ -66,7 +66,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
           .get();
 
       // Fetch the profile image URL
-      String? profileImageUrl = _userSnapshot['profileurl'];
+      String? profileImageUrl = _userSnapshot['profileUrl'];
 
       // Update the state with the existing image URL
       setState(() {
@@ -192,7 +192,7 @@ bool _isLoading = true;
                                           child: CircleAvatar(
                                             radius: 64,
                                             backgroundImage:  NetworkImage(
-                                                    _userSnapshot['profileurl'])
+                                                    _userSnapshot['profileUrl'])
                                               
                                             // Add child here if needed
                                           ),
@@ -392,7 +392,7 @@ bool _isLoading = true;
           if (_selectedImage != null) {
             Reference storageReference = FirebaseStorage.instance
                 .ref()
-                .child('user_images/${_user.uid}/${_selectedImage!.name}');
+                .child('user_images');
             UploadTask uploadTask =
                 storageReference.putFile(File(_selectedImage!.path));
             await uploadTask.whenComplete(() => null);
@@ -402,7 +402,7 @@ bool _isLoading = true;
           String? profileUrl;
           if (_selectedImage != null) {
             profileUrl = await FirebaseStorage.instance
-                .ref('user_images/${_user.uid}/${_selectedImage!.name}')
+                .ref('user_images')
                 .getDownloadURL();
           }
 
@@ -417,7 +417,7 @@ bool _isLoading = true;
             'email': emailController.text,
             'phone': phoneNumberController.text,
             'gender': genderController.text,
-            'profileurl': profileUrl,
+            'profileUrl': profileUrl,
           });
 
           // Update controllers with the new values

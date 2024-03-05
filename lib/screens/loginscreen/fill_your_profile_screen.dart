@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
@@ -13,15 +16,14 @@ import 'package:edumike/widgets/custom_phone_number.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(FillYourProfileScreen());
 }
-
-
 
 Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
   // Get the current user
@@ -32,20 +34,11 @@ Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
   }
 
   // Retrieve the user document from Firestore
-  DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
-      .collection('users')
-      .doc(user.uid)    
-      .get();
+  DocumentSnapshot<Map<String, dynamic>> snapshot =
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
   return snapshot;
 }
 
-
-
-
-
-
-
- 
 // ignore_for_file: must_be_immutable
 class FillYourProfileScreen extends StatefulWidget {
   FillYourProfileScreen({Key? key}) : super(key: key);
@@ -71,6 +64,52 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
             DateFormat('yyyy-MM-dd').format(_picked);
       });
     }
+  }
+
+  XFile? _selectedImage;
+
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+
+    await showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: [
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              title: Text('Choose from Gallery'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                final XFile? pickedImage =
+                    await _picker.pickImage(source: ImageSource.gallery);
+                if (pickedImage != null) {
+                  _pickImageCallback(pickedImage.path);
+                }
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text('Take a Photo'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                final XFile? pickedImage =
+                    await _picker.pickImage(source: ImageSource.camera);
+                if (pickedImage != null) {
+                  _pickImageCallback(pickedImage.path);
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _pickImageCallback(String imagePath) {
+    setState(() {
+      _selectedImage = XFile(imagePath);
+    });
   }
 
   FocusNode emailFocusNode = FocusNode();
@@ -113,37 +152,67 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 34.h, vertical: 29.v),
                             child: Column(children: [
-                              SizedBox(
-                                  height: 100.adaptSize,
-                                  width: 100.adaptSize,
+                              Align(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  height: 93.v,
+                                  width: 89.h,
                                   child: Stack(
-                                      alignment: Alignment.bottomCenter,
-                                      children: [
-                                        Align(
-                                            alignment: Alignment.center,
-                                            child: Container(
-                                                height: 100.adaptSize,
-                                                width: 100.adaptSize,
-                                                decoration: BoxDecoration(
-                                                    color: appTheme.blue50,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            50.h)))),
-                                        CustomImageView(
-                                            imagePath:
-                                                ImageConstant.imgFill1Gray50,
-                                            height: 76.v,
-                                            width: 70.h,
-                                            alignment: Alignment.bottomCenter),
-                                        CustomIconButton(
-                                            height: 30.adaptSize,
-                                            width: 30.adaptSize,
-                                            padding: EdgeInsets.all(7.h),
-                                            alignment: Alignment.bottomRight,
-                                            child: CustomImageView(
-                                                imagePath:
-                                                    ImageConstant.imgGroup20))
-                                      ])),
+                                    alignment: Alignment.bottomRight,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: appTheme
+                                                .teal700, // Set border color here
+                                            width: 4, // Set border width here
+                                          ),
+                                        ),
+                                        child: const CircleAvatar(
+                                          radius: 64,
+                                          //backgroundImage: ,
+                                          // Add child here if needed
+                                        ),
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: appTheme
+                                                .blue600, // Set border color here
+                                            width: 4, // Set border width here
+                                          ),
+                                        ),
+                                        child: GestureDetector(
+                                          onTap: () => (_pickImage()),
+                                          child: CircleAvatar(
+                                            radius: 64,
+                                            backgroundImage: _selectedImage !=
+                                                    null
+                                                ? FileImage(
+                                                    File(_selectedImage!.path))
+                                                : null,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 3.h),
+                                          child: CustomIconButton(
+                                              height: 29.adaptSize,
+                                              width: 29.adaptSize,
+                                              padding: EdgeInsets.all(6.h),
+                                              decoration: IconButtonStyleHelper
+                                                  .outlineTeal,
+                                              alignment: Alignment.bottomRight,
+                                              child: Icon(Icons.edit,
+                                                  size: 15.adaptSize,
+                                                  color: appTheme
+                                                      .blue600))) // Add child here if needed
+                                    ],
+                                  ),
+                                ),
+                              ),
                               SizedBox(height: 30.v),
                               _buildFullNameEditText(context),
                               SizedBox(height: 20.v),
@@ -252,19 +321,21 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
         child: Stack(alignment: Alignment.center, children: [
           Align(
               alignment: Alignment.center,
-              child:GestureDetector(
-  onTap: () async {
-    try {
-      await addUserToFirestore();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
-      );
-    } catch (e) {
-      print('Error adding user data to Firestore: $e');
-    }
-  },
-  child: Card(
+              child: GestureDetector(
+                  onTap: () async {
+                    try {
+                      await addUserToFirestore();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
+                      );
+                    } catch (e) {
+                      print('Error adding user data to Firestore: $e');
+                    }
+                  },
+                  child: Card(
                       clipBehavior: Clip.antiAlias,
                       elevation: 0,
                       margin: const EdgeInsets.all(0),
@@ -315,7 +386,14 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
     CollectionReference userCollection =
         FirebaseFirestore.instance.collection('users');
 
-    // Replace the field names and values as per your data structure
+    // Upload image to Firebase Storage
+    String imagePath =
+        ''; // Update with the path where you want to store images
+    if (_selectedImage != null) {
+      imagePath = await _uploadImageToStorage(_selectedImage!);
+    }
+
+    // Update Firestore document with image URL
     await userCollection.doc(userId).set({
       'fullname': fullNameEditTextController.text,
       'nickname': nameEditTextController.text,
@@ -323,6 +401,26 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
       'email': emailEditTextController.text,
       'phone': phoneNumberController.text,
       'gender': gendervalue,
+      'profileUrl': imagePath, // Save the image URL in the 'profileUrl' field
     });
+  }
+
+  Future<String> _uploadImageToStorage(XFile image) async {
+    // Use the Firebase Storage instance
+    final storage = FirebaseStorage.instance;
+    final Reference storageReference = storage.ref().child('user_images');
+
+    // Generate a unique filename
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    // Upload the image
+    final UploadTask uploadTask =
+        storageReference.child(fileName).putFile(File(image.path));
+
+    // Get the download URL once the upload is complete
+    TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+    String imageUrl = await taskSnapshot.ref.getDownloadURL();
+
+    return imageUrl;
   }
 }

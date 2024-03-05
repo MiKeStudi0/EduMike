@@ -42,7 +42,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
       // Retrieve data from the document
       setState(() {
-        profileUrl = userData['profileurl'];
+        profileUrl = userData['profileUrl'];
         nickname = userData['nickname'];
         email = userData['email'];
       });
@@ -66,74 +66,71 @@ class _ProfilesPageState extends State<ProfilesPage> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Align(
-                                  alignment: Alignment.center,
-                                  child: SizedBox(
-                                      height: 93.v,
-                                      width: 89.h,
-                                      child: Stack(
-                                          alignment: Alignment.bottomRight,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                  height: 93.v,
+                                  width: 89.h,
+                                  child: Stack(
+                                    alignment: Alignment.bottomRight,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: appTheme
+                                                .teal700, // Set border color here
+                                            width: 4, // Set border width here
+                                          ),
+                                        ),
+                                        child: const CircleAvatar(
+                                          radius: 64,
+                                          //backgroundImage: ,
+                                          // Add child here if needed
+                                        ),
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: appTheme
+                                                .blue600, // Set border color here
+                                            width: 4, // Set border width here
+                                          ),
+                                        ),
+                                        child: GestureDetector(
+                                          onTap: () => (),
+                                          child: CircleAvatar(
+                                            radius: 64,
+                                            child: ClipOval(
+                                              child: profileUrl != null
+                                                  ? Image.network(
+                                                      profileUrl!,
+                                                      width: 128,
+                                                      height: 128,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : CircularProgressIndicator(), // Show loading indicator if profileUrl is null
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 3.h),
+                                          child: CustomIconButton(
+                                              height: 29.adaptSize,
+                                              width: 29.adaptSize,
+                                              padding: EdgeInsets.all(6.h),
+                                              decoration: IconButtonStyleHelper
+                                                  .outlineTeal,
+                                              alignment: Alignment.bottomRight,
+                                              child: Icon(Icons.edit,
+                                                  size: 15.adaptSize,
                                                   color: appTheme
-                                                      .teal700, // Set border color here
-                                                  width:
-                                                      4, // Set border width here
-                                                ),
-                                              ),
-                                              child: CircleAvatar(
-                                                radius: 64,
-                                                //backgroundImage: ,
-                                                // Add child here if needed
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(
-                                                  color:  appTheme.blue600, // Set border color here
-                                                  width:
-                                                      4, // Set border width here
-                                                ),
-                                              ),
-                                              child: GestureDetector(
-                                                onTap: () => (),
-                                                child: CircleAvatar(
-                                                  radius: 64,
-                                                  child: ClipOval(
-                                                    child: profileUrl != null
-                                                        ? Image.network(
-                                                            profileUrl!,
-                                                            width: 128,
-                                                            height: 128,
-                                                            fit: BoxFit.cover,
-                                                          )
-                                                        : CircularProgressIndicator(), // Show loading indicator if profileUrl is null
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 3.h),
-                                                child: CustomIconButton(
-                                                    height: 29.adaptSize,
-                                                    width: 29.adaptSize,
-                                                    padding:
-                                                        EdgeInsets.all(6.h),
-                                                    decoration:
-                                                        IconButtonStyleHelper
-                                                            .outlineTeal,
-                                                    alignment:
-                                                        Alignment.bottomRight,
-                                                    child: Icon(
-                                                        Icons.edit,
-                                                        size: 15.adaptSize,
-                                                        color: appTheme
-                                                            .blue600))) // Add child here if needed
-                                          ]))),
+                                                      .blue600))) // Add child here if needed
+                                    ],
+                                  ),
+                                ),
+                              ),
                               SizedBox(height: 7.v),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
