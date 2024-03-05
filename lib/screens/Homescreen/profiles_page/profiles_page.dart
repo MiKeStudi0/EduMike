@@ -109,7 +109,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                                                       height: 128,
                                                       fit: BoxFit.cover,
                                                     )
-                                                  : CircularProgressIndicator(), // Show loading indicator if profileUrl is null
+                                                  : Image.asset("assets/images/EduWise.jpg"), // Show loading indicator if profileUrl is null
                                             ),
                                           ),
                                         ),
