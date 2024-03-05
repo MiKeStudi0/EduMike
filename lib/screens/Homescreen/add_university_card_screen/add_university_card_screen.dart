@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 import 'package:edumike/widgets/custom_drop_down_home.dart';
 import 'package:edumike/widgets/custom_elevated_buttonHome.dart';
@@ -109,8 +110,10 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
 
       if (user != null) {
         // Reference to the "carddata" collection
-        CollectionReference cardDataCollection =
-    FirebaseFirestore.instance.collection('users').doc(user.uid).collection('carddata');
+        CollectionReference cardDataCollection = FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .collection('carddata');
 
         // Add a new document to the "carddata" collection with the user's ID
         await cardDataCollection.doc(user.uid).set({
@@ -277,7 +280,7 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
       context,
       PageRouteBuilder(
         transitionDuration: Duration(milliseconds: 500), // Adjust as needed
-        pageBuilder: (_, __, ___) => HomemainpagePage(),
+        pageBuilder: (_, __, ___) => HomemainpageContainerScreen(),
         transitionsBuilder: (_, animation, __, child) {
           // Apply a fade transition
           return FadeTransition(
