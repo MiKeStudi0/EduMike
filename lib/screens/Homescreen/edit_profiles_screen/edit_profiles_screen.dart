@@ -85,13 +85,15 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
       // Handle error
     }
   }
+
+
   ImageProvider<Object>? _getImageProvider() {
   if (_selectedImage != null) {
     return FileImage(File(_selectedImage!.path));
   } else if (_userSnapshot['profileUrl'] != null) {
     return NetworkImage(_userSnapshot['profileUrl']);
   } else {
-    return AssetImage('assets/images/home_image/Profile.jpg');
+    return AssetImage('assets/images/home_image/Profile.jpg ');
   }
 }
 
