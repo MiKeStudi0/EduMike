@@ -54,6 +54,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     super.initState();
     _auth = FirebaseAuth.instance;
     _getUserData();
+    
   }
 
   Future<void> _getUserData() async {
@@ -65,7 +66,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
           .get();
 
       // Fetch the profile image URL
-      String? profileImageUrl = _userSnapshot['profileUrl'];
+    //  String? profileImageUrl = _userSnapshot['profileUrl'];
 
       // Update the state with the existing image URL
       setState(() {
@@ -75,9 +76,9 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
         emailController.text = _userSnapshot['email'] ?? '';
         phoneNumberController.text = _userSnapshot['phone'] ?? '';
         genderController.text = _userSnapshot['gender'] ?? '';
-        _selectedImage = profileImageUrl != null
-            ? XFile(profileImageUrl) // Assuming XFile supports direct URL usage
-            : null;
+        // _selectedImage = profileImageUrl != null
+        //     ? XFile(profileImageUrl) // Assuming XFile supports direct URL usage
+        //     : null;
         _isLoading = false; // Set loading state to false
       });
     } catch (error) {
@@ -86,69 +87,68 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     }
   }
 
-
   ImageProvider<Object>? _getImageProvider() {
-  if (_selectedImage != null) {
-    return FileImage(File(_selectedImage!.path));
-  } else if (_userSnapshot['profileUrl'] != null) {
+    if (_selectedImage != null) {
+      return FileImage(File(_selectedImage!.path));
+    }
+    return null;
+  }
+
+ImageProvider<Object>? _getImageProviderFirebase() {
+  if (_userSnapshot['profileUrl'] != null) {
     return NetworkImage(_userSnapshot['profileUrl']);
   } else {
-    return AssetImage('assets/images/home_image/Profile.jpg ');
+    return AssetImage('assets/images/home_image/Profile.jpg');
   }
 }
-
-
 
 
   bool _isLoading = true;
 
   XFile? _selectedImage;
 
-Future<void> _pickImage() async {
-  final ImagePicker _picker = ImagePicker();
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
 
-  // Show bottom sheet with options
-  await showModalBottomSheet(
-    context: context,
-    builder: (BuildContext context) {
-      return Wrap(
-        children: [
-          ListTile(
-            leading: Icon(Icons.photo_library),
-            title: Text('Choose from Gallery'),
-            onTap: () async {
-              Navigator.of(context).pop();
-              final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-              if (pickedImage != null) {
-                setState(() {
-                  _selectedImage = pickedImage;
-                });
-              }
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.camera_alt),
-            title: Text('Take a Photo'),
-            onTap: () async {
-              Navigator.of(context).pop();
-              final XFile? pickedImage = await _picker.pickImage(source: ImageSource.camera);
-              if (pickedImage != null) {
-                setState(() {
-                  _selectedImage = pickedImage;
-                });
-              }
-            },
-          ),
-        ],
-      );
-    },
-  );
-
-  // Update the profile image if an image was selected
-  if (_selectedImage != null) {
-    setState(() {});
+    // Show bottom sheet with options
+    await showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: [
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              title: Text('Choose from Gallery'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                final XFile? pickedImage =
+                    await _picker.pickImage(source: ImageSource.gallery);
+                if (pickedImage != null) {
+                  setState(() {
+                    _selectedImage = pickedImage;
+                  });
+                }
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text('Take a Photo'),
+              onTap: () async {
+                Navigator.of(context).pop();
+                final XFile? pickedImage =
+                    await _picker.pickImage(source: ImageSource.camera);
+                if (pickedImage != null) {
+                  setState(() {
+                    _selectedImage = pickedImage;
+                  });
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -194,23 +194,30 @@ Future<void> _pickImage() async {
                                             ),
                                           ),
                                           Container(
-  decoration: BoxDecoration(
-    shape: BoxShape.circle,
-    border: Border.all(
-      color: appTheme.teal700,
-      width: 4,
-    ),
-  ),
-  child: GestureDetector(
-    onTap: () => _pickImage(),
-    child: CircleAvatar(
-  key: UniqueKey(),
-  radius: 64,
-  backgroundImage: _getImageProvider(),
-),
-  ),
-),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                color: appTheme.teal700,
+                                                width: 4,
+                                              ),
+                                            ),
+                                            child: GestureDetector(
+                                              onTap: () => _pickImage(),
+                                              child:Container(
 
+                                                child: _selectedImage != null
+                                                    ? CircleAvatar(
+                                                  radius: 64,
+                                                  backgroundImage: _getImageProvider(),
+                                                )
+                                                    : CircleAvatar(
+                                                  radius: 64,
+                                                  backgroundImage: _getImageProviderFirebase(),
+                                                ),
+                                              ),
+                                              )
+                                            ),
+                                      
                                           Padding(
                                             padding:
                                                 EdgeInsets.only(right: 9.h),
@@ -450,7 +457,6 @@ Future<void> _pickImage() async {
             genderController.text = genderController.text;
           });
 
-        
           // Optionally, you can show a success message or navigate to another screen.
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Profile updated successfully!')),
