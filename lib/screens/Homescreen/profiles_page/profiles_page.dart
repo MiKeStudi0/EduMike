@@ -4,7 +4,6 @@ import 'package:edumike/screens/Homescreen/app_notifications_screen/app_notifica
 import 'package:edumike/screens/Homescreen/edit_profiles_screen/edit_profiles_screen.dart';
 import 'package:edumike/screens/Homescreen/invite_friends_screen/invite_friends_screen.dart';
 import 'package:edumike/screens/Homescreen/terms_conditions_screen/terms_conditions_screen.dart';
-import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
@@ -14,9 +13,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class ProfilesPage extends StatelessWidget {
+class ProfilesPage extends StatefulWidget {
   ProfilesPage({Key? key}) : super(key: key);
+
+  @override
+  State<ProfilesPage> createState() => _ProfilesPageState();
+}
+
+class _ProfilesPageState extends State<ProfilesPage> {
   final user = FirebaseAuth.instance.currentUser!;
+  String? profileUrl;
+  String? nickname;
+  String? email;
+
+  @override
+  void initState() {
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    try {
+      // Get reference to the document for the current user
+      DocumentSnapshot userData = await FirebaseFirestore.instance
+          .collection('users') // Replace 'users' with your collection name
+          .doc(user.uid) // Assuming user's UID is used as document ID
+          .get();
+
+      // Retrieve data from the document
+      setState(() {
+        profileUrl = userData['profileurl'];
+        nickname = userData['nickname'];
+        email = userData['email'];
+      });
+    } catch (error) {
+      print('Error retrieving user data: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,23 +73,48 @@ class ProfilesPage extends StatelessWidget {
                                       child: Stack(
                                           alignment: Alignment.bottomRight,
                                           children: [
-                                            Align(
-                                                alignment: Alignment.topCenter,
-                                                child: Container(
-                                                    height: 89.adaptSize,
-                                                    width: 89.adaptSize,
-                                                    decoration: BoxDecoration(
-                                                        color: appTheme
-                                                            .blueGray100,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(44.h),
-                                                        border: Border.all(
-                                                            color: appTheme
-                                                                .teal700,
-                                                            width: 4.h,
-                                                            strokeAlign:
-                                                                strokeAlignOutside)))),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: appTheme
+                                                      .teal700, // Set border color here
+                                                  width:
+                                                      4, // Set border width here
+                                                ),
+                                              ),
+                                              child: CircleAvatar(
+                                                radius: 64,
+                                                //backgroundImage: ,
+                                                // Add child here if needed
+                                              ),
+                                            ),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color:  appTheme.blue600, // Set border color here
+                                                  width:
+                                                      4, // Set border width here
+                                                ),
+                                              ),
+                                              child: GestureDetector(
+                                                onTap: () => (),
+                                                child: CircleAvatar(
+                                                  radius: 64,
+                                                  child: ClipOval(
+                                                    child: profileUrl != null
+                                                        ? Image.network(
+                                                            profileUrl!,
+                                                            width: 128,
+                                                            height: 128,
+                                                            fit: BoxFit.cover,
+                                                          )
+                                                        : CircularProgressIndicator(), // Show loading indicator if profileUrl is null
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                             Padding(
                                                 padding:
                                                     EdgeInsets.only(right: 3.h),
@@ -70,59 +128,27 @@ class ProfilesPage extends StatelessWidget {
                                                             .outlineTeal,
                                                     alignment:
                                                         Alignment.bottomRight,
-                                                    child: CustomImageView(
-                                                        imagePath: ImageConstant
-                                                            .imgLock)))
+                                                    child: Icon(
+                                                        Icons.edit,
+                                                        size: 15.adaptSize,
+                                                        color: appTheme
+                                                            .blue600))) // Add child here if needed
                                           ]))),
                               SizedBox(height: 7.v),
-                              FutureBuilder<DocumentSnapshot>(
-                                future: getUserDocument(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    // Return a loading indicator while data is being fetched
-                                    return CircularProgressIndicator();
-                                  } else if (snapshot.hasError) {
-                                    // Handle error
-                                    return Text('Error: ${snapshot.error}');
-                                  } else if (!snapshot.hasData ||
-                                      snapshot.data == null) {
-                                    // Handle null or missing data
-                                    return Text('No data available');
-                                  } else {
-                                    // Extract the full name and email from the snapshot data
-                                    String? fullName =
-                                        snapshot.data!['fullname'];
-                                    String? email = snapshot.data!['email'];
-
-                                    // Check if full name is null
-                                    if (fullName == null) {
-                                      // Full name not found in the snapshot
-                                      return Text('Full name not found');
-                                    }
-
-                                    // Build the column to display full name and email
-                                    return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Text('Welcome, $fullName',
-                                                style: theme
-                                                    .textTheme.headlineSmall),
-                                            const SizedBox(
-                                                height:
-                                                    8), // Adjust the spacing between the texts as needed
-                                            Text('$email',
-                                                style: theme
-                                                    .textTheme.titleSmall),
-                                          ],
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                },
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                          'Welcome, ${nickname ?? "loading..."}',
+                                          style: theme.textTheme.headlineSmall),
+                                      const SizedBox(height: 8),
+                                      Text('${email ?? "loading..."}',
+                                          style: theme.textTheme.titleSmall),
+                                    ],
+                                  ),
+                                ],
                               ),
 
                               /* Align(
@@ -178,7 +204,8 @@ class ProfilesPage extends StatelessWidget {
   Widget _buildOne(BuildContext context) {
     return GestureDetector(
       onTap: () {
-       Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilesScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => EditProfilesScreen()));
       },
       child: Padding(
         padding: EdgeInsets.only(left: 20.h),
@@ -439,7 +466,7 @@ class ProfilesPage extends StatelessWidget {
   /// Navigates to the termsConditionsScreen when the action is triggered.
   onTapSeven(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) =>  TermsConditionsScreen()));
+        MaterialPageRoute(builder: (context) => TermsConditionsScreen()));
   }
 
   /// Navigates to the inviteFriendsScreen when the action is triggered.

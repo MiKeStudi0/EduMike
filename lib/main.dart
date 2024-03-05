@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
           theme: theme,
           title: 'EduWise',
           debugShowCheckedModeBanner: false,
-          
           initialRoute: AppRoutes.authScreen,
           routes: AppRoutes.routes,
         );

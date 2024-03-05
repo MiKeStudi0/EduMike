@@ -31,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     this.validator, 
     this.suffixIcon, 
     this.onChanged,
+    this.initialValue,
   }) : super(
           key: key,
         );
@@ -62,6 +63,8 @@ class CustomTextFormField extends StatelessWidget {
   final int? maxLines;
 
   final String? hintText;
+  
+  final String? initialValue;
 
   final TextStyle? hintStyle;
 

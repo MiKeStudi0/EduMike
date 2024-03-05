@@ -99,7 +99,7 @@ extension IconButtonStyleHelper on CustomIconButton {
         color: appTheme.whiteA700,
         borderRadius: BorderRadius.circular(8.h),
         border: Border.all(
-          color: appTheme.teal700,
+          color: appTheme.blue600,
           width: 3.h,
         ),
       );
