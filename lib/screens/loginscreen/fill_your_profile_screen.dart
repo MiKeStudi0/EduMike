@@ -407,8 +407,10 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
 
   Future<String> _uploadImageToStorage(XFile image) async {
     // Use the Firebase Storage instance
+    User? user = FirebaseAuth.instance.currentUser;
     final storage = FirebaseStorage.instance;
-    final Reference storageReference = storage.ref().child('user_images');
+    final Reference storageReference =
+        storage.ref().child('user_images').child(user!.uid);
 
     // Generate a unique filename
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();

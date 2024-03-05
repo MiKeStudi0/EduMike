@@ -54,7 +54,6 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     super.initState();
     _auth = FirebaseAuth.instance;
     _getUserData();
-    
   }
 
   Future<void> _getUserData() async {
@@ -66,7 +65,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
           .get();
 
       // Fetch the profile image URL
-    //  String? profileImageUrl = _userSnapshot['profileUrl'];
+      //  String? profileImageUrl = _userSnapshot['profileUrl'];
 
       // Update the state with the existing image URL
       setState(() {
@@ -94,14 +93,13 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     return null;
   }
 
-ImageProvider<Object>? _getImageProviderFirebase() {
-  if (_userSnapshot['profileUrl'] != null) {
-    return NetworkImage(_userSnapshot['profileUrl']);
-  } else {
-    return AssetImage('assets/images/home_image/Profile.jpg');
+  ImageProvider<Object>? _getImageProviderFirebase() {
+    if (_userSnapshot['profileUrl'] != null) {
+      return NetworkImage(_userSnapshot['profileUrl']);
+    } else {
+      return AssetImage('assets/images/home_image/Profile.jpg');
+    }
   }
-}
-
 
   bool _isLoading = true;
 
@@ -194,30 +192,29 @@ ImageProvider<Object>? _getImageProviderFirebase() {
                                             ),
                                           ),
                                           Container(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                color: appTheme.teal700,
-                                                width: 4,
-                                              ),
-                                            ),
-                                            child: GestureDetector(
-                                              onTap: () => _pickImage(),
-                                              child:Container(
-
-                                                child: _selectedImage != null
-                                                    ? CircleAvatar(
-                                                  radius: 64,
-                                                  backgroundImage: _getImageProvider(),
-                                                )
-                                                    : CircleAvatar(
-                                                  radius: 64,
-                                                  backgroundImage: _getImageProviderFirebase(),
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                  color: appTheme.teal700,
+                                                  width: 4,
                                                 ),
                                               ),
-                                              )
-                                            ),
-                                      
+                                              child: GestureDetector(
+                                                onTap: () => _pickImage(),
+                                                child: Container(
+                                                  child: _selectedImage != null
+                                                      ? CircleAvatar(
+                                                          radius: 64,
+                                                          backgroundImage:
+                                                              _getImageProvider(),
+                                                        )
+                                                      : CircleAvatar(
+                                                          radius: 64,
+                                                          backgroundImage:
+                                                              _getImageProviderFirebase(),
+                                                        ),
+                                                ),
+                                              )),
                                           Padding(
                                             padding:
                                                 EdgeInsets.only(right: 9.h),
@@ -417,9 +414,12 @@ ImageProvider<Object>? _getImageProviderFirebase() {
       onPressed: () async {
         try {
           // Step 1: Upload Image to Firebase Storage
+          User? user = FirebaseAuth.instance.currentUser;
           if (_selectedImage != null) {
-            Reference storageReference =
-                FirebaseStorage.instance.ref().child('user_images');
+            Reference storageReference = FirebaseStorage.instance
+                .ref()
+                .child('user_images')
+                .child(user!.uid);
             UploadTask uploadTask =
                 storageReference.putFile(File(_selectedImage!.path));
             await uploadTask.whenComplete(() => null);
@@ -430,6 +430,7 @@ ImageProvider<Object>? _getImageProviderFirebase() {
           if (_selectedImage != null) {
             profileUrl = await FirebaseStorage.instance
                 .ref('user_images')
+                .child(user!.uid)
                 .getDownloadURL();
           }
 
