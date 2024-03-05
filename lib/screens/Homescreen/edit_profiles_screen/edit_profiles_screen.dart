@@ -429,7 +429,8 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
           String? profileUrl;
           if (_selectedImage != null) {
             profileUrl = await FirebaseStorage.instance
-                .ref('user_images')
+                .ref()
+                .child('user_images')
                 .child(user!.uid)
                 .getDownloadURL();
           }
