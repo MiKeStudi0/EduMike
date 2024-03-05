@@ -22,7 +22,10 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
           children: [
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance.collection('messages').orderBy('timestamp', descending: true).snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('messages')
+                    .orderBy('timestamp', descending: true)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
@@ -44,11 +47,13 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
                       return FutureBuilder<String?>(
                         future: getNickname(message.senderId),
                         builder: (context, nicknameSnapshot) {
-                          if (nicknameSnapshot.connectionState == ConnectionState.waiting) {
+                          if (nicknameSnapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return const SizedBox.shrink();
                           }
 
-                          String senderNickname = nicknameSnapshot.data ?? 'Unknown User';
+                          String senderNickname =
+                              nicknameSnapshot.data ?? 'Unknown User';
                           return _buildMessageWidget(message, senderNickname);
                         },
                       );
@@ -67,13 +72,14 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       title: const Text('Inbox'),
-     
     );
   }
 
   Widget _buildMessageWidget(Message message, String senderNickname) {
     return Align(
-      alignment: message.senderId == getUserId() ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: message.senderId == getUserId()
+          ? Alignment.centerRight
+          : Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.all(8.0),
         padding: const EdgeInsets.all(12.0),
@@ -166,18 +172,18 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
     );
   }
 
-String _formatDateTime(Timestamp timestamp) {
-  DateTime dateTime = timestamp.toDate();
-  String amPm = dateTime.hour < 12 ? 'AM' : 'PM';
-  int hour = dateTime.hour > 12 ? dateTime.hour - 12 : dateTime.hour;
-  String formattedHour = hour.toString().padLeft(2, '0');
-  String formattedMinute = dateTime.minute.toString().padLeft(2, '0');
-  return '$formattedHour:$formattedMinute $amPm';
-}
-
+  String _formatDateTime(Timestamp timestamp) {
+    DateTime dateTime = timestamp.toDate();
+    String amPm = dateTime.hour < 12 ? 'AM' : 'PM';
+    int hour = dateTime.hour > 12 ? dateTime.hour - 12 : dateTime.hour;
+    String formattedHour = hour.toString().padLeft(2, '0');
+    String formattedMinute = dateTime.minute.toString().padLeft(2, '0');
+    return '$formattedHour:$formattedMinute $amPm';
+  }
 
   Future<String?> getNickname(String userId) async {
-    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
     Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
     return userData['nickname'];
   }
