@@ -20,22 +20,21 @@ class VerifyMailScreen extends StatefulWidget {
 class _VerifyMailScreenState extends State<VerifyMailScreen> {
   late String pinCode;
   EmailOTP myauth = EmailOTP();
-  String userEmail = '';
-  Future<void> getUserEmail() async {
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      setState(() {
-        userEmail = user.email!;
-      });
-    }
-  }
+  Map<String, String>? userData;
 
   @override
   void initState() {
     super.initState();
     pinCode = "";
-    getUserEmail();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (userData == null) {
+      userData =
+          ModalRoute.of(context)!.settings.arguments as Map<String, String>?;
+    }
   }
 
   @override
@@ -70,7 +69,7 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
                   myauth.setConfig(
                       appEmail: "flutteremperor@gmail.com",
                       appName: "Email OTP",
-                      userEmail: userEmail,
+                      userEmail: userData!['email']!,
                       otpLength: 4,
                       otpType: OTPType.digitsOnly);
                   if (await myauth.sendOTP() == true) {
@@ -103,8 +102,22 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("OTP is verified"),
                       ));
-                      Navigator.pushReplacementNamed(
-                          context, AppRoutes.fillYourProfileScreen);
+                      try {
+                        await FirebaseAuth.instance
+                            .createUserWithEmailAndPassword(
+                          email: userData!['email']!,
+                          password: userData!['password']!,
+                        );
+                        // Navigate to the fill your profile screen
+                        Navigator.pushReplacementNamed(
+                            context, AppRoutes.fillYourProfileScreen);
+                      } catch (e) {
+                        print('Error creating user: $e');
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("Error creating user"),
+                        ));
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Invalid OTP"),
@@ -126,7 +139,8 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
       leading: Center(
         child: AppbarLeadingImage(
           onTap: () {
-            Navigator.pushReplacementNamed(context, AppRoutes.letSYouInScreen);
+            Navigator.pushReplacementNamed(
+                context, AppRoutes.registerNowScreen);
           },
           imagePath: ImageConstant.imgArrowDown,
           margin: EdgeInsets.only(

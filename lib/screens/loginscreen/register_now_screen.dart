@@ -36,10 +36,10 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   EmailOTP myauth = EmailOTP();
 
-          var _isObscured;
+  var _isObscured;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _isObscured = false;
   }
@@ -439,11 +439,16 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
 
       try {
         // Create the user account
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
 
+        // Close the loading indicator
+        Navigator.pop(context);
+
+        // Navigate to the home screen or any other screen you desire
+        Navigator.pushReplacementNamed(context, AppRoutes.verifyMailScreen,
+            arguments: {
+              'email': emailController.text,
+              'password': passwordController.text,
+            });
         myauth.setConfig(
             appEmail: "flutteremperor@gmail.com",
             appName: "Email OTP",
@@ -459,13 +464,7 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
             content: Text("Oops, OTP send failed"),
           ));
         }
-
-        // Close the loading indicator
-        Navigator.pop(context);
-
-        // Navigate to the home screen or any other screen you desire
-        Navigator.pushReplacementNamed(context, AppRoutes.verifyMailScreen);
-      } on FirebaseAuthException catch (e) {
+      } catch (e) {
         // Close the loading indicator
         Navigator.pop(context);
 
@@ -475,7 +474,7 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
           builder: (context) {
             return AlertDialog(
               title: const Text('Error'),
-              content: Text(e.message ?? 'An error occurred'),
+              content: Text('An error occurred'),
               actions: [
                 TextButton(
                   onPressed: () {
