@@ -30,7 +30,7 @@ Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
   User? user = FirebaseAuth.instance.currentUser;
 
   if (user == null) {
-    throw Exception('User not authenticated');
+    throw Exception('User not authenticated or found');
   }
 
   // Retrieve the user document from Firestore
