@@ -6,6 +6,7 @@ import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 
 class Bookmark {
   final String category;
@@ -173,106 +174,108 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
               left: Radius.circular(20.h),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 14.h, top: 15.v, bottom: 18.v),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 195.h,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 14.h, top: 15.v, bottom: 18.v),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 195.h,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          bookmark.category,
+                          style: CustomTextStyles.labelLargeMulishOrangeA700,
+                        ),
+                        SizedBox(
+                          height: 16.v,
+                          width: 12.h,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CustomImageView(
+                                imagePath: ImageConstant.imgBookmarkPrimary,
+                                height: 16.v,
+                                width: 12.h,
+                                alignment: Alignment.center,
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          RemoveBookmarkScreen(),
+                                    ),
+                                  );
+                                },
+                              ),
+                              // CustomImageView(
+                              //   imagePath: ImageConstant.imgBookmarkPrimary,
+                              //   height: 16.v,
+                              //   width: 12.h,
+                              //   alignment: Alignment.center,
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 8.v),
+                  Text(
+                    bookmark.courseName,
+                    style: theme.textTheme.titleMedium,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 5.v),
+                  Text(
+                    bookmark.courseCode,
+                    style: theme.textTheme.titleSmall,
+                  ),
+                  SizedBox(height: 5.v),
+                  Row(
                     children: [
-                      Text(
-                        bookmark.category,
-                        style: CustomTextStyles.labelLargeMulishOrangeA700,
-                      ),
-                      SizedBox(
-                        height: 16.v,
-                        width: 12.h,
-                        child: Stack(
-                          alignment: Alignment.center,
+                      Container(
+                        width: 32.h,
+                        margin: EdgeInsets.only(top: 3.v),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomImageView(
-                              imagePath: ImageConstant.imgBookmarkPrimary,
-                              height: 16.v,
+                              imagePath: ImageConstant.imgSignal,
+                              height: 11.v,
                               width: 12.h,
-                              alignment: Alignment.center,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        RemoveBookmarkScreen(),
-                                  ),
-                                );
-                              },
+                              margin: EdgeInsets.only(bottom: 2.v),
                             ),
-                            // CustomImageView(
-                            //   imagePath: ImageConstant.imgBookmarkPrimary,
-                            //   height: 16.v,
-                            //   width: 12.h,
-                            //   alignment: Alignment.center,
-                            // ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4),
+                              child: Text(
+                                "${bookmark.courseCredit}",
+                                style: theme.textTheme.labelMedium,
+                              ),
+                            ),
                           ],
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5.h),
+                        child: Text(
+                          "Credit",
+                          style: theme.textTheme.labelMedium,
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(left: 16.h, top: 3.v),
+                      //   child: Text(
+                      //     bookmark.,
+                      //     style: theme.textTheme.labelMedium,
+                      //   ),
+                      // ),
                     ],
                   ),
-                ),
-                SizedBox(height: 8.v),
-                Text(
-                  bookmark.courseName,
-                  style: theme.textTheme.titleMedium,
-                  overflow: TextOverflow.fade,
-                ),
-                SizedBox(height: 5.v),
-                Text(
-                  bookmark.courseCode,
-                  style: theme.textTheme.titleSmall,
-                ),
-                SizedBox(height: 5.v),
-                Row(
-                  children: [
-                    Container(
-                      width: 32.h,
-                      margin: EdgeInsets.only(top: 3.v),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomImageView(
-                            imagePath: ImageConstant.imgSignal,
-                            height: 11.v,
-                            width: 12.h,
-                            margin: EdgeInsets.only(bottom: 2.v),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: Text(
-                              "${bookmark.courseCredit}",
-                              style: theme.textTheme.labelMedium,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 5.h),
-                      child: Text(
-                        "Credit",
-                        style: theme.textTheme.labelMedium,
-                      ),
-                    ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(left: 16.h, top: 3.v),
-                    //   child: Text(
-                    //     bookmark.,
-                    //     style: theme.textTheme.labelMedium,
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
