@@ -19,28 +19,30 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class HomemainpagePage extends StatelessWidget {
   HomemainpagePage({Key? key}) : super(key: key);
- String? university;
+  String? university;
   String? degree;
   String? course;
   String? semester;
   TextEditingController searchController = TextEditingController();
 
-Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
-  User? user = FirebaseAuth.instance.currentUser;
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
+    User? user = FirebaseAuth.instance.currentUser;
 
-  if (user == null) {
-    throw Exception('User not authenticated');
+    if (user == null) {
+      throw Exception('User not authenticated');
+    }
+
+    return await FirebaseFirestore.instance
+        .collection(
+            'users') // Replace 'users' with the name of your root collection
+        .doc(user.uid)
+        .collection(
+            'carddata') // Replace 'carddata' with the name of your sub-collection
+        .doc(user.uid)
+        .get();
   }
 
-  return await FirebaseFirestore.instance
-      .collection('users')  // Replace 'users' with the name of your root collection
-      .doc(user.uid)
-      .collection('carddata')  // Replace 'carddata' with the name of your sub-collection
-      .doc(user.uid)
-      .get();
-}
-
-Widget carddata(BuildContext context) {
+  Widget carddata(BuildContext context) {
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
       future: getUserDocument(),
       builder: (context, snapshot) {
@@ -104,9 +106,12 @@ Widget carddata(BuildContext context) {
                       child: _buildTopMentor(context,
                           text: "My Courses", seeAll: "See All")),
 
+                  Padding(
+                      padding: EdgeInsets.only(
+                        left: 5.v,
+                      ),
+                      child: CourseListBlock()),
 
-                 Padding(padding: EdgeInsets.only(left: 5.v,), child: CourseListBlock()),
-                  
                   //SizedBox(height: 8.v),
                   // /_buildCategory(context),
                   // SizedBox(height: 18.v),
@@ -131,7 +136,6 @@ Widget carddata(BuildContext context) {
                   //     },
                   //     child: Text('Course List')),
 
-                      
                   //  _buildUserCourse(context),
                 ],
               ),
@@ -145,24 +149,45 @@ Widget carddata(BuildContext context) {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-        height: 79.v,
-        title: Padding(
-            padding: EdgeInsets.only(left: 35.h),
-            child: Column(children: [
-              AppbarTitle(
-                  text: "Hi, ALEX", margin: EdgeInsets.only(right: 129.h)),
-              SizedBox(height: 3.v),
-              AppbarSubtitleOne(
-                  text: "What Would you like to learn Today? Search Below.")
-            ])),
-        actions: [
-          AppbarTrailNotification(
-              imagePath: ImageConstant.imgNotification,
-              margin: EdgeInsets.fromLTRB(34.h, 16.v, 34.h, 13.v),
-              onTap: () {
-                onTapThumbsUp(context);
-              })
-        ]);
+      height: 79.v,
+      title: FutureBuilder<String?>(
+        future: getNickname(FirebaseAuth.instance.currentUser!.uid),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return LinearProgressIndicator();
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            String nickname = snapshot.data ?? 'BOSS';
+            return Padding(
+              padding: EdgeInsets.only(left: 35.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppbarTitle(
+                    text: "Hi, $nickname",
+                    margin: EdgeInsets.only(right: 129.h),
+                  ),
+                  SizedBox(height: 3.v),
+                  AppbarSubtitleOne(
+                    text: "What Would you like to learn Today? Search Below.",
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+      ),
+      actions: [
+        AppbarTrailNotification(
+          imagePath: ImageConstant.imgNotification,
+          margin: EdgeInsets.fromLTRB(34.h, 16.v, 34.h, 13.v),
+          onTap: () {
+            onTapThumbsUp(context);
+          },
+        )
+      ],
+    );
   }
 
   /// Section Widget
@@ -619,14 +644,26 @@ Widget carddata(BuildContext context) {
 
   /// Navigates to the subscriptionScreen when the action is triggered.
   onTapTxtSeeAll(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => MyCoursePage( university: university,  // Pass the actual values here
-        degree: degree,
-        course: course,
-        semester: semester,)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => MyCoursePage(
+                  university: university, // Pass the actual values here
+                  degree: degree,
+                  course: course,
+                  semester: semester,
+                )));
   }
 
   /// Navigates to the categoryScreen when the action is triggered.
   onTapTxtGraphicDesign(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.categoryScreen);
+  }
+
+  Future<String?> getNickname(String userId) async {
+    DocumentSnapshot userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+    return userData['nickname'];
   }
 }

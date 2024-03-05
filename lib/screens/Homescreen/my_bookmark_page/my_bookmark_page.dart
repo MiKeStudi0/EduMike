@@ -54,7 +54,10 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
       if (user != null) {
         // Reference to the user's bookmarks subcollection
         CollectionReference<Map<String, dynamic>> userBookmarksCollection =
-            FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bookmarks');
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .collection('bookmarks');
 
         // Get the list of bookmarked courses
         QuerySnapshot<Map<String, dynamic>> snapshot =
@@ -145,7 +148,6 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
     );
   }
 
-  
   Widget _buildBookmarkItem(Bookmark bookmark) {
     return Container(
       margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 20.v),
@@ -200,7 +202,8 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => RemoveBookmarkScreen(),
+                                    builder: (context) =>
+                                        RemoveBookmarkScreen(),
                                   ),
                                 );
                               },
