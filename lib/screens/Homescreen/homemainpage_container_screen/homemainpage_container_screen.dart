@@ -256,21 +256,18 @@ bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0.0;
         key: navigationkey,
       ),
       backgroundColor: appTheme.whiteA700,
-      body: WillPopScope(
-        onWillPop: () async {
-          if (_currentIndex != 0) {
-            // If not on the home screen, navigate to the home screen
-            setState(() {
-              _currentIndex = 0;
-            });
-            return false;
-          } else {
-            // If on the home screen, allow the app to close
-            return true;
-          }
-        },
-        child: screens[_currentIndex],
-      ),
+      body: PopScope(
+  child: screens[_currentIndex],
+  onPopInvoked: (bool popInvoked) {
+    // Your existing logic
+    if (_currentIndex != 0 && popInvoked) {
+      setState(() {
+        _currentIndex = 0;
+      });
+    }
+  },
+),
+
     );
   }
 
