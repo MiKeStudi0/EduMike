@@ -75,35 +75,39 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
     );
   }
 
-  Widget _buildMessageWidget(Message message, String senderNickname) {
-    return Align(
-      alignment: message.senderId == getUserId()
-          ? Alignment.centerRight
-          : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.all(8.0),
-        padding: const EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: message.senderId == getUserId() ? Colors.blue : Colors.grey,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.7,
-        ),
+Widget _buildMessageWidget(Message message, String receiverNickname) {
+  return Align(
+    alignment: message.senderId == getUserId()
+        ? Alignment.centerRight
+        : Alignment.centerLeft,
+    child: Container(
+      margin: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(12.0),
+      decoration: BoxDecoration(
+        color: message.senderId == getUserId() ? Colors.blue : Colors.grey,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: IntrinsicWidth(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '$senderNickname:',
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            if (message.senderId != getUserId())
+              Text(
+                '$receiverNickname:', // Display the receiver's name
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
             const SizedBox(height: 4.0),
-            Text(
-              message.text,
-              style: const TextStyle(color: Colors.white),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.7,
+              ),
+              child: Text(
+                message.text,
+                style: const TextStyle(color: Colors.white, fontSize: 14.0),
+              ),
             ),
             const SizedBox(height: 4.0),
             Align(
@@ -112,14 +116,16 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
                 message.timestamp != null
                     ? _formatDateTime(message.timestamp!)
                     : '',
-                style: const TextStyle(color: Colors.white70),
+                style: const TextStyle(color: Colors.white70, fontSize: 10.0),
+                
               ),
             ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildInputField() {
     return Container(
