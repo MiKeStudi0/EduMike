@@ -189,10 +189,10 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: const Color.fromARGB(255, 255, 255, 255),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: const Color.fromARGB(255, 255, 255, 255).withOpacity(0.5),
             spreadRadius: 1,
             blurRadius: 3,
             offset: const Offset(0, 2),
@@ -212,7 +212,7 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
                 minLines: 1,
                 keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
-                  hintText: 'Type your message...',
+                  hintText: 'Message...',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
@@ -225,7 +225,7 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
           ),
           const SizedBox(width: 8.0),
           IconButton(
-            icon: const Icon(Icons.send),
+            icon: const Icon(Icons.send, color: Colors.blue),
             onPressed: () {
               sendMessage(_textController.text);
               _textController.clear();
