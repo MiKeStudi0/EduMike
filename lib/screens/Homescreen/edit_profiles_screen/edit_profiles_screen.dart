@@ -11,6 +11,7 @@ import 'package:edumike/widgets/app_bar/appbar_title.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 // ignore_for_file: must_be_immutable
 class EditProfilesScreen extends StatefulWidget {
@@ -23,6 +24,8 @@ class EditProfilesScreen extends StatefulWidget {
 class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   TextEditingController fullnameEditTextController = TextEditingController();
   late final String gendervalue;
+
+  
 
   FocusNode emailFocusNode = FocusNode();
 
@@ -48,6 +51,20 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   late DocumentSnapshot _userSnapshot;
 
   final _formKey = GlobalKey<FormState>();
+
+  Future<void> _selectdate() async {
+    DateTime? _picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2500));
+    if (_picked != null) {
+      setState(() {
+        dateOfBirthController.text =
+            DateFormat('yyyy-MM-dd').format(_picked);
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -97,7 +114,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     if (_userSnapshot['profileUrl'] != null) {
       return NetworkImage(_userSnapshot['profileUrl']);
     } else {
-      return AssetImage('assets/images/home_image/Profile.jpg');
+      return const AssetImage('assets/images/home_image/Profile.jpg');
     }
   }
 
@@ -115,8 +132,8 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
         return Wrap(
           children: [
             ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Choose from Gallery'),
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Choose from Gallery'),
               onTap: () async {
                 Navigator.of(context).pop();
                 final XFile? pickedImage =
@@ -129,8 +146,8 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text('Take a Photo'),
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Take a Photo'),
               onTap: () async {
                 Navigator.of(context).pop();
                 final XFile? pickedImage =
@@ -155,7 +172,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
             resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(context),
             body: _isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : SizedBox(
                     width: SizeUtils.width,
                     child: SingleChildScrollView(
@@ -185,7 +202,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                                     4, // Set border width here
                                               ),
                                             ),
-                                            child: CircleAvatar(
+                                            child: const CircleAvatar(
                                               radius: 64,
                                               //backgroundImage: ,
                                               // Add child here if needed
@@ -257,7 +274,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                           )),
                                       controller: fullnameController,
                                       hintText: "Full Name",
-                                      contentPadding: EdgeInsets.only(
+                                      contentPadding: const EdgeInsets.only(
                                           left: 16.0,
                                           top:
                                               35), // Adjust the left padding as needed
@@ -274,14 +291,14 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                           margin: EdgeInsets.fromLTRB(
                                               21.h, 20.v, 8.h, 20.v),
                                           child: Icon(
-                                            Icons.call,
+                                            Icons.person_4,
                                             color: appTheme.blueGray900,
                                             size: 20.v,
                                           )),
                                       controller: nameController,
                                       hintText: "Nick Name",
                                       contentPadding:
-                                          EdgeInsets.only(left: 16.0, top: 35),
+                                          const EdgeInsets.only(left: 16.0, top: 35),
                                     ),
                                   ),
                                   SizedBox(height: 20.v),
@@ -294,7 +311,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       controller: dateOfBirthController,
                                       hintText: " DOB",
                                       contentPadding:
-                                          EdgeInsets.only(left: 16.0, top: 35),
+                                          const EdgeInsets.only(left: 16.0, top: 35),
                                       prefix: Container(
                                           margin: EdgeInsets.fromLTRB(
                                               21.h, 20.v, 8.h, 20.v),
@@ -304,7 +321,9 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                               color: appTheme.blueGray900,
                                               size: 20.v,
                                             ),
-                                            onTap: () => (),
+                                            onTap: (){
+                                              _selectdate();
+                                            }
                                           )),
                                     ),
                                   ),
@@ -326,7 +345,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       controller: emailController,
                                       hintText: " email",
                                       contentPadding:
-                                          EdgeInsets.only(left: 16.0, top: 35),
+                                          const EdgeInsets.only(left: 16.0, top: 35),
                                     ),
                                   ),
                                   SizedBox(height: 20.v),
@@ -347,7 +366,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       controller: phoneNumberController,
                                       hintText: " phone",
                                       contentPadding:
-                                          EdgeInsets.only(left: 16.0, top: 35),
+                                          const EdgeInsets.only(left: 16.0, top: 35),
                                     ),
                                   ),
                                   SizedBox(height: 20.v),
@@ -369,7 +388,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       controller: genderController,
                                       hintText: "Gender ",
                                       contentPadding:
-                                          EdgeInsets.only(left: 16.0, top: 35),
+                                          const EdgeInsets.only(left: 16.0, top: 35),
                                     ),
                                   ),
                                   SizedBox(height: 20.v),
@@ -461,7 +480,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
           // Optionally, you can show a success message or navigate to another screen.
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Profile updated successfully!')),
+            const SnackBar(content: Text('Profile updated successfully!')),
           );
 
           Navigator.pop(context);

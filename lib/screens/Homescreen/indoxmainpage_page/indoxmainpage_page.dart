@@ -44,17 +44,24 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
                     reverse: true,
                     itemBuilder: (context, index) {
                       Message message = messages[index];
-                      return FutureBuilder<String?>(
-                        future: getNickname(message.senderId),
-                        builder: (context, nicknameSnapshot) {
-                          if (nicknameSnapshot.connectionState ==
+                      return FutureBuilder<Map<String, String>>(
+                        future: getReceiverInfo(message.senderId),
+                        builder: (context, receiverInfoSnapshot) {
+                          if (receiverInfoSnapshot.connectionState ==
                               ConnectionState.waiting) {
                             return const SizedBox.shrink();
                           }
 
-                          String senderNickname =
-                              nicknameSnapshot.data ?? 'Unknown User';
-                          return _buildMessageWidget(message, senderNickname);
+                          String receiverNickname =
+                              receiverInfoSnapshot.data?['nickname'] ?? 'Unknown User';
+                          String receiverProfileIcon =
+                              receiverInfoSnapshot.data?['profileIcon'] ?? '';
+
+                          return _buildMessageWidget(
+                            message,
+                            receiverNickname,
+                            receiverProfileIcon,
+                          );
                         },
                       );
                     },
@@ -75,51 +82,82 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
     );
   }
 
-  Widget _buildMessageWidget(Message message, String senderNickname) {
-    return Align(
-      alignment: message.senderId == getUserId()
-          ? Alignment.centerRight
-          : Alignment.centerLeft,
-      child: Container(
-        margin: const EdgeInsets.all(8.0),
-        padding: const EdgeInsets.all(12.0),
-        decoration: BoxDecoration(
-          color: message.senderId == getUserId() ? Colors.blue : Colors.grey,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        constraints: BoxConstraints(
-          maxWidth: MediaQuery.of(context).size.width * 0.7,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$senderNickname:',
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+Widget _buildMessageWidget(
+  Message message,
+  String receiverNickname,
+  String receiverProfileIcon,
+) {
+  double maxContainerWidth = MediaQuery.of(context).size.width * 0.7;
+
+  return Padding(
+    padding: const EdgeInsets.only(left: 8.0),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (message.senderId != getUserId())
+          CircleAvatar(
+            backgroundImage: NetworkImage(receiverProfileIcon),
+          ),
+        const SizedBox(width: 3.0),
+        Expanded(
+          child: Align(
+            alignment: message.senderId == getUserId()
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: IntrinsicWidth(
+              child: Container(
+                margin: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
+                constraints: BoxConstraints(
+                  maxWidth: maxContainerWidth,
+                ),
+                decoration: BoxDecoration(
+                  color: message.senderId == getUserId() ? Colors.blue : Colors.grey,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (message.senderId != getUserId())
+                      Text(
+                        receiverNickname,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      message.text,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        message.timestamp != null
+                            ? _formatDateTime(message.timestamp!)
+                            : '',
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 8.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 4.0),
-            Text(
-              message.text,
-              style: const TextStyle(color: Colors.white),
-            ),
-            const SizedBox(height: 4.0),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                message.timestamp != null
-                    ? _formatDateTime(message.timestamp!)
-                    : '',
-                style: const TextStyle(color: Colors.white70),
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
-    );
-  }
+      ],
+    ),
+  );
+}
+
 
   Widget _buildInputField() {
     return Container(
@@ -181,11 +219,24 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
     return '$formattedHour:$formattedMinute $amPm';
   }
 
-  Future<String?> getNickname(String userId) async {
-    DocumentSnapshot userSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
-    Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
-    return userData['nickname'];
+  Future<Map<String, String>> getReceiverInfo(String userId) async {
+    try {
+      DocumentSnapshot userSnapshot =
+          await FirebaseFirestore.instance.collection('users').doc(userId).get();
+
+      if (userSnapshot.exists) {
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+        String receiverNickname = userData['nickname'] ?? 'Unknown User';
+        String receiverProfileIcon = userData['profileUrl'] ?? '';
+        return {'nickname': receiverNickname, 'profileIcon': receiverProfileIcon};
+      } else {
+        return {'nickname': 'Unknown User', 'profileIcon': ''};
+      }
+    } catch (e) {
+      print('Error getting receiver info: $e');
+      return {'nickname': 'Unknown User', 'profileIcon': ''};
+    }
   }
 
   Future<void> sendMessage(String text) async {
