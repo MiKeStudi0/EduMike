@@ -14,8 +14,10 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return SafeArea(
       child: Scaffold(
+        
         backgroundColor: Colors.white,
         appBar: _buildAppBar(context),
         body: Column(

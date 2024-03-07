@@ -226,9 +226,11 @@ class _HomemainpageContainerScreenState
       ProfilesPage(),
     ];
     String imagePathHome = 'assets/images/home_image';
-
+bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0.0;
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
+      resizeToAvoidBottomInset: true,
+
+    bottomNavigationBar: isKeyboardOpen ? null : CurvedNavigationBar(
         buttonBackgroundColor: Color.fromARGB(255, 59, 131, 255),
         items: <Widget>[
           _buildIcon(0, 'assets/images/home_image/HomeScreen.svg',

@@ -48,7 +48,7 @@ class HomemainpagePage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While waiting for the data to load, show a loading indicator
-          return CircularProgressIndicator();
+          return _buildUniversityCard1(context, university, degree, course, semester);
         } else if (snapshot.hasError) {
           // If an error occurs while fetching the data, show the error message
           return Text('Error: ${snapshot.error}');
