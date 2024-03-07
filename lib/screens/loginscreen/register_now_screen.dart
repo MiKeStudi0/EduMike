@@ -406,6 +406,29 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
   // }
   void onTapBtnSIgnup(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
+      if (emailController.text.isEmpty ||
+          passwordController.text.isEmpty ||
+          confirmPasswordController.text.isEmpty) {
+        // Show an error dialog for incomplete fields
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Error'),
+              content: const Text('Please fill in all fields.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return; // Exit the function if any field is empty
+      }
       if (passwordController.text != confirmPasswordController.text) {
         // Show an error dialog
         showDialog(
@@ -443,12 +466,13 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
         // Close the loading indicator
         Navigator.pop(context);
 
-        // Navigate to the home screen or any other screen you desire
+        // Navigate to the verify mail screen with arguments
         Navigator.pushReplacementNamed(context, AppRoutes.verifyMailScreen,
             arguments: {
               'email': emailController.text,
               'password': passwordController.text,
             });
+
         myauth.setConfig(
             appEmail: "flutteremperor@gmail.com",
             appName: "Email OTP",

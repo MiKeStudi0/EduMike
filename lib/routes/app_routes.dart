@@ -11,8 +11,6 @@ import 'package:edumike/screens/loginscreen/congratulations_screen.dart';
 import 'package:edumike/screens/loginscreen/forgot_password_screen.dart';
 import 'package:edumike/screens/loginscreen/verify_mail_screen.dart';
 import 'package:edumike/screens/loginscreen/create_new_password_screen.dart';
-import 'package:edumike/screens/loginscreen/verify_forgot_password_one_screen.dart';
-import 'package:edumike/screens/loginscreen/app_navigation_screen.dart';
 
 //Remaing is pacakge of HomeScreen
 
@@ -51,14 +49,11 @@ class AppRoutes {
 
   static const String congratulationsScreen = '/congratulations_screen';
 
-  static const String forgotPasswordScreen = '/forgot_password_screen';
+  static String forgotPasswordScreen = '/forgot_password_screen';
 
   static const String verifyMailScreen = '/verify_mail_screen';
 
   static const String createNewPasswordScreen = '/create_new_password_screen';
-
-  static const String verifyForgotPasswordOneScreen =
-      '/verify_forgot_password_one_screen';
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
@@ -114,12 +109,9 @@ class AppRoutes {
     authScreen: (context) => const AuthPage(),
     fillYourProfileScreen: (context) => FillYourProfileScreen(),
     congratulationsScreen: (context) => const CongratulationsScreen(),
-    forgotPasswordScreen: (context) => const ForgotPasswordScreen(),
+    forgotPasswordScreen: (context) => ForgotPasswordScreen(),
     verifyMailScreen: (context) => const VerifyMailScreen(),
     createNewPasswordScreen: (context) => CreateNewPasswordScreen(),
-    verifyForgotPasswordOneScreen: (context) =>
-        const VerifyForgotPasswordOneScreen(),
-    appNavigationScreen: (context) => const AppNavigationScreen(),
     listview: (context) => FirestoreListView(),
     //Remaining is for HomeScreen
     homemainpageContainerScreen: (context) => HomemainpageContainerScreen(),
@@ -138,6 +130,5 @@ class AppRoutes {
     modulesScreen: (context) => const ModulesScreen(),
     subscriptionScreen: (context) => SubscriptionScreen(),
     categoryScreen: (context) => CategoryScreen(),
-    appNavigationHomeScreen: (context) => const AppNavigationScreen()
   };
 }
