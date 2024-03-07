@@ -1,3 +1,4 @@
+import 'package:edumike/screens/loginscreen/forgot_password_screen.dart';
 import 'package:edumike/screens/loginscreen/google_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -302,8 +303,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Padding(
                           padding: EdgeInsets.only(top: 2.v, left: 100),
-                          child: Text("Forgot Password?",
-                              style: theme.textTheme.labelLarge)))
+                          child: Text(
+                            "Forgot Password?",
+                            style: CustomTextStyles.titleSmallff0961f5,
+                          )))
                 ],
               ),
             ),
@@ -367,7 +370,30 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void onTapBtnsignUserIn(BuildContext context) async {
-    //load
+    // Check if email and password are not empty
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      // Show an error dialog for incomplete fields
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Error'),
+            content: const Text('Please fill in both email and password.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return; // Exit the function if any field is empty
+    }
+
+    // Show a loading indicator
     showDialog(
       context: context,
       builder: (context) {
@@ -376,8 +402,8 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       },
     );
-    //signin
 
+    // Sign in user
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
@@ -414,8 +440,21 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   /// Navigates to the forgotPasswordScreen when the action is triggered.
-  onTapTxtForgotPassword(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.forgotPasswordScreen);
+  void onTapTxtForgotPassword(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return ForgotPasswordScreen();
+        },
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
+    );
   }
 
   /// Navigates to the registerNowScreen when the action is triggered.
