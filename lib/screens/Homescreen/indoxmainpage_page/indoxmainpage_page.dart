@@ -39,8 +39,10 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
                       .map((doc) => Message.fromFirestore(doc))
                       .toList();
 
-                  return ListView.builder(
+                  return ListView.separated(
                     itemCount: messages.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 0.0),
                     reverse: true,
                     itemBuilder: (context, index) {
                       Message message = messages[index];
@@ -53,7 +55,8 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
                           }
 
                           String receiverNickname =
-                              receiverInfoSnapshot.data?['nickname'] ?? 'Unknown User';
+                              receiverInfoSnapshot.data?['nickname'] ??
+                                  'Unknown User';
                           String receiverProfileIcon =
                               receiverInfoSnapshot.data?['profileIcon'] ?? '';
 
@@ -82,82 +85,105 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
     );
   }
 
-Widget _buildMessageWidget(
-  Message message,
-  String receiverNickname,
-  String receiverProfileIcon,
-) {
-  double maxContainerWidth = MediaQuery.of(context).size.width * 0.7;
+  Widget _buildMessageWidget(
+    Message message,
+    String receiverNickname,
+    String receiverProfileIcon,
+  ) {
+    double maxContainerWidth = MediaQuery.of(context).size.width * 0.7;
+  BorderRadius borderRadius;
 
-  return Padding(
-    padding: const EdgeInsets.only(left: 8.0),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (message.senderId != getUserId())
-          CircleAvatar(
-            backgroundImage: NetworkImage(receiverProfileIcon),
-          ),
-        const SizedBox(width: 3.0),
-        Expanded(
-          child: Align(
-            alignment: message.senderId == getUserId()
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
-            child: IntrinsicWidth(
-              child: Container(
-                margin: const EdgeInsets.all(8.0),
-                padding: const EdgeInsets.all(12.0),
-                constraints: BoxConstraints(
-                  maxWidth: maxContainerWidth,
-                ),
-                decoration: BoxDecoration(
-                  color: message.senderId == getUserId() ? Colors.blue : Colors.grey,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (message.senderId != getUserId())
+  // Set different border radii based on whether the message is from the sender or receiver
+  if (message.senderId == getUserId()) {
+    borderRadius = const BorderRadius.only(
+      topLeft: Radius.circular(15),
+      topRight: Radius.circular(15.0),
+      bottomLeft: Radius.circular(15.0),
+     
+    );
+  } else {
+    borderRadius = const BorderRadius.only(
+      topRight: Radius.circular(15.0),
+      
+      bottomLeft: Radius.circular(15.0),
+      bottomRight: Radius.circular(15.0),
+    );
+  }
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Only show profile picture if it's not the current user's message
+          if (message.senderId != getUserId())
+            CircleAvatar(
+              backgroundImage: NetworkImage(receiverProfileIcon),
+            ),
+          const SizedBox(width: 3.0),
+          Expanded(
+            child: Align(
+              alignment: message.senderId == getUserId()
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
+              child: IntrinsicWidth(
+                child: Container(
+                  margin: const EdgeInsets.only(
+                      left: 10, right: 10, top: 3, bottom: 3),
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, top: 5, bottom: 5),
+                  constraints: BoxConstraints(
+                    maxWidth: maxContainerWidth,
+                  ),
+                  decoration: BoxDecoration(
+                      color: message.senderId == getUserId()
+                          ? Colors.blue
+                          : const Color.fromARGB(255, 90, 90, 90),
+                      borderRadius: borderRadius,),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (message.senderId != getUserId())
+                        Text(
+                          receiverNickname,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      const SizedBox(height: 4.0),
                       Text(
-                        receiverNickname,
+                        message.text,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 14.0,
                         ),
                       ),
-                    const SizedBox(height: 4.0),
-                    Text(
-                      message.text,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                    const SizedBox(height: 4.0),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        message.timestamp != null
-                            ? _formatDateTime(message.timestamp!)
-                            : '',
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 8.0,
+                      const SizedBox(height: 4.0),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 50),
+                          child: Text(
+                            message.timestamp != null
+                                ? _formatDateTime(message.timestamp!)
+                                : '',
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 8.0,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 
   Widget _buildInputField() {
     return Container(
@@ -221,15 +247,20 @@ Widget _buildMessageWidget(
 
   Future<Map<String, String>> getReceiverInfo(String userId) async {
     try {
-      DocumentSnapshot userSnapshot =
-          await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
 
       if (userSnapshot.exists) {
         Map<String, dynamic> userData =
             userSnapshot.data() as Map<String, dynamic>;
         String receiverNickname = userData['nickname'] ?? 'Unknown User';
         String receiverProfileIcon = userData['profileUrl'] ?? '';
-        return {'nickname': receiverNickname, 'profileIcon': receiverProfileIcon};
+        return {
+          'nickname': receiverNickname,
+          'profileIcon': receiverProfileIcon
+        };
       } else {
         return {'nickname': 'Unknown User', 'profileIcon': ''};
       }
