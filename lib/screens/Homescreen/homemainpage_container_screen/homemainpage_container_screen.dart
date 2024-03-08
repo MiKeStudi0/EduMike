@@ -74,60 +74,24 @@ class _HomemainpageContainerScreenState
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   int _currentIndex = 0;
 
-  String? _selecteduniversity;
+  String? selecteduniversity;
 
-  String? _selecteddegree;
+  String? selecteddegree;
 
-  String? _selectedcourse;
+  String? selectedcourse;
 
-  String? _selectedsemester;
+  String? selectedsemester;
 
   List<String> bookmarkedCourses = [];
 
-  @override
-  void initState() {
-    super.initState();
-    initializeData();
-  }
-
-  Future<void> initializeData() async {
-    try {
-      // Get the current user
-      User? user = FirebaseAuth.instance.currentUser;
-
-      if (user != null) {
-        // Use the user's ID dynamically for fetching card data
-        Map<String, String?>? cardData =
-            await CardDataRepository().getCardData(user.uid);
-
-        if (cardData != null) {
-          setState(() {
-            // Store retrieved values in variables
-            _selecteduniversity = cardData['university'];
-            _selecteddegree = cardData['degree'];
-            _selectedcourse = cardData['course'];
-            _selectedsemester = cardData['semester'];
-          });
-
-          // Use the retrieved values in fetchDocumentData method
-          fetchDocumentData(
-              '/University/$_selecteduniversity/Refers/$_selecteddegree/Refers/$_selectedcourse/Refers/$_selectedsemester/Refers');
-        }
-      }
-    } catch (e) {
-      // Handle errors
-      print('Error initializing data: $e');
-    }
-  }
-
-  Future<Map<String, String?>?> getCardData() async {
+ 
+ Future<Map<String, String?>?> getCardData() async {
     try {
       // Get the current user
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
         // Reference to the "carddata" collection
-
         DocumentSnapshot<Map<String, dynamic>> snapshot =
             await FirebaseFirestore.instance
                 .collection('users')
@@ -139,20 +103,27 @@ class _HomemainpageContainerScreenState
         // Check if the document exists
         if (snapshot.exists) {
           // Extract field values from the document data
-          String? _selecteduniversity = snapshot.data()?['university'];
-          String? _selecteddegree = snapshot.data()?['degree'];
-          String? _selectedcourse = snapshot.data()?['course'];
-          String? _selectedsemester = snapshot.data()?['semester'];
+           selecteduniversity = snapshot.data()?['university'];
+           selecteddegree = snapshot.data()?['degree'];
+           selectedcourse = snapshot.data()?['course'];
+           selectedsemester = snapshot.data()?['semester'];
+
+          // Print the values for debugging
+          print('Selected University: $selecteduniversity');
+          print('Selected Degree: $selecteddegree');
+          print('Selected Course: $selectedcourse');
+          print('Selected Semester: $selectedsemester');
 
           // Return the card data as a map
           return {
-            'university': _selecteduniversity,
-            'degree': _selecteddegree,
-            'course': _selectedcourse,
-            'semester': _selectedsemester,
+            'university': selecteduniversity,
+            'degree': selecteddegree,
+            'course': selectedcourse,
+            'semester': selectedsemester,
           };
         } else {
           // Return null if the document doesn't exist
+          print('Document does not exist');
           return null;
         }
       } else {
@@ -167,59 +138,42 @@ class _HomemainpageContainerScreenState
     }
   }
 
-  Future<void> fetchDocumentData(String collectionPath) async {
-    try {
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection(collectionPath).get();
+  @override
+  void initState() {
+    super.initState();
 
-      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-        Map<String, dynamic> data = {
-          'id': doc.id,
-          'courseName': doc.get('courseName'),
-          'courseCode': doc.get('courseCode'),
-          'courseCredit': doc.get('courseCredit'),
-          'category': 'DefaultCategory',
-        };
+    // Fetch card data and print it for debugging
+    getCardData().then((cardData) {
+      print('Card Data: $cardData');
 
-        QuerySnapshot subcollectionSnapshot =
-            await doc.reference.collection('Refers').get();
-        if (subcollectionSnapshot.docs.isNotEmpty) {
-          QueryDocumentSnapshot subDoc = subcollectionSnapshot.docs.first;
-          data['category'] = subDoc.get('category');
-        }
-
-        Course course = Course(
-          courseName: doc.get('courseName'),
-          category: data['category'],
-          courseCode: doc.get('courseCode'),
-          courseCredit: doc.get('courseCredit'),
-          selectedDocumentId: doc.id,
-        );
-
-        courseList.add(course);
-
-        String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
-        await fetchDocumentData(nestedCollectionPath);
-        print('Data from $collectionPath: $data');
+      // Update the state with the fetched data if not null
+      if (cardData != null) {
+        setState(() {
+          selecteduniversity = cardData['university'];
+          selecteddegree = cardData['degree'];
+          selectedcourse = cardData['course'];
+          selectedsemester = cardData['semester'];
+        });
       }
-
-      setState(() {});
-    } catch (e, stackTrace) {
-      print('Error getting document data: $e\n$stackTrace');
-    }
+    });
   }
 
   final navigationkey = GlobalKey<CurvedNavigationBarState>();
 
   @override
   Widget build(BuildContext context) {
+    print('university: $selecteduniversity');
+    print('degree: $selecteddegree');
+    print('course: $selectedcourse');
+    print('semester: $selectedsemester');
+
     final screens = [
       HomemainpagePage(),
       MyCoursePage(
-        university: _selecteduniversity,
-        degree: _selecteddegree,
-        course: _selectedcourse,
-        semester: _selectedsemester,
+        university: selecteduniversity,
+        degree: selecteddegree,
+        course: selectedcourse,
+        semester: selectedsemester,
       ),
       IndoxmainpagePage(),
       MyBookmarkPage(),
