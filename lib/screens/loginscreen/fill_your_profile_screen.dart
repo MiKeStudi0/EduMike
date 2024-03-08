@@ -77,8 +77,8 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
         return Wrap(
           children: [
             ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Choose from Gallery'),
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Choose from Gallery'),
               onTap: () async {
                 Navigator.of(context).pop();
                 final XFile? pickedImage =
@@ -89,8 +89,8 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text('Take a Photo'),
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Take a Photo'),
               onTap: () async {
                 Navigator.of(context).pop();
                 final XFile? pickedImage =

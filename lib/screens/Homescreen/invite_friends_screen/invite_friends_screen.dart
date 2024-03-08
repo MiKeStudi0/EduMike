@@ -4,6 +4,9 @@ import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_elevated_buttonHome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class InviteFriendsScreen extends StatelessWidget {
   const InviteFriendsScreen({Key? key})
@@ -37,41 +40,64 @@ class InviteFriendsScreen extends StatelessWidget {
                 padding: EdgeInsets.only(right: 162.h),
                 child: Row(
                   children: [
-                    CustomImageView(
-                      imagePath: ImageConstant.imgFacebook,
-                      height: 14.v,
-                      width: 7.h,
-                      margin: EdgeInsets.only(top: 3.v),
-                    ),
-                    Spacer(
-                      flex: 33,
-                    ),
-                    CustomImageView(
-                      imagePath: ImageConstant.imgTrash,
-                      height: 13.v,
-                      width: 16.h,
-                      margin: EdgeInsets.only(
-                        top: 3.v,
-                        bottom: 2.v,
-                      ),
-                    ),
-                    Spacer(
-                      flex: 33,
-                    ),
-                    CustomImageView(
-                      imagePath: ImageConstant.imgGoogle,
-                      height: 14.v,
-                      width: 22.h,
-                      margin: EdgeInsets.only(top: 3.v),
-                    ),
-                    Spacer(
-                      flex: 33,
-                    ),
-                    CustomImageView(
-                      imagePath: ImageConstant.imgVolume,
-                      height: 19.adaptSize,
-                      width: 19.adaptSize,
-                    ),
+                   GestureDetector(
+  onTap: () {
+    // Handle tap on the Facebook image
+    share('Facebook');
+  },
+  child: CustomImageView(
+    imagePath: ImageConstant.imgFacebook,
+    height: 25.v,
+    width: 25.h,
+    margin: EdgeInsets.only(top: 3.v),
+  ),
+),
+const Spacer(
+  flex: 33,
+),
+GestureDetector(
+  onTap: () {
+    // Handle tap on the Trash image
+    share('Twitter');
+  },
+  child: CustomImageView(
+    imagePath: ImageConstant.imgTrash,
+    height: 25.v,
+    width: 25.h,
+    margin: EdgeInsets.only(top: 3.v, bottom: 2.v),
+  ),
+),
+const Spacer(
+  flex: 33,
+),
+GestureDetector(
+  onTap: () {
+    // Handle tap on the Google image
+    share('Gmail');
+  },
+  child: CustomImageView(
+    imagePath: ImageConstant.imgGoogle,
+    height: 25.v,
+    width: 25.h,
+    margin: EdgeInsets.only(top: 3.v),
+  ),
+),
+const Spacer(
+  flex: 33,
+),
+GestureDetector(
+  onTap: () {
+    // Handle tap on the whatsappimage
+    share('WhatsApp');
+  },
+  child: CustomImageView(
+    imagePath: ImageConstant.imgVolume,
+    height: 25.v,
+    width: 25.h,
+    margin: EdgeInsets.only(top: 3.v),
+  ),
+),
+       
                   ],
                 ),
               ),
@@ -82,6 +108,37 @@ class InviteFriendsScreen extends StatelessWidget {
       ),
     );
   }
+
+void share(var appName) async {
+  // The subject of the message
+  const String subject = "Check out this amazing app!";
+
+  // The body of the message, including the URL
+  const String body = "Hey there,\n\nCheck out this amazing app: https://www.example.com";
+
+  // The URL scheme for composing a message
+  var url;
+  if (appName == 'WhatsApp') {
+    url = "https://wa.me/?text=${Uri.encodeComponent('$subject\n\n$body')}";
+  } else if (appName == 'Gmail') {
+    url = "mailto:?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}";
+  }else if (appName == 'Facebook') {
+  url = "https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(url)}";
+  }else if (appName == 'Twitter') {
+  url = "https://twitter.com/intent/tweet?text=${Uri.encodeComponent('$subject\n\n$body')}";
+}else if (appName == 'LinkedIn') {
+  url = "https://www.linkedin.com/shareArticle?mini=true&url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(subject)}&summary=${Uri.encodeComponent(body)}";
+}
+
+
+
+  // ignore: deprecated_member_use
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    print("Error sharing via $appName");
+  }
+}
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
@@ -238,7 +295,7 @@ class InviteFriendsScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20.v),
-                  Divider(),
+                  const Divider(),
                   SizedBox(height: 20.v),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25.h),
@@ -271,13 +328,13 @@ class InviteFriendsScreen extends StatelessWidget {
                             phoneNumber: "(+91) 702-897-7965",
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         _buildInviteButton2(context),
                       ],
                     ),
                   ),
                   SizedBox(height: 20.v),
-                  Divider(),
+                  const Divider(),
                   SizedBox(height: 20.v),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25.h),
@@ -319,13 +376,13 @@ class InviteFriendsScreen extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         _buildInviteButton3(context),
                       ],
                     ),
                   ),
                   SizedBox(height: 20.v),
-                  Divider(),
+                  const Divider(),
                   SizedBox(height: 20.v),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 25.h),
@@ -358,13 +415,13 @@ class InviteFriendsScreen extends StatelessWidget {
                             phoneNumber: "(+91) 601-897-1714",
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         _buildInviteButton4(context),
                       ],
                     ),
                   ),
                   SizedBox(height: 20.v),
-                  Divider(),
+                  const Divider(),
                   SizedBox(height: 68.v),
                 ],
               ),
@@ -415,13 +472,13 @@ class InviteFriendsScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       _buildInviteButton5(context),
                     ],
                   ),
                 ),
                 SizedBox(height: 20.v),
-                Divider(),
+                const Divider(),
               ],
             ),
           ),

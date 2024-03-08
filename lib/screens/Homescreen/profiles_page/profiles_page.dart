@@ -474,6 +474,6 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   onTapTwo(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => AppNotificationsScreen()));
+        MaterialPageRoute(builder: (context) => const AppNotificationsScreen()));
   }
 }
