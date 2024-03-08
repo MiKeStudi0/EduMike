@@ -35,6 +35,10 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
   FocusNode nicknameFocusNode = FocusNode();
 
+  FocusNode phoneNumberFocusNode= FocusNode();
+
+
+
   TextEditingController fullnameController = TextEditingController();
 
   TextEditingController nameController = TextEditingController();
@@ -273,6 +277,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             size: 20.v,
                                           )),
                                       controller: fullnameController,
+                                      focusNode: fullnameFocusNode,
                                       hintText: "Full Name",
                                       contentPadding: const EdgeInsets.only(
                                           left: 16.0,
@@ -296,6 +301,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             size: 20.v,
                                           )),
                                       controller: nameController,
+                                      focusNode: nicknameFocusNode,
                                       hintText: "Nick Name",
                                       contentPadding:
                                           const EdgeInsets.only(left: 16.0, top: 35),
@@ -309,6 +315,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                                 .roundedBorder12),
                                     child: CustomTextFormField(
                                       controller: dateOfBirthController,
+                                      focusNode: dateofbirthFocusNode,
                                       hintText: " DOB",
                                       contentPadding:
                                           const EdgeInsets.only(left: 16.0, top: 35),
@@ -343,6 +350,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             size: 20.v,
                                           )),
                                       controller: emailController,
+                                      focusNode: emailFocusNode,
                                       hintText: " email",
                                       contentPadding:
                                           const EdgeInsets.only(left: 16.0, top: 35),
@@ -364,6 +372,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             size: 20.v,
                                           )),
                                       controller: phoneNumberController,
+                                      focusNode: phoneNumberFocusNode,
                                       hintText: " phone",
                                       contentPadding:
                                           const EdgeInsets.only(left: 16.0, top: 35),

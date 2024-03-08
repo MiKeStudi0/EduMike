@@ -69,6 +69,10 @@ dependencies:
   firebase_messaging: ^14.7.18
   flutter_share: ^2.0.0
   url_launcher: ^6.2.5
+  mailer: ^6.1.0
+  flutter_email_sender: ^6.0.2
+  path_provider: ^2.1.2
+  contacts_service: ^0.6.3
   
   
 
