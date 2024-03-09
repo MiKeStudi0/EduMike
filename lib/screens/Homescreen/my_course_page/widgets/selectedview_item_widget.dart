@@ -1,16 +1,19 @@
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
-import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/widgets/custom_icon_button_home.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class SelectedviewItemWidget extends StatelessWidget {
+  final String university;
+  final String degree;
+  final String course;
+  final String semester;
   final String courseName;
   final String courseCode;
 
   const SelectedviewItemWidget(
-      {Key? key, required this.courseName, required this.courseCode})
+      {Key? key, required this.courseName, required this.courseCode, required this.university, required this.degree, required this.course, required this.semester})
       : super(key: key);
 
   @override
@@ -18,7 +21,7 @@ class SelectedviewItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => CategoryScreen()));
+            context, MaterialPageRoute(builder: (context) => CategoryScreen( university: university, degree: degree, course: course, semester: semester, courseName: courseName,)));
       },
       child: Container(
         padding: EdgeInsets.only(

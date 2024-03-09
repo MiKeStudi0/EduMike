@@ -343,7 +343,7 @@ Future<void> fetchDocumentData(String collectionPath) async {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => CategoryScreen(),
+              builder: (context) => CategoryScreen( university: _selecteduniversity, degree: _selecteddegree, course: _selectedcourse, semester: _selectedsemester,),
             ));
       },
       child: SizedBox(

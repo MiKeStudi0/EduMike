@@ -3,7 +3,6 @@ import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
-import 'package:edumike/widgets/custom_elevated_buttonHome.dart';
 import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -104,7 +103,7 @@ class MyCoursePage extends StatelessWidget {
             // Check if courseName is not null before passing it to SelectedviewItemWidget
             if (courseName != null) {
               return SelectedviewItemWidget(
-                  courseName: courseName, courseCode: courseCode);
+                  courseName: courseName, courseCode: courseCode, university: university!, degree: degree!, course: course!, semester: semester!,);
             } else {
               // Handle the case when courseName is null, maybe show a placeholder or log an error
               return SizedBox.shrink();

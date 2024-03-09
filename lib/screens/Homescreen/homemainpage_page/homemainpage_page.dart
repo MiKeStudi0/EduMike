@@ -534,7 +534,7 @@ class HomemainpagePage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CategoryScreen()),
+                      MaterialPageRoute(builder: (context) => CategoryScreen( university: university, degree: degree, course: course, semester: semester,)),
                     );
                   },
                   child: CourseWidget()),

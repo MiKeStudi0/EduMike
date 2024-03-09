@@ -127,8 +127,8 @@ class AppRoutes {
     subscriptionNotificationsScreen: (context) =>
         SubscriptionNotificationsScreen(),
     searchScreen: (context) => SearchScreen(),
-    modulesScreen: (context) => const ModulesScreen(),
+    modulesScreen: (context) =>  ModulesScreen(),
     subscriptionScreen: (context) => SubscriptionScreen(),
-    categoryScreen: (context) => CategoryScreen(),
+    categoryScreen: (context) => CategoryScreen( ),
   };
 }

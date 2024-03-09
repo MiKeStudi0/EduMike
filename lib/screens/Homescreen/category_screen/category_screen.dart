@@ -6,14 +6,26 @@ import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_search_view_home.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable 
 class CategoryScreen extends StatelessWidget {
-  CategoryScreen({Key? key}) : super(key: key);
 
+final String? university;
+  final String? degree;
+  final String? course;
+  final String? semester;
+  final String? courseName;
+
+
+  CategoryScreen({
+    this.university,
+    this.degree,
+    this.course,
+
+    this.semester,
+    this.courseName,
+  });
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -77,7 +89,7 @@ class CategoryScreen extends StatelessWidget {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        ModulesScreen()));
+                                                        ModulesScreen( university: university, degree: degree, course: course, semester: semester, courseName: courseName,)));
                                           },
                                           child: Padding(
                                               padding: EdgeInsets.only(

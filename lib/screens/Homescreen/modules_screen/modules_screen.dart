@@ -4,10 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ModulesScreen extends StatelessWidget {
-  const ModulesScreen({Key? key}) : super(key: key);
+  final String? university;
+  final String? degree;
+  final String? course;
+  final String? semester;
+  final String? courseName;
+  final String? category;
+  
+  ModulesScreen({
+    this.university,
+    this.degree,
+    this.course,
+    this.semester,
+    this.courseName,
+    this.category,
+  });
 
   @override
   Widget build(BuildContext context) {
+    print(' category check  University: $university, Degree: $degree, Course: $course, Semester: $semester');
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(context),
@@ -57,7 +72,7 @@ class ModulesScreen extends StatelessWidget {
                 ],
               ),
               StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('/University/A.P.J. Abdul Kalam Technological University/Refers/B.Tech/Refers/Computer Science and Engineering/Refers/S1/Refers/BASICS OF CIVIL & MECHANICAL ENGINEERING/Refers/SYLLABUS/Refers').snapshots(),
+                stream: FirebaseFirestore.instance.collection('/University/$university/Refers/$degree/Refers/$course/Refers/$semester/Refers/$courseName/Refers/SYLLABUS/Refers').snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
