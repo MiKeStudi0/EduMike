@@ -81,7 +81,6 @@ class CustomDropDown extends StatelessWidget {
         width: width ?? double.maxFinite,
         child: DropdownButtonFormField(
           focusNode: focusNode ?? FocusNode(),
-          // controller: controller,
           icon: icon,
           autofocus: autofocus!,
           style: textStyle ?? CustomTextStyles.titleSmallGray800,

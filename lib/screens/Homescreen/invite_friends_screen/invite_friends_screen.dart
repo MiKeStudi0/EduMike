@@ -29,7 +29,7 @@ class InviteFriendsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildInvite(context),
+             // _buildInvite(context),
               SizedBox(height: 15.v),
               Text(
                 "Share Invite Via",
@@ -174,41 +174,7 @@ void share(var appName) async {
   }
 
   /// Section Widget
-        Widget _buildInvite(BuildContext context) {
-    return FutureBuilder<Iterable<Contact>>(
-      future: _fetchContacts(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error loading contacts'));
-        } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-          return Center(child: Text('No contacts available'));
-        } else {
-          return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: snapshot.data!.map((contact) {
-                return ListTile(
-                  title: Text(contact.displayName ?? ''),
-                  subtitle: Text(
-                    contact.phones?.isNotEmpty == true
-                        ? contact.phones!.first.value ?? ''
-                        : 'No phone number',
-                  ),
-                );
-              }).toList(),
-            ),
-          );
-        }
-      },
-    );
-  }
-
-  Future<Iterable<Contact>> _fetchContacts() async {
-    return await ContactsService.getContacts();
-  }
-
+      
   /// Common widget
   Widget _buildDominickSJenkins(
     BuildContext context, {
