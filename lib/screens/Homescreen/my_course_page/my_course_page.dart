@@ -71,6 +71,11 @@ class MyCoursePage extends StatelessWidget {
   }
 
   Widget _buildSelectedView(BuildContext context) {
+    print('university: $university');
+    print('degree: $degree');
+    print('course: $course');
+    print('semester: $semester');
+    
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection(

@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+class PdfScreen extends StatelessWidget {
+  final String pdfUrl; // Your Firebase Storage PDF URL
 
-class PdfViewer extends StatefulWidget {
-  final String pdfUrl;
+  PdfScreen({required this.pdfUrl});
 
-  const PdfViewer({Key? key, required this.pdfUrl}) : super(key: key);
-
-  @override
-  State<PdfViewer> createState() => _PdfViewerState();
-}
-
-class _PdfViewerState extends State<PdfViewer> {
   @override
   Widget build(BuildContext context) {
-    print('PDF Viewer: PDF URL: ${widget.pdfUrl}');
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: SfPdfViewer.network(
+      body: Center(
+        child: Container(
+          
         
-        widget.pdfUrl,
-        canShowPageLoadingIndicator: false,
-        scrollDirection: PdfScrollDirection.vertical, // or PdfScrollDirection.horizontal
+          child: const PDF(
+            pageSnap: true,
+            autoSpacing: false,
+            fitPolicy: FitPolicy.WIDTH,
+            pageFling : true,
+          fitEachPage: true,
+        ).cachedFromUrl(pdfUrl),
+        
+        ),
       ),
     );
   }
+
 
 
     PreferredSizeWidget _buildAppBar(BuildContext context) {
