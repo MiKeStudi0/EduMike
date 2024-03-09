@@ -103,7 +103,7 @@ class ModulesScreen extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PdfViewer(pdfUrl: pdfUrl),
+        builder: (context) => PdfScreen(pdfUrl: pdfUrl),
 
       ),
     );
