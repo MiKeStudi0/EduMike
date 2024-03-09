@@ -103,7 +103,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
               child: ListView.separated(
                 physics: BouncingScrollPhysics(),
                 separatorBuilder: (context, index) {
-                  return SizedBox(height: 16.v);
+                  return SizedBox(height: 0.v);
                 },
                 itemCount: filteredBookmarks.length,
                 itemBuilder: (context, index) {
@@ -259,7 +259,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 5.h),
+                        padding: EdgeInsets.only(left: 5.h ,top: 3.v),
                         child: Text(
                           "Credit",
                           style: theme.textTheme.labelMedium,

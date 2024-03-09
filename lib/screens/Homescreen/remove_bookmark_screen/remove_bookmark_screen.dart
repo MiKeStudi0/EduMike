@@ -12,7 +12,7 @@ class RemoveBookmarkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-          width: double.maxFinite,
+          width: 100.h,
           padding: EdgeInsets.symmetric(
             horizontal: 34.h,
             vertical: 31.v,
