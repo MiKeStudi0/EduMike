@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edumike/widgets/custom_drop_down.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -49,6 +50,8 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
   TextEditingController genderController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+    List<String> dropdownItemList = ["Male", "Female"];
+
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   late User _user;
@@ -262,6 +265,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                         ]),
                                   ),
                                   SizedBox(height: 30.v),
+                                  
                                   Container(
                                     decoration: AppDecoration.outlineBlack
                                         .copyWith(
@@ -400,6 +404,19 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                           const EdgeInsets.only(left: 16.0, top: 35),
                                     ),
                                   ),
+
+                                  SizedBox(height: 20.v),
+                              CustomDropDown(
+                                 controller: genderController,
+                                  hintText: 'gender',
+                                  items: dropdownItemList,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      gendervalue = value;
+                                      print(gendervalue);
+                                    });
+                                  }),
+
                                   SizedBox(height: 20.v),
                                   _buildUpdateButton(),
                                   SizedBox(height: 5.v)
