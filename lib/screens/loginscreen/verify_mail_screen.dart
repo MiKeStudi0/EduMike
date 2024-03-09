@@ -8,7 +8,9 @@ import 'package:edumike/widgets/app_bar/appbar_title.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_pin_code_text_field.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class VerifyMailScreen extends StatefulWidget {
   const VerifyMailScreen({Key? key}) : super(key: key);
@@ -21,11 +23,21 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
   late String pinCode;
   EmailOTP myauth = EmailOTP();
   Map<String, String>? userData;
+  final KeyboardVisibilityController _keyboardVisibilityController =
+      KeyboardVisibilityController();
 
   @override
   void initState() {
     super.initState();
     pinCode = "";
+    _keyboardVisibilityController.onChange.listen((bool visible) {
+      if (visible) {
+        // Only hide the system keyboard if the on-screen keyboard is not visible
+        if (!_keyboardVisibilityController.isVisible) {
+          SystemChannels.textInput.invokeMethod('TextInput.hide');
+        }
+      }
+    });
   }
 
   @override
@@ -39,93 +51,97 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: _buildAppBar(context),
-        body: Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.symmetric(horizontal: 34.h),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: 36.v),
-              Text(
-                "Code has been sent to your mail",
-                style: theme.textTheme.titleSmall,
-              ),
-              SizedBox(height: 38.v),
-              CustomPinCodeTextField(
-                context: context,
-                onChanged: (value) {
-                  setState(() {
-                    pinCode = value;
-                  });
-                },
-              ),
-              SizedBox(height: 51.v),
-              GestureDetector(
-                onTap: () async {
-                  myauth.setConfig(
-                      appEmail: "flutteremperor@gmail.com",
-                      appName: "Email OTP",
-                      userEmail: userData!['email']!,
-                      otpLength: 4,
-                      otpType: OTPType.digitsOnly);
-                  if (await myauth.sendOTP() == true) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("OTP has been sent"),
-                    ));
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Oops, OTP send failed"),
-                    ));
-                  }
-                },
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Resend otp if not recieved in 4 min",
-                        style: CustomTextStyles.titleMediumff0961f5,
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.left,
+    return KeyboardVisibilityProvider(
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: _buildAppBar(context),
+          body: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(horizontal: 34.h),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 36.v),
+                Text(
+                  "Code has been sent to your mail",
+                  style: theme.textTheme.titleSmall,
                 ),
-              ),
-              SizedBox(height: 51.v),
-              GestureDetector(
+                SizedBox(height: 38.v),
+                CustomPinCodeTextField(
+                  context: context,
+                  onChanged: (value) {
+                    setState(() {
+                      pinCode = value;
+                    });
+                  },
+                ),
+                SizedBox(height: 51.v),
+                GestureDetector(
                   onTap: () async {
-                    print(pinCode);
-                    if (await myauth.verifyOTP(otp: pinCode) == true) {
+                    myauth.setConfig(
+                        appEmail: "flutteremperor@gmail.com",
+                        appName: "Email OTP",
+                        userEmail: userData!['email']!,
+                        otpLength: 4,
+                        otpType: OTPType.digitsOnly);
+                    if (await myauth.sendOTP() == true) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("OTP is verified"),
+                        content: Text("OTP has been sent"),
                       ));
-                      try {
-                        await FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                          email: userData!['email']!,
-                          password: userData!['password']!,
-                        );
-                        // Navigate to the fill your profile screen
-                        Navigator.pushReplacementNamed(
-                            context, AppRoutes.fillYourProfileScreen);
-                      } catch (e) {
-                        print('Error creating user: $e');
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content: Text("Error creating user"),
-                        ));
-                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Invalid OTP"),
+                        content: Text("Oops, OTP send failed"),
                       ));
                     }
                   },
-                  child: _buildOtpVerification(context)),
-            ],
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Resend otp if not recieved in 4 min",
+                          style: CustomTextStyles.titleMediumff0961f5,
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                SizedBox(height: 51.v),
+                GestureDetector(
+                    onTap: () async {
+                      print(pinCode);
+                      if (await myauth.verifyOTP(otp: pinCode) == true) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("OTP is verified"),
+                        ));
+                        try {
+                          await FirebaseAuth.instance
+                              .createUserWithEmailAndPassword(
+                            email: userData!['email']!,
+                            password: userData!['password']!,
+                          );
+                          // Navigate to the fill your profile screen
+                          Navigator.pushReplacementNamed(
+                              context, AppRoutes.fillYourProfileScreen);
+                        } catch (e) {
+                          print('Error creating user: $e');
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Error creating user"),
+                          ));
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text("Invalid OTP"),
+                        ));
+                      }
+                    },
+                    child: _buildOtpVerification(context)),
+              ],
+            ),
           ),
         ),
       ),

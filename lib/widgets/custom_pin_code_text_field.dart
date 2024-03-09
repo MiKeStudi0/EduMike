@@ -1,10 +1,18 @@
+import 'package:edumike/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-// ignore: must_be_immutable
 class CustomPinCodeTextField extends StatelessWidget {
-  CustomPinCodeTextField({
+  final Alignment? alignment;
+  final BuildContext context;
+  final TextEditingController? controller;
+  final TextStyle? textStyle;
+  final TextStyle? hintStyle;
+  final Function(String) onChanged;
+  final FormFieldValidator<String>? validator;
+
+  const CustomPinCodeTextField({
     Key? key,
     required this.context,
     required this.onChanged,
@@ -13,51 +21,38 @@ class CustomPinCodeTextField extends StatelessWidget {
     this.textStyle,
     this.hintStyle,
     this.validator,
-  }) : super(
-          key: key,
-        );
-
-  final Alignment? alignment;
-
-  final BuildContext context;
-
-  final TextEditingController? controller;
-
-  final TextStyle? textStyle;
-
-  final TextStyle? hintStyle;
-
-  Function(String) onChanged;
-
-  final FormFieldValidator<String>? validator;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return alignment != null
         ? Align(
             alignment: alignment ?? Alignment.center,
-            child: pinCodeTextFieldWidget,
+            child: PinCodeTextFieldWidget(),
           )
-        : pinCodeTextFieldWidget;
+        : PinCodeTextFieldWidget();
   }
 
-  Widget get pinCodeTextFieldWidget => PinCodeTextField(
-        appContext: context,
-        controller: controller,
-        length: 4,
-        keyboardType: TextInputType.number,
-        textStyle: textStyle,
-        hintStyle: hintStyle,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-        ],
-        pinTheme: PinTheme(
-          shape: PinCodeFieldShape.circle,
-          inactiveColor: const Color.fromARGB(0, 150, 137, 137),
-          activeColor: Color.fromARGB(0, 52, 116, 245),
-          selectedColor: Color.fromARGB(0, 69, 184, 237),
-        ),
-        onChanged: (value) => onChanged(value),
-        validator: validator,
-      );
+  Widget PinCodeTextFieldWidget() {
+    return PinCodeTextField(
+      appContext: context,
+      controller: controller,
+      length: 4,
+      keyboardType: TextInputType.number,
+      textStyle: textStyle,
+      hintStyle: hintStyle,
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      pinTheme: PinTheme(
+        shape: PinCodeFieldShape.box,
+        borderRadius: BorderRadius.circular(10.0),
+        borderWidth: 2, // Add border width for better visibility
+        inactiveColor:
+            appTheme.blue600, // Set inactive color to grey for visibility
+        activeColor: Color.fromARGB(0, 52, 116, 245),
+        selectedColor: Color.fromARGB(0, 69, 184, 237),
+      ),
+      onChanged: (value) => onChanged(value),
+      validator: validator,
+    );
+  }
 }
