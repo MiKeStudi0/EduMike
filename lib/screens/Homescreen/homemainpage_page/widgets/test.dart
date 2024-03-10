@@ -1,4 +1,5 @@
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
+import 'package:edumike/screens/Homescreen/modules_screen/syllabus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -339,13 +340,24 @@ Future<void> fetchDocumentData(String collectionPath) async {
   Widget _buildCourseList(BuildContext context, Course course, int index) {
     bool isBookmarked = bookmarkedCourses.contains(course.courseCode);
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CategoryScreen( university: _selecteduniversity, degree: _selecteddegree, course: _selectedcourse, semester: _selectedsemester,),
-            ));
-      },
+     onTap: () {
+  if (selectedCategory == 'SYLLABUS') {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Syllabus(
+          university: _selecteduniversity!,
+          degree: _selecteddegree!,
+          course: _selectedcourse!,
+          semester: _selectedsemester!,
+          courseName: course.courseName,
+          category: course.category,
+        ),
+      ),
+    );
+  }
+},
+
       child: SizedBox(
         height: 245.h,
         width: 290.v,

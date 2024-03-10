@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
@@ -10,7 +12,7 @@ class Syllabus extends StatelessWidget {
   final String courseName;
   final String category;
 
-  Syllabus({
+  const Syllabus({
     required this.university,
     required this.degree,
     required this.course,
