@@ -84,8 +84,7 @@ class _HomemainpageContainerScreenState
 
   List<String> bookmarkedCourses = [];
 
- 
- Future<Map<String, String?>?> getCardData() async {
+  Future<Map<String, String?>?> getCardData() async {
     try {
       // Get the current user
       User? user = FirebaseAuth.instance.currentUser;
@@ -103,10 +102,10 @@ class _HomemainpageContainerScreenState
         // Check if the document exists
         if (snapshot.exists) {
           // Extract field values from the document data
-           selecteduniversity = snapshot.data()?['university'];
-           selecteddegree = snapshot.data()?['degree'];
-           selectedcourse = snapshot.data()?['course'];
-           selectedsemester = snapshot.data()?['semester'];
+          selecteduniversity = snapshot.data()?['university'];
+          selecteddegree = snapshot.data()?['degree'];
+          selectedcourse = snapshot.data()?['course'];
+          selectedsemester = snapshot.data()?['semester'];
 
           // Print the values for debugging
           print('Selected University: $selecteduniversity');
@@ -180,58 +179,59 @@ class _HomemainpageContainerScreenState
       ProfilesPage(),
     ];
     String imagePathHome = 'assets/images/home_image';
-bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0.0;
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
+    bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0.0;
 
-    bottomNavigationBar: isKeyboardOpen ? null : CurvedNavigationBar(
-        buttonBackgroundColor: Color.fromARGB(255, 59, 131, 255),
-        items: <Widget>[
-          _buildIcon(0, 'assets/images/home_image/HomeScreen.svg',
-              '$imagePathHome/img_nav_homeNot.svg'),
-          _buildIcon(1, '$imagePathHome/CourseScreen.svg',
-              '$imagePathHome/img_nav_my_courses.svg'),
-          _buildIcon(2, '$imagePathHome/IndoxScreen.svg',
-              '$imagePathHome/img_nav_indox.svg'),
-          _buildIcon(3, '$imagePathHome/BookmarkScreen.svg',
-              '$imagePathHome/img_nav_book_mark.svg'),
-          _buildIcon(4, '$imagePathHome/ProfileScreen.svg',
-              '$imagePathHome/img_nav_profile.svg'),
-        ],
-        backgroundColor: Colors.transparent,
-        color: Color.fromARGB(255, 60, 118, 218),
-        height: 75,
-        index: _currentIndex,
-        onTap: (index) => setState(
-          () {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      bottomNavigationBar: Visibility(
+        visible: !isKeyboardOpen,
+        child: CurvedNavigationBar(
+          buttonBackgroundColor: Color.fromARGB(255, 59, 131, 255),
+          items: <Widget>[
+            _buildIcon(0, 'assets/images/home_image/HomeScreen.svg',
+                '$imagePathHome/img_nav_homeNot.svg'),
+            _buildIcon(1, '$imagePathHome/CourseScreen.svg',
+                '$imagePathHome/img_nav_my_courses.svg'),
+            _buildIcon(2, '$imagePathHome/IndoxScreen.svg',
+                '$imagePathHome/img_nav_indox.svg'),
+            _buildIcon(3, '$imagePathHome/BookmarkScreen.svg',
+                '$imagePathHome/img_nav_book_mark.svg'),
+            _buildIcon(4, '$imagePathHome/ProfileScreen.svg',
+                '$imagePathHome/img_nav_profile.svg'),
+          ],
+          backgroundColor: Colors.transparent,
+          color: Color.fromARGB(255, 60, 118, 218),
+          height: 75,
+          index: _currentIndex,
+          onTap: (index) => setState(() {
             _currentIndex = index;
-          },
+          }),
+          key: navigationkey,
         ),
-        key: navigationkey,
       ),
       backgroundColor: appTheme.whiteA700,
       body: PopScope(
-  child: screens[_currentIndex],
-  onPopInvoked: (bool popInvoked) {
-    // Your existing logic
-    if (_currentIndex != 0 && popInvoked) {
-      setState(() {
-        _currentIndex = 0;
-      });
-    }
-  },
-),
-
+        child: screens[_currentIndex],
+        onPopInvoked: (bool popInvoked) {
+          // Your existing logic
+          if (_currentIndex != 0 && popInvoked) {
+            setState(() {
+              _currentIndex = 0;
+            });
+          }
+        },
+      ),
     );
   }
 
-  _buildIcon(int index, String selectedImage, String unselectedImage) {
+  Widget _buildIcon(int index, String selectedImage, String unselectedImage) {
     return Container(
       height: 25,
       width: 25,
       child: SvgPicture.asset(
-          _currentIndex == index ? selectedImage : unselectedImage,
-          fit: BoxFit.contain),
+        _currentIndex == index ? selectedImage : unselectedImage,
+        fit: BoxFit.contain,
+      ),
     );
   }
 }
