@@ -1,5 +1,7 @@
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
+import 'package:edumike/screens/Homescreen/modules_screen/pdfviewer.dart';
+import 'package:edumike/screens/Homescreen/modules_screen/syllabus.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/uplaodpdf.dart';
 import 'package:edumike/screens/Homescreen/upload_screen/upload_notes_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
@@ -60,6 +62,20 @@ final String? university;
                                             CrossAxisAlignment.start,
                                         children: [
                                           CustomImageView(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Syllabus(
+                                                              university: university!,
+                                                              degree: degree!,
+                                                              course: course!,
+                                                              semester: semester!,
+                                                              courseName: courseName!,
+                                                              category: "Syllabus"))
+                                            
+                                          );},
                                               imagePath:
                                                   ImageConstant.imgSyllabus,
                                               height: 53.adaptSize,
