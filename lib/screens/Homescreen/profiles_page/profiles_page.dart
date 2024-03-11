@@ -469,7 +469,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   /// Navigates to the inviteFriendsScreen when the action is triggered.
   onTapNine(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const InviteFriendsScreen()));
+        MaterialPageRoute(builder: (context) =>  InviteFriendsScreen()));
   }
 
   onTapTwo(BuildContext context) {
