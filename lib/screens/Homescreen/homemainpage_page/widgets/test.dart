@@ -1,7 +1,5 @@
-import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/syllabus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
@@ -68,7 +66,7 @@ class CourseListBlock extends StatefulWidget {
 
 class _CourseListBlockState extends State<CourseListBlock> {
   List<Course> courseList = [];
-  final List<String> categories = ['SYLLABUS', 'Notes'];
+  final List<String> categories = ['SYLLABUS', 'Notes','Text Book','Question Paper','Question Bank','Lab Manual','Others'];
   String selectedCategory = 'SYLLABUS';
   String? _selecteduniversity;
   String? _selecteddegree;

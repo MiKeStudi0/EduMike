@@ -1,4 +1,3 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';

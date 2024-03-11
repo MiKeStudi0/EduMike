@@ -24,9 +24,7 @@ import 'package:edumike/screens/Homescreen/remove_bookmark_screen/remove_bookmar
 import 'package:edumike/screens/Homescreen/add_subscribe_screen/add_subscribe_screen.dart';
 import 'package:edumike/screens/Homescreen/app_notifications_screen/app_notifications_screen.dart';
 import 'package:edumike/screens/Homescreen/subscription_notifications_screen/subscription_notifications_screen.dart';
-import 'package:edumike/screens/Homescreen/search_screen/search_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
-import 'package:edumike/screens/Homescreen/subscription_screen/subscription_screen.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 
 class AppRoutes {

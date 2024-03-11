@@ -1,4 +1,3 @@
-import 'dart:io'; // Import the 'File' class
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -57,8 +56,8 @@ class _UploadScreenState extends State<UploadScreen> {
   Future<void> uploadPDF(String pdfName, String pdfPath) async {
     try {
       Reference storageReference = FirebaseStorage.instance.ref().child('pdfs/$pdfName.pdf');
-      UploadTask uploadTask = storageReference.putFile(File(pdfPath));
-      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
+     // UploadTask uploadTask = storageReference.putFile(File(pdfPath));
+      //TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
       String pdfUrl = await storageReference.getDownloadURL();
 
       // Store the PDF URL and name in Firestore
