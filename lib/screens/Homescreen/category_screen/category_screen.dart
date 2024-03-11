@@ -2,7 +2,6 @@ import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/pdfviewer.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/syllabus.dart';
-import 'package:edumike/screens/Homescreen/modules_screen/uplaodpdf.dart';
 import 'package:edumike/screens/Homescreen/upload_screen/upload_notes_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
@@ -151,12 +150,12 @@ final String? university;
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     GestureDetector(
-                                      onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        UploadScreen()));},
+                                      // onTap: () {
+                                      //       Navigator.push(
+                                      //           context,
+                                      //           MaterialPageRoute(
+                                      //               builder: (context) =>
+                                      //                   UploadScreen()));},
                                       child: Padding(
                                           padding: EdgeInsets.only(top: 1.v),
                                           child: Column(

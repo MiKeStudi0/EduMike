@@ -28,7 +28,6 @@ import 'package:edumike/screens/Homescreen/search_screen/search_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/screens/Homescreen/subscription_screen/subscription_screen.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
-import 'package:edumike/screens/uploadscreen.dart';
 
 class AppRoutes {
   static const String introOneScreen = '/intro_one_screen';
@@ -104,7 +103,6 @@ class AppRoutes {
     introOneScreen: (context) => const IntroOneScreen(),
     letSYouInScreen: (context) => const LetSYouInScreen(),
     registerNowScreen: (context) => RegisterNowScreen(),
-    uploadscreen: (context) => UploadDataPage(),
     loginScreen: (context) => LoginScreen(),
     authScreen: (context) => const AuthPage(),
     fillYourProfileScreen: (context) => FillYourProfileScreen(),
@@ -126,9 +124,7 @@ class AppRoutes {
     appNotificationsScreen: (context) => AppNotificationsScreen(),
     subscriptionNotificationsScreen: (context) =>
         SubscriptionNotificationsScreen(),
-    searchScreen: (context) => SearchScreen(),
     modulesScreen: (context) =>  ModulesScreen(),
-    subscriptionScreen: (context) => SubscriptionScreen(),
     categoryScreen: (context) => CategoryScreen( ),
   };
 }
