@@ -4,14 +4,39 @@ import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_elevated_buttonHome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:contacts_service/contacts_service.dart';
 
 
-class InviteFriendsScreen extends StatelessWidget {
-  const InviteFriendsScreen({Key? key})
+
+
+
+class InviteFriendsScreen extends StatefulWidget {
+   InviteFriendsScreen({Key? key})
       : super(
           key: key,
         );
+
+  @override
+  State<InviteFriendsScreen> createState() => _InviteFriendsScreenState();
+}
+
+class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
+List<Contact> contacts = [];
+
+  @override
+  void initState(){
+    super.initState();
+    getAllContacts();
+  }
+
+getAllContacts()async{
+List<Contact> _contacts = await ContactsService.getContacts(withThumbnails: false);
+setState(() {
+  contacts=_contacts;
+});
+}
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +45,30 @@ class InviteFriendsScreen extends StatelessWidget {
         backgroundColor: appTheme.whiteA700,
         appBar: _buildAppBar(context),
         body: Container(
+        
           width: double.maxFinite,
           padding: EdgeInsets.symmetric(
             horizontal: 34.h,
             vertical: 23.v,
           ),
           child: Column(
+            
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              ListView.builder(
+                itemCount: contacts.length, itemBuilder: (BuildContext context, int index) { 
+                  Contact contact = contacts[index];
+                  return ListTile(
+                    title: Text(contact.displayName?? ''),
+                    subtitle: Text(
+                      contact.phones?.elementAt(0).value?? ''
+                    ),
+                  );
+                 },
+
+    
+  ),
+              
              // _buildInvite(context),
               SizedBox(height: 15.v),
               Text(
@@ -44,6 +85,7 @@ class InviteFriendsScreen extends StatelessWidget {
     // Handle tap on the Facebook image
     share('Facebook');
   },
+
   child: CustomImageView(
     imagePath: ImageConstant.imgFacebook,
     height: 25.v,
@@ -104,7 +146,9 @@ GestureDetector(
             ],
           ),
         ),
+    
       ),
+      
     );
   }
 
@@ -172,17 +216,17 @@ void share(var appName) async {
     );
   }
 
-  /// Section Widget
-      
+
   /// Common widget
   Widget _buildDominickSJenkins(
     BuildContext context, {
     required String userName,
-    required String phoneNumber,
+    required String phoneNumber
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        
         Text(
           userName,
           style: theme.textTheme.titleMedium!.copyWith(

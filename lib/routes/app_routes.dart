@@ -115,7 +115,7 @@ class AppRoutes {
     addUniversityCardScreen: (context) => AddUniversityCardScreen(),
     helpcareScreen: (context) => const HelpcareScreen(),
     editProfilesScreen: (context) => EditProfilesScreen(),
-    inviteFriendsScreen: (context) => const InviteFriendsScreen(),
+    inviteFriendsScreen: (context) =>  InviteFriendsScreen(),
     termsConditionsScreen: (context) => const TermsConditionsScreen(),
     removeBookmarkScreen: (context) => const RemoveBookmarkScreen(),
     addSubscribeScreen: (context) => const AddSubscribeScreen(),
