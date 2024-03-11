@@ -75,6 +75,7 @@ dependencies:
   contacts_service: ^0.6.3
   flutter_cached_pdfview: ^0.4.2
   flutter_keyboard_visibility: ^6.0.0
+  permission_handler: ^11.3.0
   
   
 
