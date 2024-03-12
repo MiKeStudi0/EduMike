@@ -27,13 +27,14 @@ class _EmailServicePageState extends State<EmailServicePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Email Service'),
+        title: const Text('Email Service'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
+              
               onPressed: () async {
                 String? filePath = await pickAndStoreFile();
                 if (filePath != null) {
@@ -42,14 +43,20 @@ class _EmailServicePageState extends State<EmailServicePage> {
                   });
                 }
               },
-              child: Text('Pick and Attach File'),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Pick and Attach File',style:TextStyle(color: Colors.white)),
+              ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 _sendEmail();
               },
-              child: Text('Send Email with Attachment'),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Send Email with Attachment',style:TextStyle(color: Colors.white)),
+              ),
             ),
           ],
         ),
