@@ -310,7 +310,7 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
 Widget build(BuildContext context) {
   return Scaffold(
     appBar: AppBar(
-      title: Text('Invite Friends'),
+      title: const Text('Invite Friends'),
     ),
     body: Container(
       width: double.infinity,
@@ -318,11 +318,11 @@ Widget build(BuildContext context) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           Expanded(
             child: Container(
               width: 300, // Set a fixed width for the container
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black), // Add a border
               ),
@@ -342,7 +342,7 @@ Widget build(BuildContext context) {
                             onPressed: () {
                               _sendInvite(phoneNumber);
                             },
-                            child: Text('Invite'),
+                            child: const Text('Invite',style:TextStyle(color: Colors.white)),
                           ),
                         ),
                         Container(
@@ -357,7 +357,7 @@ Widget build(BuildContext context) {
               ),
             ),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
         ],
       ),
     ),
@@ -365,10 +365,16 @@ Widget build(BuildContext context) {
 
   bottomNavigationBar: Container(
   height: 300,
-  padding: EdgeInsets.all(16.0),
+  padding: const EdgeInsets.all(16.0),
   color: Colors.grey.shade200,
   child: Column(
+     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
+      const Text(
+        'Invite Via',
+        style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.bold,),
+      ),
+      const SizedBox(height: 16.0),
       Row(
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -379,7 +385,7 @@ Widget build(BuildContext context) {
               // Handle onTap event for the first image
             },
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: CustomImageView(
                 imagePath: ImageConstant.imgFacebook,
                 width: 30, // Set width here
@@ -393,7 +399,7 @@ Widget build(BuildContext context) {
               // Handle onTap event for the second image
             },
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: CustomImageView(
                 imagePath: ImageConstant.imgTrash,
                 width: 30, // Set width here
@@ -407,7 +413,7 @@ Widget build(BuildContext context) {
               // Handle onTap event for the third image
             },
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: CustomImageView(
                 imagePath: ImageConstant.imgGoogle,
                 width: 30, // Set width here
@@ -421,7 +427,7 @@ Widget build(BuildContext context) {
               // Handle onTap event for the fourth image
             },
             child: Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: CustomImageView(
                 imagePath: ImageConstant.imgVolume,
                 width: 30, // Set width here
@@ -431,8 +437,8 @@ Widget build(BuildContext context) {
           ),
         ],
       ),
-      SizedBox(height: 16.0),
-      Text(
+      const SizedBox(height: 16.0),
+      const Text(
         'Antha mone heppy ayoo',
         style: TextStyle(fontSize: 18.0),
       ),
