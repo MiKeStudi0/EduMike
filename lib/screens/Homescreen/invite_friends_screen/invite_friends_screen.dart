@@ -55,7 +55,9 @@
 //             crossAxisAlignment: CrossAxisAlignment.start,
 //             children: [
 //               ListView.builder(
-//                 itemCount: contacts.length, itemBuilder: (BuildContext context, int index) { 
+//                 shrinkWrap:true,
+//                 itemCount: 15,
+//                  itemBuilder: (BuildContext context, int index) { 
 //                   Contact contact = contacts[index];
 //                   return ListTile(
 //                     title: Text(contact.displayName?? ''),
@@ -151,35 +153,7 @@
 //     );
 //   }
 
-// void share(var appName) async {
-//   // The subject of the message
-//   const String subject = "Check out this amazing app!";
 
-//   // The body of the message, including the URL
-//   const String body = "Hey there,\n\nCheck out this amazing app: https://www.example.com";
-
-//   // The URL scheme for composing a message
-//   var url;
-//   if (appName == 'WhatsApp') {
-//     url = "https://wa.me/?text=${Uri.encodeComponent('$subject\n\n$body')}";
-//   } else if (appName == 'Gmail') {
-//     url = "mailto:?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}";
-//   }else if (appName == 'Facebook') {
-//   url = "https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(url)}";
-//   }else if (appName == 'Twitter') {
-//   url = "https://twitter.com/intent/tweet?text=${Uri.encodeComponent('$subject\n\n$body')}";
-// }else if (appName == 'LinkedIn') {
-//   url = "https://www.linkedin.com/shareArticle?mini=true&url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(subject)}&summary=${Uri.encodeComponent(body)}";
-// }
-
-//   // ignore: deprecated_member_use
-//   if (await canLaunch(url)) {
-//     // ignore: deprecated_member_use
-//     await launch(url);
-//   } else {
-//     print("Error sharing via $appName");
-//   }
-// }
 
 //   /// Section Widget
 //   PreferredSizeWidget _buildAppBar(BuildContext context) {
@@ -244,27 +218,58 @@
 //   }
 // }
 
+
+
+
+import 'package:edumike/core/app_export.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InviteFriendsScreen extends StatefulWidget {
-  InviteFriendsScreen({Key? key}) : super(key: key);
-
   @override
-  State<InviteFriendsScreen> createState() => _InviteFriendsScreenState();
+  _InviteFriendsScreenState createState() => _InviteFriendsScreenState();
 }
 
 class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
-  List<Contact> contacts = [];
+  List<Contact> _contacts = [];
 
   @override
   void initState() {
     super.initState();
     _requestContactsPermission();
   }
+  
+  void share(var appName) async {
+  // The subject of the message
+  const String subject = "Check out this amazing app!";
 
+  // The body of the message, including the URL
+  const String body = "Hey there,\n\nCheck out this amazing app: https://www.example.com";
+
+  // The URL scheme for composing a message
+  var url;
+  if (appName == 'WhatsApp') {
+    url = "https://wa.me/?text=${Uri.encodeComponent('$subject\n\n$body')}";
+  } else if (appName == 'Gmail') {
+    url = "mailto:?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}";
+  }else if (appName == 'Facebook') {
+  url = "https://www.facebook.com/sharer/sharer.php?u=${Uri.encodeComponent(url)}";
+  }else if (appName == 'Twitter') {
+  url = "https://twitter.com/intent/tweet?text=${Uri.encodeComponent('$subject\n\n$body')}";
+}else if (appName == 'LinkedIn') {
+  url = "https://www.linkedin.com/shareArticle?mini=true&url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(subject)}&summary=${Uri.encodeComponent(body)}";
+}
+
+  // ignore: deprecated_member_use
+  if (await canLaunch(url)) {
+    // ignore: deprecated_member_use
+    await launch(url);
+  } else {
+    print("Error sharing via $appName");
+  }
+}
   Future<void> _requestContactsPermission() async {
     if (await Permission.contacts.request().isGranted) {
       _getAllContacts();
@@ -275,80 +280,169 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
   }
 
   Future<void> _getAllContacts() async {
-    List<Contact> _contacts = await ContactsService.getContacts(withThumbnails: false);
+    List<Contact> contacts = await ContactsService.getContacts();
     setState(() {
-      contacts = _contacts;
+      _contacts = contacts;
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Invite Friends'),
-        ),
-        body: Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
+  Future<void> _sendInvite(String phoneNumber) async {
+  // Define your predefined message
+  String message = 'Hey! Join me on this cool app! Here\'s a YouTube video you might like: https://www.youtube.com/watch?v=YOUR_VIDEO_ID';
+
+  // Encode the message and phone number for use in the URL
+  String encodedMessage = Uri.encodeComponent(message);
+  String encodedPhoneNumber = Uri.encodeComponent(phoneNumber);
+
+  // Construct the URL for sending SMS
+  String uri = 'sms:$encodedPhoneNumber?body=$encodedMessage';
+
+  // Launch the SMS application with the predefined message and phone number
+  if (await canLaunch(uri)) {
+    await launch(uri);
+  } else {
+    // Handle error
+    print('Could not launch $uri');
+  }
+}
+
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Invite Friends'),
+    ),
+    body: Container(
+      width: double.infinity,
+      height: 500,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 16.0),
+          Expanded(
+            child: Container(
+              width: 300, // Set a fixed width for the container
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black), // Add a border
+              ),
+              child: Center(
                 child: ListView.builder(
-                  itemCount: contacts.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    Contact contact = contacts[index];
-                    return ListTile(
-                      title: Text(contact.displayName ?? ''),
-                      subtitle: Text(contact.phones?.elementAt(0).value ?? ''),
+                  itemCount: _contacts.length,
+                  itemBuilder: (context, index) {
+                    Contact contact = _contacts[index];
+                    String phoneNumber = contact.phones?.isNotEmpty == true ? contact.phones!.first.value! : '';
+
+                    return Column(
+                      children: [
+                        ListTile(
+                          title: Text(contact.displayName ?? ''),
+                          subtitle: Text(phoneNumber),
+                          trailing: ElevatedButton(
+                            onPressed: () {
+                              _sendInvite(phoneNumber);
+                            },
+                            child: Text('Invite'),
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 1.0,
+                          color: Colors.black,
+                        ),
+                      ],
                     );
                   },
                 ),
               ),
-              SizedBox(height: 15.0),
-              Text(
-                "Share Invite Via",
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 15.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildSocialMediaIcon('Facebook', 'https://www.facebook.com/sharer/sharer.php?u=https://www.example.com'),
-                  _buildSocialMediaIcon('Twitter', 'https://twitter.com/intent/tweet?text=Check out this amazing app: https://www.example.com'),
-                  _buildSocialMediaIcon('Gmail', 'mailto:?subject=Check out this amazing app!&body=Hey there,\n\nCheck out this amazing app: https://www.example.com'),
-                  _buildSocialMediaIcon('WhatsApp', 'https://wa.me/?text=Check out this amazing app: https://www.example.com'),
-                ],
-              ),
-            ],
+            ),
           ),
-        ),
+          SizedBox(height: 16.0),
+        ],
       ),
-    );
-  }
+    ),
 
-  Widget _buildSocialMediaIcon(String appName, String url) {
-    return GestureDetector(
-      onTap: () {
-        _share(appName, url);
-      },
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        child: Image.asset(
-          'assets/$appName.png', // You need to provide the images for social media icons
-          width: 50.0,
-          height: 50.0,
-          fit: BoxFit.cover,
-        ),
+
+  bottomNavigationBar: Container(
+  height: 300,
+  padding: EdgeInsets.all(16.0),
+  color: Colors.grey.shade200,
+  child: Column(
+    children: [
+      Row(
+        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          
+          GestureDetector(
+            onTap: () {
+              share('Facebook');
+              // Handle onTap event for the first image
+            },
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: CustomImageView(
+                imagePath: ImageConstant.imgFacebook,
+                width: 30, // Set width here
+                height: 30, // Set height here
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              share('Twitter');
+              // Handle onTap event for the second image
+            },
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: CustomImageView(
+                imagePath: ImageConstant.imgTrash,
+                width: 30, // Set width here
+                height: 30, // Set height here
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+               share('Gmail');
+              // Handle onTap event for the third image
+            },
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: CustomImageView(
+                imagePath: ImageConstant.imgGoogle,
+                width: 30, // Set width here
+                height: 30, // Set height here
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              share('WhatsApp');
+              // Handle onTap event for the fourth image
+            },
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: CustomImageView(
+                imagePath: ImageConstant.imgVolume,
+                width: 30, // Set width here
+                height: 30, // Set height here
+              ),
+            ),
+          ),
+        ],
       ),
-    );
-  }
+      SizedBox(height: 16.0),
+      Text(
+        'Antha mone heppy ayoo',
+        style: TextStyle(fontSize: 18.0),
+      ),
+    ],
+  ),
+),
 
-  Future<void> _share(String appName, String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      print("Error sharing via $appName");
-    }
-  }
+
+  );
+}
+
+
 }
