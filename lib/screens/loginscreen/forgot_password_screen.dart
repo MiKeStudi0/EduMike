@@ -51,21 +51,6 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   Widget _buildEmailField() {
     return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey, // Border color
-          width: 1.0, // Border width
-        ),
-        borderRadius: BorderRadius.circular(10.0), // Border radius
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5), // Shadow color
-            spreadRadius: 2, // Spread radius
-            blurRadius: 5, // Blur radius
-            offset: Offset(0, 1), // Offset of the shadow
-          ),
-        ],
-      ),
       child: CustomTextFormField(
         controller: emailController,
         focusNode: emailFocusNode,
