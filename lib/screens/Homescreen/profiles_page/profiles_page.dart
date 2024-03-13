@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/app_notifications_screen/app_notifications_screen.dart';
 import 'package:edumike/screens/Homescreen/edit_profiles_screen/edit_profiles_screen.dart';
+import 'package:edumike/screens/Homescreen/helpcenter_screen/helpcenter.dart';
 import 'package:edumike/screens/Homescreen/invite_friends_screen/invite_friends_screen.dart';
+import 'package:edumike/screens/Homescreen/security_screen/security_page.dart';
 import 'package:edumike/screens/Homescreen/terms_conditions_screen/terms_conditions_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
@@ -285,21 +287,27 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   /// Section Widget
   Widget _buildFour(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 19.h),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgTelevisionBlueGray90001,
-              height: 23.adaptSize,
-              width: 23.adaptSize),
-          Padding(
-              padding: EdgeInsets.only(left: 12.h, bottom: 2.v),
-              child: Text("Security",
-                  style: CustomTextStyles.titleSmallBluegray9000115)),
-          const Spacer(),
-          CustomImageView(
-              imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
-        ]));
+    return GestureDetector(
+      onTap: () {
+        onTapThree(context);
+        
+      },
+      child: Padding(
+          padding: EdgeInsets.only(left: 19.h),
+          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            CustomImageView(
+                imagePath: ImageConstant.imgTelevisionBlueGray90001,
+                height: 23.adaptSize,
+                width: 23.adaptSize),
+            Padding(
+                padding: EdgeInsets.only(left: 12.h, bottom: 2.v),
+                child: Text("Security",
+                    style: CustomTextStyles.titleSmallBluegray9000115)),
+            const Spacer(),
+            CustomImageView(
+                imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
+          ])),
+    );
   }
 
   /// Section Widget
@@ -375,24 +383,29 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   /// Section Widget
   Widget _buildEight(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 19.h),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          CustomImageView(
-              imagePath: ImageConstant.imgProfile,
-              height: 26.adaptSize,
-              width: 26.adaptSize),
-          Padding(
-              padding: EdgeInsets.only(left: 9.h, top: 4.v, bottom: 3.v),
-              child: Text("Help Center",
-                  style: CustomTextStyles.titleSmallBluegray9000115)),
-          CustomImageView(
-              imagePath: ImageConstant.imgArrowRight,
-              height: 21.v,
-              width: 12.h,
-              margin: EdgeInsets.only(top: 4.v)),
-          const Spacer(),
-        ]));
+    return GestureDetector(
+      onTap: () {
+        onTapEight(context);
+      },
+      child: Padding(
+          padding: EdgeInsets.only(left: 19.h),
+          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            CustomImageView(
+                imagePath: ImageConstant.imgProfile,
+                height: 26.adaptSize,
+                width: 26.adaptSize),
+            Padding(
+                padding: EdgeInsets.only(left: 9.h, top: 4.v, bottom: 3.v),
+                child: Text("Help Center",
+                    style: CustomTextStyles.titleSmallBluegray9000115)),
+            CustomImageView(
+                imagePath: ImageConstant.imgArrowRight,
+                height: 21.v,
+                width: 12.h,
+                margin: EdgeInsets.only(top: 4.v)),
+            const Spacer(),
+          ])),
+    );
   }
 
   /// Section Widget
@@ -460,10 +473,21 @@ class _ProfilesPageState extends State<ProfilesPage> {
         context, MaterialPageRoute(builder: (context) => EditProfilesScreen()));
   }
 
+  onTapThree(BuildContext context) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => SecurityScreen()));
+  }
+
+
   /// Navigates to the termsConditionsScreen when the action is triggered.
   onTapSeven(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => TermsConditionsScreen()));
+        MaterialPageRoute(builder: (context) => const TermsConditionsScreen()));
+  }
+
+   onTapEight(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => HelpFeedbackPage()));
   }
 
   /// Navigates to the inviteFriendsScreen when the action is triggered.
