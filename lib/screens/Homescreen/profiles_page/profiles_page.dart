@@ -474,7 +474,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   }
 
   onTapThree(BuildContext context) {
-    Navigator.pushReplacement(
+    Navigator.push(
         context, MaterialPageRoute(builder: (context) => SecurityScreen()));
   }
 
