@@ -23,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   FocusNode emailFocusNode = FocusNode();
 
   FocusNode passwordFocusNode = FocusNode();
+  bool _showPasswordInfo = false;
 
   bool rememberMe = false;
   bool _obscureText = true;
@@ -99,44 +100,95 @@ class _LoginScreenState extends State<LoginScreen> {
                                   prefixConstraints:
                                       BoxConstraints(maxHeight: 60.v)),
                               SizedBox(height: 20.v),
-                              CustomTextFormField(
-                                  controller: passwordController,
-                                  focusNode: passwordFocusNode,
-                                  hintText: "Password",
-                                  textInputAction: TextInputAction.done,
-                                  textInputType: TextInputType.visiblePassword,
-                                  onTap: () {
-                                    passwordFocusNode.requestFocus();
-                                  },
-                                  prefix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          22.h, 20.v, 9.h, 20.v),
-                                      child: CustomImageView(
-                                          imagePath: ImageConstant.imgLocation,
-                                          height: 19.v,
-                                          width: 14.h)),
-                                  prefixConstraints:
-                                      BoxConstraints(maxHeight: 60.v),
-                                  suffix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          30.h, 21.v, 24.h, 21.v),
-                                      child: GestureDetector(
+                              Stack(
+                                children: [
+                                  CustomTextFormField(
+                                    controller: passwordController,
+                                    focusNode: passwordFocusNode,
+                                    hintText: "Password",
+                                    textInputAction: TextInputAction.done,
+                                    textInputType:
+                                        TextInputType.visiblePassword,
+                                    onTap: () {
+                                      passwordFocusNode.requestFocus();
+                                      setState(() {
+                                        _showPasswordInfo = true;
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _showPasswordInfo = value.isEmpty;
+                                      });
+                                    },
+                                    prefix: Container(
+                                        margin: EdgeInsets.fromLTRB(
+                                            22.h, 20.v, 9.h, 20.v),
                                         child: CustomImageView(
                                             imagePath:
-                                                ImageConstant.imgThumbsup,
-                                            onTap: () {
-                                              setState(() {
-                                                _obscureText = !_obscureText;
-                                              });
-                                            },
-                                            height: 15.adaptSize,
-                                            width: 15.adaptSize),
-                                      )),
-                                  suffixConstraints:
-                                      BoxConstraints(maxHeight: 60.v),
-                                  obscureText: _obscureText,
-                                  contentPadding:
-                                      EdgeInsets.symmetric(vertical: 21.v)),
+                                                ImageConstant.imgLocation,
+                                            height: 19.v,
+                                            width: 14.h)),
+                                    prefixConstraints:
+                                        BoxConstraints(maxHeight: 60.v),
+                                    suffix: Container(
+                                        margin: EdgeInsets.fromLTRB(
+                                            30.h, 21.v, 24.h, 21.v),
+                                        child: GestureDetector(
+                                          child: CustomImageView(
+                                              imagePath:
+                                                  ImageConstant.imgThumbsup,
+                                              onTap: () {
+                                                setState(() {
+                                                  _obscureText = !_obscureText;
+                                                });
+                                              },
+                                              height: 15.adaptSize,
+                                              width: 15.adaptSize),
+                                        )),
+                                    suffixConstraints:
+                                        BoxConstraints(maxHeight: 60.v),
+                                    obscureText: _obscureText,
+                                    contentPadding:
+                                        EdgeInsets.symmetric(vertical: 21.v),
+                                    borderDecoration: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.h),
+                                      borderSide: BorderSide(
+                                          color: _validatePassword()
+                                              ? appTheme.blueA700
+                                              : Colors.red),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: -70.0, // Adjust this value as needed
+                                    right: 0.0,
+                                    left: 0.0,
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      margin: EdgeInsets.only(
+                                          top: _showPasswordInfo ? 8.0 : 0.0),
+                                      child: !_showPasswordInfo
+                                          ? SizedBox.shrink()
+                                          : const Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text("Password Requirements:",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                SizedBox(height: 4),
+                                                Text("• MinLength >= 8"),
+                                                Text("• Has UpperCase"),
+                                                Text("• Has LowerCase"),
+                                                Text("• Has Digit"),
+                                                Text(
+                                                    "• Has Special Characters"),
+                                              ],
+                                            ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                               SizedBox(height: 23.v),
                               _buildLoginOptions(context),
                               SizedBox(height: 36.v),
@@ -460,5 +512,21 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Navigates to the registerNowScreen when the action is triggered.
   onTapTxtDonthaveanaccount(BuildContext context) {
     Navigator.pushReplacementNamed(context, AppRoutes.registerNowScreen);
+  }
+
+  bool _validatePassword() {
+    String password = passwordController.text;
+    bool hasMinLength = password.length >= 8;
+    bool hasUpperCase = password.contains(RegExp(r'[A-Z]'));
+    bool hasLowerCase = password.contains(RegExp(r'[a-z]'));
+    bool hasDigit = password.contains(RegExp(r'[0-9]'));
+    bool hasSpecialCharacters =
+        password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+
+    return hasMinLength &&
+        hasUpperCase &&
+        hasLowerCase &&
+        hasDigit &&
+        hasSpecialCharacters;
   }
 }

@@ -4,8 +4,8 @@ import 'package:edumike/core/app_export.dart';
 // ignore: must_be_immutable
 class CustomTextFormField extends StatelessWidget {
   final VoidCallback? onTap;
-  
-  CustomTextFormField( {
+
+  CustomTextFormField({
     Key? key,
     this.onTap,
     this.alignment,
@@ -29,8 +29,8 @@ class CustomTextFormField extends StatelessWidget {
     this.borderDecoration,
     this.fillColor,
     this.filled = true,
-    this.validator, 
-    this.suffixIcon, 
+    this.validator,
+    this.suffixIcon,
     this.onChanged,
     this.initialValue,
   }) : super(
@@ -38,7 +38,7 @@ class CustomTextFormField extends StatelessWidget {
         );
 
   final Alignment? alignment;
-  final IconButton ? suffixIcon;
+  final IconButton? suffixIcon;
 
   final double? width;
 
@@ -49,9 +49,8 @@ class CustomTextFormField extends StatelessWidget {
   final FocusNode? focusNode;
 
   final bool? autofocus;
-  
-    var onChanged;
 
+  var onChanged;
 
   final TextStyle? textStyle;
 
@@ -64,7 +63,7 @@ class CustomTextFormField extends StatelessWidget {
   final int? maxLines;
 
   final String? hintText;
-  
+
   final String? initialValue;
 
   final TextStyle? hintStyle;
@@ -133,17 +132,17 @@ class CustomTextFormField extends StatelessWidget {
         border: borderDecoration ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.h),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: appTheme.blueA700),
             ),
         enabledBorder: borderDecoration ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.h),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: appTheme.blueA700),
             ),
         focusedBorder: borderDecoration ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.h),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: appTheme.blueA700),
             ),
       );
 }
