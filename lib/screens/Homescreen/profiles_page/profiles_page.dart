@@ -9,11 +9,11 @@ import 'package:edumike/screens/Homescreen/terms_conditions_screen/terms_conditi
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
-import 'package:edumike/widgets/custom_icon_button_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 class ProfilesPage extends StatefulWidget {
   ProfilesPage({Key? key}) : super(key: key);
@@ -99,16 +99,15 @@ class _ProfilesPageState extends State<ProfilesPage> {
                                             width: 4, // Set border width here
                                           ),
                                         ),
-                                        child: GestureDetector(
-                                          onTap: () => (),
+                                        child: InstaImageViewer(
                                           child: CircleAvatar(
                                             radius: 64,
                                             child: ClipOval(
                                               child: profileUrl != null
                                                   ? Image.network(
                                                       profileUrl!,
-                                                      width: 128,
-                                                      height: 128,
+                                                      width: 370,
+                                                      height: 370,
                                                       fit: BoxFit.cover,
                                                     )
                                                   : Image.asset("assets/images/EduWise.jpg"), // Show loading indicator if profileUrl is null
@@ -116,19 +115,19 @@ class _ProfilesPageState extends State<ProfilesPage> {
                                           ),
                                         ),
                                       ),
-                                      Padding(
-                                          padding: EdgeInsets.only(right: 3.h),
-                                          child: CustomIconButton(
-                                              height: 29.adaptSize,
-                                              width: 29.adaptSize,
-                                              padding: EdgeInsets.all(6.h),
-                                              decoration: IconButtonStyleHelper
-                                                  .outlineTeal,
-                                              alignment: Alignment.bottomRight,
-                                              child: Icon(Icons.edit,
-                                                  size: 15.adaptSize,
-                                                  color: appTheme
-                                                      .blue600))) // Add child here if needed
+                                      // Padding(
+                                      //     padding: EdgeInsets.only(right: 3.h),
+                                      //     child: CustomIconButton(
+                                      //         height: 29.adaptSize,
+                                      //         width: 29.adaptSize,
+                                      //         padding: EdgeInsets.all(6.h),
+                                      //        // decoration: IconButtonStyleHelper
+                                      //          //   .outlineTeal,
+                                      //         alignment: Alignment.bottomRight,
+                                      //         child: Icon(Icons.edit,
+                                      //             size: 15.adaptSize,
+                                      //             color: appTheme
+                                      //                 .blue600))) // Add child here if needed
                                     ],
                                   ),
                                 ),
