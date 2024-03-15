@@ -74,13 +74,12 @@ class _AppNotificationsScreenState extends State<AppNotificationsScreen> {
             padding: const EdgeInsets.only(left: 17,right: 17,bottom: 10),
             child: Container(
               decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 153, 193, 227),
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(8.0),
-                color: const Color.fromARGB(255, 138, 186, 226)
               ),
-              
               child: ListTile(
-                leading: const Icon(Icons.notification_important),
+                leading: const Icon(Icons.notification_important), // Icon before text
                 title: Text(
                   _notifications[index].split(":")[0], // Extracting title
                   style: const TextStyle(fontWeight: FontWeight.bold),
