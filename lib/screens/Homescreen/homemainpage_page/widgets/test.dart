@@ -67,7 +67,7 @@ class CourseListBlock extends StatefulWidget {
 class _CourseListBlockState extends State<CourseListBlock> {
   List<Course> courseList = [];
   final List<String> categories = [
-    'SYLLABUS',
+    'Syllabus',
     'Notes',
     'Text Book',
     'Question Paper',
@@ -75,7 +75,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
     'Lab Manual',
     'Others'
   ];
-  String selectedCategory = 'SYLLABUS';
+  String selectedCategory = 'Syllabus';
   String? _selecteduniversity;
   String? _selecteddegree;
   String? _selectedcourse;
@@ -249,25 +249,37 @@ class _CourseListBlockState extends State<CourseListBlock> {
     }
   }
 
-  Future<void> fetchDocumentData(String collectionPath) async {
-    try {
-      QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection(collectionPath).get();
+Future<void> fetchDocumentData(String collectionPath) async {
+  try {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection(collectionPath).get();
 
-      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-        Map<String, dynamic> data = {
-          'id': doc.id,
-          'courseName': doc.get('courseName'),
-          'courseCode': doc.get('courseCode'),
-          'courseCredit': doc.get('courseCredit'),
-          'category': 'DefaultCategory',
-        };
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      Map<String, dynamic> data = {
+        'id': doc.id,
+        'courseName': doc.get('courseName'),
+        'courseCode': doc.get('courseCode'),
+        'courseCredit': doc.get('courseCredit'),
+        'category': 'DefaultCategory',
+      };
 
-        QuerySnapshot subcollectionSnapshot =
-            await doc.reference.collection('Refers').get();
-        if (subcollectionSnapshot.docs.isNotEmpty) {
-          QueryDocumentSnapshot subDoc = subcollectionSnapshot.docs.first;
-          data['category'] = subDoc.get('category');
+      // Fetch the first level of subcollection
+      QuerySnapshot subcollectionSnapshot =
+          await doc.reference.collection('Refers').get();
+      
+      // Iterate over all documents in the first level of subcollection
+      for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
+        data['category'] = subDoc.get('category');
+        
+        // Fetch the second level of subcollection
+        QuerySnapshot nestedSubcollectionSnapshot =
+            await subDoc.reference.collection('Refers').get();
+
+        // Iterate over all documents in the second level of subcollection
+        for (QueryDocumentSnapshot nestedSubDoc in nestedSubcollectionSnapshot.docs) {
+          // You can handle data from the second level of subcollection here
+          // For example:
+           data['pdfUrl'] = nestedSubDoc.get('pdfUrl');
         }
 
         Course course = Course(
@@ -275,6 +287,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
           category: data['category'],
           courseCode: doc.get('courseCode'),
           courseCredit: doc.get('courseCredit'),
+
           selectedDocumentId: doc.id,
         );
 
@@ -284,12 +297,14 @@ class _CourseListBlockState extends State<CourseListBlock> {
         await fetchDocumentData(nestedCollectionPath);
         print('Data from $collectionPath: $data');
       }
-
-      setState(() {});
-    } catch (e, stackTrace) {
-      print('Error getting document data: $e\n$stackTrace');
     }
+
+    setState(() {});
+  } catch (e, stackTrace) {
+    print('Error getting document data: $e\n$stackTrace');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -315,16 +330,16 @@ class _CourseListBlockState extends State<CourseListBlock> {
                         selected: selectedCategory == category.toUpperCase(),
                         onSelected: (selected) {
                           setState(() {
-                            selectedCategory = selected ? category : 'SYLLABUS';
+                            selectedCategory = selected ? category : 'Syllabus';
                           });
                         },
-                        selectedColor: selectedCategory == 'SYLLABUS' ||
+                        selectedColor: selectedCategory == 'Syllabus' ||
                                 selectedCategory == 'Notes'
                             ? theme.colorScheme.primary
                             : theme.colorScheme.primary,
                         labelStyle: TextStyle(
                           color: selectedCategory == category
-                              ? Colors.white
+                              ? Color.fromARGB(255, 0, 94, 255)
                               : null,
                         ),
                       ),
@@ -353,7 +368,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
     bool isBookmarked = bookmarkedCourses.contains(course.courseCode);
     return GestureDetector(
       onTap: () {
-        if (selectedCategory == 'SYLLABUS') {
+        if (selectedCategory == 'Syllabus') {
           Navigator.push(
             context,
             MaterialPageRoute(

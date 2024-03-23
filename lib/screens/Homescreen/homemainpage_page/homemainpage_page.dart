@@ -3,7 +3,6 @@ import 'package:edumike/screens/Homescreen/add_university_card_screen/add_univer
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test2.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -143,10 +142,7 @@ class HomemainpagePage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       // Navigate to another page when button is pressed
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => testingfor()),
-                      );
+                      
                     },
                     child: Text('Go to Another Page'),
                   ),
