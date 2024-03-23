@@ -293,9 +293,9 @@ Future<void> fetchDocumentData(String collectionPath) async {
 
         courseList.add(course);
 
-        String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
-        await fetchDocumentData(nestedCollectionPath);
-        print('Data from $collectionPath: $data');
+        // String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
+        // await fetchDocumentData(nestedCollectionPath);
+       // print('Data from $collectionPath: $data');
       }
     }
 
@@ -333,10 +333,9 @@ Future<void> fetchDocumentData(String collectionPath) async {
                             selectedCategory = selected ? category : 'Syllabus';
                           });
                         },
-                        selectedColor: selectedCategory == 'Syllabus' ||
-                                selectedCategory == 'Notes'
-                            ? theme.colorScheme.primary
-                            : theme.colorScheme.primary,
+                       selectedColor: selectedCategory.isEmpty
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.primary,
                         labelStyle: TextStyle(
                           color: selectedCategory == category
                               ? Color.fromARGB(255, 0, 94, 255)

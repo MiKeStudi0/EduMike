@@ -39,8 +39,16 @@ class MyBookmarkPage extends StatefulWidget {
 
 class _MyBookmarkPageState extends State<MyBookmarkPage> {
   List<Bookmark> bookmarks = [];
-  List<String> categories = ['SYLLABUS', 'Notes'];
-  String selectedCategory = 'SYLLABUS';
+  List<String> categories = [
+    'Syllabus',
+    'Notes',
+    'Text Book',
+    'Question Paper',
+    'Question Bank',
+    'Lab Manual',
+    'Others'
+  ];
+  String selectedCategory = 'Syllabus';
 
   @override
   void initState() {
@@ -126,7 +134,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
         children: categories
             .map(
               (category) => Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(4.0),
                 child: FilterChip(
                   label: Text(category),
                   selected: selectedCategory == category,
@@ -259,7 +267,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 5.h ,top: 3.v),
+                        padding: EdgeInsets.only(left: 5.h, top: 3.v),
                         child: Text(
                           "Credit",
                           style: theme.textTheme.labelMedium,
