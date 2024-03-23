@@ -8,21 +8,18 @@ import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 
-// ignore_for_file: must_be_immutable 
+// ignore_for_file: must_be_immutable
 class CategoryScreen extends StatelessWidget {
-
-final String? university;
+  final String? university;
   final String? degree;
   final String? course;
   final String? semester;
   final String? courseName;
 
-
   CategoryScreen({
     this.university,
     this.degree,
     this.course,
-
     this.semester,
     this.courseName,
   });
@@ -60,20 +57,23 @@ final String? university;
                                             CrossAxisAlignment.start,
                                         children: [
                                           CustomImageView(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Syllabus(
-                                                              university: university!,
-                                                              degree: degree!,
-                                                              course: course!,
-                                                              semester: semester!,
-                                                              courseName: courseName!,
-                                                              category: "Syllabus"))
-                                            
-                                          );},
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Syllabus(
+                                                                university:
+                                                                    university!,
+                                                                degree: degree!,
+                                                                course: course!,
+                                                                semester:
+                                                                    semester!,
+                                                                courseName:
+                                                                    courseName!,
+                                                                category:
+                                                                    "Syllabus")));
+                                              },
                                               imagePath:
                                                   ImageConstant.imgSyllabus,
                                               height: 53.adaptSize,
@@ -83,9 +83,27 @@ final String? university;
                                               style: CustomTextStyles
                                                   .titleSmallBluegray90001_1)
                                         ]),
-                                    _buildResultColumn(context,
-                                        televisionImage: ImageConstant.imgNotes,
-                                        result: "Notes")
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ModulesScreen(
+                                                    university: university,
+                                                    degree: degree,
+                                                    course: course,
+                                                    semester: semester,
+                                                    courseName: courseName,
+                                                    category: 'Notes',
+                                                  )),
+                                        );
+                                      },
+                                      child: _buildcolumn(context,
+                                          televisionImage:
+                                              ImageConstant.imgNotes,
+                                          result: "Notes"),
+                                    )
                                   ])),
                           SizedBox(height: 69.v),
                           Align(
@@ -103,7 +121,16 @@ final String? university;
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        ModulesScreen( university: university, degree: degree, course: course, semester: semester, courseName: courseName,)));
+                                                        ModulesScreen(
+                                                          university:
+                                                              university,
+                                                          degree: degree,
+                                                          course: course,
+                                                          semester: semester,
+                                                          courseName:
+                                                              courseName,
+                                                          category: 'Text Book',
+                                                        )));
                                           },
                                           child: Padding(
                                               padding: EdgeInsets.only(
@@ -215,7 +242,7 @@ final String? university;
                                                       style: CustomTextStyles
                                                           .titleSmallBluegray90001_1)
                                                 ]))),
-                                    _buildResultColumn(context,
+                                    _buildcolumn(context,
                                         televisionImage:
                                             ImageConstant.imgTelevisionBlue600,
                                         result: "Result")
@@ -295,18 +322,18 @@ final String? university;
                                           child: CustomImageView(
                                               imagePath:
                                                   ImageConstant.imgUploadnotes,
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EmailServicePage()));
-                                                                      
-                                                         },
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            EmailServicePage()));
+                                              },
                                               height: 53.adaptSize,
                                               width: 53.adaptSize,
                                               alignment: Alignment.centerRight,
-                                              margin: EdgeInsets.only(right: 12.h)),
+                                              margin:
+                                                  EdgeInsets.only(right: 12.h)),
                                         ),
                                       ),
                                       SizedBox(height: 9.v),
@@ -361,7 +388,7 @@ final String? university;
   }
 
   /// Common widget
-  Widget _buildResultColumn(
+  Widget _buildcolumn(
     BuildContext context, {
     required String televisionImage,
     required String result,
@@ -377,12 +404,13 @@ final String? university;
 
   /// Navigates to the modulesScreen when the action is triggered.
   onTapResultColumn(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.modulesScreen);
+    print('Result tapped');
+    // Navigator.pushNamed(context, AppRoutes.modulesScreen);
   }
 
   /// Navigates to the modulesScreen when the action is triggered.
   onTapImgQuestionBank(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.modulesScreen);
+    // Navigator.pushNamed(context, AppRoutes.modulesScreen);
   }
 
   /// Navigates to the helpcareScreen when the action is triggered.

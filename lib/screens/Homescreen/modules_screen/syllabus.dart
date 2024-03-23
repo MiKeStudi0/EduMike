@@ -31,7 +31,9 @@ class Syllabus extends StatelessWidget {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(collectionPath)
-            .doc('SYLLABUS')
+            .doc('Syllabus')
+            .collection("Refers")
+            .doc('Syllabus')
             .snapshots(),
         builder: (BuildContext context,
             AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>?> snapshot) {

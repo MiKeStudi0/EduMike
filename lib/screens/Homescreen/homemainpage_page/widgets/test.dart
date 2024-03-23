@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
+
 class CardDataRepository {
   Future<Map<String, String?>?> getCardData(String userId) async {
     try {
@@ -10,9 +11,9 @@ class CardDataRepository {
       DocumentSnapshot<Map<String, dynamic>> snapshot =
           await FirebaseFirestore.instance
               .collection('users')
-              .doc(userId)  // Use the provided userId parameter
+              .doc(userId) // Use the provided userId parameter
               .collection('carddata')
-              .doc(userId)  // Use the provided userId parameter
+              .doc(userId) // Use the provided userId parameter
               .get();
 
       // Check if the document exists
@@ -42,7 +43,6 @@ class CardDataRepository {
   }
 }
 
-
 class Course {
   final String courseName;
   final String category;
@@ -66,7 +66,15 @@ class CourseListBlock extends StatefulWidget {
 
 class _CourseListBlockState extends State<CourseListBlock> {
   List<Course> courseList = [];
-  final List<String> categories = ['SYLLABUS', 'Notes','Text Book','Question Paper','Question Bank','Lab Manual','Others'];
+  final List<String> categories = [
+    'SYLLABUS',
+    'Notes',
+    'Text Book',
+    'Question Paper',
+    'Question Bank',
+    'Lab Manual',
+    'Others'
+  ];
   String selectedCategory = 'SYLLABUS';
   String? _selecteduniversity;
   String? _selecteddegree;
@@ -79,59 +87,62 @@ class _CourseListBlockState extends State<CourseListBlock> {
     initializeData();
     loadBookmarkedCourses();
   }
-void _addToBookmarkCollection(Course course) async {
-  try {
-    // Get the current user
-    User? user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      // Reference to the user's bookmarks subcollection
-      CollectionReference<Map<String, dynamic>> userBookmarksCollection =
-          FirebaseFirestore.instance.collection('users').doc(user.uid).collection('bookmarks');
+  void _addToBookmarkCollection(Course course) async {
+    try {
+      // Get the current user
+      User? user = FirebaseAuth.instance.currentUser;
 
-      // Check if a document with the same data already exists
-      QuerySnapshot<Map<String, dynamic>> existingDocs =
-          await userBookmarksCollection
-              .where('courseCode', isEqualTo: course.courseCode)
-              .where('university', isEqualTo: _selecteduniversity)
-              .where('degree', isEqualTo: _selecteddegree)
-              .where('course', isEqualTo: _selectedcourse)
-              .where('semester', isEqualTo: _selectedsemester)
-              .get();
+      if (user != null) {
+        // Reference to the user's bookmarks subcollection
+        CollectionReference<Map<String, dynamic>> userBookmarksCollection =
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .collection('bookmarks');
 
-      if (existingDocs.docs.isEmpty) {
-        // Add the data to the user's bookmarks subcollection
-        await userBookmarksCollection.add({
-          'category': course.category,
-          'courseName': course.courseName,
-          'courseCode': course.courseCode,
-          'courseCredit': course.courseCredit,
-          'university': _selecteduniversity,
-          'degree': _selecteddegree,
-          'course': _selectedcourse,
-          'semester': _selectedsemester,
-        });
+        // Check if a document with the same data already exists
+        QuerySnapshot<Map<String, dynamic>> existingDocs =
+            await userBookmarksCollection
+                .where('courseCode', isEqualTo: course.courseCode)
+                .where('university', isEqualTo: _selecteduniversity)
+                .where('degree', isEqualTo: _selecteddegree)
+                .where('course', isEqualTo: _selectedcourse)
+                .where('semester', isEqualTo: _selectedsemester)
+                .get();
 
-        // Optionally show a confirmation message or perform any other action
-        print('Bookmark added successfully!');
-        // Update the list of bookmarked courses
-        loadBookmarkedCourses();
-      } else {
-        // Bookmark already exists, delete it
-        String documentId = existingDocs.docs.first.id;
-        await userBookmarksCollection.doc(documentId).delete();
-        // Optionally show a confirmation message or perform any other action
-        print('Bookmark removed successfully!');
-        // Update the list of bookmarked courses
-        loadBookmarkedCourses();
+        if (existingDocs.docs.isEmpty) {
+          // Add the data to the user's bookmarks subcollection
+          await userBookmarksCollection.add({
+            'category': course.category,
+            'courseName': course.courseName,
+            'courseCode': course.courseCode,
+            'courseCredit': course.courseCredit,
+            'university': _selecteduniversity,
+            'degree': _selecteddegree,
+            'course': _selectedcourse,
+            'semester': _selectedsemester,
+          });
+
+          // Optionally show a confirmation message or perform any other action
+          print('Bookmark added successfully!');
+          // Update the list of bookmarked courses
+          loadBookmarkedCourses();
+        } else {
+          // Bookmark already exists, delete it
+          String documentId = existingDocs.docs.first.id;
+          await userBookmarksCollection.doc(documentId).delete();
+          // Optionally show a confirmation message or perform any other action
+          print('Bookmark removed successfully!');
+          // Update the list of bookmarked courses
+          loadBookmarkedCourses();
+        }
       }
+    } catch (e) {
+      // Handle errors
+      print('Error updating bookmark: $e');
     }
-  } catch (e) {
-    // Handle errors
-    print('Error updating bookmark: $e');
   }
-}
-
 
   void loadBookmarkedCourses() async {
     try {
@@ -160,14 +171,16 @@ void _addToBookmarkCollection(Course course) async {
       print('Error loading bookmarked courses: $e');
     }
   }
- Future<void> initializeData() async {
+
+  Future<void> initializeData() async {
     try {
       // Get the current user
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
         // Use the user's ID dynamically for fetching card data
-        Map<String, String?>? cardData = await CardDataRepository().getCardData(user.uid);
+        Map<String, String?>? cardData =
+            await CardDataRepository().getCardData(user.uid);
 
         if (cardData != null) {
           setState(() {
@@ -189,7 +202,6 @@ void _addToBookmarkCollection(Course course) async {
     }
   }
 
-
   Future<Map<String, String?>?> getCardData() async {
     try {
       // Get the current user
@@ -197,8 +209,8 @@ void _addToBookmarkCollection(Course course) async {
 
       if (user != null) {
         // Reference to the "carddata" collection
-       
- DocumentSnapshot<Map<String, dynamic>> snapshot =
+
+        DocumentSnapshot<Map<String, dynamic>> snapshot =
             await FirebaseFirestore.instance
                 .collection('users')
                 .doc(user.uid)
@@ -236,46 +248,48 @@ void _addToBookmarkCollection(Course course) async {
       return null;
     }
   }
-Future<void> fetchDocumentData(String collectionPath) async {
-  try {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection(collectionPath).get();
 
-    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-      Map<String, dynamic> data = {
-        'id': doc.id,
-        'courseName': doc.get('courseName'),
-        'courseCode': doc.get('courseCode'),
-        'courseCredit': doc.get('courseCredit'),
-        'category': 'DefaultCategory',
-      };
+  Future<void> fetchDocumentData(String collectionPath) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection(collectionPath).get();
 
-      QuerySnapshot subcollectionSnapshot = await doc.reference.collection('Refers').get();
-      if (subcollectionSnapshot.docs.isNotEmpty) {
-        QueryDocumentSnapshot subDoc = subcollectionSnapshot.docs.first;
-        data['category'] = subDoc.get('category');
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        Map<String, dynamic> data = {
+          'id': doc.id,
+          'courseName': doc.get('courseName'),
+          'courseCode': doc.get('courseCode'),
+          'courseCredit': doc.get('courseCredit'),
+          'category': 'DefaultCategory',
+        };
+
+        QuerySnapshot subcollectionSnapshot =
+            await doc.reference.collection('Refers').get();
+        if (subcollectionSnapshot.docs.isNotEmpty) {
+          QueryDocumentSnapshot subDoc = subcollectionSnapshot.docs.first;
+          data['category'] = subDoc.get('category');
+        }
+
+        Course course = Course(
+          courseName: doc.get('courseName'),
+          category: data['category'],
+          courseCode: doc.get('courseCode'),
+          courseCredit: doc.get('courseCredit'),
+          selectedDocumentId: doc.id,
+        );
+
+        courseList.add(course);
+
+        String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
+        await fetchDocumentData(nestedCollectionPath);
+        print('Data from $collectionPath: $data');
       }
 
-      Course course = Course(
-        courseName: doc.get('courseName'),
-        category: data['category'],
-        courseCode: doc.get('courseCode'),
-        courseCredit: doc.get('courseCredit'),
-        selectedDocumentId: doc.id,
-      );
-
-      courseList.add(course);
-
-      String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
-      await fetchDocumentData(nestedCollectionPath);
-      print('Data from $collectionPath: $data');
+      setState(() {});
+    } catch (e, stackTrace) {
+      print('Error getting document data: $e\n$stackTrace');
     }
-
-    setState(() {});
-  } catch (e, stackTrace) {
-    print('Error getting document data: $e\n$stackTrace');
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +312,7 @@ Future<void> fetchDocumentData(String collectionPath) async {
                       padding: const EdgeInsets.all(8.0),
                       child: FilterChip(
                         label: Text(category),
-                        selected: selectedCategory == category,
+                        selected: selectedCategory == category.toUpperCase(),
                         onSelected: (selected) {
                           setState(() {
                             selectedCategory = selected ? category : 'SYLLABUS';
@@ -338,24 +352,23 @@ Future<void> fetchDocumentData(String collectionPath) async {
   Widget _buildCourseList(BuildContext context, Course course, int index) {
     bool isBookmarked = bookmarkedCourses.contains(course.courseCode);
     return GestureDetector(
-     onTap: () {
-  if (selectedCategory == 'SYLLABUS') {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Syllabus(
-          university: _selecteduniversity!,
-          degree: _selecteddegree!,
-          course: _selectedcourse!,
-          semester: _selectedsemester!,
-          courseName: course.courseName,
-          category: course.category,
-        ),
-      ),
-    );
-  }
-},
-
+      onTap: () {
+        if (selectedCategory == 'SYLLABUS') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Syllabus(
+                university: _selecteduniversity!,
+                degree: _selecteddegree!,
+                course: _selectedcourse!,
+                semester: _selectedsemester!,
+                courseName: course.courseName,
+                category: course.category,
+              ),
+            ),
+          );
+        }
+      },
       child: SizedBox(
         height: 245.h,
         width: 290.v,
@@ -413,18 +426,19 @@ Future<void> fetchDocumentData(String collectionPath) async {
                             _addToBookmarkCollection(course);
                           },
                           child: isBookmarked
-                        ? CustomImageView(
-                            imagePath: ImageConstant.imgBookmarkPrimary, // Change to your bookmarked icon
-                            height: 18,
-                            width: 14,
-                            color: Colors.blue, // Change to your desired color
-                          )
-                        : CustomImageView(
-                            imagePath: ImageConstant.imgBookmark,
-                            height: 18,
-                            width: 14,
-                          ),
-
+                              ? CustomImageView(
+                                  imagePath: ImageConstant
+                                      .imgBookmarkPrimary, // Change to your bookmarked icon
+                                  height: 18,
+                                  width: 14,
+                                  color: Colors
+                                      .blue, // Change to your desired color
+                                )
+                              : CustomImageView(
+                                  imagePath: ImageConstant.imgBookmark,
+                                  height: 18,
+                                  width: 14,
+                                ),
                         ),
                       ],
                     ),

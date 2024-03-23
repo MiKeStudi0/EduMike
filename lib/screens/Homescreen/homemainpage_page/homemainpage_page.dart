@@ -3,6 +3,7 @@ import 'package:edumike/screens/Homescreen/add_university_card_screen/add_univer
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test2.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -48,7 +49,8 @@ class HomemainpagePage extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While waiting for the data to load, show a loading indicator
-          return _buildUniversityCard1(context, university, degree, course, semester);
+          return _buildUniversityCard1(
+              context, university, degree, course, semester);
         } else if (snapshot.hasError) {
           // If an error occurs while fetching the data, show the error message
           return Text('Error: ${snapshot.error}');
@@ -137,6 +139,17 @@ class HomemainpagePage extends StatelessWidget {
                   //     child: Text('Course List')),
 
                   //  _buildUserCourse(context),
+                  // Button to navigate to another page
+                  ElevatedButton(
+                    onPressed: () {
+                      // Navigate to another page when button is pressed
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => testingfor()),
+                      );
+                    },
+                    child: Text('Go to Another Page'),
+                  ),
                 ],
               ),
             ),
@@ -534,7 +547,13 @@ class HomemainpagePage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CategoryScreen( university: university, degree: degree, course: course, semester: semester,)),
+                      MaterialPageRoute(
+                          builder: (context) => CategoryScreen(
+                                university: university,
+                                degree: degree,
+                                course: course,
+                                semester: semester,
+                              )),
                     );
                   },
                   child: CourseWidget()),

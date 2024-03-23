@@ -10,7 +10,7 @@ class ModulesScreen extends StatelessWidget {
   final String? semester;
   final String? courseName;
   final String? category;
-  
+
   ModulesScreen({
     this.university,
     this.degree,
@@ -22,7 +22,8 @@ class ModulesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(' category check  University: $university, Degree: $degree, Course: $course, Semester: $semester');
+    print(
+        ' category check  University: $university, Degree: $degree, Course: $course, Semester: $semester');
     return SafeArea(
       child: Scaffold(
         appBar: _buildAppBar(context),
@@ -72,7 +73,10 @@ class ModulesScreen extends StatelessWidget {
                 ],
               ),
               StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('/University/$university/Refers/$degree/Refers/$course/Refers/$semester/Refers/$courseName/Refers/SYLLABUS/Refers').snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection(
+                        '/University/$university/Refers/$degree/Refers/$course/Refers/$semester/Refers/$courseName/Refers/$category/Refers')
+                    .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
@@ -91,13 +95,14 @@ class ModulesScreen extends StatelessWidget {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context, index) {
                         var document = snapshot.data!.docs[index];
-                        var pdfName = document['pdfName'];
+                        var pdfName = document.id;
                         var pdfUrl = document['pdfUrl'];
 
                         return ListTile(
                           title: Text(pdfName),
                           onTap: () {
-                             print('Item tapped: PDF Name: $pdfName, PDF URL: $pdfUrl');
+                            print(
+                                'Item tapped: PDF Name: $pdfName, PDF URL: $pdfUrl');
                             _navigateToPdfViewer(context, pdfUrl);
                           },
                         );
@@ -114,12 +119,11 @@ class ModulesScreen extends StatelessWidget {
   }
 
   void _navigateToPdfViewer(BuildContext context, String pdfUrl) {
-      print('Navigating to PDF Viewer with URL: $pdfUrl');
+    print('Navigating to PDF Viewer with URL: $pdfUrl');
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => PdfScreen(pdfUrl: pdfUrl),
-
       ),
     );
   }
