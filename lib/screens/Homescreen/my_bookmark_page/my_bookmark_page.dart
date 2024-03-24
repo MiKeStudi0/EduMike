@@ -158,7 +158,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
   }
 
     /// popup varunnath
- void _showBottomSheet(BuildContext context) {
+ void _showBottomSheet(BuildContext context,String Category,String CourseName,String CourseCode,String CourseCredit,String University,String Degree,String Course,String Semester) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -170,7 +170,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
           child: Container(
             // Set a specific height, you can adjust this value based on your needs
             height: MediaQuery.of(context).size.height * 0.7,
-            child: RemoveBookmarkScreen(),
+            child: RemoveBookmarkScreen( category: Category, courseName: CourseName, courseCode: CourseCode, courseCredit: CourseCredit, university: University, degree: Degree, course: Course, semester: Semester),
           ),
         ),
       );
@@ -231,7 +231,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                                 width: 12.h,
                                 alignment: Alignment.center,
                                 onTap: () {
-                                  _showBottomSheet(context);
+                                  _showBottomSheet(context,bookmark.category,bookmark.courseName,bookmark.courseCode,bookmark.courseCredit,bookmark.university,bookmark.degree,bookmark.course,bookmark.semester);
                                 },
                               ),
                               // CustomImageView(

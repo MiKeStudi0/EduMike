@@ -4,12 +4,28 @@ import 'package:edumike/widgets/custom_outlined_button_home.dart';
 import 'package:flutter/material.dart';
 
 class RemoveBookmarkScreen extends StatelessWidget {
-  const RemoveBookmarkScreen({Key? key})
-      : super(
-          key: key,
-        );
+  final String? category;
+  final String? courseName;
+  final String? courseCode;
+  final String? courseCredit;
+  final String? university;
+  final String? degree;
+  final String? course;
+  final String? semester;
+  
 
 
+  RemoveBookmarkScreen({
+    this.category,
+    this.courseName,
+    this.courseCode,
+    this.courseCredit,
+    this.university,
+    this.degree,
+    this.course,
+    this.semester,
+
+  });
 
 
   @override
@@ -76,23 +92,23 @@ class RemoveBookmarkScreen extends StatelessWidget {
                     padding: EdgeInsets.only(
                       left: 14.h,
                       top: 15.v,
-                      bottom: 18.v,
+                      bottom: 15.v,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Graphic Design",
+                          category!,
                           style: CustomTextStyles.labelLargeMulishOrangeA700,
                         ),
                         SizedBox(height: 8.v),
                         Text(
-                          "Advertisement Design",
+                          courseName!,
                           style: theme.textTheme.titleMedium,
                         ),
                         SizedBox(height: 5.v),
                         Text(
-                          "Description..",
+                          courseCode!,
                           style: theme.textTheme.titleSmall,
                         ),
                         SizedBox(height: 6.v),
@@ -106,31 +122,31 @@ class RemoveBookmarkScreen extends StatelessWidget {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                left: 3.h,
-                                top: 2.v,
-                              ),
-                              child: Text(
-                                "3.9",
-                                style: theme.textTheme.labelMedium,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 9.h),
-                              child: Text(
-                                "|",
-                                style: CustomTextStyles.titleSmallBlack900,
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
                                 left: 10.h,
-                                top: 2.v,
+                                // top: 1.v,
                               ),
                               child: Text(
-                                "12680 Std",
+                                courseCredit!,
                                 style: theme.textTheme.labelMedium,
                               ),
                             ),
+                            // Padding(
+                            //   padding: EdgeInsets.only(left: 9.h),
+                            //   child: Text(
+                            //     "|",
+                            //     style: CustomTextStyles.titleSmallBlack900,
+                            //   ),
+                            // ),
+                            // Padding(
+                            //   padding: EdgeInsets.only(
+                            //     left: 10.h,
+                            //     top: 2.v,
+                            //   ),
+                            //   child: Text(
+                            //     "12680 Std",
+                            //     style: theme.textTheme.labelMedium,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],
