@@ -32,9 +32,6 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
   bool termsAgreement = false;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  EmailOTP myauth = EmailOTP();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -517,22 +514,6 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
               'email': emailController.text,
               'password': passwordController.text,
             });
-
-        myauth.setConfig(
-            appEmail: "flutteremperor@gmail.com",
-            appName: "Email OTP",
-            userEmail: emailController.text,
-            otpLength: 4,
-            otpType: OTPType.digitsOnly);
-        if (await myauth.sendOTP() == true) {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("OTP has been sent"),
-          ));
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Oops, OTP send failed"),
-          ));
-        }
       } catch (e) {
         // Close the loading indicator
         Navigator.pop(context);

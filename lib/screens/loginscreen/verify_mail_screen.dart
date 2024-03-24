@@ -1,3 +1,4 @@
+import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -21,6 +22,8 @@ class VerifyMailScreen extends StatefulWidget {
 
 class _VerifyMailScreenState extends State<VerifyMailScreen> {
   late String pinCode;
+  bool otpSent = false;
+
   EmailOTP myauth = EmailOTP();
   Map<String, String>? userData;
   final KeyboardVisibilityController _keyboardVisibilityController =
@@ -30,6 +33,7 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
   void initState() {
     super.initState();
     pinCode = "";
+
     _keyboardVisibilityController.onChange.listen((bool visible) {
       if (visible) {
         // Only hide the system keyboard if the on-screen keyboard is not visible
@@ -43,14 +47,34 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (userData == null) {
-      userData =
-          ModalRoute.of(context)!.settings.arguments as Map<String, String>?;
+    userData ??=
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>?;
+  }
+
+  void sendOtp(BuildContext context) async {
+    myauth.setConfig(
+        appEmail: "flutteremperor@gmail.com",
+        appName: "Email OTP",
+        userEmail: userData!['email']!,
+        otpLength: 4,
+        otpType: OTPType.digitsOnly);
+    if (await myauth.sendOTP() == true) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("OTP has been sent"),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Oops, OTP send failed"),
+      ));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!otpSent) {
+      sendOtp(context);
+      otpSent = true; // Update flag to indicate that OTP has been sent
+    }
     return KeyboardVisibilityProvider(
       child: SafeArea(
         child: Scaffold(
@@ -79,27 +103,13 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
                 SizedBox(height: 51.v),
                 GestureDetector(
                   onTap: () async {
-                    myauth.setConfig(
-                        appEmail: "flutteremperor@gmail.com",
-                        appName: "Email OTP",
-                        userEmail: userData!['email']!,
-                        otpLength: 4,
-                        otpType: OTPType.digitsOnly);
-                    if (await myauth.sendOTP() == true) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("OTP has been sent"),
-                      ));
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Oops, OTP send failed"),
-                      ));
-                    }
+                    sendOtp(context);
                   },
                   child: RichText(
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "Resend otp if not recieved in 4 min",
+                          text: "Resend otp if not verified",
                           style: CustomTextStyles.titleMediumff0961f5,
                         ),
                       ],
@@ -123,8 +133,28 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
                             password: userData!['password']!,
                           );
                           // Navigate to the fill your profile screen
-                          Navigator.pushReplacementNamed(
-                              context, AppRoutes.fillYourProfileScreen);
+                          Navigator.pushReplacement(
+                            context,
+                            PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 500),
+                              pageBuilder:
+                                  (context, animation, secondaryAnimation) =>
+                                      FillYourProfileScreen(),
+                              transitionsBuilder: (context, animation,
+                                  secondaryAnimation, child) {
+                                return SlideTransition(
+                                  position: Tween<Offset>(
+                                    begin: const Offset(1.0, 0.0),
+                                    end: Offset.zero,
+                                  ).animate(CurvedAnimation(
+                                    parent: animation,
+                                    curve: Curves.easeInOut,
+                                  )),
+                                  child: child,
+                                );
+                              },
+                            ),
+                          );
                         } catch (e) {
                           print('Error creating user: $e');
                           ScaffoldMessenger.of(context)
