@@ -76,14 +76,13 @@ class TermsConditionsScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       leadingWidth: 61.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgArrowDownBlueGray90001,
-        margin: EdgeInsets.only(
-          left: 35.h,
-          top: 18.v,
-          bottom: 17.v,
-        ),
-      ),
+       leading: IconButton(
+      icon:const Icon(Icons.arrow_back),
+      iconSize: 30, 
+      onPressed: () {
+        Navigator.of(context).pop(); // Navigate back when back arrow is pressed
+      },
+    ),
       title: AppbarSubtitle(
         text: "Terms & Conditions",
         margin: EdgeInsets.only(left: 13.h),

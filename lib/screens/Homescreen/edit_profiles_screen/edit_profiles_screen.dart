@@ -177,7 +177,8 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: _buildAppBar(context),
+            appBar: _buildAppBar(context)
+            ,
             body: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : SizedBox(
@@ -428,10 +429,13 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     return AppBar(
       backgroundColor: appTheme.blue50,
       leadingWidth: 61.h,
-      leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgArrowDown,
-        margin: EdgeInsets.only(left: 35.h, top: 18.v, bottom: 17.v),
-      ),
+      leading: IconButton(
+      icon:const Icon(Icons.arrow_back),
+      iconSize: 30, 
+      onPressed: () {
+        Navigator.of(context).pop(); // Navigate back when back arrow is pressed
+      },
+    ),
       title: AppbarTitle(
         text: "Edit Your Profile",
         margin: EdgeInsets.only(left: 12.h),

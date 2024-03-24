@@ -25,6 +25,12 @@ class HelpFeedbackPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Help & Feedback'),
+         leading: IconButton(
+        icon:const Icon(Icons.arrow_back),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
       ),
       body:
        Column(
@@ -95,7 +101,7 @@ class HelpFeedbackPage extends StatelessWidget {
               ),
                        ),
            ),
-            SizedBox(height: 10.0),
+           const SizedBox(height: 10.0),
          
           GestureDetector(
             onTap: () {
