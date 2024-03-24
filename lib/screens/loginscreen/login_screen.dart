@@ -102,62 +102,59 @@ class _LoginScreenState extends State<LoginScreen> {
                               SizedBox(height: 20.v),
                               Stack(
                                 children: [
-                                  CustomTextFormField(
-                                    controller: passwordController,
-                                    focusNode: passwordFocusNode,
-                                    hintText: "Password",
-                                    textInputAction: TextInputAction.done,
-                                    textInputType:
-                                        TextInputType.visiblePassword,
-                                    onTap: () {
-                                      passwordFocusNode.requestFocus();
-                                      setState(() {
-                                        _showPasswordInfo = true;
-                                      });
-                                    },
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _showPasswordInfo = value.isEmpty;
-                                      });
-                                    },
-                                    prefix: Container(
-                                        margin: EdgeInsets.fromLTRB(
-                                            22.h, 20.v, 9.h, 20.v),
-                                        child: CustomImageView(
-                                            imagePath:
-                                                ImageConstant.imgLocation,
-                                            height: 19.v,
-                                            width: 14.h)),
-                                    prefixConstraints:
-                                        BoxConstraints(maxHeight: 60.v),
-                                    suffix: Container(
-                                        margin: EdgeInsets.fromLTRB(
-                                            30.h, 21.v, 24.h, 21.v),
-                                        child: GestureDetector(
-                                          child: CustomImageView(
-                                              imagePath:
-                                                  ImageConstant.imgThumbsup,
-                                              onTap: () {
-                                                setState(() {
-                                                  _obscureText = !_obscureText;
-                                                });
-                                              },
-                                              height: 15.adaptSize,
-                                              width: 15.adaptSize),
-                                        )),
-                                    suffixConstraints:
-                                        BoxConstraints(maxHeight: 60.v),
-                                    obscureText: _obscureText,
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 21.v),
-                                    borderDecoration: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12.h),
-                                      borderSide: BorderSide(
-                                          color: _validatePassword()
-                                              ? appTheme.blueA700
-                                              : Colors.red),
-                                    ),
-                                  ),
+                                 CustomTextFormField(
+  controller: passwordController,
+  focusNode: passwordFocusNode,
+  hintText: "Password",
+  textInputAction: TextInputAction.done,
+  textInputType: TextInputType.visiblePassword,
+  onTap: () {
+    passwordFocusNode.requestFocus();
+    setState(() {
+      _showPasswordInfo = true;
+    });
+  },
+  onChanged: (value) {
+    setState(() {
+      _showPasswordInfo = value.isEmpty;
+    });
+  },
+  prefix: Container(
+    margin: EdgeInsets.fromLTRB(22.h, 20.v, 9.h, 20.v),
+    child: CustomImageView(
+      imagePath: ImageConstant.imgLocation,
+      height: 19.v,
+      width: 14.h,
+    ),
+  ),
+  prefixConstraints: BoxConstraints(maxHeight: 60.v),
+  suffix: Container(
+    margin: EdgeInsets.fromLTRB(30.h, 21.v, 24.h, 21.v),
+    child: GestureDetector(
+      onTap: () {
+        setState(() {
+          _obscureText = !_obscureText;
+          _showPasswordInfo = false; // Ensure password info is hidden when toggling obscure text
+        });
+      },
+      child: CustomImageView(
+        imagePath: _obscureText ? ImageConstant.imgThumbsup : ImageConstant.imgEye, // Change image based on _obscureText value
+        height: 20.v,
+        width: 20.h,
+      ),
+    ),
+  ),
+  suffixConstraints: BoxConstraints(maxHeight: 60.v),
+  obscureText: _obscureText,
+  contentPadding: EdgeInsets.symmetric(vertical: 21.v),
+  borderDecoration: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(12.h),
+    borderSide: BorderSide(
+      color: _validatePassword() ? appTheme.blueA700 : Colors.red,
+    ),
+  ),
+),
+
                                   Positioned(
                                     top: -70.0, // Adjust this value as needed
                                     right: 0.0,
@@ -354,9 +351,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTapTxtForgotPassword(context);
                       },
                       child: Padding(
-                          padding: EdgeInsets.only(top: 2.v, left: 100),
+                          padding: EdgeInsets.only(top: 2.v, left: 95),
                           child: Text(
-                            "Forgot Password?",
+                            "Forgot password?",
                             style: CustomTextStyles.titleSmallff0961f5,
                           )))
                 ],
