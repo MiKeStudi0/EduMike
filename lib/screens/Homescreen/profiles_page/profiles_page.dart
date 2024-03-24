@@ -218,7 +218,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
         leadingWidth: 61.h,
         leading: AppbarLeadingImage(
             imagePath: ImageConstant.imgArrowDown,
-            margin: EdgeInsets.only(left: 35.h, top: 18.v, bottom: 17.v)),
+            margin: EdgeInsets.only(left: 35.h, top: 18.v, bottom: 18.v),
+            onTap: () {
+              onTapBack(context);
+            }),
         title: AppbarSubtitle(
             text: "Profile", margin: EdgeInsets.only(left: 12.h)));
   }
@@ -554,5 +557,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
   onTapTwo(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const AppNotificationsScreen()));
+  }
+  onTapBack(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.homemainpageContainerScreen);
   }
 }

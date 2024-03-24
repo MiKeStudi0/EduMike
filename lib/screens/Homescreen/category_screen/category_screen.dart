@@ -375,14 +375,13 @@ class CategoryScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
         leadingWidth: 61.h,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: AppbarLeadingImage(
-              imagePath: ImageConstant.imgArrowDown,
-              margin: EdgeInsets.only(left: 35.h, top: 17.v, bottom: 18.v)),
-        ),
+        leading: IconButton(
+      icon:const Icon(Icons.arrow_back),
+      iconSize: 30, 
+      onPressed: () {
+        Navigator.of(context).pop(); // Navigate back when back arrow is pressed
+      },
+    ),
         title: AppbarSubtitle(
             text: "All Category", margin: EdgeInsets.only(left: 12.h)));
   }
