@@ -10,10 +10,9 @@ import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilesPage extends StatefulWidget {
   ProfilesPage({Key? key}) : super(key: key);
@@ -28,18 +27,36 @@ class _ProfilesPageState extends State<ProfilesPage> {
   String? nickname;
   String? email;
 
-  @override
-  void initState() {
+ void initState() {
     super.initState();
-    getUserData();
+    // Check if user data exists locally, if not then fetch from Firestore
+    checkLocalUserData();
   }
 
-  Future<void> getUserData() async {
+
+   Future<void> checkLocalUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool userDataExists = prefs.getBool('userDataExists') ?? false;
+
+    if (userDataExists) {
+      // User data exists locally, fetch it from SharedPreferences
+      setState(() {
+        profileUrl = prefs.getString('profileUrl');
+        nickname = prefs.getString('nickname');
+        email = prefs.getString('email');
+      });
+    } else {
+      // Fetch user data from Firestore
+      getUserData();
+    }
+  }
+
+ Future<void> getUserData() async {
     try {
       // Get reference to the document for the current user
       DocumentSnapshot userData = await FirebaseFirestore.instance
-          .collection('users') // Replace 'users' with your collection name
-          .doc(user.uid) // Assuming user's UID is used as document ID
+          .collection('users')
+          .doc(user.uid)
           .get();
 
       // Retrieve data from the document
@@ -48,10 +65,18 @@ class _ProfilesPageState extends State<ProfilesPage> {
         nickname = userData['nickname'];
         email = userData['email'];
       });
+
+      // Store fetched data locally
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('userDataExists', true);
+      await prefs.setString('profileUrl', profileUrl ?? '');
+      await prefs.setString('nickname', nickname ?? '');
+      await prefs.setString('email', email ?? '');
     } catch (error) {
       print('Error retrieving user data: $error');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

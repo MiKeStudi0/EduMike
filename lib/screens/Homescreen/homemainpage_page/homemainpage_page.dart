@@ -4,7 +4,9 @@ import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart'
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
+import 'package:edumike/screens/Homescreen/search_screen/dummy.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 import '../homemainpage_page/widgets/category_item_widget.dart';
 import '../homemainpage_page/widgets/userprofile_item_widget.dart';
@@ -95,6 +97,7 @@ class HomemainpagePage extends StatelessWidget {
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 34.h),
                       child: CustomSearchView(
+                        
                           controller: searchController,
                           hintText: "Search for..")),
                   SizedBox(height: 30.v),
@@ -142,7 +145,15 @@ class HomemainpagePage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       // Navigate to another page when button is pressed
-                      
+                       Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => SearchCourse(
+                  university: university!, // Pass the actual values here
+                  degree: degree!,
+                  course: course!,
+                  semester: semester!,
+                )));
                     },
                     child: Text('Go to Another Page'),
                   ),
