@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
+import 'package:edumike/screens/loginscreen/terms_conditionscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -329,7 +330,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
+                                TermsAndConditionsPage()), // Replace HomePage with your actual homepage widget
                       );
                     } catch (e) {
                       print('Error adding user data to Firestore: $e');

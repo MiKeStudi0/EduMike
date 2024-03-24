@@ -6,6 +6,7 @@ import 'package:edumike/screens/Homescreen/helpcenter_screen/helpcenter.dart';
 import 'package:edumike/screens/Homescreen/invite_friends_screen/invite_friends_screen.dart';
 import 'package:edumike/screens/Homescreen/security_screen/security_page.dart';
 import 'package:edumike/screens/Homescreen/terms_conditions_screen/terms_conditions_screen.dart';
+import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
@@ -271,19 +272,24 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   /// Section Widget
   Widget _buildTwo(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(left: 20.h),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          CustomImageView(
-              imagePath: ImageConstant.paymentOption,
-              height: 22.22.v,
-              width: 23.39.h),
-          Padding(
-              padding: EdgeInsets.only(left: 11.h, top: 3.v),
-              child: Text("Payment Option",
-                  style: CustomTextStyles.titleSmallBluegray9000115)),
-          const Spacer(),
-        ]));
+    return GestureDetector(
+      onTap: (){
+        ontapten(context);
+      },
+      child: Padding(
+          padding: EdgeInsets.only(left: 20.h),
+          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            CustomImageView(
+                imagePath: ImageConstant.paymentOption,
+                height: 22.22.v,
+                width: 23.39.h),
+            Padding(
+                padding: EdgeInsets.only(left: 11.h, top: 3.v),
+                child: Text("Payment Option",
+                    style: CustomTextStyles.titleSmallBluegray9000115)),
+            const Spacer(),
+          ])),
+    );
   }
 
   /// Section Widget
@@ -552,6 +558,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
   onTapNine(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) =>  InviteFriendsScreen()));
+  }
+  ontapten(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) =>  FillYourProfileScreen()));
   }
 
   onTapTwo(BuildContext context) {
