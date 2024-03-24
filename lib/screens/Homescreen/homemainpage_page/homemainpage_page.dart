@@ -6,7 +6,6 @@ import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:edumike/screens/Homescreen/search_screen/dummy.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
 
 import '../homemainpage_page/widgets/category_item_widget.dart';
 import '../homemainpage_page/widgets/userprofile_item_widget.dart';
