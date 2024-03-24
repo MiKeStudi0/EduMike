@@ -19,12 +19,23 @@ import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
-class HomemainpagePage extends StatelessWidget {
+class HomemainpagePage extends StatefulWidget {
   HomemainpagePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomemainpagePage> createState() => _HomemainpagePageState();
+}
+
+class _HomemainpagePageState extends State<HomemainpagePage>
+    with AutomaticKeepAliveClientMixin {
   String? university;
+
   String? degree;
+
   String? course;
+
   String? semester;
+
   TextEditingController searchController = TextEditingController();
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
@@ -79,7 +90,10 @@ class HomemainpagePage extends StatelessWidget {
   }
 
   @override
+  bool get wantKeepAlive => true;
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.whiteA700,
@@ -97,7 +111,6 @@ class HomemainpagePage extends StatelessWidget {
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 34.h),
                       child: CustomSearchView(
-                        
                           controller: searchController,
                           hintText: "Search for..")),
                   SizedBox(height: 30.v),
@@ -145,15 +158,16 @@ class HomemainpagePage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       // Navigate to another page when button is pressed
-                       Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SearchCourse(
-                  university: university!, // Pass the actual values here
-                  degree: degree!,
-                  course: course!,
-                  semester: semester!,
-                )));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchCourse(
+                                    university:
+                                        university!, // Pass the actual values here
+                                    degree: degree!,
+                                    course: course!,
+                                    semester: semester!,
+                                  )));
                     },
                     child: Text('Go to Another Page'),
                   ),

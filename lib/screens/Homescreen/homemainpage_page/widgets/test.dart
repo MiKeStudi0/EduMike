@@ -249,62 +249,61 @@ class _CourseListBlockState extends State<CourseListBlock> {
     }
   }
 
-Future<void> fetchDocumentData(String collectionPath) async {
-  try {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection(collectionPath).get();
+  Future<void> fetchDocumentData(String collectionPath) async {
+    try {
+      QuerySnapshot querySnapshot =
+          await FirebaseFirestore.instance.collection(collectionPath).get();
 
-    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-      Map<String, dynamic> data = {
-        'id': doc.id,
-        'courseName': doc.get('courseName'),
-        'courseCode': doc.get('courseCode'),
-        'courseCredit': doc.get('courseCredit'),
-        'category': 'DefaultCategory',
-      };
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        Map<String, dynamic> data = {
+          'id': doc.id,
+          'courseName': doc.get('courseName'),
+          'courseCode': doc.get('courseCode'),
+          'courseCredit': doc.get('courseCredit'),
+          'category': 'DefaultCategory',
+        };
 
-      // Fetch the first level of subcollection
-      QuerySnapshot subcollectionSnapshot =
-          await doc.reference.collection('Refers').get();
-      
-      // Iterate over all documents in the first level of subcollection
-      for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
-        data['category'] = subDoc.get('category');
-        
-        // Fetch the second level of subcollection
-        QuerySnapshot nestedSubcollectionSnapshot =
-            await subDoc.reference.collection('Refers').get();
+        // Fetch the first level of subcollection
+        QuerySnapshot subcollectionSnapshot =
+            await doc.reference.collection('Refers').get();
 
-        // Iterate over all documents in the second level of subcollection
-        for (QueryDocumentSnapshot nestedSubDoc in nestedSubcollectionSnapshot.docs) {
-          // You can handle data from the second level of subcollection here
-          // For example:
-           data['pdfUrl'] = nestedSubDoc.get('pdfUrl');
+        // Iterate over all documents in the first level of subcollection
+        for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
+          data['category'] = subDoc.get('category');
+
+          // Fetch the second level of subcollection
+          QuerySnapshot nestedSubcollectionSnapshot =
+              await subDoc.reference.collection('Refers').get();
+
+          // Iterate over all documents in the second level of subcollection
+          for (QueryDocumentSnapshot nestedSubDoc
+              in nestedSubcollectionSnapshot.docs) {
+            // You can handle data from the second level of subcollection here
+            // For example:
+            data['pdfUrl'] = nestedSubDoc.get('pdfUrl');
+          }
+
+          Course course = Course(
+            courseName: doc.get('courseName'),
+            category: data['category'],
+            courseCode: doc.get('courseCode'),
+            courseCredit: doc.get('courseCredit'),
+            selectedDocumentId: doc.id,
+          );
+
+          courseList.add(course);
+
+          // String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
+          // await fetchDocumentData(nestedCollectionPath);
+          // print('Data from $collectionPath: $data');
         }
-
-        Course course = Course(
-          courseName: doc.get('courseName'),
-          category: data['category'],
-          courseCode: doc.get('courseCode'),
-          courseCredit: doc.get('courseCredit'),
-
-          selectedDocumentId: doc.id,
-        );
-
-        courseList.add(course);
-
-        // String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
-        // await fetchDocumentData(nestedCollectionPath);
-       // print('Data from $collectionPath: $data');
       }
+
+      setState(() {});
+    } catch (e, stackTrace) {
+      print('Error getting document data: $e\n$stackTrace');
     }
-
-    setState(() {});
-  } catch (e, stackTrace) {
-    print('Error getting document data: $e\n$stackTrace');
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -333,9 +332,9 @@ Future<void> fetchDocumentData(String collectionPath) async {
                             selectedCategory = selected ? category : 'Syllabus';
                           });
                         },
-                       selectedColor: selectedCategory.isEmpty
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.primary,
+                        selectedColor: selectedCategory.isEmpty
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.primary,
                         labelStyle: TextStyle(
                           color: selectedCategory == category
                               ? Color.fromARGB(255, 0, 94, 255)

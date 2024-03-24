@@ -30,6 +30,7 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
   void initState() {
     super.initState();
     pinCode = "";
+
     _keyboardVisibilityController.onChange.listen((bool visible) {
       if (visible) {
         // Only hide the system keyboard if the on-screen keyboard is not visible
@@ -38,6 +39,7 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
         }
       }
     });
+    sendOtp(context);
   }
 
   @override
@@ -46,6 +48,25 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
     if (userData == null) {
       userData =
           ModalRoute.of(context)!.settings.arguments as Map<String, String>?;
+    }
+  }
+
+  @override
+  void sendOtp(BuildContext context) async {
+    myauth.setConfig(
+        appEmail: "flutteremperor@gmail.com",
+        appName: "Email OTP",
+        userEmail: userData!['email']!,
+        otpLength: 4,
+        otpType: OTPType.digitsOnly);
+    if (await myauth.sendOTP() == true) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("OTP has been sent"),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Oops, OTP send failed"),
+      ));
     }
   }
 
@@ -99,7 +120,7 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "Resend otp if not recieved in 4 min",
+                          text: "Resend otp if not verified",
                           style: CustomTextStyles.titleMediumff0961f5,
                         ),
                       ],
