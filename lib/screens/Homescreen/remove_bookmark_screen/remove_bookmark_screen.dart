@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_elevated_buttonHome.dart';
 import 'package:edumike/widgets/custom_outlined_button_home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class RemoveBookmarkScreen extends StatelessWidget {
@@ -63,117 +65,125 @@ class RemoveBookmarkScreen extends StatelessWidget {
 
   /// Section Widget
   Widget _buildMainStack(BuildContext context) {
-    return SizedBox(
-      height: 131.v,
-      width: 360.h,
-      child: Stack(
-        alignment: Alignment.centerLeft,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Container(
-              margin: EdgeInsets.only(bottom: 1.v),
-              decoration: AppDecoration.outlineBlack.copyWith(
-                borderRadius: BorderRadiusStyle.circleBorder15,
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    height: 130.adaptSize,
-                    width: 130.adaptSize,
-                    decoration: BoxDecoration(
-                      color: appTheme.black900,
-                      borderRadius: BorderRadius.horizontal(
-                        left: Radius.circular(16.h),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 14.h,
-                      top: 15.v,
-                      bottom: 15.v,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          category!,
-                          style: CustomTextStyles.labelLargeMulishOrangeA700,
-                        ),
-                        SizedBox(height: 8.v),
-                        Text(
-                          courseName!,
-                          style: theme.textTheme.titleMedium,
-                        ),
-                        SizedBox(height: 5.v),
-                        Text(
-                          courseCode!,
-                          style: theme.textTheme.titleSmall,
-                        ),
-                        SizedBox(height: 6.v),
-                        Row(
-                          children: [
-                            CustomImageView(
-                              imagePath: ImageConstant.imgSignal,
-                              height: 11.v,
-                              width: 12.h,
-                              margin: EdgeInsets.symmetric(vertical: 2.v),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: 10.h,
-                                // top: 1.v,
-                              ),
-                              child: Text(
-                                courseCredit!,
-                                style: theme.textTheme.labelMedium,
-                              ),
-                            ),
-                            // Padding(
-                            //   padding: EdgeInsets.only(left: 9.h),
-                            //   child: Text(
-                            //     "|",
-                            //     style: CustomTextStyles.titleSmallBlack900,
-                            //   ),
-                            // ),
-                            // Padding(
-                            //   padding: EdgeInsets.only(
-                            //     left: 10.h,
-                            //     top: 2.v,
-                            //   ),
-                            //   child: Text(
-                            //     "12680 Std",
-                            //     style: theme.textTheme.labelMedium,
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  CustomImageView(
-                    imagePath: ImageConstant.imgBookmarkPrimary,
-                    height: 16.v,
-                    width: 12.h,
-                    margin: EdgeInsets.only(
-                      left: 23.h,
-                      top: 15.v,
-                      bottom: 99.v,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            spreadRadius: 2,
+            blurRadius: 2,
+            offset: const Offset(0, 4),
           ),
+        ],
+      ),
+      child: Row(
+        children: [
           CustomImageView(
             imagePath: ImageConstant.imgImage,
             height: 130.adaptSize,
             width: 130.adaptSize,
             radius: BorderRadius.horizontal(
-              left: Radius.circular(16.h),
+              left: Radius.circular(20.h),
             ),
-            alignment: Alignment.centerLeft,
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 10.h, top: 15.v, bottom: 18.v),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 195.h,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          category!,
+                          style: CustomTextStyles.labelLargeMulishOrangeA700,
+                        ),
+                        SizedBox(
+                          height: 16.v,
+                          width: 12.h,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              CustomImageView(
+                                imagePath: ImageConstant.imgBookmarkPrimary,
+                                height: 16.v,
+                                width: 12.h,
+                                alignment: Alignment.center,
+                                onTap: () {
+                                },
+                              ),
+                              // CustomImageView(
+                              //   imagePath: ImageConstant.imgBookmarkPrimary,
+                              //   height: 16.v,
+                              //   width: 12.h,
+                              //   alignment: Alignment.center,
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 8.v),
+                  Text(
+                    courseName!,
+                    style: theme.textTheme.titleMedium,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(height: 5.v),
+                  Text(
+                    courseCode!,
+                    style: theme.textTheme.titleSmall,
+                  ),
+                  SizedBox(height: 5.v),
+                  Row(
+                    children: [
+                      Container(
+                        width: 32.h,
+                        margin: EdgeInsets.only(top: 3.v),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CustomImageView(
+                              imagePath: ImageConstant.imgSignal,
+                              height: 11.v,
+                              width: 12.h,
+                              margin: EdgeInsets.only(bottom: 2.v),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 4),
+                              child: Text(
+                                courseCredit!,
+                                style: theme.textTheme.labelMedium,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 5.h, top: 3.v),
+                        child: Text(
+                          "Credit",
+                          style: theme.textTheme.labelMedium,
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(left: 16.h, top: 3.v),
+                      //   child: Text(
+                      //     bookmark.,
+                      //     style: theme.textTheme.labelMedium,
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -181,19 +191,73 @@ class RemoveBookmarkScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildCancelButtons(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        CustomOutlinedButton(
-          width: 140.h,
-          text: "Cancel",
-        ),
-        CustomElevatedButton(
-          width: 206.h,
-          text: "Yes, Remove",
-        ),
-      ],
-    );
+/// Section Widget
+Widget _buildCancelButtons(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      CustomOutlinedButton(
+        width: 140.h,
+        text: "Cancel",
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      CustomElevatedButton(
+        width: 206.h,
+        text: "Yes, Remove",
+        onPressed: () {
+          _removeBookmark(context);
+        },
+      ),
+    ],
+  );
+}
+
+void _removeBookmark(BuildContext context) async {
+  try {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      // Reference to the user's bookmarks subcollection
+      CollectionReference<Map<String, dynamic>> userBookmarksCollection =
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .collection('bookmarks');
+
+      // Query for the bookmarked course
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await userBookmarksCollection
+              .where('category', isEqualTo: category)
+              .where('courseName', isEqualTo: courseName)
+              .where('courseCode', isEqualTo: courseCode)
+              .limit(1)
+              .get();
+
+      // Check if the bookmark exists
+      if (snapshot.docs.isNotEmpty) {
+        // Get the document ID of the bookmarked course
+        String bookmarkId = snapshot.docs.first.id;
+
+        // Delete the bookmarked course document
+        await userBookmarksCollection.doc(bookmarkId).delete();
+
+        // Pop the screen
+        Navigator.pop(context);
+
+        // Show a success message or perform any other action as needed
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Bookmark removed successfully"),
+        ));
+      }
+    }
+  } catch (e) {
+    // Handle errors
+    print('Error removing bookmark: $e');
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text("Failed to remove bookmark"),
+    ));
   }
+}
 }
