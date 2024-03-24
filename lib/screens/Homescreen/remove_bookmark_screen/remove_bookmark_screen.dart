@@ -9,33 +9,40 @@ class RemoveBookmarkScreen extends StatelessWidget {
           key: key,
         );
 
+
+
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-          width: 100.h,
-          padding: EdgeInsets.symmetric(
-            horizontal: 34.h,
-            vertical: 31.v,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 43.h),
-                child: Text(
-                  "Remove From Bookmark?",
-                  style: theme.textTheme.titleLarge,
-                ),
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+              //width: 100.h,
+              padding: EdgeInsets.symmetric(
+                horizontal: 34.h,
+                vertical: 31.v,
               ),
-              SizedBox(height: 23.v),
-              _buildMainStack(context),
-              SizedBox(height: 29.v),
-              _buildCancelButtons(context),
-              SizedBox(height: 5.v),
-            ],
-          ),
-        );
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 43.h),
+                    child: Text(
+                      "Remove From Bookmark?",
+                      style: theme.textTheme.titleLarge,
+                    ),
+                  ),
+                  SizedBox(height: 23.v),
+                  _buildMainStack(context),
+                  SizedBox(height: 29.v),
+                  _buildCancelButtons(context),
+                  SizedBox(height: 5.v),
+                ],
+              ),
+            ),
+      ),
+    );
   }
 
   /// Section Widget

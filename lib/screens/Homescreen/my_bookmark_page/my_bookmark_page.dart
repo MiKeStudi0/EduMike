@@ -157,6 +157,28 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
     );
   }
 
+    /// popup varunnath
+ void _showBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    builder: (BuildContext context) {
+      return ClipRRect(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(18.0)),
+        child: FractionallySizedBox(
+          heightFactor: 0.37, // Adjust this value as needed
+          child: Container(
+            // Set a specific height, you can adjust this value based on your needs
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: RemoveBookmarkScreen(),
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
   Widget _buildBookmarkItem(Bookmark bookmark) {
     return Container(
       margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 20.v),
@@ -209,13 +231,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                                 width: 12.h,
                                 alignment: Alignment.center,
                                 onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          RemoveBookmarkScreen(),
-                                    ),
-                                  );
+                                  _showBottomSheet(context);
                                 },
                               ),
                               // CustomImageView(
