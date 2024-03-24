@@ -100,88 +100,92 @@ class _LoginScreenState extends State<LoginScreen> {
                                   prefixConstraints:
                                       BoxConstraints(maxHeight: 60.v)),
                               SizedBox(height: 20.v),
-                             Stack(
-  children: [
-    CustomTextFormField(
-      controller: passwordController,
-      focusNode: passwordFocusNode,
-      hintText: "Password",
-      textInputAction: TextInputAction.done,
-      textInputType: TextInputType.visiblePassword,
+                              Stack(
+                                children: [
+                                 CustomTextFormField(
+  controller: passwordController,
+  focusNode: passwordFocusNode,
+  hintText: "Password",
+  textInputAction: TextInputAction.done,
+  textInputType: TextInputType.visiblePassword,
+  onTap: () {
+    passwordFocusNode.requestFocus();
+    setState(() {
+      _showPasswordInfo = true;
+    });
+  },
+  onChanged: (value) {
+    setState(() {
+      _showPasswordInfo = value.isEmpty;
+    });
+  },
+  prefix: Container(
+    margin: EdgeInsets.fromLTRB(22.h, 20.v, 9.h, 20.v),
+    child: CustomImageView(
+      imagePath: ImageConstant.imgLocation,
+      height: 19.v,
+      width: 14.h,
+    ),
+  ),
+  prefixConstraints: BoxConstraints(maxHeight: 60.v),
+  suffix: Container(
+    margin: EdgeInsets.fromLTRB(30.h, 21.v, 24.h, 21.v),
+    child: GestureDetector(
       onTap: () {
-        passwordFocusNode.requestFocus();
         setState(() {
-          _showPasswordInfo = true;
+          _obscureText = !_obscureText;
+          _showPasswordInfo = false; // Ensure password info is hidden when toggling obscure text
         });
       },
-      onChanged: (value) {
-        setState(() {
-          _showPasswordInfo = value.isEmpty;
-        });
-      },
-      prefix: Container(
-        margin: EdgeInsets.fromLTRB(22.h, 20.v, 9.h, 20.v),
-        child: CustomImageView(
-          imagePath: ImageConstant.imgLocation,
-          height: 19.v,
-          width: 14.h,
-        ),
-      ),
-      prefixConstraints: BoxConstraints(maxHeight: 60.v),
-      suffix: Container(
-        margin: EdgeInsets.fromLTRB(30.h, 21.v, 24.h, 21.v),
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              _obscureText = !_obscureText;
-              _showPasswordInfo = false; // Ensure password info is hidden when toggling obscure text
-            });
-          },
-          child: CustomImageView(
-            imagePath: _obscureText ? ImageConstant.imgThumbsup : ImageConstant.imgEye, // Change image based on _obscureText value
-            height: 20.v,
-            width: 20.h,
-          ),
-        ),
-      ),
-      suffixConstraints: BoxConstraints(maxHeight: 60.v),
-      obscureText: _obscureText,
-      contentPadding: EdgeInsets.symmetric(vertical: 21.v),
-      borderDecoration: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.h),
-        borderSide: BorderSide(
-          color: !_validatePassword() ? Colors.red : appTheme.blueA700, // Set border color based on password validity
-        ),
+      child: CustomImageView(
+        imagePath: _obscureText ? ImageConstant.imgThumbsup : ImageConstant.imgEye, // Change image based on _obscureText value
+        height: 20.v,
+        width: 20.h,
       ),
     ),
-
-    Positioned(
-      top: -70.0, // Adjust this value as needed
-      right: 0.0,
-      left: 0.0,
-      child: Container(
-        alignment: Alignment.centerLeft,
-        margin: EdgeInsets.only(top: _showPasswordInfo ? 8.0 : 0.0),
-        child: !_showPasswordInfo
-            ? SizedBox.shrink()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Password Requirements:",
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  SizedBox(height: 4),
-                  Text("• MinLength >= 8"),
-                  Text("• Has UpperCase"),
-                  Text("• Has LowerCase"),
-                  Text("• Has Digit"),
-                  Text("• Has Special Characters"),
-                ],
-              ),
-      ),
+  ),
+  suffixConstraints: BoxConstraints(maxHeight: 60.v),
+  obscureText: _obscureText,
+  contentPadding: EdgeInsets.symmetric(vertical: 21.v),
+  borderDecoration: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(12.h),
+    borderSide: BorderSide(
+      color: _validatePassword() ? appTheme.blueA700 : Colors.red,
     ),
-  ],
+  ),
 ),
 
+                                  Positioned(
+                                    top: -70.0, // Adjust this value as needed
+                                    right: 0.0,
+                                    left: 0.0,
+                                    child: Container(
+                                      alignment: Alignment.centerLeft,
+                                      margin: EdgeInsets.only(
+                                          top: _showPasswordInfo ? 8.0 : 0.0),
+                                      child: !_showPasswordInfo
+                                          ? SizedBox.shrink()
+                                          : const Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text("Password Requirements:",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                SizedBox(height: 4),
+                                                Text("• MinLength >= 8"),
+                                                Text("• Has UpperCase"),
+                                                Text("• Has LowerCase"),
+                                                Text("• Has Digit"),
+                                                Text(
+                                                    "• Has Special Characters"),
+                                              ],
+                                            ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                               SizedBox(height: 23.v),
                               _buildLoginOptions(context),
                               SizedBox(height: 36.v),

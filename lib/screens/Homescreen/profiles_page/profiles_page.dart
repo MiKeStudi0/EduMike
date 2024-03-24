@@ -199,12 +199,14 @@ class _ProfilesPageState extends State<ProfilesPage> {
   }
 
   /// Section Widget
-  Widget _buildOne(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EditProfilesScreen()));
-      },
+ Widget _buildOne(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => EditProfilesScreen()));
+    },
+    child: Container(
+       color: const Color.fromARGB(255, 255, 255, 255), // Set background color to blue
       child: Padding(
         padding: EdgeInsets.only(left: 20.h),
         child: Row(
@@ -235,8 +237,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   /// Section Widget
   Widget _buildTwo(BuildContext context) {
@@ -257,32 +260,48 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   /// Section Widget
   Widget _buildThree(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        onTapTwo(context);
-      },
+  return GestureDetector(
+    onTap: () {
+      // Your onTap function logic here
+      onTapTwo(context);
+    },
+    child: Container(
+      color: Colors.white,
       child: Padding(
-          padding: EdgeInsets.only(left: 20.h),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              CustomImageView(
+        padding: EdgeInsets.only(left: 20.h,),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomImageView(
                   imagePath: ImageConstant.imgUserBlueGray90001,
                   height: 23.v,
-                  width: 19.h),
-              Padding(
+                  width: 19.h,
+                ),
+                Padding(
                   padding: EdgeInsets.only(left: 15.h, top: 2.v, bottom: 2.v),
-                  child: Text("Notifications",
-                      style: CustomTextStyles.titleSmallBluegray9000115))
-            ]),
+                  child: Text(
+                    "Notifications",
+                    style: CustomTextStyles.titleSmallBluegray9000115,
+                  ),
+                ),
+              ],
+            ),
             CustomImageView(
-                imagePath: ImageConstant.imgArrowRight,
-                height: 11.v,
-                width: 12.h,
-                margin: EdgeInsets.only(top: 2.v))
-          ])),
-    );
-  }
+              imagePath: ImageConstant.imgArrowRight,
+              height: 11.v,
+              width: 12.h,
+              margin: EdgeInsets.only(top: 2.v),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 
   /// Section Widget
   Widget _buildFour(BuildContext context) {
@@ -291,21 +310,24 @@ class _ProfilesPageState extends State<ProfilesPage> {
         onTapThree(context);
         
       },
-      child: Padding(
-          padding: EdgeInsets.only(left: 19.h),
-          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            CustomImageView(
-                imagePath: ImageConstant.imgTelevisionBlueGray90001,
-                height: 23.adaptSize,
-                width: 23.adaptSize),
-            Padding(
-                padding: EdgeInsets.only(left: 12.h, bottom: 2.v),
-                child: Text("Security",
-                    style: CustomTextStyles.titleSmallBluegray9000115)),
-            const Spacer(),
-            CustomImageView(
-                imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
-          ])),
+      child: Container(
+        color: Colors.white,
+        child: Padding(
+            padding: EdgeInsets.only(left: 19.h),
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              CustomImageView(
+                  imagePath: ImageConstant.imgTelevisionBlueGray90001,
+                  height: 23.adaptSize,
+                  width: 23.adaptSize),
+              Padding(
+                  padding: EdgeInsets.only(left: 12.h, bottom: 2.v),
+                  child: Text("Security",
+                      style: CustomTextStyles.titleSmallBluegray9000115)),
+              const Spacer(),
+              CustomImageView(
+                  imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
+            ])),
+      ),
     );
   }
 
@@ -361,23 +383,26 @@ class _ProfilesPageState extends State<ProfilesPage> {
         onTap: () {
           onTapSeven(context);
         },
-        child: Padding(
-            padding: EdgeInsets.only(left: 22.h),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              CustomImageView(
-                  imagePath: ImageConstant.imgUserBlueGray9000121x18,
-                  height: 21.v,
-                  width: 18.h),
-              Padding(
-                  padding: EdgeInsets.only(left: 14.h, bottom: 2.v),
-                  child: Text("Terms & Conditions",
-                      style: CustomTextStyles.titleSmallBluegray9000115)),
-              const Spacer(),
-              CustomImageView(
-                  imagePath: ImageConstant.imgArrowRight,
-                  height: 21.v,
-                  width: 12.h)
-            ])));
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+              padding: EdgeInsets.only(left: 22.h),
+              child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                CustomImageView(
+                    imagePath: ImageConstant.imgUserBlueGray9000121x18,
+                    height: 21.v,
+                    width: 18.h),
+                Padding(
+                    padding: EdgeInsets.only(left: 14.h, bottom: 2.v),
+                    child: Text("Terms & Conditions",
+                        style: CustomTextStyles.titleSmallBluegray9000115)),
+                const Spacer(),
+                CustomImageView(
+                    imagePath: ImageConstant.imgArrowRight,
+                    height: 21.v,
+                    width: 12.h)
+              ])),
+        ));
   }
 
   /// Section Widget
@@ -386,24 +411,27 @@ class _ProfilesPageState extends State<ProfilesPage> {
       onTap: () {
         onTapEight(context);
       },
-      child: Padding(
-          padding: EdgeInsets.only(left: 19.h),
-          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-            CustomImageView(
-                imagePath: ImageConstant.imgProfile,
-                height: 26.adaptSize,
-                width: 26.adaptSize),
-            Padding(
-                padding: EdgeInsets.only(left: 9.h, top: 4.v, bottom: 3.v),
-                child: Text("Help Center",
-                    style: CustomTextStyles.titleSmallBluegray9000115)),
-            CustomImageView(
-                imagePath: ImageConstant.imgArrowRight,
-                height: 21.v,
-                width: 12.h,
-                margin: EdgeInsets.only(top: 4.v)),
-            const Spacer(),
-          ])),
+      child: Container(
+        color: Colors.white,
+        child: Padding(
+            padding: EdgeInsets.only(left: 19.h),
+            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              CustomImageView(
+                  imagePath: ImageConstant.imgProfile,
+                  height: 26.adaptSize,
+                  width: 26.adaptSize),
+              Padding(
+                  padding: EdgeInsets.only(left: 9.h, top: 4.v, bottom: 3.v),
+                  child: Text("Help Center",
+                      style: CustomTextStyles.titleSmallBluegray9000115)),
+              CustomImageView(
+                  imagePath: ImageConstant.imgArrowRight,
+                  height: 21.v,
+                  width: 12.h,
+                  margin: EdgeInsets.only(top: 4.v)),
+              const Spacer(),
+            ])),
+      ),
     );
   }
 
@@ -413,31 +441,34 @@ class _ProfilesPageState extends State<ProfilesPage> {
         onTap: () {
           onTapNine(context);
         },
-        child: Padding(
-            padding: EdgeInsets.only(left: 20.h),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(bottom: 1.v),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomImageView(
-                                imagePath: ImageConstant.imgFill1Onprimary,
-                                height: 21.v,
-                                width: 23.h),
-                            Padding(
-                                padding: EdgeInsets.only(left: 11.h),
-                                child: Text("Invite Friends",
-                                    style: CustomTextStyles
-                                        .titleSmallBluegray9000115))
-                          ])),
-                  CustomImageView(
-                      imagePath: ImageConstant.imgArrowRight,
-                      height: 21.v,
-                      width: 12.h)
-                ])));
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+              padding: EdgeInsets.only(left: 20.h),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(bottom: 1.v),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomImageView(
+                                  imagePath: ImageConstant.imgFill1Onprimary,
+                                  height: 21.v,
+                                  width: 23.h),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 11.h),
+                                  child: Text("Invite Friends",
+                                      style: CustomTextStyles
+                                          .titleSmallBluegray9000115))
+                            ])),
+                    CustomImageView(
+                        imagePath: ImageConstant.imgArrowRight,
+                        height: 21.v,
+                        width: 12.h)
+                  ])),
+        ));
   }
 
   /// Section Widget
