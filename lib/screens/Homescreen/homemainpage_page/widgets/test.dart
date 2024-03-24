@@ -109,6 +109,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                 .where('degree', isEqualTo: _selecteddegree)
                 .where('course', isEqualTo: _selectedcourse)
                 .where('semester', isEqualTo: _selectedsemester)
+                .where('category', isEqualTo: course.category)
                 .get();
 
         if (existingDocs.docs.isEmpty) {
@@ -162,7 +163,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
 
         setState(() {
           bookmarkedCourses =
-              snapshot.docs.map((doc) => doc['courseCode'] as String).toList();
+              snapshot.docs.map((doc) => '${doc['courseCode']+doc['category']}').toList();
           // Explicitly cast the result to List<String>
         });
       }
@@ -364,7 +365,7 @@ Future<void> fetchDocumentData(String collectionPath) async {
   }
 
   Widget _buildCourseList(BuildContext context, Course course, int index) {
-    bool isBookmarked = bookmarkedCourses.contains(course.courseCode);
+    bool isBookmarked = bookmarkedCourses.contains(course.courseCode+course.category);
     return GestureDetector(
       onTap: () {
         if (selectedCategory == 'Syllabus') {
