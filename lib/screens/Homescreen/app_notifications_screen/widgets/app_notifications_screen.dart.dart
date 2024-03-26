@@ -1,18 +1,15 @@
 // import 'package:flutter/material.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
-// //import 'app_notifications_screen.dart'; // Import your notifications screen
 
-// class TodaysectionlistItemWidget extends StatefulWidget {
-//   TodaysectionlistItemWidget({Key? key}) : super(key: key);
+// class AppNotificationsScreen extends StatefulWidget {
+//   const AppNotificationsScreen({Key? key}) : super(key: key);
 
 //   @override
-//   State<TodaysectionlistItemWidget> createState() =>
-//       _TodaysectionlistItemWidgetState();
+//   _AppNotificationsScreenState createState() => _AppNotificationsScreenState();
 // }
 
-// class _TodaysectionlistItemWidgetState
-//     extends State<TodaysectionlistItemWidget> {
+// class _AppNotificationsScreenState extends State<AppNotificationsScreen> {
 //   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 //   List<String> _notifications = [];
 
@@ -68,13 +65,13 @@
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         title: Text('Notifications'),
+//         title: const Text('Notifications'),
 //       ),
 //       body: ListView.builder(
 //         itemCount: _notifications.length,
 //         itemBuilder: (BuildContext context, int index) {
 //           return Padding(
-//             padding: const EdgeInsets.only(left: 17, right: 17, bottom: 10),
+//             padding: const EdgeInsets.only(left: 17,right: 17,bottom: 10),
 //             child: Container(
 //               decoration: BoxDecoration(
 //                 color: const Color.fromARGB(255, 153, 193, 227),
@@ -82,7 +79,7 @@
 //                 borderRadius: BorderRadius.circular(8.0),
 //               ),
 //               child: ListTile(
-//                 leading: Icon(Icons.notification_important), // Icon before text
+//                 leading: const Icon(Icons.notification_important), // Icon before text
 //                 title: Text(
 //                   _notifications[index].split(":")[0], // Extracting title
 //                   style: const TextStyle(fontWeight: FontWeight.bold),

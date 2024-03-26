@@ -384,39 +384,42 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                     ),
                                   ),
                                   SizedBox(height: 20.v),
-                                  Container(
-                                    decoration: AppDecoration.outlineBlack
-                                        .copyWith(
-                                            borderRadius: BorderRadiusStyle
-                                                .roundedBorder12),
-                                    child: CustomTextFormField(
-                                      prefix: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Icon(
-                                          Icons.person_2_rounded,
-                                          color: appTheme.blueGray900,
-                                          size: 20.v,
-                                        ),
-                                      ),
-                                      controller: genderController,
-                                      hintText: "Gender ",
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 16.0, top: 35),
-                                    ),
-                                  ),
+                                  // Container(
+                                  //   decoration: AppDecoration.outlineBlack
+                                  //       .copyWith(
+                                  //           borderRadius: BorderRadiusStyle
+                                  //               .roundedBorder12),
+                                  //   child: CustomTextFormField(
+                                  //     prefix: Padding(
+                                  //       padding:
+                                  //           const EdgeInsets.only(left: 10),
+                                  //       child: Icon(
+                                  //         Icons.person_2_rounded,
+                                  //         color: appTheme.blueGray900,
+                                  //         size: 20.v,
+                                  //       ),
+                                  //     ),
+                                  //     controller: genderController,
+                                  //     hintText: "Gender ",
+                                  //     contentPadding:
+                                  //         const EdgeInsets.only(left: 16.0, top: 35),
+                                  //   ),
+                                  // ),
 
-                                  SizedBox(height: 20.v),
-                              CustomDropDown(
-                                 controller: genderController,
-                                  hintText: 'gender',
-                                  items: dropdownItemList,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      gendervalue = value;
-                                      
-                                    });
-                                  }),
+                CustomDropDown(
+  controller: genderController,
+  hintText: 'gender',
+  items: dropdownItemList,
+  onChanged: (value) {
+    setState(() {
+      gendervalue = value;
+      genderController.text=value;
+    });
+  },
+prefix: genderController.text == 'Female' ? Icon(Icons.female) : Icon(Icons.person),
+),
+
+
 
                                   SizedBox(height: 20.v),
                                   _buildUpdateButton(),
