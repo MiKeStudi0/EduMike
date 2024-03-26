@@ -1,5 +1,5 @@
 import 'package:edumike/core/app_export.dart';
-import 'package:edumike/screens/Homescreen/app_notifications_screen/app_notifications_screen1.dart';
+import 'package:edumike/screens/Homescreen/app_notifications_screen/app_notifications_screen.dart';
 import 'package:edumike/widgets/custom_icon_button_home.dart';
 import 'package:flutter/material.dart';
 

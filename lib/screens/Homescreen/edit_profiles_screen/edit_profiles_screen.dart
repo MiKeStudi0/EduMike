@@ -416,7 +416,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
       genderController.text=value;
     });
   },
-prefix: genderController.text == 'Female' ? Icon(Icons.female) : Icon(Icons.person),
+prefix: genderController.text == 'Female' ?const Icon(Icons.female) : const Icon(Icons.person),
 ),
 
 

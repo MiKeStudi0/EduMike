@@ -67,16 +67,17 @@ class _AppNotificationsScreenState extends State<AppNotificationsScreen> {
       appBar: AppBar(
         title: const Text('Notifications'),
       ),
-      body: ListView.builder(
+      body:
+      ListView.builder(
         itemCount: _notifications.length,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
-            padding: const EdgeInsets.only(left: 17,right: 17,bottom: 10),
+            padding: const EdgeInsets.only(left: 30,right: 30,bottom: 10),
             child: Container(
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 153, 193, 227),
                 border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(20.0),
               ),
               child: ListTile(
                 leading: const Icon(Icons.notification_important), // Icon before text
