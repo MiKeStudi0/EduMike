@@ -330,7 +330,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                TermsAndConditionsPage()), // Replace HomePage with your actual homepage widget
+                                HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
                       );
                     } catch (e) {
                       print('Error adding user data to Firestore: $e');
