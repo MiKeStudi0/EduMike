@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/widgets/custom_drop_down.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
@@ -7,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
-import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
 import 'package:edumike/widgets/app_bar/appbar_title.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
@@ -339,29 +337,40 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                           )),
                                     ),
                                   ),
-                                  SizedBox(height: 20.v),
+                                  SizedBox(height: 13.v),
                                   Container(
-                                    decoration: AppDecoration.outlineBlack
-                                        .copyWith(
-                                            borderRadius: BorderRadiusStyle
-                                                .roundedBorder12),
-                                    child: CustomTextFormField(
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              21.h, 20.v, 8.h, 20.v),
-                                          child: Icon(
-                                            Icons.email,
-                                            color: appTheme.blueGray900,
-                                            size: 20.v,
-                                          )),
-                                      controller: emailController,
-                                      focusNode: emailFocusNode,
-                                      hintText: " email",
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 16.0, top: 35),
-                                    ),
+                                    
+    margin: EdgeInsets.fromLTRB(0, 10.v, 0, 10.v),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      border: Border.all(color:const Color(0XFF0961F5)), // Blue border
+      borderRadius: BorderRadius.circular(9.0), // Rounded corners
+    ),
+    child: Row(
+      children: [
+        Container(
+          margin: EdgeInsets.only(left:16,right:  7.h),
+          child:Icon(
+            Icons.email,
+            color: appTheme.blueGray900,
+            size: 20.v,
+            )
+        ),
+        Expanded(
+          child: TextFormField(
+            enabled: false,
+            focusNode: FocusNode(), // Disabling focus
+            controller: emailController,
+            style:const TextStyle(
+              fontWeight:FontWeight.w500 ,
+              color: Colors.black
+              ),
+          ),
+        ),
+      ],
+    ),
                                   ),
-                                  SizedBox(height: 20.v),
+                                  SizedBox(height: 13.v),
                                   Container(
                                     decoration: AppDecoration.outlineBlack
                                         .copyWith(
