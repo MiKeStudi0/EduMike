@@ -217,52 +217,7 @@ class _SearchCourseState extends State<SearchCourse> {
     }
   }
 
-  Future<Map<String, String?>?> getCardData() async {
-    try {
-      // Get the current user
-      User? user = FirebaseAuth.instance.currentUser;
 
-      if (user != null) {
-        // Reference to the "carddata" collection
-
-        DocumentSnapshot<Map<String, dynamic>> snapshot =
-            await FirebaseFirestore.instance
-                .collection('users')
-                .doc(user.uid)
-                .collection('carddata')
-                .doc(user.uid)
-                .get();
-
-        // Check if the document exists
-        if (snapshot.exists) {
-          // Extract field values from the document data
-          String? _selecteduniversity = snapshot.data()?['university'];
-          String? _selecteddegree = snapshot.data()?['degree'];
-          String? _selectedcourse = snapshot.data()?['course'];
-          String? _selectedsemester = snapshot.data()?['semester'];
-
-          // Return the card data as a map
-          return {
-            'university': _selecteduniversity,
-            'degree': _selecteddegree,
-            'course': _selectedcourse,
-            'semester': _selectedsemester,
-          };
-        } else {
-          // Return null if the document doesn't exist
-          return null;
-        }
-      } else {
-        // Handle case when user is not authenticated
-        print('User not authenticated');
-        return null;
-      }
-    } catch (e) {
-      // Print an error message if an error occurs
-      print('Error retrieving card data: $e');
-      return null;
-    }
-  }
 
   Future<void> fetchDocumentData(String collectionPath) async {
     try {
@@ -558,4 +513,7 @@ class _SearchCourseState extends State<SearchCourse> {
       ),
     );
   }
+
+
+  
 }
