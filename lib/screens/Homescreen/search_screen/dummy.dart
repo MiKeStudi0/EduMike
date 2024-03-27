@@ -78,7 +78,7 @@ class SearchCourse extends StatefulWidget {
 }
 
 class _SearchCourseState extends State<SearchCourse> {
-    TextEditingController searchController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
 
   List<Course> courseList = [];
   final List<String> categories = [
@@ -208,7 +208,7 @@ class _SearchCourseState extends State<SearchCourse> {
 
           // Use the retrieved values in fetchDocumentData method
           fetchDocumentData(
-              '/University/$_selecteduniversity/Refers/$_selecteddegree/Refers/$_selectedcourse/Refers/$_selectedsemester/Refers');
+              '/University/$_selecteduniversity/Refers/$_selecteddegree/Refers/$_selectedcourse/Refers');
         }
       }
     } catch (e) {
@@ -264,62 +264,74 @@ class _SearchCourseState extends State<SearchCourse> {
     }
   }
 
-Future<void> fetchDocumentData(String collectionPath) async {
-  try {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection(collectionPath).get();
+  Future<void> fetchDocumentData(String collectionPath) async {
+    try {
+      QuerySnapshot semesterSnapshot =
+          await FirebaseFirestore.instance.collection(collectionPath).get();
 
-    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-      Map<String, dynamic> data = {
-        'id': doc.id,
-        'courseName': doc.get('courseName'),
-        'courseCode': doc.get('courseCode'),
-        'courseCredit': doc.get('courseCredit'),
-        'category': 'DefaultCategory',
-      };
+      for (QueryDocumentSnapshot semesterDoc in semesterSnapshot.docs) {
+        List<String> categories = ['DefaultCategory'];
+        // Get the semester ID
+        String semester = semesterDoc.id;
+        print(semester);
 
-      // Fetch the first level of subcollection
-      QuerySnapshot subcollectionSnapshot =
-          await doc.reference.collection('Refers').get();
-      
-      // Iterate over all documents in the first level of subcollection
-      for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
-        data['category'] = subDoc.get('category');
-        
-        // Fetch the second level of subcollection
-        QuerySnapshot nestedSubcollectionSnapshot =
-            await subDoc.reference.collection('Refers').get();
+        // Fetch documents under the 'Refers' subcollection of the semester
+        QuerySnapshot querySnapshot =
+            await semesterDoc.reference.collection('Refers').get();
 
-        // Iterate over all documents in the second level of subcollection
-        for (QueryDocumentSnapshot nestedSubDoc in nestedSubcollectionSnapshot.docs) {
-          // You can handle data from the second level of subcollection here
-          // For example:
-           data['pdfUrl'] = nestedSubDoc.get('pdfUrl');
+        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+          Map<String, dynamic> data = {
+            'id': doc.id,
+            'courseName': doc.get('courseName'),
+            'courseCode': doc.get('courseCode'),
+            'courseCredit': doc.get('courseCredit'),
+            'category': categories,
+          };
+
+          // Fetch the first level of subcollection
+          QuerySnapshot subcollectionSnapshot =
+              await doc.reference.collection('Refers').get();
+
+          // Iterate over all documents in the first level of subcollection
+          for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
+            categories.add(subDoc.get('category'));
+            data['category'] = subDoc.get('category');
+            // Fetch the second level of subcollection
+            QuerySnapshot nestedSubcollectionSnapshot =
+                await subDoc.reference.collection('Refers').get();
+
+            // Iterate over all documents in the second level of subcollection
+            for (QueryDocumentSnapshot nestedSubDoc
+                in nestedSubcollectionSnapshot.docs) {
+              // You can handle data from the second level of subcollection here
+              // For example:
+              data['pdfUrl'] = nestedSubDoc.get('pdfUrl');
+            }
+          }
+
+          for (String category in categories) {
+            Course course = Course(
+              courseName: data['courseName'],
+              category: category,
+              courseCode: data['courseCode'],
+              courseCredit: data['courseCredit'],
+              selectedDocumentId: doc.id,
+            );
+
+            courseList.add(course);
+
+            // String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
+            // await fetchDocumentData(nestedCollectionPath);
+            // print('Data from $collectionPath: $data');
+          }
         }
-
-        Course course = Course(
-          courseName: doc.get('courseName'),
-          category: data['category'],
-          courseCode: doc.get('courseCode'),
-          courseCredit: doc.get('courseCredit'),
-
-          selectedDocumentId: doc.id,
-        );
-
-        courseList.add(course);
-
-        // String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
-        // await fetchDocumentData(nestedCollectionPath);
-       // print('Data from $collectionPath: $data');
       }
+
+      setState(() {});
+    } catch (e, stackTrace) {
+      print('Error getting document data: $e\n$stackTrace');
     }
-
-    setState(() {});
-  } catch (e, stackTrace) {
-    print('Error getting document data: $e\n$stackTrace');
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -331,14 +343,11 @@ Future<void> fetchDocumentData(String collectionPath) async {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
-            
             children: [
-               Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 34.h),
-                        child: CustomSearchView(
-                          
-                            controller: searchController,
-                            hintText: "Search for..")),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 34.h),
+                  child: CustomSearchView(
+                      controller: searchController, hintText: "Search for..")),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SizedBox(
@@ -356,15 +365,16 @@ Future<void> fetchDocumentData(String collectionPath) async {
                                   padding: const EdgeInsets.all(8.0),
                                   child: FilterChip(
                                     label: Text(category),
-                                    selected: selectedCategory == category.toUpperCase(),
+                                    selected: selectedCategory == category,
                                     onSelected: (selected) {
                                       setState(() {
-                                        selectedCategory = selected ? category : 'Syllabus';
+                                        selectedCategory =
+                                            selected ? category : 'Syllabus';
                                       });
                                     },
-                                   selectedColor: selectedCategory.isEmpty
-                                  ? theme.colorScheme.primary
-                                  : theme.colorScheme.primary,
+                                    selectedColor: selectedCategory.isEmpty
+                                        ? theme.colorScheme.primary
+                                        : theme.colorScheme.primary,
                                     labelStyle: TextStyle(
                                       color: selectedCategory == category
                                           ? Color.fromARGB(255, 0, 94, 255)
@@ -378,7 +388,8 @@ Future<void> fetchDocumentData(String collectionPath) async {
                       ),
                       Expanded(
                         child: ListView.separated(
-                          separatorBuilder: (context, index) => const SizedBox(height: 1),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 1),
                           scrollDirection: Axis.vertical,
                           itemCount: filteredCourses.length,
                           itemBuilder: (context, index) {
@@ -418,136 +429,136 @@ Future<void> fetchDocumentData(String collectionPath) async {
         }
       },
       child: Container(
-      margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 20.v),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            spreadRadius: 2,
-            blurRadius: 2,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgImage,
-            height: 130.adaptSize,
-            width: 130.adaptSize,
-            radius: BorderRadius.horizontal(
-              left: Radius.circular(20.h),
+        margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 20.v),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              spreadRadius: 2,
+              blurRadius: 2,
+              offset: const Offset(0, 4),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 14.h, top: 5.v, bottom: 13.v),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 195.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ],
+        ),
+        child: Row(
+          children: [
+            CustomImageView(
+              imagePath: ImageConstant.imgImage,
+              height: 130.adaptSize,
+              width: 130.adaptSize,
+              radius: BorderRadius.horizontal(
+                left: Radius.circular(20.h),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 14.h, top: 5.v, bottom: 13.v),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 195.h,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            course.category,
+                            style: CustomTextStyles.labelLargeMulishOrangeA700,
+                          ),
+                          SizedBox(
+                            height: 16.v,
+                            width: 12.h,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CustomImageView(
+                                  imagePath: ImageConstant.imgBookmarkPrimary,
+                                  height: 16.v,
+                                  width: 12.h,
+                                  alignment: Alignment.center,
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            RemoveBookmarkScreen(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                // CustomImageView(
+                                //   imagePath: ImageConstant.imgBookmarkPrimary,
+                                //   height: 16.v,
+                                //   width: 12.h,
+                                //   alignment: Alignment.center,
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.v),
+                    Text(
+                      course.courseName,
+                      style: theme.textTheme.titleMedium,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 5.v),
+                    Text(
+                      course.courseCode,
+                      style: theme.textTheme.titleSmall,
+                    ),
+                    SizedBox(height: 5.v),
+                    Row(
                       children: [
-                        Text(
-                          course.category,
-                          style: CustomTextStyles.labelLargeMulishOrangeA700,
-                        ),
-                        SizedBox(
-                          height: 16.v,
-                          width: 12.h,
-                          child: Stack(
-                            alignment: Alignment.center,
+                        Container(
+                          width: 32.h,
+                          margin: EdgeInsets.only(top: 3.v),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomImageView(
-                                imagePath: ImageConstant.imgBookmarkPrimary,
-                                height: 16.v,
+                                imagePath: ImageConstant.imgSignal,
+                                height: 11.v,
                                 width: 12.h,
-                                alignment: Alignment.center,
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          RemoveBookmarkScreen(),
-                                    ),
-                                  );
-                                },
+                                margin: EdgeInsets.only(bottom: 2.v),
                               ),
-                              // CustomImageView(
-                              //   imagePath: ImageConstant.imgBookmarkPrimary,
-                              //   height: 16.v,
-                              //   width: 12.h,
-                              //   alignment: Alignment.center,
-                              // ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Text(
+                                  "${course.courseCredit}",
+                                  style: theme.textTheme.labelMedium,
+                                ),
+                              ),
                             ],
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 5.h, top: 3.v),
+                          child: Text(
+                            "Credit",
+                            style: theme.textTheme.labelMedium,
+                          ),
+                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(left: 16.h, top: 3.v),
+                        //   child: Text(
+                        //     bookmark.,
+                        //     style: theme.textTheme.labelMedium,
+                        //   ),
+                        // ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 8.v),
-                  Text(
-                    course.courseName,
-                    style: theme.textTheme.titleMedium,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: 5.v),
-                  Text(
-                    course.courseCode,
-                    style: theme.textTheme.titleSmall,
-                  ),
-                  SizedBox(height: 5.v),
-                  Row(
-                    children: [
-                      Container(
-                        width: 32.h,
-                        margin: EdgeInsets.only(top: 3.v),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomImageView(
-                              imagePath: ImageConstant.imgSignal,
-                              height: 11.v,
-                              width: 12.h,
-                              margin: EdgeInsets.only(bottom: 2.v),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: Text(
-                                "${course.courseCredit}",
-                                style: theme.textTheme.labelMedium,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5.h, top: 3.v),
-                        child: Text(
-                          "Credit",
-                          style: theme.textTheme.labelMedium,
-                        ),
-                      ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(left: 16.h, top: 3.v),
-                      //   child: Text(
-                      //     bookmark.,
-                      //     style: theme.textTheme.labelMedium,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
     );
   }
 }

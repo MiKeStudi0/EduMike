@@ -222,6 +222,63 @@ class _HomemainpageContainerScreenState
     );
   }
 
+  Widget _buildBody() {
+    final screens = [
+      HomemainpagePage(),
+      MyCoursePage(
+        university: selecteduniversity,
+        degree: selecteddegree,
+        course: selectedcourse,
+        semester: selectedsemester,
+      ),
+      IndoxmainpagePage(),
+      MyBookmarkPage(),
+      ProfilesPage(),
+    ];
+    return screens[_currentIndex];
+  }
+
+  Widget _buildNavigationBar() {
+    String imagePathHome = 'assets/images/home_image';
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(''),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(75), // Adjust the height as needed
+          child: _buildNavigationBar(),
+        ),
+      ),
+      body: _buildBody(),
+      resizeToAvoidBottomInset: false,
+      bottomNavigationBar: Visibility(
+        child: CurvedNavigationBar(
+          buttonBackgroundColor: Color.fromARGB(255, 59, 131, 255),
+          items: <Widget>[
+            _buildIcon(0, 'assets/images/home_image/HomeScreen.svg',
+                '$imagePathHome/img_nav_homeNot.svg'),
+            _buildIcon(1, '$imagePathHome/CourseScreen.svg',
+                '$imagePathHome/img_nav_my_courses.svg'),
+            _buildIcon(2, '$imagePathHome/IndoxScreen.svg',
+                '$imagePathHome/img_nav_indox.svg'),
+            _buildIcon(3, '$imagePathHome/BookmarkScreen.svg',
+                '$imagePathHome/img_nav_book_mark.svg'),
+            _buildIcon(4, '$imagePathHome/ProfileScreen.svg',
+                '$imagePathHome/img_nav_profile.svg'),
+          ],
+          backgroundColor: Colors.transparent,
+          color: Color.fromARGB(255, 60, 118, 218),
+          height: 75,
+          index: _currentIndex,
+          onTap: (index) => setState(() {
+            _currentIndex = index;
+          }),
+          key: navigationkey,
+        ),
+      ),
+      backgroundColor: appTheme.whiteA700,
+    );
+  }
+
   Widget _buildIcon(int index, String selectedImage, String unselectedImage) {
     return Container(
       height: 25,
