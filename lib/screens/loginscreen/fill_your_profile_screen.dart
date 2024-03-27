@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
-import 'package:edumike/screens/loginscreen/terms_conditionscreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +48,7 @@ class FillYourProfileScreen extends StatefulWidget {
 }
 
 class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
+  String userEmail = '';
   TextEditingController fullNameEditTextController = TextEditingController();
   late final String gendervalue;
   // DateTime _picked=DateTime.now();
@@ -134,6 +134,22 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   List<String> dropdownItemList = ["Male", "Female"];
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+@override
+  void initState() {
+    super.initState();
+    // Retrieve the currently signed-in user's email
+    getUserEmail();
+  }
+
+  Future<void> getUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        userEmail = user.email ?? 'No email found';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +237,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                               SizedBox(height: 20.v),
                               _buildDateOfBirthEditText(context),
                               SizedBox(height: 20.v),
-                              _buildEmailEditText(context),
+                              _buildEmailEditText(context,emailEditTextController,userEmail),
                               SizedBox(height: 20.v),
                               _buildPhoneNumber(context),
                               SizedBox(height: 20.v),
@@ -290,19 +306,44 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   }
 
   /// Section Widget
-  Widget _buildEmailEditText(BuildContext context) {
-    return CustomTextFormField(
-        focusNode: emailFocusNode,
-        controller: emailEditTextController,
-        hintText: "Email(Verify)",
-        hintStyle: theme.textTheme.bodyMedium!,
-        textInputType: TextInputType.emailAddress,
-        prefix: Container(
-            margin: EdgeInsets.fromLTRB(20.h, 23.v, 7.h, 22.v),
-            child: CustomImageView(
-                imagePath: ImageConstant.imgLock, height: 14.v, width: 18.h)),
-        prefixConstraints: BoxConstraints(maxHeight: 60.v));
-  }
+  Widget _buildEmailEditText(BuildContext context, TextEditingController emailTextController, String userEmail) {
+  // Set initial text to the controller
+  emailTextController.text = userEmail;
+
+  return Container(
+    margin: EdgeInsets.fromLTRB(5.h, 23.v, 7.h, 22.v),
+    decoration: BoxDecoration(
+      border: Border.all(color: Colors.blue), // Blue border
+      borderRadius: BorderRadius.circular(8.0), // Rounded corners
+    ),
+    child: Row(
+      children: [
+        Container(
+          margin: EdgeInsets.only(right: 7.h),
+          child: CustomImageView(
+            imagePath: ImageConstant.imgLock, 
+            height: 14.v, 
+            width: 18.h
+          )
+        ),
+        Expanded(
+          child: TextFormField(
+            enabled: false,
+            focusNode: FocusNode(), // Disabling focus
+            controller: emailTextController,
+            decoration: InputDecoration(
+              hintText: "Email(Verify)",
+              hintStyle: theme.textTheme.bodyMedium!,
+              border: InputBorder.none, // No need for border here
+            ),
+            keyboardType: TextInputType.emailAddress,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
 
   /// Section Widget
   Widget _buildPhoneNumber(BuildContext context) {

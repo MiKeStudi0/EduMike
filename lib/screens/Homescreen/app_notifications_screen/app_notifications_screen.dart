@@ -79,7 +79,8 @@ class _AppNotificationsScreenState extends State<AppNotificationsScreen> {
                 border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              child: ListTile(
+              child: 
+              ListTile(
                 leading: const Icon(Icons.notification_important), // Icon before text
                 title: Text(
                   _notifications[index].split(":")[0], // Extracting title
