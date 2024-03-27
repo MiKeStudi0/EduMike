@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
@@ -311,15 +310,15 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   emailTextController.text = userEmail;
 
   return Container(
-    margin: EdgeInsets.fromLTRB(5.h, 23.v, 7.h, 22.v),
+    margin: EdgeInsets.fromLTRB(0, 10.v, 0, 10.v),
     decoration: BoxDecoration(
-      border: Border.all(color: Colors.blue), // Blue border
-      borderRadius: BorderRadius.circular(8.0), // Rounded corners
+      border: Border.all(color:const Color(0XFF0961F5)), // Blue border
+      borderRadius: BorderRadius.circular(12.0), // Rounded corners
     ),
     child: Row(
       children: [
         Container(
-          margin: EdgeInsets.only(right: 7.h),
+          margin: EdgeInsets.only(left:18,right:  7.h),
           child: CustomImageView(
             imagePath: ImageConstant.imgLock, 
             height: 14.v, 
@@ -331,11 +330,15 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
             enabled: false,
             focusNode: FocusNode(), // Disabling focus
             controller: emailTextController,
-            decoration: InputDecoration(
-              hintText: "Email(Verify)",
-              hintStyle: theme.textTheme.bodyMedium!,
-              border: InputBorder.none, // No need for border here
-            ),
+            style:const TextStyle(
+              fontWeight:FontWeight.w500 ,
+              color: Colors.black
+              ),
+            // decoration: InputDecoration(
+            //   // hintText: "Email(Verify)",
+            //   // hintStyle: theme.textTheme.bodyMedium!,
+            //   border: InputBorder.none, // No need for border here
+            // ),
             keyboardType: TextInputType.emailAddress,
           ),
         ),

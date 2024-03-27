@@ -119,17 +119,17 @@ class CustomDropDown extends StatelessWidget {
         border: borderDecoration ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.h),
-              borderSide: BorderSide.none,
+               borderSide: BorderSide(color: appTheme.blueA700),
             ),
         enabledBorder: borderDecoration ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.h),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: appTheme.blueA700),
             ),
         focusedBorder: borderDecoration ??
             OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.h),
-              borderSide: BorderSide.none,
+               borderSide: BorderSide(color: appTheme.blueA700),
             ),
       );
 }

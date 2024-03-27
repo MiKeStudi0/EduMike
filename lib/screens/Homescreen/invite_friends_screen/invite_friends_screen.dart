@@ -234,6 +234,9 @@ class InviteFriendsScreen extends StatefulWidget {
 
 class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
   List<Contact> _contacts = [];
+  int _displayedContactsCount = 15; // Initially display 15 contacts
+  bool _loading = true;
+
 
   @override
   void initState() {
@@ -270,7 +273,7 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
     print("Error sharing via $appName");
   }
 }
-  Future<void> _requestContactsPermission() async {
+  void _requestContactsPermission() async {
     if (await Permission.contacts.request().isGranted) {
       _getAllContacts();
     } else {
@@ -278,33 +281,35 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
       print('Contacts permission is denied');
     }
   }
-
-  Future<void> _getAllContacts() async {
+   Future<void> _getAllContacts() async {
     List<Contact> contacts = await ContactsService.getContacts();
     setState(() {
       _contacts = contacts;
+      _loading = false; // Set loading to false once contacts are loaded
     });
   }
 
-  Future<void> _sendInvite(String phoneNumber) async {
-  // Define your predefined message
-  String message = 'Hey! Join me on this cool app! Here\'s a YouTube video you might like: https://www.youtube.com/watch?v=YOUR_VIDEO_ID';
+ Future<void> _sendInvite(String phoneNumber) async {
+    // Define your predefined message
+    String message =
+        'Hey! Join me on this cool app! Here\'s a YouTube video you might like: https://www.youtube.com/watch?v=YOUR_VIDEO_ID';
 
-  // Encode the message and phone number for use in the URL
-  String encodedMessage = Uri.encodeComponent(message);
-  String encodedPhoneNumber = Uri.encodeComponent(phoneNumber);
+    // Encode the message and phone number for use in the URL
+    String encodedMessage = Uri.encodeComponent(message);
+    String encodedPhoneNumber = Uri.encodeComponent(phoneNumber);
 
-  // Construct the URL for sending SMS
-  String uri = 'sms:$encodedPhoneNumber?body=$encodedMessage';
+    // Construct the URL for sending SMS
+    String uri = 'sms:$encodedPhoneNumber?body=$encodedMessage';
 
-  // Launch the SMS application with the predefined message and phone number
-  if (await canLaunch(uri)) {
-    await launch(uri);
-  } else {
-    // Handle error
-    print('Could not launch $uri');
+    // Launch the SMS application with the predefined message and phone number
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+      // Handle error
+      print('Could not launch $uri');
+    }
   }
-}
+
 
 @override
 Widget build(BuildContext context) {
@@ -312,59 +317,68 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       title: const Text('Invite Friends'),
     ),
-    body: Container(
-      width: double.infinity,
-      height: 500,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 16.0),
-          Expanded(
-            child: Container(
-              width: 300, // Set a fixed width for the container
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black), // Add a border
-              ),
-              child: Center(
-                child: ListView.builder(
-                  itemCount: _contacts.length,
-                  itemBuilder: (context, index) {
-                    Contact contact = _contacts[index];
-                    String phoneNumber = contact.phones?.isNotEmpty == true ? contact.phones!.first.value! : '';
+    body: _loading
+          ? Center(child: CircularProgressIndicator())
+          : Container(
+              width: double.infinity,
+              height: 650,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 16.0),
+                  Expanded(
+                    child: Container(
+                      width: 300, // Set a fixed width for the container
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black), // Add a border
+                      ),
+                      child: ListView.builder(
+                        itemCount: _displayedContactsCount,
+                        itemBuilder: (context, index) {
+                          Contact contact = _contacts[index];
+                          String phoneNumber = contact.phones?.isNotEmpty == true ? contact.phones!.first.value! : '';
 
-                    return Column(
-                      children: [
-                        ListTile(
-                          title: Text(contact.displayName ?? ''),
-                          subtitle: Text(phoneNumber),
-                          trailing: ElevatedButton(
-                            onPressed: () {
-                              _sendInvite(phoneNumber);
-                            },
-                            child: const Text('Invite',style:TextStyle(color: Colors.white)),
-                          ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 1.0,
-                          color: Colors.black,
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                          return Column(
+                            children: [
+                              ListTile(
+                                title: Text(contact.displayName ?? ''),
+                                subtitle: Text(phoneNumber),
+                                trailing: ElevatedButton(
+                                  onPressed: () {
+                                    _sendInvite(phoneNumber);
+                                  },
+                                  child: const Text('Invite', style: TextStyle(color: Colors.white)),
+                                ),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                height: 1.0,
+                                color: Colors.black,
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  if (_displayedContactsCount < _contacts.length)
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          // Increase the number of displayed contacts by 15 when 'Load More' is pressed
+                          _displayedContactsCount += 15;
+                        });
+                      },
+                      child: Text('Load More'),
+                    ),
+                  const SizedBox(height: 16.0),
+                ],
               ),
             ),
-          ),
-          const SizedBox(height: 16.0),
-        ],
-      ),
-    ),
-
 
   bottomNavigationBar: Container(
-  height: 300,
+  height: 150,
   padding: const EdgeInsets.all(16.0),
   color: Colors.grey.shade200,
   child: Column(
@@ -438,10 +452,6 @@ Widget build(BuildContext context) {
         ],
       ),
       const SizedBox(height: 16.0),
-      const Text(
-        'Antha mone heppy ayoo',
-        style: TextStyle(fontSize: 18.0),
-      ),
     ],
   ),
 ),

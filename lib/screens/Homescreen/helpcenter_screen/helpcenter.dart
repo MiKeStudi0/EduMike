@@ -1,5 +1,6 @@
-import 'package:edumike/routes/app_routes.dart';
+// ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelpFeedbackPage extends StatelessWidget {
   final List<QuestionAnswer> faq = [
@@ -66,7 +67,7 @@ class HelpFeedbackPage extends StatelessWidget {
 
            GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, AppRoutes.helpcareScreen);
+             _launchEmail('flutteremperor@gmail.com');
             },
              child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -104,8 +105,8 @@ class HelpFeedbackPage extends StatelessWidget {
            const SizedBox(height: 10.0),
          
           GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, AppRoutes.helpcareScreen);
+             onTap: () {
+              _launchEmail('flutteremperor@gmail.com');
             },
              child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -143,6 +144,15 @@ class HelpFeedbackPage extends StatelessWidget {
         ],
       ),
     );
+    
+  }
+   void _launchEmail(String toEmail) async {
+    String emailUrl = 'mailto:$toEmail';
+    if (await canLaunch(emailUrl)) {
+      await launch(emailUrl);
+    } else {
+      throw 'Could not launch $emailUrl';
+    }
   }
 
   Widget _buildQuestionTile(QuestionAnswer questionAnswer) {
