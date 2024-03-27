@@ -78,6 +78,7 @@ dependencies:
   permission_handler: ^11.3.0
   insta_image_viewer: ^1.0.2
   firebase_analytics: ^10.8.10
+  shimmer: ^3.0.0
   
   
 

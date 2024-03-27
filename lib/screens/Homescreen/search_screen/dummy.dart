@@ -264,75 +264,75 @@ class _SearchCourseState extends State<SearchCourse> {
     }
   }
 
-  Future<void> fetchDocumentData(String collectionPath) async {
-    try {
-      QuerySnapshot semesterSnapshot =
-          await FirebaseFirestore.instance.collection(collectionPath).get();
+ Future<void> fetchDocumentData(String collectionPath) async {
+  try {
+    QuerySnapshot semesterSnapshot =
+        await FirebaseFirestore.instance.collection(collectionPath).get();
 
-      for (QueryDocumentSnapshot semesterDoc in semesterSnapshot.docs) {
-        List<String> categories = ['DefaultCategory'];
-        // Get the semester ID
-        String semester = semesterDoc.id;
-        print(semester);
+    for (QueryDocumentSnapshot semesterDoc in semesterSnapshot.docs) {
+      // Initialize categories inside the loop to ensure it's fresh for each semester
+      List<String> categories = ['DefaultCategory'];
+      
+      // Get the semester ID
+      String semester = semesterDoc.id;
+      print(semester);
 
-        // Fetch documents under the 'Refers' subcollection of the semester
-        QuerySnapshot querySnapshot =
-            await semesterDoc.reference.collection('Refers').get();
+      // Fetch documents under the 'Refers' subcollection of the semester
+      QuerySnapshot querySnapshot =
+          await semesterDoc.reference.collection('Refers').get();
 
-        for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-          Map<String, dynamic> data = {
-            'id': doc.id,
-            'courseName': doc.get('courseName'),
-            'courseCode': doc.get('courseCode'),
-            'courseCredit': doc.get('courseCredit'),
-            'category': categories,
-          };
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        Map<String, dynamic> data = {
+          'id': doc.id,
+          'courseName': doc.get('courseName'),
+          'courseCode': doc.get('courseCode'),
+          'courseCredit': doc.get('courseCredit'),
+          'category': categories,
+        };
 
-          // Fetch the first level of subcollection
-          QuerySnapshot subcollectionSnapshot =
-              await doc.reference.collection('Refers').get();
+        // Fetch the first level of subcollection
+        QuerySnapshot subcollectionSnapshot =
+            await doc.reference.collection('Refers').get();
 
-          // Iterate over all documents in the first level of subcollection
-          for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
-            categories.add(subDoc.get('category'));
-            data['category'] = subDoc.get('category');
-            // Fetch the second level of subcollection
-            QuerySnapshot nestedSubcollectionSnapshot =
-                await subDoc.reference.collection('Refers').get();
+        for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
+          categories.add(subDoc.get('category'));
+          data['category'] = subDoc.get('category');
+          // Fetch the second level of subcollection
+          QuerySnapshot nestedSubcollectionSnapshot =
+              await subDoc.reference.collection('Refers').get();
 
-            // Iterate over all documents in the second level of subcollection
-            for (QueryDocumentSnapshot nestedSubDoc
-                in nestedSubcollectionSnapshot.docs) {
-              // You can handle data from the second level of subcollection here
-              // For example:
-              data['pdfUrl'] = nestedSubDoc.get('pdfUrl');
-            }
-          }
-
-          for (String category in categories) {
-            Course course = Course(
-              courseName: data['courseName'],
-              category: category,
-              courseCode: data['courseCode'],
-              courseCredit: data['courseCredit'],
-              selectedDocumentId: doc.id,
-            );
-
-            courseList.add(course);
-
-            // String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
-            // await fetchDocumentData(nestedCollectionPath);
-            // print('Data from $collectionPath: $data');
+          // Iterate over all documents in the second level of subcollection
+          for (QueryDocumentSnapshot nestedSubDoc
+              in nestedSubcollectionSnapshot.docs) {
+            // You can handle data from the second level of subcollection here
+            // For example:
+            data['pdfUrl'] = nestedSubDoc.get('pdfUrl');
           }
         }
+
+        for (String category in categories) {
+          Course course = Course(
+            courseName: data['courseName'],
+            category: category,
+            courseCode: data['courseCode'],
+            courseCredit: data['courseCredit'],
+            selectedDocumentId: doc.id,
+          );
+
+          courseList.add(course);
+        }
       }
-
-      setState(() {});
-    } catch (e, stackTrace) {
-      print('Error getting document data: $e\n$stackTrace');
     }
-  }
+          setState(() {});
 
+  } catch (e) {
+    print('Error fetching data: $e');
+    // Handle the error here
+  }
+}
+
+
+   
   @override
   Widget build(BuildContext context) {
     final filteredCourses = courseList.where((course) {
