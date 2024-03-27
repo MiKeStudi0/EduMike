@@ -270,6 +270,7 @@ class _SearchCourseState extends State<SearchCourse> {
           await FirebaseFirestore.instance.collection(collectionPath).get();
 
       for (QueryDocumentSnapshot semesterDoc in semesterSnapshot.docs) {
+        List<String> categories = ['DefaultCategory'];
         // Get the semester ID
         String semester = semesterDoc.id;
         print(semester);
@@ -284,7 +285,7 @@ class _SearchCourseState extends State<SearchCourse> {
             'courseName': doc.get('courseName'),
             'courseCode': doc.get('courseCode'),
             'courseCredit': doc.get('courseCredit'),
-            'category': 'DefaultCategory',
+            'category': categories,
           };
 
           // Fetch the first level of subcollection
@@ -293,6 +294,7 @@ class _SearchCourseState extends State<SearchCourse> {
 
           // Iterate over all documents in the first level of subcollection
           for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
+            categories.add(subDoc.get('category'));
             data['category'] = subDoc.get('category');
             // Fetch the second level of subcollection
             QuerySnapshot nestedSubcollectionSnapshot =
@@ -307,19 +309,21 @@ class _SearchCourseState extends State<SearchCourse> {
             }
           }
 
-          Course course = Course(
-            courseName: doc.get('courseName'),
-            category: data['category'],
-            courseCode: doc.get('courseCode'),
-            courseCredit: doc.get('courseCredit'),
-            selectedDocumentId: doc.id,
-          );
+          for (String category in categories) {
+            Course course = Course(
+              courseName: data['courseName'],
+              category: category,
+              courseCode: data['courseCode'],
+              courseCredit: data['courseCredit'],
+              selectedDocumentId: doc.id,
+            );
 
-          courseList.add(course);
+            courseList.add(course);
 
-          // String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
-          // await fetchDocumentData(nestedCollectionPath);
-          // print('Data from $collectionPath: $data');
+            // String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
+            // await fetchDocumentData(nestedCollectionPath);
+            // print('Data from $collectionPath: $data');
+          }
         }
       }
 
