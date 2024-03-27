@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
@@ -331,7 +330,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
             enabled: false,
             focusNode: FocusNode(), // Disabling focus
             controller: emailTextController,
-            style: TextStyle(
+            style:const TextStyle(
               fontWeight:FontWeight.w500 ,
               color: Colors.black
               ),
