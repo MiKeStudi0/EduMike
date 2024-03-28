@@ -124,7 +124,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
 
                   Padding(
                       padding: EdgeInsets.only(
-                        left: 5.v,
+                        left: 10.v,
                       ),
                       child: CourseListBlock()),
 

@@ -431,60 +431,16 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
- void onTapBtnsignUserIn(BuildContext context) async {
-  // Check if email and password are not empty
-  if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-    // Show an error dialog for incomplete fields
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Error'),
-          content: const Text('Please fill in both email and password.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-    return; // Exit the function if any field is empty
-  }
-
-  // Show a loading indicator
-  showDialog(
-    context: context,
-    builder: (context) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    },
-  );
-
-  // Sign in user
-  try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
-    Navigator.pop(context);
-    if (FirebaseAuth.instance.currentUser != null) {
-      // Move to the home screen
-      Navigator.pushReplacementNamed(
-          context, AppRoutes.homemainpageContainerScreen);
-    }
-  } on FirebaseAuthException catch (e) {
-    Navigator.pop(context);
-    if (e.code == 'wrong-password') {
-      // Show custom error message for incorrect password
+  void onTapBtnsignUserIn(BuildContext context) async {
+    // Check if email and password are not empty
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      // Show an error dialog for incomplete fields
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: const Text('Error'),
-            content: const Text('The password entered is incorrect.'),
+            content: const Text('Please fill in both email and password.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -496,12 +452,34 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         },
       );
-    } else {
-      // For other authentication errors, show Firebase's default error message
+      return; // Exit the function if any field is empty
+    }
+
+    // Show a loading indicator
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    // Sign in user
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text, password: passwordController.text);
+      Navigator.pop(context);
+      if (FirebaseAuth.instance.currentUser != null) {
+        // Move to the home screen
+        Navigator.pushReplacementNamed(
+            context, AppRoutes.homemainpageContainerScreen);
+      }
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
       signinErrorMessage(e.code, context);
     }
   }
-}
 
   void signinErrorMessage(String m, BuildContext context) {
     showDialog(
