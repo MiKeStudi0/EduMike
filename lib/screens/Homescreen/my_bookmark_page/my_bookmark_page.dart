@@ -124,14 +124,18 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                       return _buildBookmarkItem(bookmark);
                     },
                   )
-                : Center(
+                : const Center(
                     child: Text(
                       'No bookmarks',
-                      style: theme.textTheme.headlineSmall
+                      style:TextStyle(
+                        fontStyle:  FontStyle.italic,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color:  Colors.grey
                     ),
                   ),
-          ),
-        ],
+                ),  
+         ) ],
       ),
       ),
     );
