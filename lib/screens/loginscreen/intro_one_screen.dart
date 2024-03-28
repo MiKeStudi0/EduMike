@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
-import 'package:edumike/widgets/custom_icon_button.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class IntroOneScreen extends StatelessWidget {
   const IntroOneScreen({Key? key}) : super(key: key);
@@ -12,6 +10,16 @@ class IntroOneScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: appTheme.gray50,
         body: Container(
+          decoration: const BoxDecoration(
+            gradient:  LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color.fromARGB(255, 3, 29, 72),
+                Color.fromARGB(255, 68, 156, 228),
+              ],
+            ),
+          ),
             width: double.maxFinite,
             padding: EdgeInsets.symmetric(horizontal: 36.h, vertical: 156.v),
             child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [

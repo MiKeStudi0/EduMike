@@ -19,17 +19,17 @@ class CardDataRepository {
       // Check if the document exists
       if (snapshot.exists) {
         // Extract field values from the document data
-        String? university = snapshot.data()?['university'];
-        String? degree = snapshot.data()?['degree'];
-        String? course = snapshot.data()?['course'];
-        String? semester = snapshot.data()?['semester'];
+        String? university1 = snapshot.data()?['university'];
+        String? degree1 = snapshot.data()?['degree'];
+        String? course1 = snapshot.data()?['course'];
+        String? semester1 = snapshot.data()?['semester'];
 
         // Return the card data as a map
         return {
-          'university': university,
-          'degree': degree,
-          'course': course,
-          'semester': semester,
+          'university': university1,
+          'degree': degree1,
+          'course': course1,
+          'semester': semester1,
         };
       } else {
         // Return null if the document doesn't exist
