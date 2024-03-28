@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:edumike/screens/Homescreen/my_course_page/widgets/selectedview_item_widget.dart';
+import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
+import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
@@ -31,32 +32,32 @@ class MyCoursePage extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: _buildAppBar(context),
-        body: Container(
-          width: double.maxFinite,
-          padding: EdgeInsets.symmetric(horizontal: 34.h, vertical: 3.v),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomSearchView(
-                controller: searchController,
-                hintText: "Search for …",
-                contentPadding: EdgeInsets.only(
-                  left: 15.h,
-                  top: 21.v,
-                  bottom: 21.v,
+        body: SingleChildScrollView(
+          child: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(horizontal: 34.h, vertical: 3.v),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomSearchView(
+                  controller: searchController,
+                  hintText: "Search for …",
+                  contentPadding: EdgeInsets.only(
+                    left: 15.h,
+                    top: 21.v,
+                    bottom: 21.v,
+                  ),
                 ),
-              ),
-              SizedBox(height: 15.v),
-              Text(
-                "Current Semester",
-                style: CustomTextStyles.titleMediumBold,
-              ),
-              SizedBox(height: 19.v),
-              Expanded(
-                child: _buildSelectedView(context),
-              ),
-              SizedBox(height: 12.v),
-            ],
+                SizedBox(height: 15.v),
+                Text(
+                  "Current Semester",
+                  style: CustomTextStyles.titleMediumBold,
+                ),
+                SizedBox(height: 19.v),
+                _buildSelectedView(context),
+                SizedBox(height: 12.v),
+              ],
+            ),
           ),
         ),
       ),
@@ -112,15 +113,7 @@ class MyCoursePage extends StatelessWidget {
             final courseCredit = documentData['courseCredit'];
 
             if (courseName != null) {
-              return SelectedviewItemWidget(
-                courseCredit: courseCredit,
-                courseName: courseName,
-                courseCode: courseCode,
-                university: university!,
-                degree: degree!,
-                course: course!,
-                semester: semester!,
-              );
+              return _buildListView(context, courseCredit, courseName, courseCode);
             } else {
               return const SizedBox.shrink();
             }
@@ -129,6 +122,74 @@ class MyCoursePage extends StatelessWidget {
       },
     );
   }
+ Widget _buildListView(BuildContext context, String courseCredit, String courseName, String courseCode) {
+    return   GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CategoryScreen(
+              university: university,
+              degree: degree,
+              course: course,
+              semester: semester,
+              courseName: courseName,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.only(
+          left: 16.h,
+          top: 19.v,
+          bottom: 19.v,
+        ),
+        decoration: AppDecoration.outlineBlueGray.copyWith(
+          borderRadius: BorderRadiusStyle.roundedBorder18,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 1.v),
+              child: CustomIconButton(
+                height: 52.adaptSize,
+                width: 52.adaptSize,
+                padding: EdgeInsets.all(16.h),
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgTelevisionBlack900,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10), // Add some spacing between the icon and text
+            Expanded(
+              // Use Expanded to allow the text to occupy remaining space
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    courseName, // Use courseName here
+                    style: CustomTextStyles.titleMedium19,
+                                        overflow: TextOverflow.ellipsis,
+
+                  ),
+                  SizedBox(height: 6.v),
+                  Text(
+                    courseCode,
+                    style: theme.textTheme.titleSmall,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ), // Add some spacing between the text and bookmark icon
+          ],
+        ),
+      ),
+    );
+  }
+
 
   onTapArrowDown(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.homemainpageContainerScreen);

@@ -66,22 +66,19 @@ class SelectedviewItemWidget extends StatelessWidget {
             const SizedBox(width: 10), // Add some spacing between the icon and text
             Expanded(
               // Use Expanded to allow the text to occupy remaining space
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      courseName, // Use courseName here
-                      style: CustomTextStyles.titleMedium19,
-                    ),
-                    SizedBox(height: 6.v),
-                    Text(
-                      courseCode,
-                      style: theme.textTheme.titleSmall,
-                    ),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    courseName, // Use courseName here
+                    style: CustomTextStyles.titleMedium19,
+                  ),
+                  SizedBox(height: 6.v),
+                  Text(
+                    courseCode,
+                    style: theme.textTheme.titleSmall,
+                  ),
+                ],
               ),
             ),
             const SizedBox(
@@ -92,4 +89,7 @@ class SelectedviewItemWidget extends StatelessWidget {
       ),
     );
   }
+
+
+  
 }
