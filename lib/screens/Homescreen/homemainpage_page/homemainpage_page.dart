@@ -29,7 +29,6 @@ class HomemainpagePage extends StatefulWidget {
 
 class _HomemainpagePageState extends State<HomemainpagePage>
     with AutomaticKeepAliveClientMixin {
-
       
   String? university;
 
