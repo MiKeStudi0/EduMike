@@ -63,7 +63,7 @@ class SelectedviewItemWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 10), // Add some spacing between the icon and text
+            const SizedBox(width: 10), // Add some spacing between the icon and text
             Expanded(
               // Use Expanded to allow the text to occupy remaining space
               child: SingleChildScrollView(
@@ -84,7 +84,7 @@ class SelectedviewItemWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ), // Add some spacing between the text and bookmark icon
           ],

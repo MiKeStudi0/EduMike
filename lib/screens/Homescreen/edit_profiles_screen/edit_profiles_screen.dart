@@ -24,8 +24,6 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   TextEditingController fullnameEditTextController = TextEditingController();
   late final String gendervalue;
 
-  
-
   FocusNode emailFocusNode = FocusNode();
 
   FocusNode dateofbirthFocusNode = FocusNode();
@@ -34,9 +32,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
   FocusNode nicknameFocusNode = FocusNode();
 
-  FocusNode phoneNumberFocusNode= FocusNode();
-
-
+  FocusNode phoneNumberFocusNode = FocusNode();
 
   TextEditingController fullnameController = TextEditingController();
 
@@ -48,8 +44,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
   TextEditingController genderController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-    List<String> dropdownItemList = ["Male", "Female"];
-
+  List<String> dropdownItemList = ["Male", "Female"];
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   late User _user;
@@ -65,8 +60,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
         lastDate: DateTime(2500));
     if (_picked != null) {
       setState(() {
-        dateOfBirthController.text =
-            DateFormat('yyyy-MM-dd').format(_picked);
+        dateOfBirthController.text = DateFormat('yyyy-MM-dd').format(_picked);
       });
     }
   }
@@ -174,9 +168,9 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          backgroundColor: appTheme.blue50,
             resizeToAvoidBottomInset: false,
-            appBar: _buildAppBar(context)
-            ,
+            appBar: _buildAppBar(context),
             body: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : SizedBox(
@@ -264,21 +258,22 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                         ]),
                                   ),
                                   SizedBox(height: 30.v),
-                                  
                                   Container(
                                     decoration: AppDecoration.outlineBlack
                                         .copyWith(
                                             borderRadius: BorderRadiusStyle
                                                 .roundedBorder12),
                                     child: CustomTextFormField(
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              21.h, 20.v, 8.h, 20.v),
-                                          child: Icon(
-                                            Icons.person,
-                                            color: appTheme.blueGray900,
-                                            size: 20.v,
-                                          )),
+                                      prefix: Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.userIcon,
+                                          height: 5.v,
+                                          width: 5.h,
+                                         
+                                        ),
+                                      ),
                                       controller: fullnameController,
                                       focusNode: fullnameFocusNode,
                                       hintText: "Full Name",
@@ -295,19 +290,21 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             borderRadius: BorderRadiusStyle
                                                 .roundedBorder12),
                                     child: CustomTextFormField(
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              21.h, 20.v, 8.h, 20.v),
-                                          child: Icon(
-                                            Icons.person_4,
-                                            color: appTheme.blueGray900,
-                                            size: 20.v,
-                                          )),
+                                      prefix: Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.nickname,
+                                          height: 5.v,
+                                          width: 5.h,
+                                         
+                                        ),
+                                      ),
                                       controller: nameController,
                                       focusNode: nicknameFocusNode,
                                       hintText: "Nick Name",
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 16.0, top: 35),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 16.0, top: 35),
                                     ),
                                   ),
                                   SizedBox(height: 20.v),
@@ -320,55 +317,63 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       controller: dateOfBirthController,
                                       focusNode: dateofbirthFocusNode,
                                       hintText: " DOB",
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 16.0, top: 35),
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              21.h, 20.v, 8.h, 20.v),
-                                          child: GestureDetector(
-                                            child: Icon(
-                                              Icons.calendar_month,
-                                              color: appTheme.blueGray900,
-                                              size: 20.v,
-                                            ),
-                                            onTap: (){
-                                              _selectdate();
-                                            }
-                                          )),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 16.0, top: 35),
+                                      prefix: Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                                _selectdate();
+                                              },
+                                          child: CustomImageView(
+                                            
+                                            imagePath: ImageConstant.calender,
+                                            height: 5.v,
+                                            width: 5.h,
+                                           
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   SizedBox(height: 13.v),
                                   Container(
-                                    
-    margin: EdgeInsets.fromLTRB(0, 10.v, 0, 10.v),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      border: Border.all(color:const Color(0XFF0961F5)), // Blue border
-      borderRadius: BorderRadius.circular(9.0), // Rounded corners
-    ),
-    child: Row(
-      children: [
-        Container(
-          margin: EdgeInsets.only(left:16,right:  7.h),
-          child:Icon(
-            Icons.email,
-            color: appTheme.blueGray900,
-            size: 20.v,
-            )
-        ),
-        Expanded(
-          child: TextFormField(
-            enabled: false,
-            focusNode: FocusNode(), // Disabling focus
-            controller: emailController,
-            style:const TextStyle(
-              fontWeight:FontWeight.w500 ,
-              color: Colors.black
-              ),
-          ),
-        ),
-      ],
-    ),
+                                    margin:
+                                        EdgeInsets.fromLTRB(0, 10.v, 0, 10.v),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: const Color(
+                                              0XFF0961F5)), // Blue border
+                                      borderRadius: BorderRadius.circular(
+                                          9.0), // Rounded corners
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.google,
+                                          height: 26.v,
+                                          width: 26.h,
+                                         
+                                        ),
+                                      ),
+                                        Expanded(
+                                          child: TextFormField(
+                                            
+                                            enabled: false,
+                                            focusNode:
+                                                FocusNode(), // Disabling focus
+                                            controller: emailController,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(height: 13.v),
                                   Container(
@@ -377,19 +382,20 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             borderRadius: BorderRadiusStyle
                                                 .roundedBorder12),
                                     child: CustomTextFormField(
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              21.h, 20.v, 8.h, 20.v),
-                                          child: Icon(
-                                            Icons.phone,
-                                            color: appTheme.blueGray900,
-                                            size: 20.v,
-                                          )),
+                                      prefix: Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.call,
+                                        
+                                         
+                                        ),
+                                      ),
                                       controller: phoneNumberController,
                                       focusNode: phoneNumberFocusNode,
                                       hintText: " phone",
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 16.0, top: 35),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 16.0, top: 35),
                                     ),
                                   ),
                                   SizedBox(height: 20.v),
@@ -415,20 +421,30 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                   //   ),
                                   // ),
 
-                CustomDropDown(
-  controller: genderController,
-  hintText: 'gender',
-  items: dropdownItemList,
-  onChanged: (value) {
-    setState(() {
-      gendervalue = value;
-      genderController.text=value;
-    });
-  },
-prefix: genderController.text == 'Female' ?const Icon(Icons.female) : const Icon(Icons.person),
-),
-
-
+                                  CustomDropDown(
+                                    controller: genderController,
+                                    hintText: 'gender',
+                                    items: dropdownItemList,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gendervalue = value;
+                                        genderController.text = value;
+                                      });
+                                    },
+                                    prefix: genderController.text == 'Female'
+                                        ? const Icon(Icons.female,size: 32,
+                                         color: Color.fromARGB(255, 14, 112, 248))
+                                        :Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.gender,
+                                          height: 5.v,
+                                          width: 5.h,
+                                         
+                                        ),
+                                      ),
+                                  ),
 
                                   SizedBox(height: 20.v),
                                   _buildUpdateButton(),
@@ -442,12 +458,13 @@ prefix: genderController.text == 'Female' ?const Icon(Icons.female) : const Icon
       backgroundColor: appTheme.blue50,
       leadingWidth: 61.h,
       leading: IconButton(
-      icon:const Icon(Icons.arrow_back),
-      iconSize: 30, 
-      onPressed: () {
-        Navigator.of(context).pop(); // Navigate back when back arrow is pressed
-      },
-    ),
+        icon: const Icon(Icons.arrow_back),
+        iconSize: 30,
+        onPressed: () {
+          Navigator.of(context)
+              .pop(); // Navigate back when back arrow is pressed
+        },
+      ),
       title: AppbarTitle(
         text: "Edit Your Profile",
         margin: EdgeInsets.only(left: 12.h),

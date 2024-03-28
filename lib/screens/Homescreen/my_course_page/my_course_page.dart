@@ -81,10 +81,7 @@ class MyCoursePage extends StatelessWidget {
   }
 
   Widget _buildSelectedView(BuildContext context) {
-    print('university: $university');
-    print('degree: $degree');
-    print('course: $course');
-    print('semester: $semester');
+   
 
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
@@ -93,7 +90,7 @@ class MyCoursePage extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return Center(child: Text("Loading..."));
+          return const Center(child: Text("Loading..."));
         }
 
         final documents = snapshot.data!.docs;
@@ -102,7 +99,7 @@ class MyCoursePage extends StatelessWidget {
         documents.sort((a, b) => int.parse(b['courseCredit']).compareTo(int.parse(a['courseCredit'])));
 
         return ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           separatorBuilder: (context, index) {
             return SizedBox(height: 12.v);
@@ -125,7 +122,7 @@ class MyCoursePage extends StatelessWidget {
                 semester: semester!,
               );
             } else {
-              return SizedBox.shrink();
+              return const SizedBox.shrink();
             }
           },
         );
