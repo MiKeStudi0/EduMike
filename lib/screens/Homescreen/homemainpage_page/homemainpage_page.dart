@@ -110,6 +110,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                   Padding(
                       padding: EdgeInsets.symmetric(horizontal: 34.h),
                       child: CustomSearchView(
+                        
                           controller: searchController,
                           hintText: "Search for..")),
                   SizedBox(height: 30.v),

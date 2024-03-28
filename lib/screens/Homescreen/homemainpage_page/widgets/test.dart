@@ -277,7 +277,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
               children: categories
                   .map(
                     (category) => Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(3.0),
                       child: FilterChip(
                         label: Text(category),
                         selected: selectedCategory == category.toUpperCase(),
@@ -302,7 +302,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
           ),
           Expanded(
             child: ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(width: 10),
+              separatorBuilder: (context, index) => const SizedBox(width: 6),
               scrollDirection: Axis.horizontal,
               itemCount: filteredCourses.length,
               itemBuilder: (context, index) {
@@ -366,7 +366,8 @@ class _CourseListBlockState extends State<CourseListBlock> {
                   height: 134,
                   width: 280,
                   decoration: const BoxDecoration(
-                    color: Colors.black,
+                    image: DecorationImage(image: AssetImage("assets/images/EduWise.jpg"), fit: BoxFit.cover),
+                    //color: Colors.black,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20)),
                   ),
