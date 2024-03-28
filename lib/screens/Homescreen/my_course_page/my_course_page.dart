@@ -9,18 +9,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 // ignore: must_be_immutable
 class MyCoursePage extends StatelessWidget {
-   final String? university;
+  final String? university;
   final String? degree;
   final String? course;
   final String? semester;
 
   MyCoursePage({
-     this.university,
-     this.degree,
+    this.university,
+    this.degree,
     this.course,
-     this.semester,
+    this.semester,
   });
- 
 
   TextEditingController searchController = TextEditingController();
 
@@ -74,7 +73,7 @@ class MyCoursePage extends StatelessWidget {
     print('degree: $degree');
     print('course: $course');
     print('semester: $semester');
-    
+
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection(
@@ -87,28 +86,36 @@ class MyCoursePage extends StatelessWidget {
 
         final documents = snapshot.data!.docs;
 
-        return ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          separatorBuilder: (context, index) {
-            return SizedBox(height: 12.v);
-          },
-          itemCount: documents.length,
-          itemBuilder: (context, index) {
-            final documentData = documents[index].data()
-                as Map<String, dynamic>; // Casting to Map<String, dynamic>
-            // Assuming 'courseName' is a field in your Firestore documents
-            final courseName = documentData['courseName'];
-            final courseCode = documentData['courseCode'];
-            // Check if courseName is not null before passing it to SelectedviewItemWidget
-            if (courseName != null) {
-              return SelectedviewItemWidget(
-                  courseName: courseName, courseCode: courseCode, university: university!, degree: degree!, course: course!, semester: semester!,);
-            } else {
-              // Handle the case when courseName is null, maybe show a placeholder or log an error
-              return SizedBox.shrink();
-            }
-          },
+        return SingleChildScrollView(
+          child: ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            separatorBuilder: (context, index) {
+              return SizedBox(height: 12.v);
+            },
+            itemCount: documents.length,
+            itemBuilder: (context, index) {
+              final documentData = documents[index].data()
+                  as Map<String, dynamic>; // Casting to Map<String, dynamic>
+              // Assuming 'courseName' is a field in your Firestore documents
+              final courseName = documentData['courseName'];
+              final courseCode = documentData['courseCode'];
+              // Check if courseName is not null before passing it to SelectedviewItemWidget
+              if (courseName != null) {
+                return SelectedviewItemWidget(
+                  courseName: courseName,
+                  courseCode: courseCode,
+                  university: university!,
+                  degree: degree!,
+                  course: course!,
+                  semester: semester!,
+                );
+              } else {
+                // Handle the case when courseName is null, maybe show a placeholder or log an error
+                return SizedBox.shrink();
+              }
+            },
+          ),
         );
       },
     );
