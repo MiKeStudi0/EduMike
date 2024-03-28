@@ -102,59 +102,72 @@ class _LoginScreenState extends State<LoginScreen> {
                               SizedBox(height: 20.v),
                               Stack(
                                 children: [
-                                 CustomTextFormField(
-  controller: passwordController,
-  focusNode: passwordFocusNode,
-  hintText: "Password",
-  textInputAction: TextInputAction.done,
-  textInputType: TextInputType.visiblePassword,
-  onTap: () {
-    passwordFocusNode.requestFocus();
-    setState(() {
-      _showPasswordInfo = true;
-    });
-  },
-  onChanged: (value) {
-    setState(() {
-      _showPasswordInfo = value.isEmpty;
-    });
-  },
-  prefix: Container(
-    margin: EdgeInsets.fromLTRB(22.h, 20.v, 9.h, 20.v),
-    child: CustomImageView(
-      imagePath: ImageConstant.imgLocation,
-      height: 19.v,
-      width: 14.h,
-    ),
-  ),
-  prefixConstraints: BoxConstraints(maxHeight: 60.v),
-  suffix: Container(
-    margin: EdgeInsets.fromLTRB(30.h, 21.v, 24.h, 21.v),
-    child: GestureDetector(
-      onTap: () {
-        setState(() {
-          _obscureText = !_obscureText;
-          _showPasswordInfo = false; // Ensure password info is hidden when toggling obscure text
-        });
-      },
-      child: CustomImageView(
-        imagePath: _obscureText ? ImageConstant.imgThumbsup : ImageConstant.passwordvisible, // Change image based on _obscureText value
-        height: 20.v,
-        width: 20.h,
-      ),
-    ),
-  ),
-  suffixConstraints: BoxConstraints(maxHeight: 60.v),
-  obscureText: _obscureText,
-  contentPadding: EdgeInsets.symmetric(vertical: 21.v),
-  borderDecoration: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(12.h),
-    borderSide: BorderSide(
-      color: _validatePassword() ? appTheme.blueA700 : Colors.red,
-    ),
-  ),
-),
-
+                                  CustomTextFormField(
+                                    controller: passwordController,
+                                    focusNode: passwordFocusNode,
+                                    hintText: "Password",
+                                    textInputAction: TextInputAction.done,
+                                    textInputType:
+                                        TextInputType.visiblePassword,
+                                    onTap: () {
+                                      passwordFocusNode.requestFocus();
+                                      setState(() {
+                                        _showPasswordInfo = true;
+                                      });
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _showPasswordInfo = value.isEmpty;
+                                      });
+                                    },
+                                    prefix: Container(
+                                      margin: EdgeInsets.fromLTRB(
+                                          22.h, 20.v, 9.h, 20.v),
+                                      child: CustomImageView(
+                                        imagePath: ImageConstant.imgLocation,
+                                        height: 19.v,
+                                        width: 14.h,
+                                      ),
+                                    ),
+                                    prefixConstraints:
+                                        BoxConstraints(maxHeight: 60.v),
+                                    suffix: Container(
+                                      margin: EdgeInsets.fromLTRB(
+                                          30.h, 21.v, 24.h, 21.v),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _obscureText = !_obscureText;
+                                            _showPasswordInfo =
+                                                false; // Ensure password info is hidden when toggling obscure text
+                                          });
+                                        },
+                                        child: CustomImageView(
+                                          imagePath: _obscureText
+                                              ? ImageConstant.imgThumbsup
+                                              : ImageConstant
+                                                  .passwordvisible, // Change image based on _obscureText value
+                                          height: 20.v,
+                                          width: 20.h,
+                                        ),
+                                      ),
+                                    ),
+                                    suffixConstraints:
+                                        BoxConstraints(maxHeight: 60.v),
+                                    obscureText: _obscureText,
+                                    contentPadding:
+                                        EdgeInsets.symmetric(vertical: 21.v),
+                                    borderDecoration: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12.h),
+                                      borderSide: BorderSide(
+                                        color: passwordController.text.isEmpty
+                                            ? appTheme.blueA700
+                                            : _validatePassword()
+                                                ? appTheme.blueA700
+                                                : Colors.red,
+                                      ),
+                                    ),
+                                  ),
                                   Positioned(
                                     top: -70.0, // Adjust this value as needed
                                     right: 0.0,
@@ -418,16 +431,60 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void onTapBtnsignUserIn(BuildContext context) async {
-    // Check if email and password are not empty
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      // Show an error dialog for incomplete fields
+ void onTapBtnsignUserIn(BuildContext context) async {
+  // Check if email and password are not empty
+  if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+    // Show an error dialog for incomplete fields
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: const Text('Please fill in both email and password.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    return; // Exit the function if any field is empty
+  }
+
+  // Show a loading indicator
+  showDialog(
+    context: context,
+    builder: (context) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    },
+  );
+
+  // Sign in user
+  try {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+    Navigator.pop(context);
+    if (FirebaseAuth.instance.currentUser != null) {
+      // Move to the home screen
+      Navigator.pushReplacementNamed(
+          context, AppRoutes.homemainpageContainerScreen);
+    }
+  } on FirebaseAuthException catch (e) {
+    Navigator.pop(context);
+    if (e.code == 'wrong-password') {
+      // Show custom error message for incorrect password
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: const Text('Error'),
-            content: const Text('Please fill in both email and password.'),
+            content: const Text('The password entered is incorrect.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -439,34 +496,12 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         },
       );
-      return; // Exit the function if any field is empty
-    }
-
-    // Show a loading indicator
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-
-    // Sign in user
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      Navigator.pop(context);
-      if (FirebaseAuth.instance.currentUser != null) {
-        // Move to the home screen
-        Navigator.pushReplacementNamed(
-            context, AppRoutes.homemainpageContainerScreen);
-      }
-    } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
+    } else {
+      // For other authentication errors, show Firebase's default error message
       signinErrorMessage(e.code, context);
     }
   }
+}
 
   void signinErrorMessage(String m, BuildContext context) {
     showDialog(
