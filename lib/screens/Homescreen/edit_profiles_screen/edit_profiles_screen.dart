@@ -119,7 +119,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     if (_userSnapshot['profileUrl'] != null) {
       return NetworkImage(_userSnapshot['profileUrl']);
     } else {
-      return const AssetImage('assets/images/home_image/Profile.jpg');
+      return const AssetImage('assets/images/EduWise.jpg');
     }
   }
 
