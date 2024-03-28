@@ -138,7 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       },
       child: CustomImageView(
-        imagePath: _obscureText ? ImageConstant.imgThumbsup : ImageConstant.imgEye, // Change image based on _obscureText value
+        imagePath: _obscureText ? ImageConstant.imgThumbsup : ImageConstant.passwordvisible, // Change image based on _obscureText value
         height: 20.v,
         width: 20.h,
       ),

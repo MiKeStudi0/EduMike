@@ -19,6 +19,8 @@ class ImageConstant {
   // 07_LOGIN images
   static String imgClose = '$imagePath/img_close.svg';
 
+  static String passwordvisible= '$imagePath/passwordvisible.svg';
+
   // 08_FILL YOUR PROFILE images
   static String imgFill1Gray50 = '$imagePath/img_fill_1_gray_50.png';
 
