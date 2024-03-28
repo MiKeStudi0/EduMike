@@ -271,7 +271,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
       child: Column(
         children: [
           Container(
-            height: 50,
+            height: 50.h,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: categories
@@ -363,8 +363,8 @@ class _CourseListBlockState extends State<CourseListBlock> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 134,
-                  width: 280,
+                  height: 134.h,
+                  width: 280.v,
                   decoration: const BoxDecoration(
                     image: DecorationImage(image: AssetImage("assets/images/EduWise.jpg"), fit: BoxFit.cover),
                     //color: Colors.black,
@@ -376,7 +376,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 19),
                   child: SizedBox(
-                    width: 245,
+                    width: 245.v,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -426,7 +426,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                   child: Row(
                     children: [
                       Container(
-                        width: 32,
+                        width: 32.v,
                         margin: const EdgeInsets.only(top: 3),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
