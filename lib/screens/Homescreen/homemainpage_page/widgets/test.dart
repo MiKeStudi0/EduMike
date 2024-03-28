@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CardDataRepository {
   Future<Map<String, String?>?> getCardData(String userId) async {
@@ -65,6 +66,7 @@ class CourseListBlock extends StatefulWidget {
 }
 
 class _CourseListBlockState extends State<CourseListBlock> {
+   bool isLoading = true;
   List<Course> courseList = [];
   final List<String> categories = [
     'Syllabus',
@@ -179,6 +181,9 @@ class _CourseListBlockState extends State<CourseListBlock> {
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
+         setState(() {
+        isLoading = true; // Set isLoading to true before fetching data
+      });
         // Use the user's ID dynamically for fetching card data
         Map<String, String?>? cardData =
             await CardDataRepository().getCardData(user.uid);
@@ -254,6 +259,11 @@ class _CourseListBlockState extends State<CourseListBlock> {
       }
 
       setState(() {});
+         // Set isLoading to false to stop the shimmer effect
+      // Set isLoading to false after data retrieval is complete
+    setState(() {
+      isLoading = false;
+    });
     } catch (e, stackTrace) {
       print('Error getting document data: $e\n$stackTrace');
     }
@@ -265,7 +275,12 @@ class _CourseListBlockState extends State<CourseListBlock> {
       return selectedCategory.isEmpty || selectedCategory == course.category;
     }).toList();
 
-    return SizedBox(
+    
+     if (isLoading) {
+    return _buildLoading(); // Show shimmer effect while loading
+  } else {
+    return
+     SizedBox(
       height: 340.h,
       //width: 415.v,
       child: Column(
@@ -300,6 +315,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                   .toList(),
             ),
           ),
+          
           Expanded(
             child: ListView.separated(
               separatorBuilder: (context, index) => const SizedBox(width: 6),
@@ -315,10 +331,14 @@ class _CourseListBlockState extends State<CourseListBlock> {
       ),
     );
   }
+  }
 
   Widget _buildCourseList(BuildContext context, Course course, int index) {
     bool isBookmarked = bookmarkedCourses.contains(course.courseCode+course.category);
-    return GestureDetector(
+
+    return 
+    
+     GestureDetector(
       onTap: () {
         if (selectedCategory == 'Syllabus') {
           Navigator.push(
@@ -464,5 +484,41 @@ class _CourseListBlockState extends State<CourseListBlock> {
         ),
       ),
     );
+    
   }
+
+  
+Widget _buildLoading() {
+  return Container(
+    height: 340.h,
+    width: 415.v,
+    child: Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: ListView.builder(
+        itemCount: 5, // Number of shimmer items
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundColor: Colors.grey,
+              radius: 30,
+            ),
+            title: Container(
+              height: 10,
+              width: double.infinity,
+              color: Colors.grey, // Shimmer effect will be applied to this container
+            ),
+            subtitle: Container(
+              height: 10,
+              width: double.infinity,
+              color: Colors.grey, // Shimmer effect will be applied to this container
+            ),
+          );
+        },
+      ),
+    ),
+  );
+}
+
+
 }

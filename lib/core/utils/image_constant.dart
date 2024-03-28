@@ -1,6 +1,8 @@
 class ImageConstant {
   // Image folder path
   static String imagePath = 'assets/images/login_image';
+
+  static String logo = 'assets/images/EduWise.jpg';
   static String imagelogo = 'assets/images';
  static String imagePathHome = 'assets/images/home_image';
   // 02_INTRO-One images
