@@ -66,7 +66,7 @@ class CourseListBlock extends StatefulWidget {
 }
 
 class _CourseListBlockState extends State<CourseListBlock> {
-   bool isLoading = true;
+  bool isLoading = true;
   List<Course> courseList = [];
   final List<String> categories = [
     'Syllabus',
@@ -164,8 +164,9 @@ class _CourseListBlockState extends State<CourseListBlock> {
             await userBookmarksCollection.get();
 
         setState(() {
-          bookmarkedCourses =
-              snapshot.docs.map((doc) => '${doc['courseCode']+doc['category']}').toList();
+          bookmarkedCourses = snapshot.docs
+              .map((doc) => '${doc['courseCode'] + doc['category']}')
+              .toList();
           // Explicitly cast the result to List<String>
         });
       }
@@ -181,9 +182,9 @@ class _CourseListBlockState extends State<CourseListBlock> {
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
-         setState(() {
-        isLoading = true; // Set isLoading to true before fetching data
-      });
+        setState(() {
+          isLoading = true; // Set isLoading to true before fetching data
+        });
         // Use the user's ID dynamically for fetching card data
         Map<String, String?>? cardData =
             await CardDataRepository().getCardData(user.uid);
@@ -259,11 +260,11 @@ class _CourseListBlockState extends State<CourseListBlock> {
       }
 
       setState(() {});
-         // Set isLoading to false to stop the shimmer effect
+      // Set isLoading to false to stop the shimmer effect
       // Set isLoading to false after data retrieval is complete
-    setState(() {
-      isLoading = false;
-    });
+      setState(() {
+        isLoading = false;
+      });
     } catch (e, stackTrace) {
       print('Error getting document data: $e\n$stackTrace');
     }
@@ -275,70 +276,67 @@ class _CourseListBlockState extends State<CourseListBlock> {
       return selectedCategory.isEmpty || selectedCategory == course.category;
     }).toList();
 
-    
-     if (isLoading) {
-    return _buildLoading(); // Show shimmer effect while loading
-  } else {
-    return
-     SizedBox(
-      height: 340.h,
-      //width: 415.v,
-      child: Column(
-        children: [
-          Container(
-            height: 50.h,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: categories
-                  .map(
-                    (category) => Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: FilterChip(
-                        label: Text(category),
-                        selected: selectedCategory == category.toUpperCase(),
-                        onSelected: (selected) {
-                          setState(() {
-                            selectedCategory = selected ? category : 'Syllabus';
-                          });
-                        },
-                        selectedColor: selectedCategory.isEmpty
-                            ? theme.colorScheme.primary
-                            : theme.colorScheme.primary,
-                        labelStyle: TextStyle(
-                          color: selectedCategory == category
-                              ? Color.fromARGB(255, 0, 94, 255)
-                              : null,
+    if (isLoading) {
+      return _buildLoading(); // Show shimmer effect while loading
+    } else {
+      return SizedBox(
+        height: 340.h,
+        //width: 415.v,
+        child: Column(
+          children: [
+            Container(
+              height: 50.h,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: categories
+                    .map(
+                      (category) => Padding(
+                        padding: const EdgeInsets.only(left: 5.0, bottom: 10),
+                        child: FilterChip(
+                          label: Text(category),
+                          selected: selectedCategory == category.toUpperCase(),
+                          onSelected: (selected) {
+                            setState(() {
+                              selectedCategory =
+                                  selected ? category : 'Syllabus';
+                            });
+                          },
+                          selectedColor: selectedCategory.isEmpty
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.primary,
+                          labelStyle: TextStyle(
+                            color: selectedCategory == category
+                                ? Color.fromARGB(255, 0, 94, 255)
+                                : null,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              ),
             ),
-          ),
-          
-          Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(width: 6),
-              scrollDirection: Axis.horizontal,
-              itemCount: filteredCourses.length,
-              itemBuilder: (context, index) {
-                final course = filteredCourses[index];
-                return _buildCourseList(context, course, index);
-              },
+            Expanded(
+              child: ListView.separated(
+                separatorBuilder: (context, index) => const SizedBox(width: 6),
+                scrollDirection: Axis.horizontal,
+                itemCount: filteredCourses.length,
+                itemBuilder: (context, index) {
+                  final course = filteredCourses[index];
+                  return _buildCourseList(context, course, index);
+                },
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildCourseList(BuildContext context, Course course, int index) {
-    bool isBookmarked = bookmarkedCourses.contains(course.courseCode+course.category);
+    bool isBookmarked =
+        bookmarkedCourses.contains(course.courseCode + course.category);
 
-    return 
-    
-     GestureDetector(
+    return GestureDetector(
       onTap: () {
         if (selectedCategory == 'Syllabus') {
           Navigator.push(
@@ -386,7 +384,9 @@ class _CourseListBlockState extends State<CourseListBlock> {
                   height: 134.h,
                   width: 280.v,
                   decoration: const BoxDecoration(
-                    image: DecorationImage(image: AssetImage("assets/images/EduWise.jpg"), fit: BoxFit.cover),
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/EduWise.jpg"),
+                        fit: BoxFit.cover),
                     //color: Colors.black,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20)),
@@ -484,41 +484,127 @@ class _CourseListBlockState extends State<CourseListBlock> {
         ),
       ),
     );
-    
   }
 
-  
-Widget _buildLoading() {
-  return Container(
-    height: 340.h,
-    width: 415.v,
-    child: Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: ListView.builder(
-        itemCount: 5, // Number of shimmer items
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundColor: Colors.grey,
-              radius: 30,
+  Widget _buildLoading() {
+    return Column(
+      children: [
+        Container(
+          height: 45.h,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: List.generate(
+                5,
+                (index) => Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                       
+                        width: 90.v,
+                        
+                      ),
+                    ))),
+          ),
+        ),
+        Container(
+          height: 245.h,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: List.generate(
+              5, // Number of shimmer items
+              (index) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 240.h,
+                  width: 280.v,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        spreadRadius: 2,
+                        blurRadius: 2,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 134.h,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/EduWise.jpg"),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(20)),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(
+                                 decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                height: 10,
+                                width: 80,
+                               
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                height: 18,
+                                width: 190,
+                              ),
+                            ),
+                            const SizedBox(height: 13),
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(
+                                 decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                height: 10,
+                                width: 160,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            title: Container(
-              height: 10,
-              width: double.infinity,
-              color: Colors.grey, // Shimmer effect will be applied to this container
-            ),
-            subtitle: Container(
-              height: 10,
-              width: double.infinity,
-              color: Colors.grey, // Shimmer effect will be applied to this container
-            ),
-          );
-        },
-      ),
-    ),
-  );
-}
-
-
+          ),
+        ),
+      ],
+    );
+  }
 }
