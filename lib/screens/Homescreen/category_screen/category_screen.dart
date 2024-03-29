@@ -1,5 +1,6 @@
 import 'package:edumike/core/app_export.dart';
-import 'package:edumike/screens/Homescreen/cgpa_calculator_screen/cgpa_calculator.dart';
+import 'package:edumike/screens/Homescreen/cgpa_calculator_screen/option_screen.dart';
+import 'package:edumike/screens/Homescreen/cgpa_calculator_screen/sgpa_calculator.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/syllabus.dart';
 import 'package:edumike/screens/Homescreen/upload_screen/upload_notes_screen.dart';
@@ -306,7 +307,7 @@ class CategoryScreen extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            SGPCalculatorPage()));
+                                                           OptionScreen()));
                                         },
                                         child: CustomImageView(
                                             imagePath: ImageConstant.imgCgpaCal,

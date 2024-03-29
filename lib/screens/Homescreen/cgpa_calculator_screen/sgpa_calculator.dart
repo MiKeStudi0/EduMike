@@ -1,3 +1,4 @@
+import 'package:edumike/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class SGPCalculatorPage extends StatefulWidget {
@@ -89,8 +90,9 @@ class _SGPCalculatorPageState extends State<SGPCalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: appTheme.gray5002,
       appBar: AppBar(
-        title: const Text('KTU SGPA Calculator'),
+        title: const Text('SGPA Calculator'),
       ),
       body: SingleChildScrollView(
         child: Padding(
