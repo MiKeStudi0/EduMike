@@ -25,6 +25,7 @@ class CustomSearchView extends StatelessWidget {
     this.filled = true,
     this.validator,
     this.onChanged,
+    this.onTap,
   }) : super(
           key: key,
         );
@@ -70,6 +71,8 @@ class CustomSearchView extends StatelessWidget {
   final FormFieldValidator<String>? validator;
 
   final Function(String)? onChanged;
+
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {

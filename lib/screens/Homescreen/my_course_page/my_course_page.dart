@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
+import 'package:edumike/screens/Homescreen/search_screen/dummy.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
@@ -7,8 +8,6 @@ import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
-
-
 
 // ignore: must_be_immutable
 class MyCoursePage extends StatelessWidget {
@@ -39,13 +38,50 @@ class MyCoursePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomSearchView(
-                  controller: searchController,
-                  hintText: "Search for …",
-                  contentPadding: EdgeInsets.only(
-                    left: 15.h,
-                    top: 21.v,
-                    bottom: 21.v,
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return FractionallySizedBox(
+                          heightFactor: 0.90,
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0),
+                              ),
+                            ),
+                            child: SearchCourse(
+                              university: university!,
+                              degree: degree!,
+                              course: course!,
+                              semester: semester!,
+                            ),
+                          ),
+                        );
+                      },
+                      backgroundColor: Colors.transparent,
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      border: Border.all(
+                          color:
+                              Colors.blueGrey), // Specify the border color here
+                    ),
+                    child: const Text(
+                      "Search course name or code",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.black, // Specify the text color here
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 15.v),
@@ -82,8 +118,6 @@ class MyCoursePage extends StatelessWidget {
   }
 
   Widget _buildSelectedView(BuildContext context) {
-   
-
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection(
@@ -97,7 +131,8 @@ class MyCoursePage extends StatelessWidget {
         final documents = snapshot.data!.docs;
 
         // Sort documents by courseCredit in decreasing order
-        documents.sort((a, b) => int.parse(b['courseCredit']).compareTo(int.parse(a['courseCredit'])));
+        documents.sort((a, b) => int.parse(b['courseCredit'])
+            .compareTo(int.parse(a['courseCredit'])));
 
         return ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
@@ -107,13 +142,15 @@ class MyCoursePage extends StatelessWidget {
           },
           itemCount: documents.length,
           itemBuilder: (context, index) {
-            final documentData = documents[index].data() as Map<String, dynamic>;
+            final documentData =
+                documents[index].data() as Map<String, dynamic>;
             final courseName = documentData['courseName'];
             final courseCode = documentData['courseCode'];
             final courseCredit = documentData['courseCredit'];
 
             if (courseName != null) {
-              return _buildListView(context, courseCredit, courseName, courseCode);
+              return _buildListView(
+                  context, courseCredit, courseName, courseCode);
             } else {
               return const SizedBox.shrink();
             }
@@ -122,8 +159,10 @@ class MyCoursePage extends StatelessWidget {
       },
     );
   }
- Widget _buildListView(BuildContext context, String courseCredit, String courseName, String courseCode) {
-    return   GestureDetector(
+
+  Widget _buildListView(BuildContext context, String courseCredit,
+      String courseName, String courseCode) {
+    return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
@@ -161,7 +200,8 @@ class MyCoursePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: 10), // Add some spacing between the icon and text
+            const SizedBox(
+                width: 10), // Add some spacing between the icon and text
             Expanded(
               // Use Expanded to allow the text to occupy remaining space
               child: Column(
@@ -170,8 +210,7 @@ class MyCoursePage extends StatelessWidget {
                   Text(
                     courseName, // Use courseName here
                     style: CustomTextStyles.titleMedium19,
-                                        overflow: TextOverflow.ellipsis,
-
+                    overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 6.v),
                   Text(
@@ -189,7 +228,6 @@ class MyCoursePage extends StatelessWidget {
       ),
     );
   }
-
 
   onTapArrowDown(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.homemainpageContainerScreen);

@@ -81,6 +81,8 @@ class _SearchCourseState extends State<SearchCourse> {
   TextEditingController searchController = TextEditingController();
   String searchText = '';
   List<Course> courseList = [];
+  late FocusNode searchFocusNode;
+
   final List<String> categories = [
     'Syllabus',
     'Notes',
@@ -104,6 +106,8 @@ class _SearchCourseState extends State<SearchCourse> {
     searchController.addListener(() {
       _onSearchTextChanged(searchController.text);
     });
+    searchFocusNode = FocusNode();
+    searchFocusNode.requestFocus();
   }
 
   void _addToBookmarkCollection(Course course) async {
@@ -305,6 +309,8 @@ class _SearchCourseState extends State<SearchCourse> {
   void dispose() {
     // Clean up the controller when the widget is disposed
     searchController.dispose();
+    searchFocusNode.dispose();
+
     super.dispose();
   }
 
@@ -312,11 +318,14 @@ class _SearchCourseState extends State<SearchCourse> {
   Widget build(BuildContext context) {
     final filteredCourses = searchController.text.isNotEmpty
         ? courseList.where((course) {
-            // Check if the course code contains the search query
+            // Check if the course code or course name contains the search query
             // and if the category matches the selected category
-            return course.courseCode
-                    .toLowerCase()
-                    .contains(searchController.text.toLowerCase()) &&
+            return (course.courseCode
+                        .toLowerCase()
+                        .contains(searchController.text.toLowerCase()) ||
+                    course.courseName
+                        .toLowerCase()
+                        .contains(searchController.text.toLowerCase())) &&
                 (selectedCategory.isEmpty ||
                     selectedCategory == course.category);
           }).toList()
@@ -340,7 +349,15 @@ class _SearchCourseState extends State<SearchCourse> {
                   padding: EdgeInsets.symmetric(horizontal: 34.h),
                   child: CustomSearchView(
                       controller: searchController,
-                      hintText: "Search course code: eg 'cst 100'")),
+                      focusNode: searchFocusNode,
+                      autofocus: true,
+                      borderDecoration: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.h),
+                        borderSide: BorderSide(
+                            color:
+                                Colors.grey), // Specify the border color here
+                      ),
+                      hintText: "Search course name or code")),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SizedBox(

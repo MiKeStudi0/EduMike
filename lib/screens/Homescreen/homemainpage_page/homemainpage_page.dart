@@ -6,6 +6,7 @@ import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/coursebuilder.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:edumike/screens/Homescreen/search_screen/dummy.dart';
+import 'package:edumike/theme/theme_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../homemainpage_page/widgets/category_item_widget.dart';
@@ -109,10 +110,54 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 34.h),
-                      child: CustomSearchView(
-                          controller: searchController,
-                          hintText: "Search for..")),
+                    padding: EdgeInsets.symmetric(horizontal: 34.h),
+                    child: GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          builder: (BuildContext context) {
+                            return FractionallySizedBox(
+                              heightFactor: 0.90,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20.0),
+                                    topRight: Radius.circular(20.0),
+                                  ),
+                                ),
+                                child: SearchCourse(
+                                  university: university!,
+                                  degree: degree!,
+                                  course: course!,
+                                  semester: semester!,
+                                ),
+                              ),
+                            );
+                          },
+                          backgroundColor: Colors.transparent,
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          border: Border.all(
+                              color: Colors
+                                  .blueGrey), // Specify the border color here
+                        ),
+                        child: const Text(
+                          "Search course name or code",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Colors.black, // Specify the text color here
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: 30.v),
                   carddata(context),
                   SizedBox(height: 29.v),
@@ -174,7 +219,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                                     semester: semester!,
                                   )));
                     },
-                    child: Text('Go to Another Page'),
+                    child: const Text('Go to Another Page'),
                   ),
                 ],
               ),
@@ -193,7 +238,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
         future: getNickname(FirebaseAuth.instance.currentUser!.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return LinearProgressIndicator();
+            return const LinearProgressIndicator();
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
@@ -293,7 +338,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                                           child: Text("Selected ",
                                               style: CustomTextStyles
                                                   .titleLargeMulishAmberA200)),
-                                      Spacer(),
+                                      const Spacer(),
                                       CustomImageView(
                                           imagePath: ImageConstant
                                               .imgArrowLeftBlueA40001,
@@ -466,7 +511,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                                           child: Text("Selected ",
                                               style: CustomTextStyles
                                                   .titleLargeMulishAmberA200)),
-                                      Spacer(),
+                                      const Spacer(),
                                       CustomImageView(
                                           imagePath: ImageConstant
                                               .imgArrowLeftBlueA40001,
@@ -554,7 +599,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
             },
             itemCount: 4,
             itemBuilder: (context, index) {
-              return CategoryItemWidget();
+              return const CategoryItemWidget();
             }));
   }
 
@@ -582,7 +627,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                               )),
                     );
                   },
-                  child: CourseWidget()),
+                  child: const CourseWidget()),
             ),
           ),
         ],
@@ -615,7 +660,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(18.0)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(18.0)),
           child: FractionallySizedBox(
             heightFactor: 0.87,
             child: Container(
@@ -640,7 +685,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
       Text(text,
           style: CustomTextStyles.titleMedium18
               .copyWith(color: appTheme.blueGray90001)),
-      Spacer(),
+      const Spacer(),
       GestureDetector(
           onTap: () {
             onTapTxtSeeAll(context);
