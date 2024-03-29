@@ -115,24 +115,6 @@ class CustomSearchView extends StatelessWidget {
             BoxConstraints(
               maxHeight: 64.v,
             ),
-        suffixIcon: suffix ??
-            Container(
-              padding: EdgeInsets.all(11.h),
-              margin: EdgeInsets.fromLTRB(30.h, 13.v, 20.h, 13.v),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary,
-                borderRadius: BorderRadius.circular(10.h),
-              ),
-              child: CustomImageView(
-                imagePath: ImageConstant.imgContrast,
-                height: 16.adaptSize,
-                width: 16.adaptSize,
-              ),
-            ),
-        suffixIconConstraints: suffixConstraints ??
-            BoxConstraints(
-              maxHeight: 64.v,
-            ),
         isDense: true,
         contentPadding: contentPadding ?? EdgeInsets.symmetric(vertical: 21.v),
         fillColor: fillColor ?? appTheme.whiteA700,

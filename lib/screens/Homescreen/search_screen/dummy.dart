@@ -323,6 +323,15 @@ class _SearchCourseState extends State<SearchCourse> {
         : [];
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Thappi nokkam'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -330,7 +339,8 @@ class _SearchCourseState extends State<SearchCourse> {
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 34.h),
                   child: CustomSearchView(
-                      controller: searchController, hintText: "Search for..")),
+                      controller: searchController,
+                      hintText: "Search course code: eg 'cst 100'")),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SizedBox(
@@ -360,7 +370,8 @@ class _SearchCourseState extends State<SearchCourse> {
                                         : theme.colorScheme.primary,
                                     labelStyle: TextStyle(
                                       color: selectedCategory == category
-                                          ? Color.fromARGB(255, 0, 94, 255)
+                                          ? const Color.fromARGB(
+                                              255, 0, 94, 255)
                                           : null,
                                     ),
                                   ),
@@ -371,7 +382,7 @@ class _SearchCourseState extends State<SearchCourse> {
                       ),
                       Expanded(
                         child: filteredCourses.isEmpty
-                            ? Center(
+                            ? const Center(
                                 child: Text('No courses found.'),
                               )
                             : ListView.separated(

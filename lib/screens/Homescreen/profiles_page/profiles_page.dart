@@ -8,7 +8,9 @@ import 'package:edumike/screens/Homescreen/terms_conditions_screen/terms_conditi
 import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
+import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:edumike/widgets/custom_icon_button_home.dart';
+import 'package:edumike/widgets/custom_outlined_button_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -181,7 +183,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                               SizedBox(height: 44.v),
                               GestureDetector(
                                   onTap: () {
-                                    signUserOut(context);
+                                    _showLogoutConfirmation(context);
                                   },
                                   child: _buildTen(context)),
                               SizedBox(height: 44.v),
@@ -455,6 +457,58 @@ class _ProfilesPageState extends State<ProfilesPage> {
         ]));
   }
 
+  void _showLogoutConfirmation(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Log Out',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Are you sure you want to log out?',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CustomOutlinedButton(
+                    width: 140.h,
+                    text: "Cancel",
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  CustomElevatedButton(
+                    width: 200.h,
+                    text: "Yes, log out",
+                    onPressed: () {
+                      signUserOut(context);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   void signUserOut(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
@@ -473,7 +527,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   /// Navigates to the termsConditionsScreen when the action is triggered.
   onTapSeven(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => TermsConditionsScreen()));
+        MaterialPageRoute(builder: (context) => const TermsConditionsScreen()));
   }
 
   /// Navigates to the inviteFriendsScreen when the action is triggered.
