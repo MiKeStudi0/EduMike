@@ -1,4 +1,3 @@
-import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/screens/loginscreen/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 
