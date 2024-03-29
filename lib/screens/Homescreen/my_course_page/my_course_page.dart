@@ -76,7 +76,7 @@ class MyCoursePage extends StatelessWidget {
                               Colors.blueGrey), // Specify the border color here
                     ),
                     child: const Text(
-                      "Search course name or code",
+                      "Search course code or name",
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black, // Specify the text color here

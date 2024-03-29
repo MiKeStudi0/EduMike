@@ -353,11 +353,11 @@ class _SearchCourseState extends State<SearchCourse> {
                       autofocus: true,
                       borderDecoration: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.h),
-                        borderSide: BorderSide(
-                            color:
-                                Colors.grey), // Specify the border color here
+                        borderSide: const BorderSide(
+                            color: Colors
+                                .blueGrey), // Specify the border color here
                       ),
-                      hintText: "Search course name or code")),
+                      hintText: "Search course code or name")),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SizedBox(
@@ -375,7 +375,8 @@ class _SearchCourseState extends State<SearchCourse> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: FilterChip(
                                     label: Text(category),
-                                    selected: selectedCategory == category,
+                                    selected: selectedCategory ==
+                                        category.toUpperCase(),
                                     onSelected: (selected) {
                                       setState(() {
                                         selectedCategory =
