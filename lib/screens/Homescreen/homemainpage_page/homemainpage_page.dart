@@ -173,11 +173,6 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                         left: 10.v,
                       ),
                       child: CourseListBlock()),
-                  Padding(
-                      padding: EdgeInsets.only(
-                        left: 10.v,
-                      ),
-                      child: courseBuilder()),
 
                   //SizedBox(height: 8.v),
                   // /_buildCategory(context),
@@ -205,22 +200,6 @@ class _HomemainpagePageState extends State<HomemainpagePage>
 
                   //  _buildUserCourse(context),
                   // Button to navigate to another page
-                  ElevatedButton(
-                    onPressed: () {
-                      // Navigate to another page when button is pressed
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SearchCourse(
-                                    university:
-                                        university!, // Pass the actual values here
-                                    degree: degree!,
-                                    course: course!,
-                                    semester: semester!,
-                                  )));
-                    },
-                    child: const Text('Go to Another Page'),
-                  ),
                 ],
               ),
             ),
