@@ -292,7 +292,7 @@ static String google = '$imagePathHome/google.svg';
 
   static String imgUser1 = '$imagePathHome/img_user.svg';
 
-  static String imgImage = '$imagePathHome/img_image.png';
+  static String imgImage = 'assets/images/EduWise.jpg';
 
   static String imgBookmarkPrimary = '$imagePathHome/img_bookmark_primary.svg';
 
