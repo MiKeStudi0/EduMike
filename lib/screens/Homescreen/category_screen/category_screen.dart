@@ -1,4 +1,6 @@
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Homescreen/cgpa_calculator_screen/option_screen.dart';
+import 'package:edumike/screens/Homescreen/cgpa_calculator_screen/sgpa_calculator.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/syllabus.dart';
 import 'package:edumike/screens/Homescreen/upload_screen/upload_notes_screen.dart';
@@ -299,10 +301,19 @@ class CategoryScreen extends StatelessWidget {
                                                   .titleSmallBluegray90001_1)
                                         ])),
                                     Column(children: [
-                                      CustomImageView(
-                                          imagePath: ImageConstant.imgCgpaCal,
-                                          height: 53.adaptSize,
-                                          width: 53.adaptSize),
+                                      GestureDetector(
+                                        onTap: (){
+                                           Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                           OptionScreen()));
+                                        },
+                                        child: CustomImageView(
+                                            imagePath: ImageConstant.imgCgpaCal,
+                                            height: 53.adaptSize,
+                                            width: 53.adaptSize),
+                                      ),
                                       SizedBox(height: 4.v),
                                       Text("CGPA Calculator",
                                           style: CustomTextStyles

@@ -225,6 +225,7 @@ import 'package:edumike/core/app_export.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InviteFriendsScreen extends StatefulWidget {
@@ -317,8 +318,9 @@ Widget build(BuildContext context) {
     appBar: AppBar(
       title: const Text('Invite Friends'),
     ),
-    body: _loading
-          ? Center(child: CircularProgressIndicator())
+    body:_loading
+            ? _buildShimmerEffect() // Display shimmer effect when loading
+            
           : Container(
               width: double.infinity,
               height: 650,
@@ -328,7 +330,7 @@ Widget build(BuildContext context) {
                   const SizedBox(height: 16.0),
                   Expanded(
                     child: Container(
-                      width: 300, // Set a fixed width for the container
+                      width: 340, // Set a fixed width for the container
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.black), // Add a border
@@ -342,6 +344,11 @@ Widget build(BuildContext context) {
                           return Column(
                             children: [
                               ListTile(
+                                leading: CustomImageView(
+                                  imagePath: ImageConstant.inviteprofile,
+                                  width: 43,
+                                  height: 43,
+                                ),
                                 title: Text(contact.displayName ?? ''),
                                 subtitle: Text(phoneNumber),
                                 trailing: ElevatedButton(
@@ -460,5 +467,72 @@ Widget build(BuildContext context) {
   );
 }
 
-
+  Widget _buildShimmerEffect() {
+    return Container(
+      width: double.infinity,
+      height: 650,
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: Container(
+                width: 340,
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black),
+                ),
+                child: ListView.builder(
+                  itemCount: _displayedContactsCount,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 20,
+                          ),
+                          title: Container(
+                            width: double.infinity,
+                            height: 20.0,
+                            color: Colors.white,
+                          ),
+                          subtitle: Container(
+                            width: double.infinity,
+                            height: 15.0,
+                            color: Colors.white,
+                          ),
+                          trailing: ElevatedButton(
+                            onPressed: () {},
+                            child: Container(
+                              width: 60.0,
+                              height: 30.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: double.infinity,
+                          height: 1.0,
+                          color: Colors.black,
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text('Load More', style: TextStyle(color: Colors.white)),
+            ),
+            const SizedBox(height: 16.0),
+          ],
+        ),
+      ),
+    );
+  }
 }

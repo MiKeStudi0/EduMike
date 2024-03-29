@@ -119,6 +119,7 @@ class ImageConstant {
   // 5_PROFILES images
   static String imgLock1 = '$imagePathHome/img_lock.svg';
 
+  static String inviteprofile = '$imagePathHome/inviteprofile.svg';
   static String imgSettings = '$imagePathHome/img_settings.png';
 
   static String imgArrowRight1 = '$imagePathHome/img_arrow_right.svg';
