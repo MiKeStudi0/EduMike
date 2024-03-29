@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CardDataRepository {
   Future<Map<String, String?>?> getCardData(String userId) async {
@@ -19,17 +20,17 @@ class CardDataRepository {
       // Check if the document exists
       if (snapshot.exists) {
         // Extract field values from the document data
-        String? university = snapshot.data()?['university'];
-        String? degree = snapshot.data()?['degree'];
-        String? course = snapshot.data()?['course'];
-        String? semester = snapshot.data()?['semester'];
+        String? university1 = snapshot.data()?['university'];
+        String? degree1 = snapshot.data()?['degree'];
+        String? course1 = snapshot.data()?['course'];
+        String? semester1 = snapshot.data()?['semester'];
 
         // Return the card data as a map
         return {
-          'university': university,
-          'degree': degree,
-          'course': course,
-          'semester': semester,
+          'university': university1,
+          'degree': degree1,
+          'course': course1,
+          'semester': semester1,
         };
       } else {
         // Return null if the document doesn't exist
@@ -65,6 +66,7 @@ class CourseListBlock extends StatefulWidget {
 }
 
 class _CourseListBlockState extends State<CourseListBlock> {
+  bool isLoading = true;
   List<Course> courseList = [];
   final List<String> categories = [
     'Syllabus',
@@ -162,8 +164,9 @@ class _CourseListBlockState extends State<CourseListBlock> {
             await userBookmarksCollection.get();
 
         setState(() {
-          bookmarkedCourses =
-              snapshot.docs.map((doc) => '${doc['courseCode']+doc['category']}').toList();
+          bookmarkedCourses = snapshot.docs
+              .map((doc) => '${doc['courseCode'] + doc['category']}')
+              .toList();
           // Explicitly cast the result to List<String>
         });
       }
@@ -179,6 +182,9 @@ class _CourseListBlockState extends State<CourseListBlock> {
       User? user = FirebaseAuth.instance.currentUser;
 
       if (user != null) {
+        setState(() {
+          isLoading = true; // Set isLoading to true before fetching data
+        });
         // Use the user's ID dynamically for fetching card data
         Map<String, String?>? cardData =
             await CardDataRepository().getCardData(user.uid);
@@ -200,53 +206,6 @@ class _CourseListBlockState extends State<CourseListBlock> {
     } catch (e) {
       // Handle errors
       print('Error initializing data: $e');
-    }
-  }
-
-  Future<Map<String, String?>?> getCardData() async {
-    try {
-      // Get the current user
-      User? user = FirebaseAuth.instance.currentUser;
-
-      if (user != null) {
-        // Reference to the "carddata" collection
-
-        DocumentSnapshot<Map<String, dynamic>> snapshot =
-            await FirebaseFirestore.instance
-                .collection('users')
-                .doc(user.uid)
-                .collection('carddata')
-                .doc(user.uid)
-                .get();
-
-        // Check if the document exists
-        if (snapshot.exists) {
-          // Extract field values from the document data
-          String? _selecteduniversity = snapshot.data()?['university'];
-          String? _selecteddegree = snapshot.data()?['degree'];
-          String? _selectedcourse = snapshot.data()?['course'];
-          String? _selectedsemester = snapshot.data()?['semester'];
-
-          // Return the card data as a map
-          return {
-            'university': _selecteduniversity,
-            'degree': _selecteddegree,
-            'course': _selectedcourse,
-            'semester': _selectedsemester,
-          };
-        } else {
-          // Return null if the document doesn't exist
-          return null;
-        }
-      } else {
-        // Handle case when user is not authenticated
-        print('User not authenticated');
-        return null;
-      }
-    } catch (e) {
-      // Print an error message if an error occurs
-      print('Error retrieving card data: $e');
-      return null;
     }
   }
 
@@ -301,6 +260,11 @@ class _CourseListBlockState extends State<CourseListBlock> {
       }
 
       setState(() {});
+      // Set isLoading to false to stop the shimmer effect
+      // Set isLoading to false after data retrieval is complete
+      setState(() {
+        isLoading = false;
+      });
     } catch (e, stackTrace) {
       print('Error getting document data: $e\n$stackTrace');
     }
@@ -312,59 +276,66 @@ class _CourseListBlockState extends State<CourseListBlock> {
       return selectedCategory.isEmpty || selectedCategory == course.category;
     }).toList();
 
-    return SizedBox(
-      height: 340.h,
-      width: 400.v,
-      child: Column(
-        children: [
-          Container(
-            height: 50,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: categories
-                  .map(
-                    (category) => Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FilterChip(
-                        label: Text(category),
-                        selected: selectedCategory == category.toUpperCase(),
-                        onSelected: (selected) {
-                          setState(() {
-                            selectedCategory = selected ? category : 'Syllabus';
-                          });
-                        },
-                        selectedColor: selectedCategory.isEmpty
-                            ? theme.colorScheme.primary
-                            : theme.colorScheme.primary,
-                        labelStyle: TextStyle(
-                          color: selectedCategory == category
-                              ? Color.fromARGB(255, 0, 94, 255)
-                              : null,
+    if (isLoading) {
+      return _buildLoading(); // Show shimmer effect while loading
+    } else {
+      return SizedBox(
+        height: 340.h,
+        //width: 415.v,
+        child: Column(
+          children: [
+            Container(
+              height: 50.h,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: categories
+                    .map(
+                      (category) => Padding(
+                        padding: const EdgeInsets.only(left: 5.0, bottom: 10),
+                        child: FilterChip(
+                          label: Text(category),
+                          selected: selectedCategory == category.toUpperCase(),
+                          onSelected: (selected) {
+                            setState(() {
+                              selectedCategory =
+                                  selected ? category : 'Syllabus';
+                            });
+                          },
+                          selectedColor: selectedCategory.isEmpty
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.primary,
+                          labelStyle: TextStyle(
+                            color: selectedCategory == category
+                                ? Color.fromARGB(255, 0, 94, 255)
+                                : null,
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              ),
             ),
-          ),
-          Expanded(
-            child: ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(width: 10),
-              scrollDirection: Axis.horizontal,
-              itemCount: filteredCourses.length,
-              itemBuilder: (context, index) {
-                final course = filteredCourses[index];
-                return _buildCourseList(context, course, index);
-              },
+            Expanded(
+              child: ListView.separated(
+                separatorBuilder: (context, index) => const SizedBox(width: 6),
+                scrollDirection: Axis.horizontal,
+                itemCount: filteredCourses.length,
+                itemBuilder: (context, index) {
+                  final course = filteredCourses[index];
+                  return _buildCourseList(context, course, index);
+                },
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    }
   }
 
   Widget _buildCourseList(BuildContext context, Course course, int index) {
-    bool isBookmarked = bookmarkedCourses.contains(course.courseCode+course.category);
+    bool isBookmarked =
+        bookmarkedCourses.contains(course.courseCode + course.category);
+
     return GestureDetector(
       onTap: () {
         if (selectedCategory == 'Syllabus') {
@@ -410,10 +381,13 @@ class _CourseListBlockState extends State<CourseListBlock> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 134,
-                  width: 280,
+                  height: 134.h,
+                  width: 280.v,
                   decoration: const BoxDecoration(
-                    color: Colors.black,
+                    image: DecorationImage(
+                        image: AssetImage("assets/images/EduWise.jpg"),
+                        fit: BoxFit.cover),
+                    //color: Colors.black,
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20)),
                   ),
@@ -422,7 +396,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15, right: 19),
                   child: SizedBox(
-                    width: 245,
+                    width: 245.v,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -472,7 +446,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                   child: Row(
                     children: [
                       Container(
-                        width: 32,
+                        width: 32.v,
                         margin: const EdgeInsets.only(top: 3),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -509,6 +483,128 @@ class _CourseListBlockState extends State<CourseListBlock> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildLoading() {
+    return Column(
+      children: [
+        Container(
+          height: 45.h,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: List.generate(
+                5,
+                (index) => Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[300],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                       
+                        width: 90.v,
+                        
+                      ),
+                    ))),
+          ),
+        ),
+        Container(
+          height: 245.h,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: List.generate(
+              5, // Number of shimmer items
+              (index) => Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  height: 240.h,
+                  width: 280.v,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        spreadRadius: 2,
+                        blurRadius: 2,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 134.h,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/EduWise.jpg"),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(20)),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(
+                                 decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                height: 10,
+                                width: 80,
+                               
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                height: 18,
+                                width: 190,
+                              ),
+                            ),
+                            const SizedBox(height: 13),
+                            Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(
+                                 decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                height: 10,
+                                width: 160,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

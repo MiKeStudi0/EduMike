@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/widgets/custom_drop_down.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
+import 'package:edumike/widgets/custom_outlined_button_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_title.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
+import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -24,8 +26,6 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   TextEditingController fullnameEditTextController = TextEditingController();
   late final String gendervalue;
 
-  
-
   FocusNode emailFocusNode = FocusNode();
 
   FocusNode dateofbirthFocusNode = FocusNode();
@@ -34,9 +34,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
   FocusNode nicknameFocusNode = FocusNode();
 
-  FocusNode phoneNumberFocusNode= FocusNode();
-
-
+  FocusNode phoneNumberFocusNode = FocusNode();
 
   TextEditingController fullnameController = TextEditingController();
 
@@ -48,8 +46,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
 
   TextEditingController genderController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-    List<String> dropdownItemList = ["Male", "Female"];
-
+  List<String> dropdownItemList = ["Male", "Female"];
 
   FirebaseAuth _auth = FirebaseAuth.instance;
   late User _user;
@@ -65,8 +62,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
         lastDate: DateTime(2500));
     if (_picked != null) {
       setState(() {
-        dateOfBirthController.text =
-            DateFormat('yyyy-MM-dd').format(_picked);
+        dateOfBirthController.text = DateFormat('yyyy-MM-dd').format(_picked);
       });
     }
   }
@@ -119,7 +115,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
     if (_userSnapshot['profileUrl'] != null) {
       return NetworkImage(_userSnapshot['profileUrl']);
     } else {
-      return const AssetImage('assets/images/home_image/Profile.jpg');
+      return const AssetImage('assets/images/EduWise.jpg');
     }
   }
 
@@ -174,9 +170,9 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          backgroundColor: appTheme.blue50,
             resizeToAvoidBottomInset: false,
-            appBar: _buildAppBar(context)
-            ,
+            appBar: _buildAppBar(context),
             body: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : SizedBox(
@@ -264,21 +260,22 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                         ]),
                                   ),
                                   SizedBox(height: 30.v),
-                                  
                                   Container(
                                     decoration: AppDecoration.outlineBlack
                                         .copyWith(
                                             borderRadius: BorderRadiusStyle
                                                 .roundedBorder12),
                                     child: CustomTextFormField(
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              21.h, 20.v, 8.h, 20.v),
-                                          child: Icon(
-                                            Icons.person,
-                                            color: appTheme.blueGray900,
-                                            size: 20.v,
-                                          )),
+                                      prefix: Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.userIcon,
+                                          height: 5.v,
+                                          width: 5.h,
+                                         
+                                        ),
+                                      ),
                                       controller: fullnameController,
                                       focusNode: fullnameFocusNode,
                                       hintText: "Full Name",
@@ -295,19 +292,21 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             borderRadius: BorderRadiusStyle
                                                 .roundedBorder12),
                                     child: CustomTextFormField(
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              21.h, 20.v, 8.h, 20.v),
-                                          child: Icon(
-                                            Icons.person_4,
-                                            color: appTheme.blueGray900,
-                                            size: 20.v,
-                                          )),
+                                      prefix: Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.nickname,
+                                          height: 5.v,
+                                          width: 5.h,
+                                         
+                                        ),
+                                      ),
                                       controller: nameController,
                                       focusNode: nicknameFocusNode,
                                       hintText: "Nick Name",
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 16.0, top: 35),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 16.0, top: 35),
                                     ),
                                   ),
                                   SizedBox(height: 20.v),
@@ -320,55 +319,63 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       controller: dateOfBirthController,
                                       focusNode: dateofbirthFocusNode,
                                       hintText: " DOB",
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 16.0, top: 35),
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              21.h, 20.v, 8.h, 20.v),
-                                          child: GestureDetector(
-                                            child: Icon(
-                                              Icons.calendar_month,
-                                              color: appTheme.blueGray900,
-                                              size: 20.v,
-                                            ),
-                                            onTap: (){
-                                              _selectdate();
-                                            }
-                                          )),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 16.0, top: 35),
+                                      prefix: Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                                _selectdate();
+                                              },
+                                          child: CustomImageView(
+                                            
+                                            imagePath: ImageConstant.calender,
+                                            height: 5.v,
+                                            width: 5.h,
+                                           
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   SizedBox(height: 13.v),
                                   Container(
-                                    
-    margin: EdgeInsets.fromLTRB(0, 10.v, 0, 10.v),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      border: Border.all(color:const Color(0XFF0961F5)), // Blue border
-      borderRadius: BorderRadius.circular(9.0), // Rounded corners
-    ),
-    child: Row(
-      children: [
-        Container(
-          margin: EdgeInsets.only(left:16,right:  7.h),
-          child:Icon(
-            Icons.email,
-            color: appTheme.blueGray900,
-            size: 20.v,
-            )
-        ),
-        Expanded(
-          child: TextFormField(
-            enabled: false,
-            focusNode: FocusNode(), // Disabling focus
-            controller: emailController,
-            style:const TextStyle(
-              fontWeight:FontWeight.w500 ,
-              color: Colors.black
-              ),
-          ),
-        ),
-      ],
-    ),
+                                    margin:
+                                        EdgeInsets.fromLTRB(0, 10.v, 0, 10.v),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      border: Border.all(
+                                          color: const Color(
+                                              0XFF0961F5)), // Blue border
+                                      borderRadius: BorderRadius.circular(
+                                          9.0), // Rounded corners
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.google,
+                                          height: 26.v,
+                                          width: 26.h,
+                                         
+                                        ),
+                                      ),
+                                        Expanded(
+                                          child: TextFormField(
+                                            
+                                            enabled: false,
+                                            focusNode:
+                                                FocusNode(), // Disabling focus
+                                            controller: emailController,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(height: 13.v),
                                   Container(
@@ -377,19 +384,20 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             borderRadius: BorderRadiusStyle
                                                 .roundedBorder12),
                                     child: CustomTextFormField(
-                                      prefix: Container(
-                                          margin: EdgeInsets.fromLTRB(
-                                              21.h, 20.v, 8.h, 20.v),
-                                          child: Icon(
-                                            Icons.phone,
-                                            color: appTheme.blueGray900,
-                                            size: 20.v,
-                                          )),
+                                      prefix: Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.call,
+                                        
+                                         
+                                        ),
+                                      ),
                                       controller: phoneNumberController,
                                       focusNode: phoneNumberFocusNode,
                                       hintText: " phone",
-                                      contentPadding:
-                                          const EdgeInsets.only(left: 16.0, top: 35),
+                                      contentPadding: const EdgeInsets.only(
+                                          left: 16.0, top: 35),
                                     ),
                                   ),
                                   SizedBox(height: 20.v),
@@ -415,65 +423,56 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                   //   ),
                                   // ),
 
-                CustomDropDown(
-  controller: genderController,
-  hintText: 'gender',
-  items: dropdownItemList,
-  onChanged: (value) {
-    setState(() {
-      gendervalue = value;
-      genderController.text=value;
-    });
-  },
-prefix: genderController.text == 'Female' ?const Icon(Icons.female) : const Icon(Icons.person),
-),
-
-
+                                  CustomDropDown(
+                                    controller: genderController,
+                                    hintText: 'gender',
+                                    items: dropdownItemList,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        gendervalue = value;
+                                        genderController.text = value;
+                                      });
+                                    },
+                                    prefix: genderController.text == 'Female'
+                                        ? const Icon(Icons.female,size: 32,
+                                         color: Color.fromARGB(255, 14, 112, 248))
+                                        :Padding(
+                                        padding: const EdgeInsets.all(11.0),
+                                        child: CustomImageView(
+                                          
+                                          imagePath: ImageConstant.gender,
+                                          height: 5.v,
+                                          width: 5.h,
+                                         
+                                        ),
+                                      ),
+                                  ),
 
                                   SizedBox(height: 20.v),
-                                  _buildUpdateButton(),
+                                  _buildUpdateButton(context),
                                   SizedBox(height: 5.v)
                                 ])))))));
   }
 
-  /// Section Widget
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: appTheme.blue50,
-      leadingWidth: 61.h,
-      leading: IconButton(
-      icon:const Icon(Icons.arrow_back),
-      iconSize: 30, 
-      onPressed: () {
-        Navigator.of(context).pop(); // Navigate back when back arrow is pressed
-      },
-    ),
-      title: AppbarTitle(
-        text: "Edit Your Profile",
-        margin: EdgeInsets.only(left: 12.h),
+  
+Widget _buildUpdateButton(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      CustomOutlinedButton(
+        
+        width: 140.h,
+        text: "Cancel",
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
-    );
-  }
-
-  Widget _buildUpdateButton() {
-    return CustomElevatedButton(
-      text: "Update",
-      margin: EdgeInsets.symmetric(horizontal: 5.h),
-      rightIcon: Container(
-        padding: EdgeInsets.fromLTRB(14.h, 16.v, 12.h, 14.v),
-        margin: EdgeInsets.only(left: 30.h),
-        decoration: BoxDecoration(
-          color: appTheme.whiteA700,
-          borderRadius: BorderRadius.circular(24.h),
-        ),
-        child: CustomImageView(
-          imagePath: ImageConstant.imgArrowrightPrimary17x21,
-          height: 17.v,
-          width: 21.h,
-        ),
-      ),
-      onPressed: () async {
-        try {
+      CustomElevatedButton(
+        
+        width: 206.h,
+        text: "Yes, Update",
+        onPressed: () async{
+           try {
           // Step 1: Upload Image to Firebase Storage
           User? user = FirebaseAuth.instance.currentUser;
           if (_selectedImage != null) {
@@ -530,7 +529,110 @@ prefix: genderController.text == 'Female' ?const Icon(Icons.female) : const Icon
           print("Error updating user data: $error");
           // Handle error
         }
-      },
+          
+        },
+      ),
+    ],
+  );
+}
+
+
+  /// Section Widget
+  PreferredSizeWidget _buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: appTheme.blue50,
+      leadingWidth: 61.h,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back),
+        iconSize: 30,
+        onPressed: () {
+          Navigator.of(context)
+              .pop(); // Navigate back when back arrow is pressed
+        },
+      ),
+      title: AppbarTitle(
+        text: "Edit Your Profile",
+        margin: EdgeInsets.only(left: 12.h),
+      ),
     );
   }
+
+  // Widget _buildUpdateButton() {
+  //   return CustomElevatedButton(
+  //     text: "Update",
+  //     margin: EdgeInsets.symmetric(horizontal: 5.h),
+  //     rightIcon: Container(
+  //       padding: EdgeInsets.fromLTRB(14.h, 16.v, 12.h, 14.v),
+  //       margin: EdgeInsets.only(left: 30.h),
+  //       decoration: BoxDecoration(
+  //         color: appTheme.whiteA700,
+  //         borderRadius: BorderRadius.circular(24.h),
+  //       ),
+  //       child: CustomImageView(
+  //         imagePath: ImageConstant.imgArrowrightPrimary17x21,
+  //         height: 17.v,
+  //         width: 21.h,
+  //       ),
+  //     ),
+  //     onPressed: () async {
+  //       try {
+  //         // Step 1: Upload Image to Firebase Storage
+  //         User? user = FirebaseAuth.instance.currentUser;
+  //         if (_selectedImage != null) {
+  //           Reference storageReference = FirebaseStorage.instance
+  //               .ref()
+  //               .child('user_images')
+  //               .child(user!.uid);
+  //           UploadTask uploadTask =
+  //               storageReference.putFile(File(_selectedImage!.path));
+  //           await uploadTask.whenComplete(() => null);
+  //         }
+
+  //         // Step 2: Get Download URL
+  //         String? profileUrl;
+  //         if (_selectedImage != null) {
+  //           profileUrl = await FirebaseStorage.instance
+  //               .ref()
+  //               .child('user_images')
+  //               .child(user!.uid)
+  //               .getDownloadURL();
+  //         }
+
+  //         // Step 3: Update User Profile Data in Firestore
+  //         await FirebaseFirestore.instance
+  //             .collection('users')
+  //             .doc(_user.uid)
+  //             .update({
+  //           'fullname': fullnameController.text,
+  //           'nickname': nameController.text,
+  //           'dateofbirth': dateOfBirthController.text,
+  //           'email': emailController.text,
+  //           'phone': phoneNumberController.text,
+  //           'gender': genderController.text,
+  //           'profileUrl': profileUrl,
+  //         });
+
+  //         // Update controllers with the new values
+  //         setState(() {
+  //           fullnameController.text = fullnameController.text;
+  //           nameController.text = nameController.text;
+  //           dateOfBirthController.text = dateOfBirthController.text;
+  //           emailController.text = emailController.text;
+  //           phoneNumberController.text = phoneNumberController.text;
+  //           genderController.text = genderController.text;
+  //         });
+
+  //         // Optionally, you can show a success message or navigate to another screen.
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           const SnackBar(content: Text('Profile updated successfully!')),
+  //         );
+
+  //         Navigator.pop(context);
+  //       } catch (error) {
+  //         print("Error updating user data: $error");
+  //         // Handle error
+  //       }
+  //     },
+  //   );
+  // }
 }

@@ -13,7 +13,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class CardDataRepository {
   Future<Map<String, String?>?> getCardData(String userId) async {
     try {
-      // Reference to the "carddata" collection under the user's ID
+      // Reference to the "carddata" collection under the user's IDzz
       DocumentSnapshot<Map<String, dynamic>> snapshot =
           await FirebaseFirestore.instance
               .collection('users')

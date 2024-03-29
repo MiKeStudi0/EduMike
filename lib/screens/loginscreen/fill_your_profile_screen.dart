@@ -18,12 +18,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(FillYourProfileScreen());
-}
-
 Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
   // Get the current user
   User? user = FirebaseAuth.instance.currentUser;
@@ -134,7 +128,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-@override
+  @override
   void initState() {
     super.initState();
     // Retrieve the currently signed-in user's email
@@ -236,7 +230,8 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                               SizedBox(height: 20.v),
                               _buildDateOfBirthEditText(context),
                               SizedBox(height: 20.v),
-                              _buildEmailEditText(context,emailEditTextController,userEmail),
+                              _buildEmailEditText(
+                                  context, emailEditTextController, userEmail),
                               SizedBox(height: 20.v),
                               _buildPhoneNumber(context),
                               SizedBox(height: 20.v),
@@ -305,48 +300,42 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   }
 
   /// Section Widget
-  Widget _buildEmailEditText(BuildContext context, TextEditingController emailTextController, String userEmail) {
-  // Set initial text to the controller
-  emailTextController.text = userEmail;
+  Widget _buildEmailEditText(BuildContext context,
+      TextEditingController emailTextController, String userEmail) {
+    // Set initial text to the controller
+    emailTextController.text = userEmail;
 
-  return Container(
-    margin: EdgeInsets.fromLTRB(0, 10.v, 0, 10.v),
-    decoration: BoxDecoration(
-      border: Border.all(color:const Color(0XFF0961F5)), // Blue border
-      borderRadius: BorderRadius.circular(12.0), // Rounded corners
-    ),
-    child: Row(
-      children: [
-        Container(
-          margin: EdgeInsets.only(left:18,right:  7.h),
-          child: CustomImageView(
-            imagePath: ImageConstant.imgLock, 
-            height: 14.v, 
-            width: 18.h
-          )
-        ),
-        Expanded(
-          child: TextFormField(
-            enabled: false,
-            focusNode: FocusNode(), // Disabling focus
-            controller: emailTextController,
-            style:const TextStyle(
-              fontWeight:FontWeight.w500 ,
-              color: Colors.black
-              ),
-            // decoration: InputDecoration(
-            //   // hintText: "Email(Verify)",
-            //   // hintStyle: theme.textTheme.bodyMedium!,
-            //   border: InputBorder.none, // No need for border here
-            // ),
-            keyboardType: TextInputType.emailAddress,
+    return Container(
+      margin: EdgeInsets.fromLTRB(0, 10.v, 0, 10.v),
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0XFF0961F5)), // Blue border
+        borderRadius: BorderRadius.circular(12.0), // Rounded corners
+      ),
+      child: Row(
+        children: [
+          Container(
+              margin: EdgeInsets.only(left: 18, right: 7.h),
+              child: CustomImageView(
+                  imagePath: ImageConstant.imgLock, height: 14.v, width: 18.h)),
+          Expanded(
+            child: TextFormField(
+              enabled: false,
+              focusNode: FocusNode(), // Disabling focus
+              controller: emailTextController,
+              style: const TextStyle(
+                  fontWeight: FontWeight.w500, color: Colors.black),
+              // decoration: InputDecoration(
+              //   // hintText: "Email(Verify)",
+              //   // hintStyle: theme.textTheme.bodyMedium!,
+              //   border: InputBorder.none, // No need for border here
+              // ),
+              keyboardType: TextInputType.emailAddress,
+            ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 
   /// Section Widget
   Widget _buildPhoneNumber(BuildContext context) {

@@ -14,10 +14,8 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
 
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
       child: Scaffold(
-        
         backgroundColor: Colors.white,
         appBar: _buildAppBar(context),
         body: Column(
@@ -93,24 +91,22 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
     String receiverProfileIcon,
   ) {
     double maxContainerWidth = MediaQuery.of(context).size.width * 0.7;
-  BorderRadius borderRadius;
+    BorderRadius borderRadius;
 
-  // Set different border radii based on whether the message is from the sender or receiver
-  if (message.senderId == getUserId()) {
-    borderRadius = const BorderRadius.only(
-      topLeft: Radius.circular(15),
-      topRight: Radius.circular(15.0),
-      bottomLeft: Radius.circular(15.0),
-     
-    );
-  } else {
-    borderRadius = const BorderRadius.only(
-      topRight: Radius.circular(15.0),
-      
-      bottomLeft: Radius.circular(15.0),
-      bottomRight: Radius.circular(15.0),
-    );
-  }
+    // Set different border radii based on whether the message is from the sender or receiver
+    if (message.senderId == getUserId()) {
+      borderRadius = const BorderRadius.only(
+        topLeft: Radius.circular(15),
+        topRight: Radius.circular(15.0),
+        bottomLeft: Radius.circular(15.0),
+      );
+    } else {
+      borderRadius = const BorderRadius.only(
+        topRight: Radius.circular(15.0),
+        bottomLeft: Radius.circular(15.0),
+        bottomRight: Radius.circular(15.0),
+      );
+    }
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: Row(
@@ -137,10 +133,11 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
                     maxWidth: maxContainerWidth,
                   ),
                   decoration: BoxDecoration(
-                      color: message.senderId == getUserId()
-                          ? Colors.blue
-                          : const Color.fromARGB(255, 90, 90, 90),
-                      borderRadius: borderRadius,),
+                    color: message.senderId == getUserId()
+                        ? Colors.blue
+                        : const Color.fromARGB(255, 90, 90, 90),
+                    borderRadius: borderRadius,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

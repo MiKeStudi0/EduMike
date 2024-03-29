@@ -1,15 +1,12 @@
 import 'package:edumike/core/app_export.dart';
-import 'package:edumike/screens/Homescreen/remove_bookmark_screen/remove_bookmark_screen.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:edumike/widgets/custom_outlined_button_home.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/widgets.dart';
 
 class Bookmark {
   final String category;
@@ -102,29 +99,44 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
       return selectedCategory.isEmpty || selectedCategory == bookmark.category;
     }).toList();
 
+    final bookmarksInSelectedCategory = bookmarks.any((bookmark) {
+    return selectedCategory.isEmpty || selectedCategory == bookmark.category;
+  });
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.gray5001,
         appBar: _buildAppBar(context),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildFilterChips(),
-            Expanded(
-              child: ListView.separated(
-                physics: BouncingScrollPhysics(),
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 0.v);
-                },
-                itemCount: filteredBookmarks.length,
-                itemBuilder: (context, index) {
-                  final bookmark = filteredBookmarks[index];
-                  return _buildBookmarkItem(bookmark);
-                },
-              ),
-            ),
-          ],
-        ),
+        body:Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildFilterChips(),
+          Expanded(
+            child: bookmarksInSelectedCategory
+                ? ListView.separated(
+                    physics: BouncingScrollPhysics(),
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: 0.v);
+                    },
+                    itemCount: filteredBookmarks.length,
+                    itemBuilder: (context, index) {
+                      final bookmark = filteredBookmarks[index];
+                      return _buildBookmarkItem(bookmark);
+                    },
+                  )
+                : const Center(
+                    child: Text(
+                      'No bookmarks',
+                      style:TextStyle(
+                        fontStyle:  FontStyle.italic,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                        color:  Colors.grey
+                    ),
+                  ),
+                ),  
+         ) ],
+      ),
       ),
     );
   }

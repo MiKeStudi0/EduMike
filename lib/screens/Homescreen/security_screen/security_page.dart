@@ -1,8 +1,15 @@
+import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:edumike/screens/loginscreen/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 
-class SecurityScreen extends StatelessWidget {
-  
+class SecurityScreen extends StatefulWidget {
+  SecurityScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SecurityScreen> createState() => _SecurityScreenState();
+}
+
+class _SecurityScreenState extends State<SecurityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +18,6 @@ class SecurityScreen extends StatelessWidget {
       ),
       body: ListView(
         children: <Widget>[
-         
           ListTile(
             leading: const Icon(Icons.add),
             title: const Text('Add Account'),
@@ -28,20 +34,25 @@ class SecurityScreen extends StatelessWidget {
               print('Delete Account tapped');
             },
           ),
-         ListTile(
+          ListTile(
             leading: const Icon(Icons.lock),
             title: const Text('Reset Password'),
             onTap: () {
-               Navigator.push(context,
-        MaterialPageRoute(builder: (context) =>  ForgotPasswordScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ForgotPasswordScreen()));
               print('Reset password  tapped');
             },
           ),
           ListTile(
-            leading: const Icon(Icons.email),
-            title: const Text('Email Address'),
+            leading: const Icon(Icons.key),
+            title: const Text('Change your password'),
             onTap: () {
-             
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => UpdatePasswordPage()));
               print('Email  tapped');
             },
           ),

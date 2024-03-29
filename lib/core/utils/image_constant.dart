@@ -1,8 +1,10 @@
 class ImageConstant {
   // Image folder path
   static String imagePath = 'assets/images/login_image';
-  static String imagelogo = 'assets/images';
 
+  static String logo = 'assets/images/EduWise.jpg';
+  static String imagelogo = 'assets/images';
+ static String imagePathHome = 'assets/images/home_image';
   // 02_INTRO-One images
   static String imgArrowRight = '$imagePath/img_arrow_right.png';
 
@@ -18,6 +20,8 @@ class ImageConstant {
 
   // 07_LOGIN images
   static String imgClose = '$imagePath/img_close.svg';
+
+  static String passwordvisible = '$imagePath/passwordvisible.svg';
 
   // 08_FILL YOUR PROFILE images
   static String imgFill1Gray50 = '$imagePath/img_fill_1_gray_50.png';
@@ -84,7 +88,7 @@ class ImageConstant {
 
   //Remaining images are for HomeScreen
 
-  static String imagePathHome = 'assets/images/home_image';
+ 
 
   // HelpCare images
   static String imgCloseOrangeA200 = '$imagePathHome/img_close_orange_a200.svg';
@@ -144,6 +148,22 @@ class ImageConstant {
       '$imagePathHome/img_nav_profile_primary.svg';
 
   // 6_EDIT PROFILES images
+
+  static String userIcon = '$imagePathHome/userIcon.svg';
+
+
+  static String nickname = '$imagePathHome/nickname.svg';
+
+
+static String calender = '$imagePathHome/calender.svg';
+
+static String gender = '$imagePathHome/gender.svg';
+static String call = '$imagePathHome/call.svg';
+
+static String google = '$imagePathHome/google.svg';
+
+
+
   static String imgTelevisionTeal700 =
       '$imagePathHome/img_television_teal_700.svg';
 

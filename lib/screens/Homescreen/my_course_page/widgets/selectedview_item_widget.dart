@@ -1,10 +1,10 @@
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
-import 'package:edumike/widgets/custom_icon_button_home.dart';
+import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class SelectedviewItemWidget extends StatelessWidget {
+  final String courseCredit;
   final String university;
   final String degree;
   final String course;
@@ -12,16 +12,33 @@ class SelectedviewItemWidget extends StatelessWidget {
   final String courseName;
   final String courseCode;
 
-  const SelectedviewItemWidget(
-      {Key? key, required this.courseName, required this.courseCode, required this.university, required this.degree, required this.course, required this.semester})
-      : super(key: key);
+  const SelectedviewItemWidget({
+    Key? key,
+    required this.courseCredit,
+    required this.courseName,
+    required this.courseCode,
+    required this.university,
+    required this.degree,
+    required this.course,
+    required this.semester,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => CategoryScreen( university: university, degree: degree, course: course, semester: semester, courseName: courseName,)));
+          context,
+          MaterialPageRoute(
+            builder: (context) => CategoryScreen(
+              university: university,
+              degree: degree,
+              course: course,
+              semester: semester,
+              courseName: courseName,
+            ),
+          ),
+        );
       },
       child: Container(
         padding: EdgeInsets.only(
@@ -46,35 +63,33 @@ class SelectedviewItemWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 10), // Add some spacing between the icon and text
+            const SizedBox(width: 10), // Add some spacing between the icon and text
             Expanded(
               // Use Expanded to allow the text to occupy remaining space
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      courseName, // Use courseName here
-                      style: CustomTextStyles.titleMedium19,
-                    ),
-                    SizedBox(height: 6.v),
-                    Text(
-                      courseCode,
-                      style: theme.textTheme.titleSmall,
-                    ),
-                  ],
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    courseName, // Use courseName here
+                    style: CustomTextStyles.titleMedium19,
+                  ),
+                  SizedBox(height: 6.v),
+                  Text(
+                    courseCode,
+                    style: theme.textTheme.titleSmall,
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-                width:
-                    10), // Add some spacing between the text and bookmark icon
-           
-            
+            const SizedBox(
+              width: 10,
+            ), // Add some spacing between the text and bookmark icon
           ],
         ),
       ),
     );
   }
+
+
+  
 }
