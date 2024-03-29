@@ -220,53 +220,61 @@ class _CourseListBlockState extends State<CourseListBlock> {
           'courseName': doc.get('courseName'),
           'courseCode': doc.get('courseCode'),
           'courseCredit': doc.get('courseCredit'),
-          'category': 'DefaultCategory',
+          'category': categories,
         };
 
         // Fetch the first level of subcollection
-        QuerySnapshot subcollectionSnapshot =
-            await doc.reference.collection('Refers').get();
-
+        // QuerySnapshot subcollectionSnapshot =
+        //     await doc.reference.collection('Refers').get();
+        await _fetchSubcollectionData(doc.reference, data['courseName'],
+            data['courseCode'], data['courseCredit']);
         // Iterate over all documents in the first level of subcollection
-        for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
-          data['category'] = subDoc.get('category');
 
-          // Fetch the second level of subcollection
-          QuerySnapshot nestedSubcollectionSnapshot =
-              await subDoc.reference.collection('Refers').get();
-
-          // Iterate over all documents in the second level of subcollection
-          for (QueryDocumentSnapshot nestedSubDoc
-              in nestedSubcollectionSnapshot.docs) {
-            // You can handle data from the second level of subcollection here
-            // For example:
-            data['pdfUrl'] = nestedSubDoc.get('pdfUrl');
-          }
-
-          Course course = Course(
-            courseName: doc.get('courseName'),
-            category: data['category'],
-            courseCode: doc.get('courseCode'),
-            courseCredit: doc.get('courseCredit'),
-            selectedDocumentId: doc.id,
-          );
-
-          courseList.add(course);
-
-          // String nestedCollectionPath = '$collectionPath/${doc.id}/Refers';
-          // await fetchDocumentData(nestedCollectionPath);
-          // print('Data from $collectionPath: $data');
-        }
+        setState(() {});
+        // Set isLoading to false to stop the shimmer effect
+        // Set isLoading to false after data retrieval is complete
       }
+    } catch (e, stackTrace) {
+      print('Error getting document data: $e\n$stackTrace');
+    }
+  }
 
+  Future<void> _fetchSubcollectionData(
+    DocumentReference courseRef,
+    String courseName,
+    String courseCode,
+    String courseCredit,
+  ) async {
+    try {
+      QuerySnapshot subcollectionSnapshot =
+          await courseRef.collection('Refers').get();
+
+      // Iterate over all documents in the subcollection
+      for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
+        // You can handle data from the subcollection here
+        // For example, if each document represents a category
+
+        String category = subDoc.get('category');
+
+        // Now you can use the course data along with the category data as needed
+        Course course = Course(
+          courseName: courseName,
+          category: category,
+          courseCode: courseCode,
+          courseCredit: courseCredit,
+          selectedDocumentId: courseRef.id, // Assuming you need the document ID
+        );
+
+        courseList.add(course);
+      }
       setState(() {});
       // Set isLoading to false to stop the shimmer effect
       // Set isLoading to false after data retrieval is complete
       setState(() {
         isLoading = false;
       });
-    } catch (e, stackTrace) {
-      print('Error getting document data: $e\n$stackTrace');
+    } catch (e) {
+      print('Error fetching subcollection data: $e');
     }
   }
 
@@ -505,9 +513,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                           color: Colors.grey[300],
                           borderRadius: BorderRadius.circular(10),
                         ),
-                       
                         width: 90.v,
-                        
                       ),
                     ))),
           ),
@@ -559,13 +565,12 @@ class _CourseListBlockState extends State<CourseListBlock> {
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[100]!,
                               child: Container(
-                                 decoration: BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Colors.grey[300],
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                                 height: 10,
                                 width: 80,
-                               
                               ),
                             ),
                             const SizedBox(height: 15),
@@ -586,7 +591,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                               baseColor: Colors.grey[300]!,
                               highlightColor: Colors.grey[100]!,
                               child: Container(
-                                 decoration: BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Colors.grey[300],
                                   borderRadius: BorderRadius.circular(5),
                                 ),
