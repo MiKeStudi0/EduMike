@@ -329,7 +329,11 @@ class _SearchCourseState extends State<SearchCourse> {
                 (selectedCategory.isEmpty ||
                     selectedCategory == course.category);
           }).toList()
-        : [];
+        : courseList.where((course) {
+            // Check if the category matches the selected category
+            return selectedCategory.isEmpty ||
+                selectedCategory == course.category;
+          }).toList();
 
     return Scaffold(
       appBar: AppBar(
