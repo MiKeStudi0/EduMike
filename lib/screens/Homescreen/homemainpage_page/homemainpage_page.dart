@@ -3,10 +3,9 @@ import 'package:edumike/screens/Homescreen/add_university_card_screen/add_univer
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/coursebuilder.dart';
+import 'package:edumike/screens/Homescreen/indoxmainpage_page/indoxmainpage_page.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:edumike/screens/Homescreen/search_screen/dummy.dart';
-import 'package:edumike/theme/theme_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../homemainpage_page/widgets/category_item_widget.dart';
@@ -16,7 +15,6 @@ import 'package:edumike/widgets/app_bar/appbar_subtitle_one.dart';
 import 'package:edumike/widgets/app_bar/appbar_title_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_trailing_iconbutton_home.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
-import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
@@ -242,13 +240,27 @@ class _HomemainpagePageState extends State<HomemainpagePage>
         },
       ),
       actions: [
+        
+         GestureDetector(
+          onTap: ()=>
+              onTapMessage(context)
+            ,
+           child: CustomImageView(
+            imagePath: ImageConstant.imgNavIndoxPrimary,
+            height: 37.h,
+            width: 37.v,
+            margin: EdgeInsets.fromLTRB(0, 10.v, 20.h, 13.v),
+            
+                   ),
+         ),
         AppbarTrailNotification(
           imagePath: ImageConstant.imgNotification,
-          margin: EdgeInsets.fromLTRB(34.h, 16.v, 34.h, 13.v),
+          margin: EdgeInsets.fromLTRB(0.h, 16.v, 10.h, 13.v),
           onTap: () {
             onTapThumbsUp(context);
           },
-        )
+        ),
+
       ],
     );
   }
@@ -704,6 +716,12 @@ class _HomemainpagePageState extends State<HomemainpagePage>
   /// Navigates to the appNotificationsScreen when the action is triggered.
   onTapThumbsUp(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.appNotificationsScreen);
+  }
+
+
+ /// Navigates to the appNotificationsScreen when the action is triggered.
+  onTapMessage(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const IndoxmainpagePage()));
   }
 
   /// Navigates to the categoryScreen when the action is triggered.

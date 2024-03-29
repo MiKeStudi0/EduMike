@@ -113,12 +113,13 @@ class ImageConstant {
 
   // 3_IndoxMainPage images
   static String imgClose1 = '$imagePathHome/img_close.svg';
+  
+ static String message = '$imagePathHome/message.svg';
 
   static String imgNavIndoxPrimary = '$imagePathHome/img_nav_indox_primary.svg';
 
   // 5_PROFILES images
   static String imgLock1 = '$imagePathHome/img_lock.svg';
-
   static String inviteprofile = '$imagePathHome/inviteprofile.svg';
   static String imgSettings = '$imagePathHome/img_settings.png';
 
