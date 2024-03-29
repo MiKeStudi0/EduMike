@@ -3,6 +3,7 @@ import 'package:edumike/screens/Homescreen/add_university_card_screen/add_univer
 import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
+import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/coursebuilder.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:edumike/screens/Homescreen/search_screen/dummy.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -131,7 +132,12 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                         left: 10.v,
                       ),
                       child: CourseListBlock()),
-
+                       Padding(
+                      padding: EdgeInsets.only(
+                        left: 10.v,
+                      ),
+                      child: courseBuilder()),
+ 
                   //SizedBox(height: 8.v),
                   // /_buildCategory(context),
                   // SizedBox(height: 18.v),
