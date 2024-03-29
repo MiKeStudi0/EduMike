@@ -79,7 +79,7 @@ class SearchCourse extends StatefulWidget {
 
 class _SearchCourseState extends State<SearchCourse> {
   TextEditingController searchController = TextEditingController();
-
+  String searchText = '';
   List<Course> courseList = [];
   final List<String> categories = [
     'Syllabus',
@@ -101,6 +101,9 @@ class _SearchCourseState extends State<SearchCourse> {
     super.initState();
     initializeData();
     loadBookmarkedCourses();
+    searchController.addListener(() {
+      _onSearchTextChanged(searchController.text);
+    });
   }
 
   void _addToBookmarkCollection(Course course) async {
@@ -217,8 +220,6 @@ class _SearchCourseState extends State<SearchCourse> {
     }
   }
 
-
-
   Future<void> fetchDocumentData(String collectionPath) async {
     try {
       QuerySnapshot semesterSnapshot =
@@ -245,37 +246,8 @@ class _SearchCourseState extends State<SearchCourse> {
             'category': categories,
           };
 
-          // Fetch the first level of subcollection
-          QuerySnapshot subcollectionSnapshot =
-              await doc.reference.collection('Refers').get();
-
-          for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
-            categories.add(subDoc.get('category'));
-            data['category'] = subDoc.get('category');
-            // Fetch the second level of subcollection
-            QuerySnapshot nestedSubcollectionSnapshot =
-                await subDoc.reference.collection('Refers').get();
-
-            // Iterate over all documents in the second level of subcollection
-            for (QueryDocumentSnapshot nestedSubDoc
-                in nestedSubcollectionSnapshot.docs) {
-              // You can handle data from the second level of subcollection here
-              // For example:
-              data['pdfUrl'] = nestedSubDoc.get('pdfUrl');
-            }
-          }
-
-          for (String category in categories) {
-            Course course = Course(
-              courseName: data['courseName'],
-              category: category,
-              courseCode: data['courseCode'],
-              courseCredit: data['courseCredit'],
-              selectedDocumentId: doc.id,
-            );
-
-            courseList.add(course);
-          }
+          await _fetchSubcollectionData(doc.reference, data['courseName'],
+              data['courseCode'], data['courseCredit']);
         }
       }
       setState(() {});
@@ -285,11 +257,70 @@ class _SearchCourseState extends State<SearchCourse> {
     }
   }
 
+  Future<void> _fetchSubcollectionData(
+    DocumentReference courseRef,
+    String courseName,
+    String courseCode,
+    String courseCredit,
+  ) async {
+    try {
+      QuerySnapshot subcollectionSnapshot =
+          await courseRef.collection('Refers').get();
+
+      // Iterate over all documents in the subcollection
+      for (QueryDocumentSnapshot subDoc in subcollectionSnapshot.docs) {
+        // You can handle data from the subcollection here
+        // For example, if each document represents a category
+
+        String category = subDoc.get('category');
+
+        // Now you can use the course data along with the category data as needed
+        Course course = Course(
+          courseName: courseName,
+          category: category,
+          courseCode: courseCode,
+          courseCredit: courseCredit,
+          selectedDocumentId: courseRef.id, // Assuming you need the document ID
+        );
+
+        courseList.add(course);
+      }
+    } catch (e) {
+      print('Error fetching subcollection data: $e');
+    }
+  }
+
+  void _onSearchTextChanged(String text) {
+    // Update the state with the new search text
+    setState(() {
+      searchText = text;
+    });
+
+    // Call your filtering logic here if needed
+    // For example, you can filter the courseList based on the searchText
+    // and update the filteredCourses list accordingly.
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed
+    searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final filteredCourses = courseList.where((course) {
-      return selectedCategory.isEmpty || selectedCategory == course.category;
-    }).toList();
+    final filteredCourses = searchController.text.isNotEmpty
+        ? courseList.where((course) {
+            // Check if the course code contains the search query
+            // and if the category matches the selected category
+            return course.courseCode
+                    .toLowerCase()
+                    .contains(searchController.text.toLowerCase()) &&
+                (selectedCategory.isEmpty ||
+                    selectedCategory == course.category);
+          }).toList()
+        : [];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -339,16 +370,21 @@ class _SearchCourseState extends State<SearchCourse> {
                         ),
                       ),
                       Expanded(
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 1),
-                          scrollDirection: Axis.vertical,
-                          itemCount: filteredCourses.length,
-                          itemBuilder: (context, index) {
-                            final course = filteredCourses[index];
-                            return _buildCourseList(context, course, index);
-                          },
-                        ),
+                        child: filteredCourses.isEmpty
+                            ? Center(
+                                child: Text('No courses found.'),
+                              )
+                            : ListView.separated(
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 1),
+                                scrollDirection: Axis.vertical,
+                                itemCount: filteredCourses.length,
+                                itemBuilder: (context, index) {
+                                  final course = filteredCourses[index];
+                                  return _buildCourseList(
+                                      context, course, index);
+                                },
+                              ),
                       ),
                     ],
                   ),
@@ -513,7 +549,4 @@ class _SearchCourseState extends State<SearchCourse> {
       ),
     );
   }
-
-
-  
 }

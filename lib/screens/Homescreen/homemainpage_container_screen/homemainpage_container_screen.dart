@@ -10,45 +10,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class CardDataRepository {
-  Future<Map<String, String?>?> getCardData(String userId) async {
-    try {
-      // Reference to the "carddata" collection under the user's IDzz
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(userId) // Use the provided userId parameter
-              .collection('carddata')
-              .doc(userId) // Use the provided userId parameter
-              .get();
-
-      // Check if the document exists
-      if (snapshot.exists) {
-        // Extract field values from the document data
-        String? university = snapshot.data()?['university'];
-        String? degree = snapshot.data()?['degree'];
-        String? course = snapshot.data()?['course'];
-        String? semester = snapshot.data()?['semester'];
-
-        // Return the card data as a map
-        return {
-          'university': university,
-          'degree': degree,
-          'course': course,
-          'semester': semester,
-        };
-      } else {
-        // Return null if the document doesn't exist
-        return null;
-      }
-    } catch (e) {
-      // Print an error message if an error occurs
-      print('Error retrieving card data: $e');
-      return null;
-    }
-  }
-}
-
 class HomemainpageContainerScreen extends StatefulWidget {
   final String? university;
   final String? degree;

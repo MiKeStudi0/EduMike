@@ -170,7 +170,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          backgroundColor: appTheme.blue50,
+            backgroundColor: appTheme.blue50,
             resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(context),
             body: _isLoading
@@ -269,11 +269,9 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       prefix: Padding(
                                         padding: const EdgeInsets.all(11.0),
                                         child: CustomImageView(
-                                          
                                           imagePath: ImageConstant.userIcon,
                                           height: 5.v,
                                           width: 5.h,
-                                         
                                         ),
                                       ),
                                       controller: fullnameController,
@@ -295,11 +293,9 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       prefix: Padding(
                                         padding: const EdgeInsets.all(11.0),
                                         child: CustomImageView(
-                                          
                                           imagePath: ImageConstant.nickname,
                                           height: 5.v,
                                           width: 5.h,
-                                         
                                         ),
                                       ),
                                       controller: nameController,
@@ -325,14 +321,12 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                         padding: const EdgeInsets.all(11.0),
                                         child: GestureDetector(
                                           onTap: () {
-                                                _selectdate();
-                                              },
+                                            _selectdate();
+                                          },
                                           child: CustomImageView(
-                                            
                                             imagePath: ImageConstant.calender,
                                             height: 5.v,
                                             width: 5.h,
-                                           
                                           ),
                                         ),
                                       ),
@@ -353,18 +347,15 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                     child: Row(
                                       children: [
                                         Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: CustomImageView(
-                                          
-                                          imagePath: ImageConstant.google,
-                                          height: 26.v,
-                                          width: 26.h,
-                                         
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: CustomImageView(
+                                            imagePath: ImageConstant.google,
+                                            height: 26.v,
+                                            width: 26.h,
+                                          ),
                                         ),
-                                      ),
                                         Expanded(
                                           child: TextFormField(
-                                            
                                             enabled: false,
                                             focusNode:
                                                 FocusNode(), // Disabling focus
@@ -387,10 +378,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       prefix: Padding(
                                         padding: const EdgeInsets.all(11.0),
                                         child: CustomImageView(
-                                          
                                           imagePath: ImageConstant.call,
-                                        
-                                         
                                         ),
                                       ),
                                       controller: phoneNumberController,
@@ -434,18 +422,18 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                       });
                                     },
                                     prefix: genderController.text == 'Female'
-                                        ? const Icon(Icons.female,size: 32,
-                                         color: Color.fromARGB(255, 14, 112, 248))
-                                        :Padding(
-                                        padding: const EdgeInsets.all(11.0),
-                                        child: CustomImageView(
-                                          
-                                          imagePath: ImageConstant.gender,
-                                          height: 5.v,
-                                          width: 5.h,
-                                         
-                                        ),
-                                      ),
+                                        ? const Icon(Icons.female,
+                                            size: 32,
+                                            color: Color.fromARGB(
+                                                255, 14, 112, 248))
+                                        : Padding(
+                                            padding: const EdgeInsets.all(11.0),
+                                            child: CustomImageView(
+                                              imagePath: ImageConstant.gender,
+                                              height: 5.v,
+                                              width: 5.h,
+                                            ),
+                                          ),
                                   ),
 
                                   SizedBox(height: 20.v),
@@ -454,88 +442,83 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                 ])))))));
   }
 
-  
-Widget _buildUpdateButton(BuildContext context) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      CustomOutlinedButton(
-        
-        width: 140.h,
-        text: "Cancel",
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      CustomElevatedButton(
-        
-        width: 206.h,
-        text: "Yes, Update",
-        onPressed: () async{
-           try {
-          // Step 1: Upload Image to Firebase Storage
-          User? user = FirebaseAuth.instance.currentUser;
-          if (_selectedImage != null) {
-            Reference storageReference = FirebaseStorage.instance
-                .ref()
-                .child('user_images')
-                .child(user!.uid);
-            UploadTask uploadTask =
-                storageReference.putFile(File(_selectedImage!.path));
-            await uploadTask.whenComplete(() => null);
-          }
+  Widget _buildUpdateButton(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CustomElevatedButton(
+          width: 140.h,
+          text: "Cancel",
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        CustomElevatedButton(
+          width: 206.h,
+          text: "Yes, Update",
+          onPressed: () async {
+            try {
+              // Step 1: Upload Image to Firebase Storage
+              User? user = FirebaseAuth.instance.currentUser;
+              if (_selectedImage != null) {
+                Reference storageReference = FirebaseStorage.instance
+                    .ref()
+                    .child('user_images')
+                    .child(user!.uid);
+                UploadTask uploadTask =
+                    storageReference.putFile(File(_selectedImage!.path));
+                await uploadTask.whenComplete(() => null);
+              }
 
-          // Step 2: Get Download URL
-          String? profileUrl;
-          if (_selectedImage != null) {
-            profileUrl = await FirebaseStorage.instance
-                .ref()
-                .child('user_images')
-                .child(user!.uid)
-                .getDownloadURL();
-          }
+              // Step 2: Get Download URL
+              String? profileUrl;
+              if (_selectedImage != null) {
+                profileUrl = await FirebaseStorage.instance
+                    .ref()
+                    .child('user_images')
+                    .child(user!.uid)
+                    .getDownloadURL();
+              }
 
-          // Step 3: Update User Profile Data in Firestore
-          await FirebaseFirestore.instance
-              .collection('users')
-              .doc(_user.uid)
-              .update({
-            'fullname': fullnameController.text,
-            'nickname': nameController.text,
-            'dateofbirth': dateOfBirthController.text,
-            'email': emailController.text,
-            'phone': phoneNumberController.text,
-            'gender': genderController.text,
-            'profileUrl': profileUrl,
-          });
+              // Step 3: Update User Profile Data in Firestore
+              await FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(_user.uid)
+                  .update({
+                'fullname': fullnameController.text,
+                'nickname': nameController.text,
+                'dateofbirth': dateOfBirthController.text,
+                'email': emailController.text,
+                'phone': phoneNumberController.text,
+                'gender': genderController.text,
+                'profileUrl': profileUrl,
+              });
 
-          // Update controllers with the new values
-          setState(() {
-            fullnameController.text = fullnameController.text;
-            nameController.text = nameController.text;
-            dateOfBirthController.text = dateOfBirthController.text;
-            emailController.text = emailController.text;
-            phoneNumberController.text = phoneNumberController.text;
-            genderController.text = genderController.text;
-          });
+              // Update controllers with the new values
+              setState(() {
+                fullnameController.text = fullnameController.text;
+                nameController.text = nameController.text;
+                dateOfBirthController.text = dateOfBirthController.text;
+                emailController.text = emailController.text;
+                phoneNumberController.text = phoneNumberController.text;
+                genderController.text = genderController.text;
+              });
 
-          // Optionally, you can show a success message or navigate to another screen.
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Profile updated successfully!')),
-          );
+              // Optionally, you can show a success message or navigate to another screen.
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Profile updated successfully!')),
+              );
 
-          Navigator.pop(context);
-        } catch (error) {
-          print("Error updating user data: $error");
-          // Handle error
-        }
-          
-        },
-      ),
-    ],
-  );
-}
-
+              Navigator.pop(context);
+            } catch (error) {
+              print("Error updating user data: $error");
+              // Handle error
+            }
+          },
+        ),
+      ],
+    );
+  }
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
