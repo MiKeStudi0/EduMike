@@ -307,7 +307,7 @@ class CategoryScreen extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                           OptionScreen()));
+                                                           GPAHomePage()));
                                         },
                                         child: CustomImageView(
                                             imagePath: ImageConstant.imgCgpaCal,
