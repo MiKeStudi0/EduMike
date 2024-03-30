@@ -8,6 +8,9 @@ class ImageConstant {
   // 02_INTRO-One images
   static String imgArrowRight = '$imagePath/img_arrow_right.png';
 
+
+  static String cardTutorial = '$imagePathHome/CardTutorial.jpg';
+
   // 05_LET'S YOU IN images
   static String imgGoogle = '$imagePath/img_google.png';
 
