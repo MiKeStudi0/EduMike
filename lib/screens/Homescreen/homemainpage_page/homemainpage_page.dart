@@ -1,15 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/screens/Homescreen/add_university_card_screen/add_university_card_screen.dart';
-import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
 import 'package:edumike/screens/Homescreen/indoxmainpage_page/indoxmainpage_page.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:edumike/screens/Homescreen/search_screen/dummy.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../homemainpage_page/widgets/category_item_widget.dart';
-import '../homemainpage_page/widgets/userprofile_item_widget.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle_one.dart';
 import 'package:edumike/widgets/app_bar/appbar_title_home.dart';
@@ -135,11 +131,11 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                               );
                             },
                             backgroundColor: Colors.transparent,
-                          
                           );
                         },
                         child: Container(
                           width: 414.h,
+                          height: 50.v,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
                           decoration: BoxDecoration(
@@ -190,39 +186,15 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                       padding: EdgeInsets.only(left: 18.h, right: 50.h),
                       child: _buildTopMentor(context,
                           text: "My Courses", seeAll: "See All")),
-
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   Padding(
                       padding: EdgeInsets.only(
                         left: 10.v,
                       ),
                       child: CourseListBlock()),
-
-                  //SizedBox(height: 8.v),
-                  // /_buildCategory(context),
-                  // SizedBox(height: 18.v),
-                  // _buildCourse(context),
                   SizedBox(height: 15.v),
-                  // Padding(
-                  //     padding: EdgeInsets.only(left: 14.h, right: 56.h),
-                  //     child: _buildTopMentor(context,
-                  //         text: "Top Subscription",
-                  //         seeAll: "See All", onTapSeeAll: () {
-                  //       onTapTxtSeeAll(context);
-                  //     })),
-                  // SizedBox(height: 10.v),
-                  // _buildUserProfile(context),
-                  // SizedBox(height: 43.v),
-                  // ElevatedButton(
-                  //     onPressed: () {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => CourseListBlock(),));
-                  //     },
-                  //     child: Text('Course List')),
-
-                  //  _buildUserCourse(context),
-                  // Button to navigate to another page
                 ],
               ),
             ),
@@ -598,72 +570,6 @@ class _HomemainpagePageState extends State<HomemainpagePage>
             ])));
   }
 
-  /// Section Widget
-  Widget _buildCategory(BuildContext context) {
-    return SizedBox(
-        height: 30.v,
-        child: ListView.separated(
-            padding: EdgeInsets.only(left: 14.h),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) {
-              return SizedBox(width: 12.h);
-            },
-            itemCount: 4,
-            itemBuilder: (context, index) {
-              return const CategoryItemWidget();
-            }));
-  }
-
-  /// Section Widget
-  Widget _buildCourse(BuildContext context) {
-    return SizedBox(
-      height: 240.v,
-      width: 414.h,
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: IntrinsicWidth(
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CategoryScreen(
-                                university: university,
-                                degree: degree,
-                                course: course,
-                                semester: semester,
-                              )),
-                    );
-                  },
-                  child: const CourseWidget()),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildUserProfile(BuildContext context) {
-    return SizedBox(
-        height: 104.v,
-        child: ListView.separated(
-            padding: EdgeInsets.only(left: 14.h),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) {
-              return SizedBox(width: 14.h);
-            },
-            itemCount: 7,
-            itemBuilder: (context, index) {
-              return UserprofileItemWidget(onTapBackgroundImage: () {
-                //onTapBackgroundImage(context);
-              });
-            }));
-  }
-
   /// popup varunnath
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -712,25 +618,6 @@ class _HomemainpagePageState extends State<HomemainpagePage>
           width: 5.h,
           margin: EdgeInsets.only(left: 10.h, top: 7.v, bottom: 9.v))
     ]);
-  }
-
-  /// Common widget
-  Widget _buildGraphicDesign(
-    BuildContext context, {
-    required String text,
-  }) {
-    return SizedBox(
-        width: 245.h,
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Padding(
-              padding: EdgeInsets.only(bottom: 1.v),
-              child: Text(text,
-                  style: CustomTextStyles.labelLargeMulishOrangeA700
-                      .copyWith(color: appTheme.orangeA700))),
-          CustomImageView(
-              imagePath: ImageConstant.imgBookmark, height: 18.v, width: 14.h)
-        ]));
   }
 
   /// Navigates to the appNotificationsScreen when the action is triggered.

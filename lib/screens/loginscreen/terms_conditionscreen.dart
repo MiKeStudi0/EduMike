@@ -1,5 +1,4 @@
 import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemainpage_container_screen.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
 import 'package:flutter/material.dart';
 
 class TermsAndConditionsPage extends StatefulWidget {

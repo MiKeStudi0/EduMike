@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
-import 'package:email_otp/email_otp.dart';
 
 class RegisterNowScreen extends StatefulWidget {
   RegisterNowScreen({Key? key})

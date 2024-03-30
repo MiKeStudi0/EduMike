@@ -1,4 +1,3 @@
-import 'package:edumike/routes/app_routes.dart';
 import 'package:edumike/screens/loginscreen/into_two_screen.dart';
 import 'package:edumike/screens/loginscreen/intro_one_screen.dart';
 import 'package:edumike/screens/loginscreen/intro_three_screen.dart';
