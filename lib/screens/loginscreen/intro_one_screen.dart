@@ -6,12 +6,11 @@ class IntroOneScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.gray50,
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -21,12 +20,12 @@ class IntroOneScreen extends StatelessWidget {
               ],
             ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 36, vertical: 100),
+          padding:  EdgeInsets.symmetric(horizontal: 36.h, vertical: 100.v),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                "Add Your Card Details",
+              const Text(
+                "1. Add Your Card Details",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -34,7 +33,7 @@ class IntroOneScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+               SizedBox(height: 2.h),
               Container(
                 decoration: BoxDecoration(
                   boxShadow: [
@@ -42,7 +41,7 @@ class IntroOneScreen extends StatelessWidget {
                       color: Colors.black.withOpacity(0.2),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -50,23 +49,25 @@ class IntroOneScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
                     ImageConstant.cardTutorial,
-                    height: 400,
+                    height: 450,
                     width: 280,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
-                "First You Need to Add Your Card Details to get Your Course Access",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                ),
-              ),
-              SizedBox(height: 20),
-             
+               SizedBox(height: 10.h),
+               Padding(
+                 padding:  EdgeInsets.only(left: 28.v,right: 9.v,bottom: 9.h),
+                 child: Text(
+                  "First You Need to Add Your Card Details to get Your Course Access",
+                
+                  style: TextStyle(
+                    color: Colors.white,
+                       fontSize: theme.textTheme.titleSmall?.fontSize ?? 0),
+                               ),
+               ),
+               SizedBox(height: 20.h),
+          
             ],
           ),
         ),

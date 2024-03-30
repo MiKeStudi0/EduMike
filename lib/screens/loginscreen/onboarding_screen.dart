@@ -65,7 +65,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                   controller: _pageController,
                   count: 3,
                   effect: ExpandingDotsEffect(
-                    activeDotColor: Colors.blue,
+                    activeDotColor: const Color.fromARGB(255, 255, 255, 255),
                     dotColor: Colors.grey,
                     dotHeight: 8,
                     dotWidth: 8,
