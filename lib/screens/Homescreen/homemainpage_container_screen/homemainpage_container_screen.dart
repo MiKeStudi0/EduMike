@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/homemainpage_page.dart';
-import 'package:edumike/screens/Homescreen/indoxmainpage_page/indoxmainpage_page.dart';
 import 'package:edumike/screens/Homescreen/my_bookmark_page/my_bookmark_page.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:edumike/screens/Homescreen/profiles_page/profiles_page.dart';
@@ -134,7 +133,10 @@ class _HomemainpageContainerScreenState
         semester: selectedsemester,
       ),
       // IndoxmainpagePage(),
-      MyBookmarkPage(),
+      MyBookmarkPage(university: selecteduniversity,
+        degree: selecteddegree,
+        course: selectedcourse,
+        semester: selectedsemester,),
       ProfilesPage(),
     ];
     String imagePathHome = 'assets/images/home_image';
@@ -193,7 +195,10 @@ class _HomemainpageContainerScreenState
         semester: selectedsemester,
       ),
       // IndoxmainpagePage(),
-      MyBookmarkPage(),
+      MyBookmarkPage( university: selecteduniversity,
+        degree: selecteddegree,
+        course: selectedcourse,
+        semester: selectedsemester,),
       ProfilesPage(),
     ];
     return screens[_currentIndex];

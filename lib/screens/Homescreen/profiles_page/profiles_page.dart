@@ -10,7 +10,6 @@ import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
-import 'package:edumike/widgets/custom_icon_button_home.dart';
 import 'package:edumike/widgets/custom_outlined_button_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,6 @@
 import 'package:edumike/core/app_export.dart';
+import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
+import 'package:edumike/screens/Homescreen/modules_screen/syllabus.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
@@ -31,8 +33,17 @@ class Bookmark {
 }
 
 class MyBookmarkPage extends StatefulWidget {
-  const MyBookmarkPage({Key? key}) : super(key: key);
+  final String? university;
+  final String? degree;
+  final String? course;
+  final String? semester;
 
+  MyBookmarkPage({
+    required this.university,
+    required this.degree,
+    required this.course,
+    required this.semester,
+  });
   @override
   _MyBookmarkPageState createState() => _MyBookmarkPageState();
 }
@@ -94,7 +105,9 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     final filteredBookmarks = bookmarks.where((bookmark) {
       return selectedCategory.isEmpty || selectedCategory == bookmark.category;
     }).toList();
@@ -121,7 +134,13 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                       itemCount: filteredBookmarks.length,
                       itemBuilder: (context, index) {
                         final bookmark = filteredBookmarks[index];
-                        return _buildBookmarkItem(bookmark);
+                        return _buildBookmarkItem(
+                          bookmark,
+                          widget.university,
+                          widget.degree,
+                          widget.course,
+                          widget.semester,
+                        );
                       },
                     )
                   : const Center(
@@ -475,139 +494,178 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
     }
   }
 
-  Widget _buildBookmarkItem(Bookmark bookmark) {
-    return Container(
-      margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 20.v),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            spreadRadius: 2,
-            blurRadius: 2,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          CustomImageView(
-            imagePath: ImageConstant.imgImage,
-            height: 130.adaptSize,
-            width: 130.adaptSize,
-            radius: BorderRadius.horizontal(
-              left: Radius.circular(20.h),
+  Widget _buildBookmarkItem(
+    Bookmark bookmark,
+    String? selecteduniversity,
+    String? selecteddegree,
+    String? selectedcourse,
+    String? selectedsemester,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        if (selectedCategory == 'Syllabus') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Syllabus(
+                university: selecteduniversity!,
+                degree: selecteddegree!,
+                course: selectedcourse!,
+                semester: selectedsemester!,
+                courseName: bookmark.courseName,
+                category: bookmark.category,
+              ),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 14.h, top: 15.v, bottom: 18.v),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 195.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ModulesScreen(
+                university: selecteduniversity!,
+                degree: selecteddegree!,
+                course: selectedcourse!,
+                semester: selectedsemester!,
+                courseName: bookmark.courseName,
+                category: bookmark.category,
+              ),
+            ),
+          );
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 20.h, right: 20.h, bottom: 20.v),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              spreadRadius: 2,
+              blurRadius: 2,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            CustomImageView(
+              imagePath: ImageConstant.imgImage,
+              height: 130.adaptSize,
+              width: 130.adaptSize,
+              radius: BorderRadius.horizontal(
+                left: Radius.circular(20.h),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 14.h, top: 15.v, bottom: 18.v),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 195.h,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            bookmark.category,
+                            style: CustomTextStyles.labelLargeMulishOrangeA700,
+                          ),
+                          SizedBox(
+                            height: 16.v,
+                            width: 12.h,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                CustomImageView(
+                                  imagePath: ImageConstant.imgBookmarkPrimary,
+                                  height: 16.v,
+                                  width: 12.h,
+                                  alignment: Alignment.center,
+                                  onTap: () {
+                                    _showBottomSheet(
+                                        context,
+                                        bookmark.category,
+                                        bookmark.courseName,
+                                        bookmark.courseCode,
+                                        bookmark.courseCredit,
+                                        bookmark.university,
+                                        bookmark.degree,
+                                        bookmark.course,
+                                        bookmark.semester);
+                                  },
+                                ),
+                                // CustomImageView(
+                                //   imagePath: ImageConstant.imgBookmarkPrimary,
+                                //   height: 16.v,
+                                //   width: 12.h,
+                                //   alignment: Alignment.center,
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 8.v),
+                    Text(
+                      bookmark.courseName,
+                      style: theme.textTheme.titleMedium,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 5.v),
+                    Text(
+                      bookmark.courseCode,
+                      style: theme.textTheme.titleSmall,
+                    ),
+                    SizedBox(height: 5.v),
+                    Row(
                       children: [
-                        Text(
-                          bookmark.category,
-                          style: CustomTextStyles.labelLargeMulishOrangeA700,
-                        ),
-                        SizedBox(
-                          height: 16.v,
-                          width: 12.h,
-                          child: Stack(
-                            alignment: Alignment.center,
+                        Container(
+                          width: 32.h,
+                          margin: EdgeInsets.only(top: 3.v),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomImageView(
-                                imagePath: ImageConstant.imgBookmarkPrimary,
-                                height: 16.v,
+                                imagePath: ImageConstant.imgSignal,
+                                height: 11.v,
                                 width: 12.h,
-                                alignment: Alignment.center,
-                                onTap: () {
-                                  _showBottomSheet(
-                                      context,
-                                      bookmark.category,
-                                      bookmark.courseName,
-                                      bookmark.courseCode,
-                                      bookmark.courseCredit,
-                                      bookmark.university,
-                                      bookmark.degree,
-                                      bookmark.course,
-                                      bookmark.semester);
-                                },
+                                margin: EdgeInsets.only(bottom: 2.v),
                               ),
-                              // CustomImageView(
-                              //   imagePath: ImageConstant.imgBookmarkPrimary,
-                              //   height: 16.v,
-                              //   width: 12.h,
-                              //   alignment: Alignment.center,
-                              // ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 4),
+                                child: Text(
+                                  "${bookmark.courseCredit}",
+                                  style: theme.textTheme.labelMedium,
+                                ),
+                              ),
                             ],
                           ),
                         ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 5.h, top: 3.v),
+                          child: Text(
+                            "Credit",
+                            style: theme.textTheme.labelMedium,
+                          ),
+                        ),
+                        // Padding(
+                        //   padding: EdgeInsets.only(left: 16.h, top: 3.v),
+                        //   child: Text(
+                        //     bookmark.,
+                        //     style: theme.textTheme.labelMedium,
+                        //   ),
+                        // ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 8.v),
-                  Text(
-                    bookmark.courseName,
-                    style: theme.textTheme.titleMedium,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(height: 5.v),
-                  Text(
-                    bookmark.courseCode,
-                    style: theme.textTheme.titleSmall,
-                  ),
-                  SizedBox(height: 5.v),
-                  Row(
-                    children: [
-                      Container(
-                        width: 32.h,
-                        margin: EdgeInsets.only(top: 3.v),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomImageView(
-                              imagePath: ImageConstant.imgSignal,
-                              height: 11.v,
-                              width: 12.h,
-                              margin: EdgeInsets.only(bottom: 2.v),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: Text(
-                                "${bookmark.courseCredit}",
-                                style: theme.textTheme.labelMedium,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 5.h, top: 3.v),
-                        child: Text(
-                          "Credit",
-                          style: theme.textTheme.labelMedium,
-                        ),
-                      ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(left: 16.h, top: 3.v),
-                      //   child: Text(
-                      //     bookmark.,
-                      //     style: theme.textTheme.labelMedium,
-                      //   ),
-                      // ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

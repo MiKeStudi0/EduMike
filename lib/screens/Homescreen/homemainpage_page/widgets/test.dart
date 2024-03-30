@@ -1,3 +1,4 @@
+import 'package:edumike/screens/Homescreen/modules_screen/modules_screen.dart';
 import 'package:edumike/screens/Homescreen/modules_screen/syllabus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -351,6 +352,21 @@ class _CourseListBlockState extends State<CourseListBlock> {
             context,
             MaterialPageRoute(
               builder: (context) => Syllabus(
+                university: _selecteduniversity!,
+                degree: _selecteddegree!,
+                course: _selectedcourse!,
+                semester: _selectedsemester!,
+                courseName: course.courseName,
+                category: course.category,
+              ),
+            ),
+          );
+        }
+        else{
+           Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ModulesScreen(
                 university: _selecteduniversity!,
                 degree: _selecteddegree!,
                 course: _selectedcourse!,
