@@ -1,3 +1,4 @@
+import 'package:edumike/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class introTwoScreen extends StatefulWidget {
@@ -10,9 +11,22 @@ class introTwoScreen extends StatefulWidget {
 class _introTwoScreenState extends State<introTwoScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Center(child: Text("Two")),
+    return SafeArea(
+      child: Scaffold(
+         backgroundColor: appTheme.gray50,
+        body:  Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color.fromARGB(255, 15, 79, 184),
+                Color.fromARGB(255, 68, 156, 228),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
