@@ -133,7 +133,10 @@ class _HomemainpageContainerScreenState
         semester: selectedsemester,
       ),
       // IndoxmainpagePage(),
-      MyBookmarkPage(),
+      MyBookmarkPage(university: selecteduniversity,
+        degree: selecteddegree,
+        course: selectedcourse,
+        semester: selectedsemester,),
       ProfilesPage(),
     ];
     String imagePathHome = 'assets/images/home_image';
@@ -192,7 +195,10 @@ class _HomemainpageContainerScreenState
         semester: selectedsemester,
       ),
       // IndoxmainpagePage(),
-      MyBookmarkPage(),
+      MyBookmarkPage( university: selecteduniversity,
+        degree: selecteddegree,
+        course: selectedcourse,
+        semester: selectedsemester,),
       ProfilesPage(),
     ];
     return screens[_currentIndex];
