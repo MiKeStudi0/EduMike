@@ -138,6 +138,7 @@ class ImageConstant {
   static String imgEye = '$imagePathHome/img_eye.png';
 
   static String imgUserBlueGray9000121x18 =
+
       '$imagePathHome/img_user_blue_gray_900_01_21x18.png';
 
   static String imgProfile = '$imagePathHome/img_profile.png';
@@ -152,7 +153,7 @@ class ImageConstant {
   // 6_EDIT PROFILES images
 
   static String userIcon = '$imagePathHome/userIcon.svg';
-
+  static String profileedit = '$imagePathHome/profileedit.svg';
 
   static String nickname = '$imagePathHome/nickname.svg';
 

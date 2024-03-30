@@ -196,8 +196,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               border: Border.all(
-                                                color: appTheme
-                                                    .teal700, // Set border color here
+                                                color: Colors.blue, // Set border color here
                                                 width:
                                                     4, // Set border width here
                                               ),
@@ -212,7 +211,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 border: Border.all(
-                                                  color: appTheme.teal700,
+                                                  color: Colors.blue,
                                                   width: 4,
                                                 ),
                                               ),
@@ -246,7 +245,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                                 child: GestureDetector(
                                                   child: CustomImageView(
                                                     imagePath: ImageConstant
-                                                        .imgTelevisionTeal700,
+                                                        .profileedit,
                                                     onTap: () {
                                                       null;
                                                     },
