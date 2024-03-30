@@ -1,11 +1,9 @@
 import 'package:edumike/screens/loginscreen/google_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
-import 'package:flutter/widgets.dart';
 
 class LetSYouInScreen extends StatelessWidget {
   const LetSYouInScreen({Key? key}) : super(key: key);

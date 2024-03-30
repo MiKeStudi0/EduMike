@@ -337,7 +337,7 @@ class _SearchCourseState extends State<SearchCourse> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Thappi nokkam'),
+        title: const Text('Search Here'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

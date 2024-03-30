@@ -11,39 +11,67 @@ class IntroOneScreen extends StatelessWidget {
         backgroundColor: appTheme.gray50,
         body: Container(
           decoration: const BoxDecoration(
-            gradient:  LinearGradient(
+            gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color.fromARGB(255, 3, 29, 72),
+                Color.fromARGB(255, 15, 79, 184),
                 Color.fromARGB(255, 68, 156, 228),
               ],
             ),
           ),
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(horizontal: 36.h, vertical: 156.v),
-            child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Container(
-                child: CustomImageView(
-                    height: 300,
-                    width: 300,
-                    margin: EdgeInsets.only(bottom: 30.v),
-                    imagePath: ImageConstant.imglogo),
+          padding:  EdgeInsets.symmetric(horizontal: 65.h, vertical: 100.v),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Text(
+                "Add Your Card Details",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
               ),
-              const Spacer(),
-              Text("Welcome to Eduwise", style: theme.textTheme.headlineSmall),
-              SizedBox(height: 6.v),
-              SizedBox(
-                  width: 355.h,
-                  child: Text("Unlock Knowledge: Your Ultimate Study Companion",
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.titleSmall))
-            ])),
+               SizedBox(height: 2.h),
+              Container(
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    ImageConstant.cardTutorial,
+                    height: 500,
+                    width: 280,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+               SizedBox(height: 9.h),
+               Padding(
+                 padding:  EdgeInsets.only(left: 1.v,right: 9.v,bottom: 9.h),
+                 child: Text(
+                  "First Click Here to Add Your Card Details",
+                
+                  style: TextStyle(
+                    color: Colors.white,
+                       fontSize: theme.textTheme.titleSmall?.fontSize ?? 0),
+                               ),
+               ),
+               SizedBox(height: 20.h),
+          
+            ],
+          ),
+        ),
       ),
     );
   }
-
-  /// Navigates to the letSYouInScreen when the action is triggered.
 }
