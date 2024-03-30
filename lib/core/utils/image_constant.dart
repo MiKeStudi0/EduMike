@@ -11,6 +11,9 @@ class ImageConstant {
 
   static String cardTutorial = '$imagePathHome/CardTutorial.jpg';
 
+  static String cardTutorial2 = '$imagePathHome/cardTutorial2.jpg';
+static String cardTutorialadd = '$imagePathHome/cardTutorialadd.jpg';
+static String cardTutorialadded = '$imagePathHome/cardTutorialadded.jpg';
   // 05_LET'S YOU IN images
   static String imgGoogle = '$imagePath/img_google.png';
 

@@ -20,12 +20,12 @@ class IntroOneScreen extends StatelessWidget {
               ],
             ),
           ),
-          padding:  EdgeInsets.symmetric(horizontal: 36.h, vertical: 100.v),
+          padding:  EdgeInsets.symmetric(horizontal: 65.h, vertical: 100.v),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const Text(
-                "1. Add Your Card Details",
+                "Add Your Card Details",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24,
@@ -49,17 +49,17 @@ class IntroOneScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
                     ImageConstant.cardTutorial,
-                    height: 450,
+                    height: 500,
                     width: 280,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-               SizedBox(height: 10.h),
+               SizedBox(height: 9.h),
                Padding(
-                 padding:  EdgeInsets.only(left: 28.v,right: 9.v,bottom: 9.h),
+                 padding:  EdgeInsets.only(left: 1.v,right: 9.v,bottom: 9.h),
                  child: Text(
-                  "First You Need to Add Your Card Details to get Your Course Access",
+                  "First Click Here to Add Your Card Details",
                 
                   style: TextStyle(
                     color: Colors.white,
