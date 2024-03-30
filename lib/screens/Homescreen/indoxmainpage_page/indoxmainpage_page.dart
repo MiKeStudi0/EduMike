@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -84,104 +85,103 @@ class _IndoxmainpagePageState extends State<IndoxmainpagePage> {
       title: const Text('Inbox'),
     );
   }
+Widget _buildMessageWidget(
+  Message message,
+  String receiverNickname,
+  String receiverProfileIcon,
+) {
+  double maxContainerWidth = MediaQuery.of(context).size.width * 0.7;
+  BorderRadius borderRadius;
 
-  Widget _buildMessageWidget(
-    Message message,
-    String receiverNickname,
-    String receiverProfileIcon,
-  ) {
-    double maxContainerWidth = MediaQuery.of(context).size.width * 0.7;
-    BorderRadius borderRadius;
-
-    // Set different border radii based on whether the message is from the sender or receiver
-    if (message.senderId == getUserId()) {
-      borderRadius = const BorderRadius.only(
-        topLeft: Radius.circular(15),
-        topRight: Radius.circular(15.0),
-        bottomLeft: Radius.circular(15.0),
-      );
-    } else {
-      borderRadius = const BorderRadius.only(
-        topRight: Radius.circular(15.0),
-        bottomLeft: Radius.circular(15.0),
-        bottomRight: Radius.circular(15.0),
-      );
-    }
-    return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Only show profile picture if it's not the current user's message
-          if (message.senderId != getUserId())
-            CircleAvatar(
-              backgroundImage: NetworkImage(receiverProfileIcon),
-            ),
-          const SizedBox(width: 3.0),
-          Expanded(
-            child: Align(
-              alignment: message.senderId == getUserId()
-                  ? Alignment.centerRight
-                  : Alignment.centerLeft,
-              child: IntrinsicWidth(
-                child: Container(
-                  margin: const EdgeInsets.only(
-                      left: 10, right: 10, top: 3, bottom: 3),
-                  padding: const EdgeInsets.only(
-                      left: 10, right: 10, top: 5, bottom: 5),
-                  constraints: BoxConstraints(
-                    maxWidth: maxContainerWidth,
-                  ),
-                  decoration: BoxDecoration(
-                    color: message.senderId == getUserId()
-                        ? Colors.blue
-                        : const Color.fromARGB(255, 90, 90, 90),
-                    borderRadius: borderRadius,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (message.senderId != getUserId())
-                        Text(
-                          receiverNickname,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      const SizedBox(height: 4.0),
+  // Set different border radii based on whether the message is from the sender or receiver
+  if (message.senderId == getUserId()) {
+    borderRadius = const BorderRadius.only(
+      topLeft: Radius.circular(15),
+      topRight: Radius.circular(15.0),
+      bottomLeft: Radius.circular(15.0),
+    );
+  } else {
+    borderRadius = const BorderRadius.only(
+      topRight: Radius.circular(15.0),
+      bottomLeft: Radius.circular(15.0),
+      bottomRight: Radius.circular(15.0),
+    );
+  }
+  return Padding(
+    padding: const EdgeInsets.only(left: 8.0),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Only show profile picture if it's not the current user's message
+        if (message.senderId != getUserId())
+          CircleAvatar(
+            backgroundImage: CachedNetworkImageProvider(receiverProfileIcon),
+          ),
+        const SizedBox(width: 3.0),
+        Expanded(
+          child: Align(
+            alignment: message.senderId == getUserId()
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: IntrinsicWidth(
+              child: Container(
+                margin: const EdgeInsets.only(
+                    left: 10, right: 10, top: 3, bottom: 3),
+                padding: const EdgeInsets.only(
+                    left: 10, right: 10, top: 5, bottom: 5),
+                constraints: BoxConstraints(
+                  maxWidth: maxContainerWidth,
+                ),
+                decoration: BoxDecoration(
+                  color: message.senderId == getUserId()
+                      ? Colors.blue
+                      : const Color.fromARGB(255, 90, 90, 90),
+                  borderRadius: borderRadius,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (message.senderId != getUserId())
                       Text(
-                        message.text,
+                        receiverNickname,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 4.0),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 50),
-                          child: Text(
-                            message.timestamp != null
-                                ? _formatDateTime(message.timestamp!)
-                                : '',
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 8.0,
-                            ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      message.text,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.0,
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 50),
+                        child: Text(
+                          message.timestamp != null
+                              ? _formatDateTime(message.timestamp!)
+                              : '',
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 8.0,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ),
+  );
   }
 
   Widget _buildInputField() {
