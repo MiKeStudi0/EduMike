@@ -1,4 +1,5 @@
 import 'package:edumike/screens/loginscreen/google_auth.dart';
+import 'package:edumike/widgets/custom_outlined_button_home.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
@@ -31,6 +32,8 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
   bool termsAgreement = false;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool showEmailField = true;
 
   @override
   Widget build(BuildContext context) {
@@ -92,24 +95,54 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
                       style: theme.textTheme.titleSmall,
                     ),
                   ),
-                  SizedBox(height: 48.v),
-                  CustomTextFormField(
-                    controller: emailController,
-                    focusNode: emailFocusNode,
-                    hintText: "Email",
-                    textInputType: TextInputType.emailAddress,
-                    prefix: Container(
-                      margin: EdgeInsets.fromLTRB(20.h, 22.v, 7.h, 23.v),
-                      child: CustomImageView(
-                        imagePath: ImageConstant.imgLock,
-                        height: 14.v,
-                        width: 18.h,
-                      ),
-                    ),
-                    prefixConstraints: BoxConstraints(
-                      maxHeight: 60.v,
+                  SizedBox(height: 20.v),
+                  // Add the toggle button
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        showEmailField = !showEmailField; // Toggle the state
+                      });
+                    },
+                    icon: Icon(
+                      showEmailField ? Icons.phone : Icons.email,
                     ),
                   ),
+                  showEmailField
+                      ? CustomTextFormField(
+                          controller: emailController,
+                          focusNode: emailFocusNode,
+                          hintText: "Email",
+                          textInputType: TextInputType.emailAddress,
+                          prefix: Container(
+                            margin: EdgeInsets.fromLTRB(20.h, 22.v, 7.h, 23.v),
+                            child: CustomImageView(
+                              imagePath: ImageConstant.imgLock,
+                              height: 14.v,
+                              width: 18.h,
+                            ),
+                          ),
+                          prefixConstraints: BoxConstraints(
+                            maxHeight: 60.v,
+                          ),
+                        )
+                      : CustomTextFormField(
+                          controller: emailController,
+                          focusNode: emailFocusNode,
+                          hintText: "Phone Number",
+                          textInputType: TextInputType.emailAddress,
+                          prefix: Container(
+                            margin: EdgeInsets.fromLTRB(20.h, 22.v, 7.h, 23.v),
+                            child: CustomImageView(
+                              imagePath: ImageConstant.imgLock,
+                              height: 14.v,
+                              width: 18.h,
+                            ),
+                          ),
+                          prefixConstraints: BoxConstraints(
+                            maxHeight: 60.v,
+                          ),
+                        ),
+
                   SizedBox(height: 20.v),
                   CustomTextFormField(
                     focusNode: passwordFocusNode,
@@ -154,34 +187,36 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
                   SizedBox(height: 20.v),
                   _buildTermsAgreement(context),
                   SizedBox(height: 35.v),
-                 GestureDetector(
-  onTap: () {
-    if (termsAgreement) { // Check if terms are agreed upon
-      onTapBtnSIgnup(context); // Call onTapBtnSIgnup only if terms are agreed
-    } else {
-      // Show a message or perform any other action when terms are not agreed upon
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Terms & Conditions"),
-            content: Text("Please agree to the terms and conditions."),
-            actions: <Widget>[
-              FloatingActionButton(
-                child: Text("Close"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  },
-  child: _buildRegistrationForm(context),
-),
-
+                  GestureDetector(
+                    onTap: () {
+                      if (termsAgreement) {
+                        // Check if terms are agreed upon
+                        onTapBtnSIgnup(
+                            context); // Call onTapBtnSIgnup only if terms are agreed
+                      } else {
+                        // Show a message or perform any other action when terms are not agreed upon
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text("Terms & Conditions"),
+                              content: Text(
+                                  "Please agree to the terms and conditions."),
+                              actions: <Widget>[
+                                FloatingActionButton(
+                                  child: Text("Close"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                    child: _buildRegistrationForm(context),
+                  ),
                   SizedBox(height: 25.v),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -326,38 +361,37 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
               const SizedBox(width: 8.0),
               GestureDetector(
                 onTap: () {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text("Terms & Conditions"),
-        content: const SingleChildScrollView(
-          child: Text(
-            // Add your terms and conditions text here
-            "By using this app, you agree to the following terms and conditions:\n\n"
-            "1. You agree to use the app for educational purposes only.\n\n"
-            "2. You must not use the app to distribute or access any unlawful material.\n\n"
-            "3. The content provided in the app is for informational purposes only and should not be considered professional advice.\n\n"
-            "4. We reserve the right to modify or discontinue the app at any time without prior notice.\n\n"
-            "5. You are responsible for maintaining the confidentiality of your account credentials.\n\n"
-            "6. Any misuse or unauthorized access to the app may result in termination of your account.\n\n"
-            "7. We may collect and use your personal information in accordance with our privacy policy.\n\n"
-            "8. By using the app, you agree to comply with all applicable laws and regulations.\n",
-          ),
-        ),
-        actions: <Widget>[
-          FloatingActionButton(
-            child: const Text("Close"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
-},
-
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Terms & Conditions"),
+                        content: const SingleChildScrollView(
+                          child: Text(
+                            // Add your terms and conditions text here
+                            "By using this app, you agree to the following terms and conditions:\n\n"
+                            "1. You agree to use the app for educational purposes only.\n\n"
+                            "2. You must not use the app to distribute or access any unlawful material.\n\n"
+                            "3. The content provided in the app is for informational purposes only and should not be considered professional advice.\n\n"
+                            "4. We reserve the right to modify or discontinue the app at any time without prior notice.\n\n"
+                            "5. You are responsible for maintaining the confidentiality of your account credentials.\n\n"
+                            "6. Any misuse or unauthorized access to the app may result in termination of your account.\n\n"
+                            "7. We may collect and use your personal information in accordance with our privacy policy.\n\n"
+                            "8. By using the app, you agree to comply with all applicable laws and regulations.\n",
+                          ),
+                        ),
+                        actions: <Widget>[
+                          FloatingActionButton(
+                            child: const Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 child: const Text(
                   "Agree to Terms & Conditions",
                   style: TextStyle(
