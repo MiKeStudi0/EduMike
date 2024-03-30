@@ -100,43 +100,43 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
     }).toList();
 
     final bookmarksInSelectedCategory = bookmarks.any((bookmark) {
-    return selectedCategory.isEmpty || selectedCategory == bookmark.category;
-  });
+      return selectedCategory.isEmpty || selectedCategory == bookmark.category;
+    });
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: appTheme.gray5001,
         appBar: _buildAppBar(context),
-        body:Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildFilterChips(),
-          Expanded(
-            child: bookmarksInSelectedCategory
-                ? ListView.separated(
-                    physics: BouncingScrollPhysics(),
-                    separatorBuilder: (context, index) {
-                      return SizedBox(height: 0.v);
-                    },
-                    itemCount: filteredBookmarks.length,
-                    itemBuilder: (context, index) {
-                      final bookmark = filteredBookmarks[index];
-                      return _buildBookmarkItem(bookmark);
-                    },
-                  )
-                : const Center(
-                    child: Text(
-                      'No bookmarks',
-                      style:TextStyle(
-                        fontStyle:  FontStyle.italic,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                        color:  Colors.grey
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildFilterChips(),
+            Expanded(
+              child: bookmarksInSelectedCategory
+                  ? ListView.separated(
+                      physics: BouncingScrollPhysics(),
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: 0.v);
+                      },
+                      itemCount: filteredBookmarks.length,
+                      itemBuilder: (context, index) {
+                        final bookmark = filteredBookmarks[index];
+                        return _buildBookmarkItem(bookmark);
+                      },
+                    )
+                  : const Center(
+                      child: Text(
+                        'No bookmarks',
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey),
+                      ),
                     ),
-                  ),
-                ),  
-         ) ],
-      ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -172,57 +172,92 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
     );
   }
 
-    /// popup varunnath
- void _showBottomSheet(BuildContext context,String Category,String CourseName,String CourseCode,String CourseCredit,String University,String Degree,String Course,String Semester) {
-  showModalBottomSheet(
-    context: context,
-    isScrollControlled: true,
-    builder: (BuildContext context) {
-      return ClipRRect(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(18.0)),
-        child: FractionallySizedBox(
-          heightFactor: 0.37, // Adjust this value as needed
-          child: Container(
-            // Set a specific height, you can adjust this value based on your needs
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: Removebookmark(context,Category,CourseName,CourseCode,CourseCredit,University,Degree,Course,Semester),
+  /// popup varunnath
+  void _showBottomSheet(
+      BuildContext context,
+      String Category,
+      String CourseName,
+      String CourseCode,
+      String CourseCredit,
+      String University,
+      String Degree,
+      String Course,
+      String Semester) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return ClipRRect(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(18.0)),
+          child: FractionallySizedBox(
+            heightFactor: 0.37, // Adjust this value as needed
+            child: Container(
+              // Set a specific height, you can adjust this value based on your needs
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: Removebookmark(context, Category, CourseName, CourseCode,
+                  CourseCredit, University, Degree, Course, Semester),
+            ),
           ),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 
-Widget Removebookmark(BuildContext context, String? category, String? courseName, String? courseCode, String? courseCredit, String? university, String? degree, String? course, String? semester) {
-  return Container(
-              //width: 100.h,
-              padding: EdgeInsets.symmetric(
-                horizontal: 34.h,
-                vertical: 31.v,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 43.h),
-                    child: Text(
-                      "Remove From Bookmark?",
-                      style: theme.textTheme.titleLarge,
-                    ),
-                  ),
-                  SizedBox(height: 23.v),
-                  _buildMainStack(context,category,courseName,courseCode,courseCredit,university,degree,course,semester),
-                  SizedBox(height: 29.v),
-                  _buildCancelButtons(context,category,courseName,courseCode,courseCredit,),
-                  SizedBox(height: 5.v),
-                ],
-              ),
-            );
-}
+  Widget Removebookmark(
+      BuildContext context,
+      String? category,
+      String? courseName,
+      String? courseCode,
+      String? courseCredit,
+      String? university,
+      String? degree,
+      String? course,
+      String? semester) {
+    return Container(
+      //width: 100.h,
+      padding: EdgeInsets.symmetric(
+        horizontal: 34.h,
+        vertical: 31.v,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 43.h),
+            child: Text(
+              "Remove From Bookmark?",
+              style: theme.textTheme.titleLarge,
+            ),
+          ),
+          SizedBox(height: 23.v),
+          _buildMainStack(context, category, courseName, courseCode,
+              courseCredit, university, degree, course, semester),
+          SizedBox(height: 29.v),
+          _buildCancelButtons(
+            context,
+            category,
+            courseName,
+            courseCode,
+            courseCredit,
+          ),
+          SizedBox(height: 5.v),
+        ],
+      ),
+    );
+  }
 
- /// Section Widget
-  Widget _buildMainStack(BuildContext context, String? category, String? courseName, String? courseCode, String? courseCredit, String? university, String? degree, String? course, String? semester) {
+  /// Section Widget
+  Widget _buildMainStack(
+      BuildContext context,
+      String? category,
+      String? courseName,
+      String? courseCode,
+      String? courseCredit,
+      String? university,
+      String? degree,
+      String? course,
+      String? semester) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -272,8 +307,7 @@ Widget Removebookmark(BuildContext context, String? category, String? courseName
                                 height: 16.v,
                                 width: 12.h,
                                 alignment: Alignment.center,
-                                onTap: () {
-                                },
+                                onTap: () {},
                               ),
                               // CustomImageView(
                               //   imagePath: ImageConstant.imgBookmarkPrimary,
@@ -349,84 +383,97 @@ Widget Removebookmark(BuildContext context, String? category, String? courseName
   }
 
   /// Section Widget
-/// Section Widget
-Widget _buildCancelButtons(BuildContext context, String? category, String? courseName, String? courseCode, String? courseCredit,) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      CustomOutlinedButton(
-        width: 140.h,
-        text: "Cancel",
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      CustomElevatedButton(
-        width: 206.h,
-        text: "Yes, Remove",
-        onPressed: () {
-          _removeBookmark(context, category, courseName, courseCode, courseCredit,);
-        },
-      ),
-    ],
-  );
-}
-void _removeBookmark(BuildContext context, String? category, String? courseName, String? courseCode, String? courseCredit) async {
-  try {
-    User? user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      // Reference to the user's bookmarks subcollection
-      CollectionReference<Map<String, dynamic>> userBookmarksCollection =
-          FirebaseFirestore.instance
-              .collection('users')
-              .doc(user.uid)
-              .collection('bookmarks');
-
-      // Query for the bookmarked course
-      QuerySnapshot<Map<String, dynamic>> snapshot =
-          await userBookmarksCollection
-              .where('category', isEqualTo: category)
-              .where('courseName', isEqualTo: courseName)
-              .where('courseCode', isEqualTo: courseCode)
-              .limit(1)
-              .get();
-
-      // Check if the bookmark exists
-      if (snapshot.docs.isNotEmpty) {
-        // Get the document ID of the bookmarked course
-        String bookmarkId = snapshot.docs.first.id;
-
-        // Delete the bookmarked course document
-        await userBookmarksCollection.doc(bookmarkId).delete();
-
-        // Pop the screen
-        Navigator.pop(context);
-
-        // Show a success message or perform any other action as needed
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Bookmark removed successfully"),
-        ));
-
-        // Refresh UI
-        setState(() {
-          bookmarks.removeWhere((bookmark) =>
-              bookmark.category == category &&
-              bookmark.courseName == courseName &&
-              bookmark.courseCode == courseCode &&
-              bookmark.courseCredit == courseCredit);
-        });
-      }
-    }
-  } catch (e) {
-    // Handle errors
-    print('Error removing bookmark: $e');
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Failed to remove bookmark"),
-    ));
+  /// Section Widget
+  Widget _buildCancelButtons(
+    BuildContext context,
+    String? category,
+    String? courseName,
+    String? courseCode,
+    String? courseCredit,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        CustomOutlinedButton(
+          width: 140.h,
+          text: "Cancel",
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        CustomElevatedButton(
+          width: 206.h,
+          text: "Yes, Remove",
+          onPressed: () {
+            _removeBookmark(
+              context,
+              category,
+              courseName,
+              courseCode,
+              courseCredit,
+            );
+          },
+        ),
+      ],
+    );
   }
-}
 
+  void _removeBookmark(BuildContext context, String? category,
+      String? courseName, String? courseCode, String? courseCredit) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+
+      if (user != null) {
+        // Reference to the user's bookmarks subcollection
+        CollectionReference<Map<String, dynamic>> userBookmarksCollection =
+            FirebaseFirestore.instance
+                .collection('users')
+                .doc(user.uid)
+                .collection('bookmarks');
+
+        // Query for the bookmarked course
+        QuerySnapshot<Map<String, dynamic>> snapshot =
+            await userBookmarksCollection
+                .where('category', isEqualTo: category)
+                .where('courseName', isEqualTo: courseName)
+                .where('courseCode', isEqualTo: courseCode)
+                .limit(1)
+                .get();
+
+        // Check if the bookmark exists
+        if (snapshot.docs.isNotEmpty) {
+          // Get the document ID of the bookmarked course
+          String bookmarkId = snapshot.docs.first.id;
+
+          // Delete the bookmarked course document
+          await userBookmarksCollection.doc(bookmarkId).delete();
+
+          // Pop the screen
+          Navigator.pop(context);
+
+          // Show a success message or perform any other action as needed
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Bookmark removed successfully"),
+          ));
+
+          // Refresh UI
+          setState(() {
+            bookmarks.removeWhere((bookmark) =>
+                bookmark.category == category &&
+                bookmark.courseName == courseName &&
+                bookmark.courseCode == courseCode &&
+                bookmark.courseCredit == courseCredit);
+          });
+        }
+      }
+    } catch (e) {
+      // Handle errors
+      print('Error removing bookmark: $e');
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Failed to remove bookmark"),
+      ));
+    }
+  }
 
   Widget _buildBookmarkItem(Bookmark bookmark) {
     return Container(
@@ -480,7 +527,16 @@ void _removeBookmark(BuildContext context, String? category, String? courseName,
                                 width: 12.h,
                                 alignment: Alignment.center,
                                 onTap: () {
-                                  _showBottomSheet(context,bookmark.category,bookmark.courseName,bookmark.courseCode,bookmark.courseCredit,bookmark.university,bookmark.degree,bookmark.course,bookmark.semester);
+                                  _showBottomSheet(
+                                      context,
+                                      bookmark.category,
+                                      bookmark.courseName,
+                                      bookmark.courseCode,
+                                      bookmark.courseCredit,
+                                      bookmark.university,
+                                      bookmark.degree,
+                                      bookmark.course,
+                                      bookmark.semester);
                                 },
                               ),
                               // CustomImageView(
@@ -556,13 +612,15 @@ void _removeBookmark(BuildContext context, String? category, String? courseName,
     );
   }
 
-
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
       leadingWidth: 61.h,
       leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgArrowDown,
-        margin: EdgeInsets.only(left: 35.h, top: 17.v, bottom: 18.v),
+        onTap: () {
+          null;
+        },
+        imagePath: ImageConstant.imgBookmarkPrimary22x18,
+        margin: EdgeInsets.only(left: 20.h, top: 17.v, bottom: 18.v),
       ),
       title: AppbarSubtitle(
         text: "My Bookmark",
@@ -570,9 +628,4 @@ void _removeBookmark(BuildContext context, String? category, String? courseName,
       ),
     );
   }
-
-
-
-
-  
 }
