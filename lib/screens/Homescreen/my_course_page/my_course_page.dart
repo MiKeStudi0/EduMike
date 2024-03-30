@@ -5,7 +5,6 @@ import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
-import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 
@@ -66,25 +65,54 @@ class MyCoursePage extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                     );
                   },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      border: Border.all(
-                          color:
-                              Colors.blueGrey), // Specify the border color here
-                    ),
-                    child: const Text(
-                      "Search course code or name",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black, // Specify the text color here
-                      ),
-                    ),
+                  child:  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Container(
+                            width: 414.h,
+                            height: 52.v,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16.0, vertical: 8.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                                colors: [Colors.blue, Colors.lightBlueAccent],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.4),
+                                  spreadRadius: 2,
+                                  blurRadius: 6,
+                                  offset: const Offset(
+                                      0, 5), // Adjust the vertical offset
+                                ),
+                              ],
+                            ),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.search,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                    width:
+                                        8), // Add some space between icon and text
+                                Text(
+                                  "Search Courses",
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                   ),
                 ),
-                SizedBox(height: 15.v),
+                SizedBox(height: 20.h),
                 Text(
                   "Current Semester",
                   style: CustomTextStyles.titleMediumBold,

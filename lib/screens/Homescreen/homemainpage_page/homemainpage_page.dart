@@ -108,54 +108,78 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 34.h),
-                    child: GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          builder: (BuildContext context) {
-                            return FractionallySizedBox(
-                              heightFactor: 0.90,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    topRight: Radius.circular(20.0),
+                      padding: EdgeInsets.symmetric(horizontal: 34.h),
+                      child: GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return FractionallySizedBox(
+                                heightFactor: 0.90,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20.0),
+                                      topRight: Radius.circular(20.0),
+                                    ),
+                                  ),
+                                  child: SearchCourse(
+                                    university: university!,
+                                    degree: degree!,
+                                    course: course!,
+                                    semester: semester!,
                                   ),
                                 ),
-                                child: SearchCourse(
-                                  university: university!,
-                                  degree: degree!,
-                                  course: course!,
-                                  semester: semester!,
+                              );
+                            },
+                            backgroundColor: Colors.transparent,
+                          );
+                        },
+                        child: Container(
+                          width: 414.h,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [Colors.blue, Colors.lightBlueAccent],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.4),
+                                spreadRadius: 2,
+                                blurRadius: 6,
+                                offset: const Offset(
+                                    0, 5), // Adjust the vertical offset
+                              ),
+                            ],
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.search,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                  width:
+                                      8), // Add some space between icon and text
+                              Text(
+                                "Search Courses",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            );
-                          },
-                          backgroundColor: Colors.transparent,
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          border: Border.all(
-                              color: Colors
-                                  .blueGrey), // Specify the border color here
-                        ),
-                        child: const Text(
-                          "Search course code or name",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black, // Specify the text color here
+                            ],
                           ),
                         ),
-                      ),
-                    ),
-                  ),
+                      )),
                   SizedBox(height: 30.v),
                   carddata(context),
                   SizedBox(height: 29.v),
@@ -240,27 +264,22 @@ class _HomemainpagePageState extends State<HomemainpagePage>
         },
       ),
       actions: [
-        
-         GestureDetector(
-          onTap: ()=>
-              onTapMessage(context)
-            ,
-           child: CustomImageView(
+        GestureDetector(
+          onTap: () => onTapMessage(context),
+          child: CustomImageView(
             imagePath: ImageConstant.imgNavIndoxPrimary,
-            height: 37.h,
-            width: 37.v,
+            height: 35.h,
+            width: 35.v,
             margin: EdgeInsets.fromLTRB(0, 10.v, 20.h, 13.v),
-            
-                   ),
-         ),
+          ),
+        ),
         AppbarTrailNotification(
           imagePath: ImageConstant.imgNotification,
-          margin: EdgeInsets.fromLTRB(0.h, 16.v, 10.h, 13.v),
+          margin: EdgeInsets.fromLTRB(0.h, 16.v, 14.h, 13.v),
           onTap: () {
             onTapThumbsUp(context);
           },
         ),
-
       ],
     );
   }
@@ -718,10 +737,10 @@ class _HomemainpagePageState extends State<HomemainpagePage>
     Navigator.pushNamed(context, AppRoutes.appNotificationsScreen);
   }
 
-
- /// Navigates to the appNotificationsScreen when the action is triggered.
+  /// Navigates to the appNotificationsScreen when the action is triggered.
   onTapMessage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => const IndoxmainpagePage()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const IndoxmainpagePage()));
   }
 
   /// Navigates to the categoryScreen when the action is triggered.
