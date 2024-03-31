@@ -38,7 +38,7 @@ class CustomPinCodeTextField extends StatelessWidget {
       appContext: context,
       controller: controller,
       length: 4,
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.phone,
       textStyle: textStyle,
       hintStyle: hintStyle,
       inputFormatters: [FilteringTextInputFormatter.digitsOnly],

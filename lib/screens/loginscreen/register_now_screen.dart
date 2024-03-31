@@ -1,5 +1,4 @@
 import 'package:edumike/screens/loginscreen/google_auth.dart';
-import 'package:edumike/widgets/custom_outlined_button_home.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
@@ -32,8 +31,6 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
   bool termsAgreement = false;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  bool showEmailField = true;
 
   @override
   Widget build(BuildContext context) {
@@ -95,54 +92,24 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
                       style: theme.textTheme.titleSmall,
                     ),
                   ),
-                  SizedBox(height: 20.v),
-                  // Add the toggle button
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showEmailField = !showEmailField; // Toggle the state
-                      });
-                    },
-                    icon: Icon(
-                      showEmailField ? Icons.phone : Icons.email,
+                  SizedBox(height: 48.v),
+                  CustomTextFormField(
+                    controller: emailController,
+                    focusNode: emailFocusNode,
+                    hintText: "Email",
+                    textInputType: TextInputType.emailAddress,
+                    prefix: Container(
+                      margin: EdgeInsets.fromLTRB(20.h, 22.v, 7.h, 23.v),
+                      child: CustomImageView(
+                        imagePath: ImageConstant.imgLock,
+                        height: 14.v,
+                        width: 18.h,
+                      ),
+                    ),
+                    prefixConstraints: BoxConstraints(
+                      maxHeight: 60.v,
                     ),
                   ),
-                  showEmailField
-                      ? CustomTextFormField(
-                          controller: emailController,
-                          focusNode: emailFocusNode,
-                          hintText: "Email",
-                          textInputType: TextInputType.emailAddress,
-                          prefix: Container(
-                            margin: EdgeInsets.fromLTRB(20.h, 22.v, 7.h, 23.v),
-                            child: CustomImageView(
-                              imagePath: ImageConstant.imgLock,
-                              height: 14.v,
-                              width: 18.h,
-                            ),
-                          ),
-                          prefixConstraints: BoxConstraints(
-                            maxHeight: 60.v,
-                          ),
-                        )
-                      : CustomTextFormField(
-                          controller: emailController,
-                          focusNode: emailFocusNode,
-                          hintText: "Phone Number",
-                          textInputType: TextInputType.emailAddress,
-                          prefix: Container(
-                            margin: EdgeInsets.fromLTRB(20.h, 22.v, 7.h, 23.v),
-                            child: CustomImageView(
-                              imagePath: ImageConstant.imgLock,
-                              height: 14.v,
-                              width: 18.h,
-                            ),
-                          ),
-                          prefixConstraints: BoxConstraints(
-                            maxHeight: 60.v,
-                          ),
-                        ),
-
                   SizedBox(height: 20.v),
                   CustomTextFormField(
                     focusNode: passwordFocusNode,
