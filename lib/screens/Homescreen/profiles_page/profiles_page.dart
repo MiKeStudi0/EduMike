@@ -521,7 +521,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   /// Navigates to the termsConditionsScreen when the action is triggered.
   onTapSeven(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const NewPage()));
+        MaterialPageRoute(builder: (context) => const TermsConditionsScreen()));
   }
 
   /// Navigates to the inviteFriendsScreen when the action is triggered.

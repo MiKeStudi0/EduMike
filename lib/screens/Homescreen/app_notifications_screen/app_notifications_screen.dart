@@ -1,3 +1,4 @@
+import 'package:edumike/screens/Homescreen/app_notifications_screen/widgets/todaysectionlist_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,7 +62,7 @@ class _AppNotificationsScreenState extends State<AppNotificationsScreen> {
     return '$title: $body';
   }
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -70,22 +71,69 @@ class _AppNotificationsScreenState extends State<AppNotificationsScreen> {
       body: ListView.builder(
         itemCount: _notifications.length,
         itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 153, 193, 227),
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: ListTile(
-                leading: const Icon(Icons.notification_important), // Icon before text
-                title: Text(
-                  _notifications[index].split(":")[0],// Custom text
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NotificationDetailScreen(
+                    title: _notifications[index].split(":")[0],
+                    content: _notifications[index].split(":")[1].trim(),
+                  ),
                 ),
-                subtitle: Text(
-                 _notifications[index].split(":")[1].trim(), // Custom subtext
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Container(
+                height: 100,
+                width: 360,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
+                decoration: BoxDecoration(
+                  color: Colors.blue[50],
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(
+                    color: Colors.blueGrey[200]!.withOpacity(0.2),
+                    width: 2,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: const Icon(
+                        Icons.notifications,
+                        color: Colors.blue,
+                        size: 30,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _notifications[index].split(":")[0], // Custom text
+                            style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            _notifications[index].split(":")[1].trim(),
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

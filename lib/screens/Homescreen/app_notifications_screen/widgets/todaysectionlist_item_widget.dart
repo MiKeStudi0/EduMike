@@ -83,79 +83,113 @@
 //   }
 // }
 
+// import 'package:flutter/material.dart';
+
+// class NewPage extends StatelessWidget {
+//   const NewPage({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('New Page'),
+//       ),
+//       body: Center(
+//         child: Container(
+//           height: 100,
+//           width: 360,
+//           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 19),
+//           decoration: BoxDecoration(
+//             color: Colors.blue[50],
+//             borderRadius: BorderRadius.circular(18),
+//             border: Border.all(
+//               color: Colors.blueGrey[200]!.withOpacity(0.2),
+//               width: 2,
+//             ),
+//           ),
+//           child: Stack(
+//             alignment: Alignment.topLeft,
+//             children: [
+//               const Align(
+//                 alignment: Alignment.bottomRight,
+//                 child: Padding(
+//                   padding: EdgeInsets.only(right: 18, bottom: 4),
+//                   child: Text(
+//                     "New the 3D Design Course is Available",
+//                     style: TextStyle(
+//                       fontSize: 16,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//               Align(
+//                 alignment: Alignment.topLeft,
+//                 child: Row(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Container(
+//                       height: 52,
+//                       width: 52,
+//                       padding: const EdgeInsets.all(16),
+//                       // child: Image.network(
+//                       //   'https://via.placeholder.com/150', // Example image URL
+//                       //   fit: BoxFit.cover,
+//                       // ),
+//                     ),
+//                     const Padding(
+//                       padding: EdgeInsets.only(left: 8, top: 3, bottom: 20),
+//                       child: Text(
+//                         "New Category Course!",
+//                         style: TextStyle(
+//                           fontSize: 19,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 
-class NewPage extends StatelessWidget {
-  const NewPage({Key? key}) : super(key: key);
+class NotificationDetailScreen extends StatelessWidget {
+  final String title;
+  final String content;
+
+  NotificationDetailScreen({required this.title, required this.content});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Page'),
+        title: Text(title),
       ),
-      body: Center(
-        child: Container(
-          height: 100,
-          width: 360,
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 19),
-          decoration: BoxDecoration(
-            color: Colors.blue[50],
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(
-              color: Colors.blueGrey[200]!.withOpacity(0.2),
-              width: 2,
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-          ),
-          child: Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              const Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: EdgeInsets.only(right: 18, bottom: 4),
-                  child: Text(
-                    "New the 3D Design Course is Available",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 52,
-                      width: 52,
-                      padding: const EdgeInsets.all(16),
-                      // child: Image.network(
-                      //   'https://via.placeholder.com/150', // Example image URL
-                      //   fit: BoxFit.cover,
-                      // ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 8, top: 3, bottom: 20),
-                      child: Text(
-                        "New Category Course!",
-                        style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            const SizedBox(height: 10),
+            Text(
+              content,
+              style: const TextStyle(fontSize: 16),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
 
