@@ -15,8 +15,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    
+    DeviceOrientation.portraitUp,   
   ]);
 
   ///Please update theme as per your need if required.

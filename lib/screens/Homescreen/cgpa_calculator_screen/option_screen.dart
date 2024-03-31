@@ -208,6 +208,7 @@ class _SGPCalculatorPageState extends State<SGPCalculatorPage> {
                         actions: [
                           TextButton(
                             onPressed: () {
+                              
                               Navigator.of(context).pop();
                             },
                             child: const Text('OK'),
@@ -218,8 +219,8 @@ class _SGPCalculatorPageState extends State<SGPCalculatorPage> {
                   }
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Calculate SGPA',style:TextStyle(color: Colors.white)),
+                  padding: EdgeInsets.all(12.0),
+                  child: Text('Calculate SGPA',style:TextStyle(color: Colors.white),),
                 ),
               ),
             ],
@@ -310,7 +311,7 @@ class _CGPACalculatorPageState extends State<CGPACalculatorPage> {
                   );
                 },
                 child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(12.0),
                   child: Text('Calculate CGPA',style:TextStyle(color: Colors.white)),
                 ),
               ),

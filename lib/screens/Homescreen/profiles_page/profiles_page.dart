@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/app_notifications_screen/app_notifications_screen.dart';
+import 'package:edumike/screens/Homescreen/app_notifications_screen/widgets/todaysectionlist_item_widget.dart';
 import 'package:edumike/screens/Homescreen/edit_profiles_screen/edit_profiles_screen.dart';
 import 'package:edumike/screens/Homescreen/invite_friends_screen/invite_friends_screen.dart';
 import 'package:edumike/screens/Homescreen/security_screen/security_page.dart';
@@ -527,7 +528,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   /// Navigates to the termsConditionsScreen when the action is triggered.
   onTapSeven(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const TermsConditionsScreen()));
+        MaterialPageRoute(builder: (context) => const NewPage()));
   }
 
   /// Navigates to the inviteFriendsScreen when the action is triggered.
