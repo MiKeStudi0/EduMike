@@ -34,6 +34,9 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
 
   Future<void> fetchUniversityNames() async {
     try {
+      degreeList.clear();
+      courseList.clear();
+      semesterList.clear();
       // Access the "university" collection
       QuerySnapshot querySnapshot =
           await FirebaseFirestore.instance.collection('University').get();
@@ -50,6 +53,9 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
 
   Future<void> fetchDegreeNames() async {
     try {
+      degreeList.clear();
+      courseList.clear();
+      semesterList.clear();
       // Access the "university" collection
       QuerySnapshot querySnapshot2 = await FirebaseFirestore.instance
           .collection('/University/$_selectedUniversityId/Refers')
@@ -67,6 +73,8 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
 
   Future<void> fetchCourseNames() async {
     try {
+      courseList.clear();
+      semesterList.clear();
       // Access the "university" collection
       QuerySnapshot querySnapshot3 = await FirebaseFirestore.instance
           .collection(
@@ -85,6 +93,7 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
 
   Future<void> fetchSemesterNames() async {
     try {
+      semesterList.clear();
       // Access the "university" collection
       QuerySnapshot querySnapshot4 = await FirebaseFirestore.instance
           .collection(
@@ -175,9 +184,12 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
               items: universityList,
               onChanged: (String? value) {
                 setState(() {
+                  degreeList = [];
+                  courseList = [];
+                  semesterList = [];
                   _selectedUniversityId = value;
+                  fetchDegreeNames();
                 });
-                fetchDegreeNames();
               })
         ]));
   }
@@ -195,9 +207,11 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
               items: degreeList,
               onChanged: (String? value) {
                 setState(() {
+                  courseList = [];
+                  semesterList = [];
                   _selectedDegreeId = value;
+                  fetchCourseNames();
                 });
-                fetchCourseNames();
               })
         ]));
   }
@@ -215,9 +229,10 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
               items: courseList,
               onChanged: (String? value) {
                 setState(() {
+                  semesterList = [];
                   _selectedCourseId = value;
+                  fetchSemesterNames();
                 });
-                fetchSemesterNames();
               })
         ]));
   }

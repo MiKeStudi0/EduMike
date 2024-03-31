@@ -124,7 +124,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                                           ),
                                         ),
                                       ),
-                                     // Add child here if needed
+                                      // Add child here if needed
                                     ],
                                   ),
                                 ),
@@ -189,8 +189,11 @@ class _ProfilesPageState extends State<ProfilesPage> {
     return CustomAppBar(
         leadingWidth: 61.h,
         leading: AppbarLeadingImage(
-            imagePath: ImageConstant.imgArrowDown,
-            margin: EdgeInsets.only(left: 35.h, top: 18.v, bottom: 17.v)),
+            onTap: () {
+              null;
+            },
+            imagePath: ImageConstant.imgNavProfilePrimary,
+            margin: EdgeInsets.only(left: 20.h, top: 18.v, bottom: 17.v)),
         title: AppbarSubtitle(
             text: "Profile", margin: EdgeInsets.only(left: 12.h)));
   }

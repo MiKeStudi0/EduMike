@@ -115,14 +115,14 @@ class AppRoutes {
     addUniversityCardScreen: (context) => AddUniversityCardScreen(),
     helpcareScreen: (context) => const HelpcareScreen(),
     editProfilesScreen: (context) => EditProfilesScreen(),
-    inviteFriendsScreen: (context) =>  InviteFriendsScreen(),
+    inviteFriendsScreen: (context) => InviteFriendsScreen(),
     termsConditionsScreen: (context) => const TermsConditionsScreen(),
-    removeBookmarkScreen: (context) =>  RemoveBookmarkScreen(),
+    removeBookmarkScreen: (context) => RemoveBookmarkScreen(),
     addSubscribeScreen: (context) => const AddSubscribeScreen(),
     appNotificationsScreen: (context) => AppNotificationsScreen(),
     subscriptionNotificationsScreen: (context) =>
         SubscriptionNotificationsScreen(),
-    modulesScreen: (context) =>  ModulesScreen(),
-    categoryScreen: (context) => CategoryScreen( ),
+    modulesScreen: (context) => ModulesScreen(),
+    categoryScreen: (context) => CategoryScreen(),
   };
 }

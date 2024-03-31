@@ -131,6 +131,7 @@ class _SearchCourseState extends State<SearchCourse> {
                 .where('degree', isEqualTo: _selecteddegree)
                 .where('course', isEqualTo: _selectedcourse)
                 .where('semester', isEqualTo: _selectedsemester)
+                .where('category', isEqualTo: course.category)
                 .get();
 
         if (existingDocs.docs.isEmpty) {
@@ -183,8 +184,9 @@ class _SearchCourseState extends State<SearchCourse> {
             await userBookmarksCollection.get();
 
         setState(() {
-          bookmarkedCourses =
-              snapshot.docs.map((doc) => doc['courseCode'] as String).toList();
+          bookmarkedCourses = snapshot.docs
+              .map((doc) => '${doc['courseCode'] + doc['category']}')
+              .toList();
           // Explicitly cast the result to List<String>
         });
       }
@@ -352,17 +354,17 @@ class _SearchCourseState extends State<SearchCourse> {
               Padding(
                   padding: EdgeInsets.symmetric(horizontal: 34.h),
                   child: CustomSearchView(
-                      controller: searchController,
-                      focusNode: searchFocusNode,
-                      autofocus: true,
-                      
-                      borderDecoration: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.h),
-                        borderSide: const BorderSide(
-                            color: Colors
-                                .blueGrey), // Specify the border color here
-                      ),
-                      hintText: "Search Courses",)),
+                    controller: searchController,
+                    focusNode: searchFocusNode,
+                    autofocus: true,
+                    borderDecoration: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.h),
+                      borderSide: const BorderSide(
+                          color:
+                              Colors.blueGrey), // Specify the border color here
+                    ),
+                    hintText: "Search Courses",
+                  )),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SizedBox(
@@ -432,6 +434,8 @@ class _SearchCourseState extends State<SearchCourse> {
   }
 
   Widget _buildCourseList(BuildContext context, Course course, int index) {
+    bool isBookmarked =
+        bookmarkedCourses.contains(course.courseCode + course.category);
     return GestureDetector(
       onTap: () {
         if (selectedCategory == 'Syllabus') {
@@ -489,35 +493,24 @@ class _SearchCourseState extends State<SearchCourse> {
                             course.category,
                             style: CustomTextStyles.labelLargeMulishOrangeA700,
                           ),
-                          SizedBox(
-                            height: 16.v,
-                            width: 12.h,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                CustomImageView(
-                                  imagePath: ImageConstant.imgBookmarkPrimary,
-                                  height: 16.v,
-                                  width: 12.h,
-                                  alignment: Alignment.center,
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            RemoveBookmarkScreen(),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                // CustomImageView(
-                                //   imagePath: ImageConstant.imgBookmarkPrimary,
-                                //   height: 16.v,
-                                //   width: 12.h,
-                                //   alignment: Alignment.center,
-                                // ),
-                              ],
-                            ),
+                          GestureDetector(
+                            onTap: () {
+                              _addToBookmarkCollection(course);
+                            },
+                            child: isBookmarked
+                                ? CustomImageView(
+                                    imagePath: ImageConstant
+                                        .imgBookmarkPrimary, // Change to your bookmarked icon
+                                    height: 18,
+                                    width: 14,
+                                    color: Colors
+                                        .blue, // Change to your desired color
+                                  )
+                                : CustomImageView(
+                                    imagePath: ImageConstant.imgBookmark,
+                                    height: 18,
+                                    width: 14,
+                                  ),
                           ),
                         ],
                       ),
@@ -560,10 +553,9 @@ class _SearchCourseState extends State<SearchCourse> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 5.h, top: 3.v),
-                          child: Text(
-                            "Credit",
-                            style: theme.textTheme.labelMedium,
-                          ),
+                          child: Text(' | ' + course.courseCode,
+                              style: theme.textTheme.labelMedium!
+                                  .copyWith(color: appTheme.blueGray90001)),
                         ),
                         // Padding(
                         //   padding: EdgeInsets.only(left: 16.h, top: 3.v),

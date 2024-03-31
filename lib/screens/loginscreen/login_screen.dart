@@ -477,7 +477,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
-      signinErrorMessage(e.code, context);
+      signinErrorMessage('Please check your username and password', context);
     }
   }
 

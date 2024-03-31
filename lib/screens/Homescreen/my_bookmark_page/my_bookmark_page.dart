@@ -38,7 +38,6 @@ class MyBookmarkPage extends StatefulWidget {
   final String? course;
   final String? semester;
 
-
   MyBookmarkPage({
     required this.university,
     required this.degree,
@@ -106,7 +105,9 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
   }
 
   @override
-  Widget build(BuildContext context, ) {
+  Widget build(
+    BuildContext context,
+  ) {
     final filteredBookmarks = bookmarks.where((bookmark) {
       return selectedCategory.isEmpty || selectedCategory == bookmark.category;
     }).toList();
@@ -139,8 +140,6 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                           widget.degree,
                           widget.course,
                           widget.semester,
-
-                          
                         );
                       },
                     )
@@ -501,7 +500,6 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
     String? selecteddegree,
     String? selectedcourse,
     String? selectedsemester,
-
   ) {
     return GestureDetector(
       onTap: () {
@@ -676,8 +674,11 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
     return CustomAppBar(
       leadingWidth: 61.h,
       leading: AppbarLeadingImage(
-        imagePath: ImageConstant.imgArrowDown,
-        margin: EdgeInsets.only(left: 35.h, top: 17.v, bottom: 18.v),
+        onTap: () {
+          null;
+        },
+        imagePath: ImageConstant.imgBookmarkPrimary22x18,
+        margin: EdgeInsets.only(left: 20.h, top: 17.v, bottom: 18.v),
       ),
       title: AppbarSubtitle(
         text: "My Bookmark",

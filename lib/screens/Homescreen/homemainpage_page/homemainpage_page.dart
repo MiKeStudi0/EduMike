@@ -295,8 +295,8 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                   margin: EdgeInsets.only(left: 158.h)),
               CustomImageView(
                   imagePath: ImageConstant.imgCardEdit,
-                  height: 24.adaptSize,
-                  width: 24.adaptSize,
+                  height: 33.adaptSize,
+                  width: 33.adaptSize,
                   alignment: Alignment.topRight,
                   margin: EdgeInsets.only(top: 13.v, right: 15.h),
                   onTap: () {
@@ -468,8 +468,8 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                   margin: EdgeInsets.only(left: 158.h)),
               CustomImageView(
                   imagePath: ImageConstant.imgCardEdit,
-                  height: 24.adaptSize,
-                  width: 24.adaptSize,
+                  height: 33.adaptSize,
+                  width: 33.adaptSize,
                   alignment: Alignment.topRight,
                   margin: EdgeInsets.only(top: 13.v, right: 15.h),
                   onTap: () {
