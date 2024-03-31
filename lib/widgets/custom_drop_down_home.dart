@@ -87,7 +87,7 @@ class CustomDropDown extends StatelessWidget {
               value: value,
               child: Text(
                 value,
-                overflow: TextOverflow.fade,
+                overflow: TextOverflow.ellipsis,
                 style: hintStyle ?? theme.textTheme.bodyLarge,
               ),
             );
