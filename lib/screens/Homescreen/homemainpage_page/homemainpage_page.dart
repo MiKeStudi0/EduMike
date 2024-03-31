@@ -133,6 +133,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                             backgroundColor: Colors.transparent,
                           );
                         },
+                        behavior: HitTestBehavior.translucent,
                         child: Container(
                           width: 414.h,
                           height: 50.v,
