@@ -337,7 +337,7 @@ class _SearchCourseState extends State<SearchCourse> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Thappi nokkam'),
+        title: const Text('Search Here'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -355,13 +355,14 @@ class _SearchCourseState extends State<SearchCourse> {
                       controller: searchController,
                       focusNode: searchFocusNode,
                       autofocus: true,
+                      
                       borderDecoration: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.h),
                         borderSide: const BorderSide(
                             color: Colors
                                 .blueGrey), // Specify the border color here
                       ),
-                      hintText: "Search course code or name")),
+                      hintText: "Search Courses",)),
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SizedBox(

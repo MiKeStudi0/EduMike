@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/screens/Homescreen/app_notifications_screen/app_notifications_screen.dart';
@@ -10,12 +11,9 @@ import 'package:edumike/widgets/app_bar/appbar_leading_image_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
-import 'package:edumike/widgets/custom_icon_button_home.dart';
 import 'package:edumike/widgets/custom_outlined_button_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ProfilesPage extends StatefulWidget {
   ProfilesPage({Key? key}) : super(key: key);
@@ -107,8 +105,15 @@ class _ProfilesPageState extends State<ProfilesPage> {
                                             radius: 64,
                                             child: ClipOval(
                                               child: profileUrl != null
-                                                  ? Image.network(
-                                                      profileUrl!,
+                                                  ? CachedNetworkImage(
+                                                      imageUrl: profileUrl!,
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          const CircularProgressIndicator(), // Placeholder widget while loading
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          const Icon(Icons
+                                                              .error), // Widget to display in case of error
                                                       width: 128,
                                                       height: 128,
                                                       fit: BoxFit.cover,
@@ -119,19 +124,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                                           ),
                                         ),
                                       ),
-                                      Padding(
-                                          padding: EdgeInsets.only(right: 3.h),
-                                          child: CustomIconButton(
-                                              height: 29.adaptSize,
-                                              width: 29.adaptSize,
-                                              padding: EdgeInsets.all(6.h),
-                                              decoration: IconButtonStyleHelper
-                                                  .outlineTeal,
-                                              alignment: Alignment.bottomRight,
-                                              child: Icon(Icons.edit,
-                                                  size: 15.adaptSize,
-                                                  color: appTheme
-                                                      .blue600))) // Add child here if needed
+                                     // Add child here if needed
                                     ],
                                   ),
                                 ),
@@ -174,8 +167,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
                               SizedBox(height: 43.v),
                               _buildFive(context),
                               SizedBox(height: 44.v),
-                              _buildSix(context),
-                              SizedBox(height: 43.v),
+                              // _buildSix(context),
+                              // SizedBox(height: 43.v),
                               _buildSeven(context),
                               SizedBox(height: 40.v),
                               _buildEight(context),

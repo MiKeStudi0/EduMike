@@ -1,22 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/screens/Homescreen/add_university_card_screen/add_university_card_screen.dart';
-import 'package:edumike/screens/Homescreen/category_screen/category_screen.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/course_widget.dart';
 import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/test.dart';
-import 'package:edumike/screens/Homescreen/homemainpage_page/widgets/coursebuilder.dart';
+import 'package:edumike/screens/Homescreen/indoxmainpage_page/indoxmainpage_page.dart';
 import 'package:edumike/screens/Homescreen/my_course_page/my_course_page.dart';
 import 'package:edumike/screens/Homescreen/search_screen/dummy.dart';
-import 'package:edumike/theme/theme_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../homemainpage_page/widgets/category_item_widget.dart';
-import '../homemainpage_page/widgets/userprofile_item_widget.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_subtitle_one.dart';
 import 'package:edumike/widgets/app_bar/appbar_title_home.dart';
 import 'package:edumike/widgets/app_bar/appbar_trailing_iconbutton_home.dart';
 import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
-import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
@@ -110,54 +104,79 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 34.h),
-                    child: GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          builder: (BuildContext context) {
-                            return FractionallySizedBox(
-                              heightFactor: 0.90,
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20.0),
-                                    topRight: Radius.circular(20.0),
+                      padding: EdgeInsets.symmetric(horizontal: 34.h),
+                      child: GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (BuildContext context) {
+                              return FractionallySizedBox(
+                                heightFactor: 0.90,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(20.0),
+                                      topRight: Radius.circular(20.0),
+                                    ),
+                                  ),
+                                  child: SearchCourse(
+                                    university: university!,
+                                    degree: degree!,
+                                    course: course!,
+                                    semester: semester!,
                                   ),
                                 ),
-                                child: SearchCourse(
-                                  university: university!,
-                                  degree: degree!,
-                                  course: course!,
-                                  semester: semester!,
+                              );
+                            },
+                            backgroundColor: Colors.transparent,
+                          );
+                        },
+                        child: Container(
+                          width: 414.h,
+                          height: 50.v,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            gradient: const LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [Colors.blue, Colors.lightBlueAccent],
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.4),
+                                spreadRadius: 2,
+                                blurRadius: 6,
+                                offset: const Offset(
+                                    0, 5), // Adjust the vertical offset
+                              ),
+                            ],
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.search,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                  width:
+                                      8), // Add some space between icon and text
+                              Text(
+                                "Search Courses",
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            );
-                          },
-                          backgroundColor: Colors.transparent,
-                        );
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 8.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          border: Border.all(
-                              color: Colors
-                                  .blueGrey), // Specify the border color here
-                        ),
-                        child: const Text(
-                          "Search course code or name",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black, // Specify the text color here
+                            ],
                           ),
                         ),
-                      ),
-                    ),
-                  ),
+                      )),
                   SizedBox(height: 30.v),
                   carddata(context),
                   SizedBox(height: 29.v),
@@ -167,39 +186,15 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                       padding: EdgeInsets.only(left: 18.h, right: 50.h),
                       child: _buildTopMentor(context,
                           text: "My Courses", seeAll: "See All")),
-
+                  SizedBox(
+                    height: 10.h,
+                  ),
                   Padding(
                       padding: EdgeInsets.only(
                         left: 10.v,
                       ),
                       child: CourseListBlock()),
-
-                  //SizedBox(height: 8.v),
-                  // /_buildCategory(context),
-                  // SizedBox(height: 18.v),
-                  // _buildCourse(context),
                   SizedBox(height: 15.v),
-                  // Padding(
-                  //     padding: EdgeInsets.only(left: 14.h, right: 56.h),
-                  //     child: _buildTopMentor(context,
-                  //         text: "Top Subscription",
-                  //         seeAll: "See All", onTapSeeAll: () {
-                  //       onTapTxtSeeAll(context);
-                  //     })),
-                  // SizedBox(height: 10.v),
-                  // _buildUserProfile(context),
-                  // SizedBox(height: 43.v),
-                  // ElevatedButton(
-                  //     onPressed: () {
-                  //       Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => CourseListBlock(),));
-                  //     },
-                  //     child: Text('Course List')),
-
-                  //  _buildUserCourse(context),
-                  // Button to navigate to another page
                 ],
               ),
             ),
@@ -242,13 +237,22 @@ class _HomemainpagePageState extends State<HomemainpagePage>
         },
       ),
       actions: [
+        GestureDetector(
+          onTap: () => onTapMessage(context),
+          child: CustomImageView(
+            imagePath: ImageConstant.imgNavIndoxPrimary,
+            height: 35.h,
+            width: 35.v,
+            margin: EdgeInsets.fromLTRB(0, 10.v, 20.h, 13.v),
+          ),
+        ),
         AppbarTrailNotification(
           imagePath: ImageConstant.imgNotification,
-          margin: EdgeInsets.fromLTRB(34.h, 16.v, 34.h, 13.v),
+          margin: EdgeInsets.fromLTRB(0.h, 16.v, 14.h, 13.v),
           onTap: () {
             onTapThumbsUp(context);
           },
-        )
+        ),
       ],
     );
   }
@@ -566,72 +570,6 @@ class _HomemainpagePageState extends State<HomemainpagePage>
             ])));
   }
 
-  /// Section Widget
-  Widget _buildCategory(BuildContext context) {
-    return SizedBox(
-        height: 30.v,
-        child: ListView.separated(
-            padding: EdgeInsets.only(left: 14.h),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) {
-              return SizedBox(width: 12.h);
-            },
-            itemCount: 4,
-            itemBuilder: (context, index) {
-              return const CategoryItemWidget();
-            }));
-  }
-
-  /// Section Widget
-  Widget _buildCourse(BuildContext context) {
-    return SizedBox(
-      height: 240.v,
-      width: 414.h,
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: IntrinsicWidth(
-              child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CategoryScreen(
-                                university: university,
-                                degree: degree,
-                                course: course,
-                                semester: semester,
-                              )),
-                    );
-                  },
-                  child: const CourseWidget()),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildUserProfile(BuildContext context) {
-    return SizedBox(
-        height: 104.v,
-        child: ListView.separated(
-            padding: EdgeInsets.only(left: 14.h),
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) {
-              return SizedBox(width: 14.h);
-            },
-            itemCount: 7,
-            itemBuilder: (context, index) {
-              return UserprofileItemWidget(onTapBackgroundImage: () {
-                //onTapBackgroundImage(context);
-              });
-            }));
-  }
-
   /// popup varunnath
   void _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -682,28 +620,15 @@ class _HomemainpagePageState extends State<HomemainpagePage>
     ]);
   }
 
-  /// Common widget
-  Widget _buildGraphicDesign(
-    BuildContext context, {
-    required String text,
-  }) {
-    return SizedBox(
-        width: 245.h,
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Padding(
-              padding: EdgeInsets.only(bottom: 1.v),
-              child: Text(text,
-                  style: CustomTextStyles.labelLargeMulishOrangeA700
-                      .copyWith(color: appTheme.orangeA700))),
-          CustomImageView(
-              imagePath: ImageConstant.imgBookmark, height: 18.v, width: 14.h)
-        ]));
-  }
-
   /// Navigates to the appNotificationsScreen when the action is triggered.
   onTapThumbsUp(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.appNotificationsScreen);
+  }
+
+  /// Navigates to the appNotificationsScreen when the action is triggered.
+  onTapMessage(BuildContext context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const IndoxmainpagePage()));
   }
 
   /// Navigates to the categoryScreen when the action is triggered.

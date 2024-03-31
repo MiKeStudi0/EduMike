@@ -8,6 +8,12 @@ class ImageConstant {
   // 02_INTRO-One images
   static String imgArrowRight = '$imagePath/img_arrow_right.png';
 
+
+  static String cardTutorial = '$imagePathHome/CardTutorial.jpg';
+
+  static String cardTutorial2 = '$imagePathHome/cardTutorial2.jpg';
+static String cardTutorialadd = '$imagePathHome/cardTutorialadd.jpg';
+static String cardTutorialadded = '$imagePathHome/cardTutorialadded.jpg';
   // 05_LET'S YOU IN images
   static String imgGoogle = '$imagePath/img_google.png';
 
@@ -113,12 +119,13 @@ class ImageConstant {
 
   // 3_IndoxMainPage images
   static String imgClose1 = '$imagePathHome/img_close.svg';
+  
+ static String message = '$imagePathHome/message.svg';
 
   static String imgNavIndoxPrimary = '$imagePathHome/img_nav_indox_primary.svg';
 
   // 5_PROFILES images
   static String imgLock1 = '$imagePathHome/img_lock.svg';
-
   static String inviteprofile = '$imagePathHome/inviteprofile.svg';
   static String imgSettings = '$imagePathHome/img_settings.png';
 
@@ -137,6 +144,7 @@ class ImageConstant {
   static String imgEye = '$imagePathHome/img_eye.png';
 
   static String imgUserBlueGray9000121x18 =
+
       '$imagePathHome/img_user_blue_gray_900_01_21x18.png';
 
   static String imgProfile = '$imagePathHome/img_profile.png';
@@ -151,7 +159,7 @@ class ImageConstant {
   // 6_EDIT PROFILES images
 
   static String userIcon = '$imagePathHome/userIcon.svg';
-
+  static String profileedit = '$imagePathHome/profileedit.svg';
 
   static String nickname = '$imagePathHome/nickname.svg';
 

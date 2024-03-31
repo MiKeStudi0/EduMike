@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edumike/widgets/custom_drop_down.dart';
 import 'package:edumike/widgets/custom_elevated_button.dart';
-import 'package:edumike/widgets/custom_outlined_button_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_title.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -198,8 +196,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               border: Border.all(
-                                                color: appTheme
-                                                    .teal700, // Set border color here
+                                                color: Colors.blue, // Set border color here
                                                 width:
                                                     4, // Set border width here
                                               ),
@@ -214,7 +211,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
                                                 border: Border.all(
-                                                  color: appTheme.teal700,
+                                                  color: Colors.blue,
                                                   width: 4,
                                                 ),
                                               ),
@@ -248,7 +245,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
                                                 child: GestureDetector(
                                                   child: CustomImageView(
                                                     imagePath: ImageConstant
-                                                        .imgTelevisionTeal700,
+                                                        .profileedit,
                                                     onTap: () {
                                                       null;
                                                     },
