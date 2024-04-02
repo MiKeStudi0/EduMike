@@ -24,16 +24,15 @@ class Syllabus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String collectionPath =
-        '/University/$university/Refers/$degree/Refers/$course/Refers/$semester/Refers/$courseName/Refers/';
-
+        '/University/$university/Refers/$degree/Refers/$course/Refers/$semester/Refers/$courseName/Refers/$category/Refers/';
+print('Syllabus: $collectionPath');
     return Scaffold(
+      
       appBar: _buildAppBar(context),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(collectionPath)
-            .doc('Syllabus')
-            .collection("Refers")
-            .doc('Syllabus')
+            .doc(courseName)
             .snapshots(),
         builder: (BuildContext context,
             AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>?> snapshot) {
