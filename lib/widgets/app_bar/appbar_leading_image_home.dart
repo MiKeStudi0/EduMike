@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class AppbarLeadingImage extends StatelessWidget {
   AppbarLeadingImage({
-    Key? key,
+    super.key,
     this.imagePath,
     this.margin,
     this.onTap,
-  }) : super(
-          key: key,
-        );
+  });
 
   String? imagePath;
 

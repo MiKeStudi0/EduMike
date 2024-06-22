@@ -8,21 +8,21 @@ import 'package:flutter/material.dart';
 
 
 class AuthPage extends StatelessWidget {
-  const AuthPage({Key? key}) : super(key: key);
+  const AuthPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     // Delay for 2 seconds before navigating away from the splash screen
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       // Navigate to the appropriate screen based on the authentication state
       FirebaseAuth.instance.authStateChanges().listen((User? user) {
         if (user != null) {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomemainpageContainerScreen()),
+            MaterialPageRoute(builder: (context) => const HomemainpageContainerScreen()),
           );
         } else {
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => onBoardingScreen()),
+            MaterialPageRoute(builder: (context) => const onBoardingScreen()),
           );
         }
       });
@@ -72,7 +72,7 @@ class AuthPage extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Color.fromARGB(255, 240, 240, 240),
+                    color: const Color.fromARGB(255, 240, 240, 240),
                     fontSize: theme.textTheme.titleSmall?.fontSize ?? 0,
                   ),
                 ),

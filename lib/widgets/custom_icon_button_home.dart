@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CustomIconButton extends StatelessWidget {
   const CustomIconButton({
-    Key? key,
+    super.key,
     this.alignment,
     this.height,
     this.width,
@@ -11,9 +11,7 @@ class CustomIconButton extends StatelessWidget {
     this.decoration,
     this.child,
     this.onTap,
-  }) : super(
-          key: key,
-        );
+  });
 
   final Alignment? alignment;
 

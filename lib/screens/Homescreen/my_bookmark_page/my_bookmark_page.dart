@@ -38,7 +38,7 @@ class MyBookmarkPage extends StatefulWidget {
   final String? course;
   final String? semester;
 
-  MyBookmarkPage({
+  const MyBookmarkPage({super.key, 
     required this.university,
     required this.degree,
     required this.course,
@@ -127,7 +127,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
             Expanded(
               child: bookmarksInSelectedCategory
                   ? ListView.separated(
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       separatorBuilder: (context, index) {
                         return SizedBox(height: 0.v);
                       },
@@ -161,7 +161,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
   }
 
   Widget _buildFilterChips() {
-    return Container(
+    return SizedBox(
       height: 50,
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -207,10 +207,10 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(18.0)),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(18.0)),
           child: FractionallySizedBox(
             heightFactor: 0.37, // Adjust this value as needed
-            child: Container(
+            child: SizedBox(
               // Set a specific height, you can adjust this value based on your needs
               height: MediaQuery.of(context).size.height * 0.7,
               child: Removebookmark(context, Category, CourseName, CourseCode,
@@ -471,7 +471,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
           Navigator.pop(context);
 
           // Show a success message or perform any other action as needed
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Bookmark removed successfully"),
           ));
 
@@ -488,7 +488,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
     } catch (e) {
       // Handle errors
       print('Error removing bookmark: $e');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Failed to remove bookmark"),
       ));
     }
@@ -637,7 +637,7 @@ class _MyBookmarkPageState extends State<MyBookmarkPage> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 4),
                                 child: Text(
-                                  "${bookmark.courseCredit}",
+                                  bookmark.courseCredit,
                                   style: theme.textTheme.labelMedium,
                                 ),
                               ),

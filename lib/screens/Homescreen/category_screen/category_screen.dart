@@ -16,7 +16,7 @@ class CategoryScreen extends StatelessWidget {
   final String? semester;
   final String? courseName;
 
-  CategoryScreen({
+  CategoryScreen({super.key, 
     this.university,
     this.degree,
     this.course,
@@ -305,7 +305,7 @@ class CategoryScreen extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                           GPAHomePage()));
+                                                           const GPAHomePage()));
                                         },
                                         child: CustomImageView(
                                             imagePath: ImageConstant.imgCgpaCal,
@@ -336,7 +336,7 @@ class CategoryScreen extends StatelessWidget {
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (context) =>
-                                                            EmailServicePage()));
+                                                            const EmailServicePage()));
                                               },
                                               height: 53.adaptSize,
                                               width: 53.adaptSize,

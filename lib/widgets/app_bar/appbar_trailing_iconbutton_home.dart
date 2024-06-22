@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class AppbarTrailingIconbutton extends StatelessWidget {
   AppbarTrailingIconbutton({
-    Key? key,
+    super.key,
     this.imagePath,
     this.margin,
     this.onTap,
-  }) : super(
-          key: key,
-        );
+  });
 
   String? imagePath;
 
@@ -46,13 +44,11 @@ class AppbarTrailingIconbutton extends StatelessWidget {
 // ignore: must_be_immutable
 class AppbarTrailNotification extends StatelessWidget {
   AppbarTrailNotification({
-    Key? key,
+    super.key,
     this.imagePath,
     this.margin,
     this.onTap,
-  }) : super(
-          key: key,
-        );
+  });
 
   String? imagePath;
 
@@ -65,7 +61,7 @@ class AppbarTrailNotification extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => AppNotificationsScreen()));
+            MaterialPageRoute(builder: (context) => const AppNotificationsScreen()));
       },
       child: Padding(
         padding: margin ?? EdgeInsets.zero,

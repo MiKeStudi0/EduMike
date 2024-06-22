@@ -1,6 +1,5 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
-import 'package:country_pickers/utils/utils.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/custom_text_form_field_home.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +7,11 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class CustomPhoneNumber extends StatelessWidget {
   CustomPhoneNumber({
-    Key? key,
+    super.key,
     required this.country,
     required this.onTap,
     required this.controller,
-  }) : super(
-          key: key,
-        );
+  });
 
   Country country;
 
@@ -35,7 +32,7 @@ class CustomPhoneNumber extends StatelessWidget {
             color: appTheme.black900.withOpacity(0.1),
             spreadRadius: 2.h,
             blurRadius: 2.h,
-            offset: Offset(
+            offset: const Offset(
               0,
               2,
             ),

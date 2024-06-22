@@ -13,7 +13,7 @@ class SelectedviewItemWidget extends StatelessWidget {
   final String courseCode;
 
   const SelectedviewItemWidget({
-    Key? key,
+    super.key,
     required this.courseCredit,
     required this.courseName,
     required this.courseCode,
@@ -21,7 +21,7 @@ class SelectedviewItemWidget extends StatelessWidget {
     required this.degree,
     required this.course,
     required this.semester,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,7 @@ name: edumike
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
+  sdk: ">=3.2.3 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -27,19 +27,17 @@ environment:
 # dependencies can be manually updated by changing the version numbers below to
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
-dependencies: 
-  flutter: 
+dependencies:
+  flutter:
     sdk: flutter
   grouped_list: ^5.1.2
   cached_network_image: ^3.3.1
   flutter_svg: ^2.0.9
   pin_code_fields: ^8.0.1
-  country_pickers: ^2.0.0
   smooth_page_indicator: ^1.1.0
   flutter_svg_provider: ^1.0.7
   intl: ^0.19.0
   firebase_core: ^2.24.2
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -59,7 +57,6 @@ dependencies:
   flutter_slidable: ^3.0.1
   syncfusion_flutter_pdfviewer: ^24.2.8
   device_info_plus: ^9.1.2
-  
 
   dio: ^5.4.1
   pdfx: ^2.6.0
@@ -80,9 +77,7 @@ dependencies:
   firebase_analytics: ^10.8.10
   shimmer: ^3.0.0
   flutter_secure_storage: ^9.0.0
- 
-  
-  
+  country_pickers: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -108,14 +103,13 @@ flutter_launcher_icons:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets: 
+  assets:
     - assets/
     - assets/images/
     - assets/images/login_image/
@@ -135,18 +129,18 @@ flutter:
   # example:
   fonts:
     - family: Montserrat
-      fonts: 
+      fonts:
         - asset: assets/fonts/MontserratMedium.ttf
           weight: 500
         - asset: assets/fonts/MontserratRegular.ttf
           weight: 400
 
     - family: Jost
-      fonts: 
+      fonts:
         - asset: assets/fonts/JostSemiBold.ttf
           weight: 600
     - family: Mulish
-      fonts: 
+      fonts:
         - asset: assets/fonts/MulishBold.ttf
           weight: 700
         - asset: assets/fonts/MulishExtraBold.ttf
@@ -154,11 +148,11 @@ flutter:
         - asset: assets/fonts/MulishRomanRegular.ttf
           weight: 400
     - family: Aubrey
-      fonts: 
+      fonts:
         - asset: assets/fonts/Aubrey.ttf
           weight: 400
     - family: Poppins
-      fonts: 
+      fonts:
         - asset: assets/fonts/PoppinsSemiBold.ttf
           weight: 600
 

@@ -3,7 +3,7 @@ import 'package:edumike/screens/loginscreen/forgot_password_screen.dart';
 import 'package:flutter/material.dart';
 
 class SecurityScreen extends StatefulWidget {
-  SecurityScreen({Key? key}) : super(key: key);
+  const SecurityScreen({super.key});
 
   @override
   State<SecurityScreen> createState() => _SecurityScreenState();
@@ -52,7 +52,7 @@ class _SecurityScreenState extends State<SecurityScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => UpdatePasswordPage()));
+                      builder: (context) => const UpdatePasswordPage()));
               print('Email  tapped');
             },
           ),

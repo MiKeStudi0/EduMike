@@ -6,10 +6,7 @@ import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_text_form_field.dart';
 
 class RegisterNowScreen extends StatefulWidget {
-  RegisterNowScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const RegisterNowScreen({super.key});
 
   @override
   State<RegisterNowScreen> createState() => _RegisterNowScreenState();
@@ -30,7 +27,7 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
 
   bool termsAgreement = false;
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -166,12 +163,12 @@ class _RegisterNowScreenState extends State<RegisterNowScreen> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: Text("Terms & Conditions"),
-                              content: Text(
+                              title: const Text("Terms & Conditions"),
+                              content: const Text(
                                   "Please agree to the terms and conditions."),
                               actions: <Widget>[
                                 FloatingActionButton(
-                                  child: Text("Close"),
+                                  child: const Text("Close"),
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },

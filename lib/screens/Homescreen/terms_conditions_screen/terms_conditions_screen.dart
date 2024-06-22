@@ -4,10 +4,7 @@ import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:flutter/material.dart';
 
 class TermsConditionsScreen extends StatelessWidget {
-  const TermsConditionsScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const TermsConditionsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

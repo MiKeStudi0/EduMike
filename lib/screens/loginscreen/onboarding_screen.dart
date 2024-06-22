@@ -13,7 +13,7 @@ class onBoardingScreen extends StatefulWidget {
 }
 
 class _onBoardingScreenState extends State<onBoardingScreen> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   bool onLastPage = false;
   bool onFirstPage = true;
   @override
@@ -64,8 +64,8 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                 SmoothPageIndicator(
                   controller: _pageController,
                   count: 3,
-                  effect: ExpandingDotsEffect(
-                    activeDotColor: const Color.fromARGB(255, 255, 255, 255),
+                  effect: const ExpandingDotsEffect(
+                    activeDotColor: Color.fromARGB(255, 255, 255, 255),
                     dotColor: Colors.grey,
                     dotHeight: 8,
                     dotWidth: 8,
@@ -89,7 +89,7 @@ class _onBoardingScreenState extends State<onBoardingScreen> {
                               child: child,
                             );
                           },
-                          pageBuilder: (context, animation, secondaryAnimation) => LetSYouInScreen(),
+                          pageBuilder: (context, animation, secondaryAnimation) => const LetSYouInScreen(),
                         ),
                       );
                     },

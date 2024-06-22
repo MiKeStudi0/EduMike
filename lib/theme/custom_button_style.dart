@@ -1,5 +1,3 @@
-import 'dart:ui';
-import 'package:edumike/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 
@@ -7,8 +5,8 @@ import 'package:edumike/core/app_export.dart';
 class CustomButtonStyles {
   // text button style
   static ButtonStyle get none => ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(Colors.transparent),
-        elevation: MaterialStateProperty.all<double>(0),
+        backgroundColor: WidgetStateProperty.all<Color>(Colors.transparent),
+        elevation: WidgetStateProperty.all<double>(0),
       );
 
   static ButtonStyle get fillBlue => ElevatedButton.styleFrom(

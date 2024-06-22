@@ -1,5 +1,4 @@
 import 'package:edumike/screens/Homescreen/modules_screen/syllabus.dart';
-import 'package:edumike/screens/Homescreen/remove_bookmark_screen/remove_bookmark_screen.dart';
 import 'package:edumike/widgets/custom_search_view_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +66,7 @@ class SearchCourse extends StatefulWidget {
   final String course;
   final String semester;
 
-  const SearchCourse({
+  const SearchCourse({super.key, 
     required this.university,
     required this.degree,
     required this.course,
@@ -372,7 +371,7 @@ class _SearchCourseState extends State<SearchCourse> {
                   width: 450.v,
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 50,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
@@ -544,7 +543,7 @@ class _SearchCourseState extends State<SearchCourse> {
                               Padding(
                                 padding: const EdgeInsets.only(left: 4),
                                 child: Text(
-                                  "${course.courseCredit}",
+                                  course.courseCredit,
                                   style: theme.textTheme.labelMedium,
                                 ),
                               ),
@@ -553,7 +552,7 @@ class _SearchCourseState extends State<SearchCourse> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(left: 5.h, top: 3.v),
-                          child: Text(' | ' + course.courseCode,
+                          child: Text(' | ${course.courseCode}',
                               style: theme.textTheme.labelMedium!
                                   .copyWith(color: appTheme.blueGray90001)),
                         ),

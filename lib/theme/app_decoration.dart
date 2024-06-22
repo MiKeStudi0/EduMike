@@ -38,7 +38,7 @@ class AppDecoration {
             color: appTheme.black900.withOpacity(0.08),
             spreadRadius: 2.h,
             blurRadius: 2.h,
-            offset: Offset(
+            offset: const Offset(
               0,
               4,
             ),
@@ -52,7 +52,7 @@ class AppDecoration {
             color: appTheme.black900.withOpacity(0.1),
             spreadRadius: 2.h,
             blurRadius: 2.h,
-            offset: Offset(
+            offset: const Offset(
               0,
               2,
             ),
@@ -66,7 +66,7 @@ class AppDecoration {
             color: appTheme.black900.withOpacity(0.13),
             spreadRadius: 2.h,
             blurRadius: 2.h,
-            offset: Offset(
+            offset: const Offset(
               0,
               -3,
             ),
@@ -80,7 +80,7 @@ class AppDecoration {
             color: appTheme.black900.withOpacity(0.16),
             spreadRadius: 2.h,
             blurRadius: 2.h,
-            offset: Offset(
+            offset: const Offset(
               0,
               -4,
             ),
@@ -114,7 +114,7 @@ class AppDecoration {
             color: theme.colorScheme.primary,
             spreadRadius: 2.h,
             blurRadius: 2.h,
-            offset: Offset(
+            offset: const Offset(
               1,
               2,
             ),

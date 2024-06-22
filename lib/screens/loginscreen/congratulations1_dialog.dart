@@ -3,7 +3,7 @@ import 'package:edumike/core/app_export.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart' as fs;
 
 class Congratulations1Dialog extends StatelessWidget {
-  const Congratulations1Dialog({Key? key}) : super(key: key);
+  const Congratulations1Dialog({super.key});
 
   @override
   Widget build(BuildContext context) {

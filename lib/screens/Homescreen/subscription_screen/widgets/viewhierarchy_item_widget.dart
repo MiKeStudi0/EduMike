@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class ViewhierarchyItemWidget extends StatelessWidget {
   ViewhierarchyItemWidget({
-    Key? key,
+    super.key,
     this.onTapTxtSubscribeText,
-  }) : super(
-          key: key,
-        );
+  });
 
   VoidCallback? onTapTxtSubscribeText;
 
@@ -45,7 +43,7 @@ class ViewhierarchyItemWidget extends StatelessWidget {
                         color: appTheme.black900.withOpacity(0.1),
                         spreadRadius: 2.h,
                         blurRadius: 2.h,
-                        offset: Offset(
+                        offset: const Offset(
                           1,
                           3,
                         ),

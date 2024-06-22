@@ -15,7 +15,7 @@ class MyCoursePage extends StatelessWidget {
   final String? course;
   final String? semester;
 
-  MyCoursePage({
+  MyCoursePage({super.key, 
     this.university,
     this.degree,
     this.course,

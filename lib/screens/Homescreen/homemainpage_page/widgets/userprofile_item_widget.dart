@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class UserprofileItemWidget extends StatelessWidget {
   UserprofileItemWidget({
-    Key? key,
+    super.key,
     this.onTapBackgroundImage,
-  }) : super(
-          key: key,
-        );
+  });
 
   VoidCallback? onTapBackgroundImage;
 

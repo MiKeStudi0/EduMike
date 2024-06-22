@@ -3,7 +3,7 @@ import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 class PdfScreen extends StatelessWidget {
   final String pdfUrl; // Your Firebase Storage PDF URL
 
-  PdfScreen({required this.pdfUrl});
+  const PdfScreen({super.key, required this.pdfUrl});
 
   @override
   Widget build(BuildContext context) {

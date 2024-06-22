@@ -41,7 +41,7 @@ class CustomTextStyles {
         fontWeight: FontWeight.w600,
       );
   static get titleMediumff0961f5 => theme.textTheme.titleMedium!.copyWith(
-        color: Color(0XFF0961F5),
+        color: const Color(0XFF0961F5),
         fontSize: 17.fSize,
       );
   static get titleSmallExtraBold => theme.textTheme.titleSmall!.copyWith(
@@ -61,11 +61,11 @@ class CustomTextStyles {
         color: theme.colorScheme.primary.withOpacity(1),
       );
   static get titleSmallff0961f5 => theme.textTheme.titleSmall!.copyWith(
-        color: Color(0XFF0961F5),
+        color: const Color(0XFF0961F5),
         fontWeight: FontWeight.w800,
       );
   static get titleSmallff545454 => theme.textTheme.titleSmall!.copyWith(
-        color: Color(0XFF545454),
+        color: const Color(0XFF545454),
       );
 
   static get labelLargeMulishBold =>
@@ -193,13 +193,13 @@ class CustomTextStyles {
       );
   static get titleSmallJostff00acea =>
       theme.textTheme.titleSmall!.jost.copyWith(
-        color: Color(0XFF00ACEA),
+        color: const Color(0XFF00ACEA),
         fontSize: 15.fSize,
         fontWeight: FontWeight.w600,
       );
   static get titleSmallJostff202244 =>
       theme.textTheme.titleSmall!.jost.copyWith(
-        color: Color(0XFF202244),
+        color: const Color(0XFF202244),
         fontSize: 15.fSize,
         fontWeight: FontWeight.w600,
       );

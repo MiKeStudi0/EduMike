@@ -5,7 +5,7 @@ import 'package:edumike/core/app_export.dart';
 
 // ignore: must_be_immutable
 class ForgotPasswordScreen extends StatelessWidget {
-  ForgotPasswordScreen({Key? key}) : super(key: key);
+  ForgotPasswordScreen({super.key});
   TextEditingController emailController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
   @override
@@ -15,7 +15,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: const Color.fromARGB(31, 231, 231, 231),
           elevation: 0,
-          title: Text('Forgot Password'),
+          title: const Text('Forgot Password'),
         ),
         body: Container(
           width: double.maxFinite,
@@ -26,7 +26,7 @@ class ForgotPasswordScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Spacer(),
+              const Spacer(),
               Container(
                 width: 303.h,
                 margin: EdgeInsets.symmetric(horizontal: 28.h),
@@ -83,7 +83,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5), // Shadow color
             spreadRadius: 2, // Spread radius
             blurRadius: 5, // Blur radius
-            offset: Offset(0, 3), // Offset of the shadow
+            offset: const Offset(0, 3), // Offset of the shadow
           ),
         ],
       ),
@@ -118,7 +118,7 @@ class ForgotPasswordScreen extends StatelessWidget {
           return AlertDialog(
             title: const Text('Email Sent'),
             content:
-                Text("Password reset email sent! Please Check your email."),
+                const Text("Password reset email sent! Please Check your email."),
             actions: [
               TextButton(
                 onPressed: () {

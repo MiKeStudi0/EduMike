@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreListView extends StatefulWidget {
+  const FirestoreListView({super.key});
+
   @override
   _FirestoreListViewState createState() => _FirestoreListViewState();
 }
@@ -13,19 +15,19 @@ class _FirestoreListViewState extends State<FirestoreListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firestore Document IDs Dropdown'),
+        title: const Text('Firestore Document IDs Dropdown'),
       ),
       body: StreamBuilder(
         stream:
             FirebaseFirestore.instance.collection('/University').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('No documents found'),
             );
           }
@@ -34,7 +36,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DropdownButton<String>(
-                  hint: Text('Select a University ID'),
+                  hint: const Text('Select a University ID'),
                   value: _selectedItemId,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -58,7 +60,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                   onPressed: () {
                     _addNamesWithSubcollections();
                   },
-                  child: Text('Add Names with Subcollections'),
+                  child: const Text('Add Names with Subcollections'),
                 ),
               ],
             ),

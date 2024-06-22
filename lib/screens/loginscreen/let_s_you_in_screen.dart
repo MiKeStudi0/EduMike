@@ -6,7 +6,7 @@ import 'package:edumike/widgets/custom_elevated_button.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 
 class LetSYouInScreen extends StatelessWidget {
-  const LetSYouInScreen({Key? key}) : super(key: key);
+  const LetSYouInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

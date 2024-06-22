@@ -16,7 +16,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfilesPage extends StatefulWidget {
-  ProfilesPage({Key? key}) : super(key: key);
+  const ProfilesPage({super.key});
 
   @override
   State<ProfilesPage> createState() => _ProfilesPageState();
@@ -139,7 +139,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                                           'Welcome, ${nickname ?? "loading..."}',
                                           style: theme.textTheme.headlineSmall),
                                       const SizedBox(height: 8),
-                                      Text('${email ?? "loading..."}',
+                                      Text(email ?? "loading...",
                                           style: theme.textTheme.titleSmall),
                                     ],
                                   ),
@@ -202,8 +202,10 @@ class _ProfilesPageState extends State<ProfilesPage> {
   Widget _buildOne(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EditProfilesScreen()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const EditProfilesScreen()));
       },
       child: Container(
         color: Colors.white,
@@ -268,24 +270,26 @@ class _ProfilesPageState extends State<ProfilesPage> {
         color: Colors.white,
         child: Padding(
             padding: EdgeInsets.only(left: 20.h),
-            child:
-                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                CustomImageView(
-                    imagePath: ImageConstant.imgUserBlueGray90001,
-                    height: 23.v,
-                    width: 19.h),
-                Padding(
-                    padding: EdgeInsets.only(left: 15.h, top: 2.v, bottom: 2.v),
-                    child: Text("Notifications",
-                        style: CustomTextStyles.titleSmallBluegray9000115))
-              ]),
-              CustomImageView(
-                  imagePath: ImageConstant.imgArrowRight,
-                  height: 11.v,
-                  width: 12.h,
-                  margin: EdgeInsets.only(top: 2.v))
-            ])),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    CustomImageView(
+                        imagePath: ImageConstant.imgUserBlueGray90001,
+                        height: 23.v,
+                        width: 19.h),
+                    Padding(
+                        padding:
+                            EdgeInsets.only(left: 15.h, top: 2.v, bottom: 2.v),
+                        child: Text("Notifications",
+                            style: CustomTextStyles.titleSmallBluegray9000115))
+                  ]),
+                  CustomImageView(
+                      imagePath: ImageConstant.imgArrowRight,
+                      height: 11.v,
+                      width: 12.h,
+                      margin: EdgeInsets.only(top: 2.v))
+                ])),
       ),
     );
   }
@@ -396,7 +400,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   /// Section Widget
   Widget _buildEight(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         onTapEight(context);
       },
       child: Container(
@@ -474,7 +478,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
                     style: CustomTextStyles.titleSmallBluegray9000115)),
             const Spacer(),
             CustomImageView(
-                imagePath: ImageConstant.imgArrowRight, height: 21.v, width: 12.h)
+                imagePath: ImageConstant.imgArrowRight,
+                height: 21.v,
+                width: 12.h)
           ])),
     );
   }
@@ -542,11 +548,11 @@ class _ProfilesPageState extends State<ProfilesPage> {
 
   /// Navigates to the editProfilesScreen when the action is triggered.
   onTapOne(BuildContext context) {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => EditProfilesScreen()));
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => const EditProfilesScreen()));
   }
 
- onTapThree(BuildContext context) {
+  onTapThree(BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -554,29 +560,24 @@ class _ProfilesPageState extends State<ProfilesPage> {
   }
 
   onTapFour(BuildContext context) {
-   Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SecurityScreen()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const SecurityScreen()));
   }
 
- 
   /// Navigates to the termsConditionsScreen when the action is triggered.
   onTapSeven(BuildContext context) {
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const TermsConditionsScreen()));
   }
 
- onTapEight(BuildContext context) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => HelpFeedbackPage()));
+  onTapEight(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HelpFeedbackPage()));
   }
 
   /// Navigates to the inviteFriendsScreen when the action is triggered.
   onTapNine(BuildContext context) {
     Navigator.push(context,
-        MaterialPageRoute(builder: (context) => InviteFriendsScreen()));
+        MaterialPageRoute(builder: (context) => const InviteFriendsScreen()));
   }
-
-  
-
- 
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 
 class CustomDropDown extends StatelessWidget {
-  CustomDropDown({
-    Key? key,
+  const CustomDropDown({
+    super.key,
     this.alignment,
     this.width,
     this.focusNode,
@@ -24,9 +24,7 @@ class CustomDropDown extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.controller, 
-  }) : super(
-          key: key,
-        );
+  });
 
   final Alignment? alignment;
 

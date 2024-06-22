@@ -2,8 +2,8 @@ import 'package:edumike/core/app_export.dart';
 import 'package:flutter/material.dart';
 
 class CustomSearchView extends StatelessWidget {
-  CustomSearchView({
-    Key? key,
+  const CustomSearchView({
+    super.key,
     this.alignment,
     this.width,
     this.scrollPadding,
@@ -26,9 +26,7 @@ class CustomSearchView extends StatelessWidget {
     this.validator,
     this.onChanged,
     this.onTap,
-  }) : super(
-          key: key,
-        );
+  });
 
   final Alignment? alignment;
 

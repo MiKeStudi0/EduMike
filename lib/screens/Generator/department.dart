@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreListView extends StatefulWidget {
+  const FirestoreListView({super.key});
+
   @override
   _FirestoreListViewState createState() => _FirestoreListViewState();
 }
@@ -14,7 +16,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Firestore Document IDs Dropdown'),
+        title: const Text('Firestore Document IDs Dropdown'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -29,28 +31,28 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                   AsyncSnapshot<QuerySnapshot> universitySnapshot) {
                 if (universitySnapshot.connectionState ==
                     ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
                 if (!universitySnapshot.hasData ||
                     universitySnapshot.data!.docs.isEmpty) {
-                  return Center(
+                  return const Center(
                     child: Text('No universities found'),
                   );
                 }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Select a University ID:',
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     DropdownButton<String>(
                       isExpanded: true,
-                      hint: Text('Select a University ID'),
+                      hint: const Text('Select a University ID'),
                       value: _selectedUniversityId,
                       onChanged: (String? newValue) {
                         setState(() {
@@ -63,12 +65,12 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                           value: document.id,
                           child: Text(
                             document.id,
-                            style: TextStyle(fontSize: 14),
+                            style: const TextStyle(fontSize: 14),
                           ),
                         );
                       }).toList(),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     if (_selectedUniversityId != null)
                       StreamBuilder(
                         stream: FirebaseFirestore.instance
@@ -79,13 +81,13 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                             AsyncSnapshot<QuerySnapshot> degreeSnapshot) {
                           if (degreeSnapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(
+                            return const Center(
                               child: CircularProgressIndicator(),
                             );
                           }
                           if (!degreeSnapshot.hasData ||
                               degreeSnapshot.data!.docs.isEmpty) {
-                            return Center(
+                            return const Center(
                               child: Text(
                                   'No Degrees found for the selected University'),
                             );
@@ -93,15 +95,15 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Select a Degree:',
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               DropdownButton<String>(
                                 isExpanded: true,
-                                hint: Text('Select a Degree'),
+                                hint: const Text('Select a Degree'),
                                 value: _selectedDegreeId,
                                 onChanged: (String? newValue) {
                                   setState(() {
@@ -114,7 +116,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                                     value: document.id,
                                     child: Text(
                                       document.id,
-                                      style: TextStyle(fontSize: 14),
+                                      style: const TextStyle(fontSize: 14),
                                     ),
                                   );
                                 }).toList(),
@@ -127,7 +129,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                 );
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed:
                   (_selectedUniversityId != null && _selectedDegreeId != null)
@@ -138,15 +140,15 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                           _createSubcollection(path);
                         }
                       : null,
-              child: Text('Create Subcollection'),
               style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                textStyle: TextStyle(fontSize: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                textStyle: const TextStyle(fontSize: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
                 foregroundColor: Colors.blue,
               ),
+              child: const Text('Create Subcollection'),
             ),
           ],
         ),
@@ -196,7 +198,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
           .set({'name': name, 'degree': 'B.Tech'});
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Subcollection created successfully!'),
     ));
   }

@@ -33,7 +33,7 @@ Future<DocumentSnapshot<Map<String, dynamic>>> getUserDocument() async {
 
 // ignore_for_file: must_be_immutable
 class FillYourProfileScreen extends StatefulWidget {
-  FillYourProfileScreen({Key? key}) : super(key: key);
+  const FillYourProfileScreen({super.key});
 
   @override
   State<FillYourProfileScreen> createState() => _FillYourProfileScreenState();
@@ -46,15 +46,15 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   // DateTime _picked=DateTime.now();
 
   Future<void> _selectdate() async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
         lastDate: DateTime(2500));
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {
         dateOfBirthEditTextController.text =
-            DateFormat('yyyy-MM-dd').format(_picked);
+            DateFormat('yyyy-MM-dd').format(picked);
       });
     }
   }
@@ -62,7 +62,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
   XFile? _selectedImage;
 
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
 
     await showModalBottomSheet(
       context: context,
@@ -75,7 +75,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
               onTap: () async {
                 Navigator.of(context).pop();
                 final XFile? pickedImage =
-                    await _picker.pickImage(source: ImageSource.gallery);
+                    await picker.pickImage(source: ImageSource.gallery);
                 if (pickedImage != null) {
                   _pickImageCallback(pickedImage.path);
                 }
@@ -87,7 +87,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
               onTap: () async {
                 Navigator.of(context).pop();
                 final XFile? pickedImage =
-                    await _picker.pickImage(source: ImageSource.camera);
+                    await picker.pickImage(source: ImageSource.camera);
                 if (pickedImage != null) {
                   _pickImageCallback(pickedImage.path);
                 }
@@ -125,7 +125,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
 
   List<String> dropdownItemList = ["Male", "Female"];
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -362,7 +362,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
+                                const HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
                       );
                     } catch (e) {
                       print('Error adding user data to Firestore: $e');
@@ -389,7 +389,7 @@ class _FillYourProfileScreenState extends State<FillYourProfileScreen> {
                                     height: 48.adaptSize,
                                     width: 48.adaptSize,
                                     alignment: Alignment.centerRight,
-                                    child: CustomImageView()),
+                                    child: const CustomImageView()),
                                 CustomImageView(
                                     imagePath: ImageConstant.imgFill1,
                                     height: 17.v,

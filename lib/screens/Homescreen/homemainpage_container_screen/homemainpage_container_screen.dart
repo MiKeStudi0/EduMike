@@ -15,7 +15,7 @@ class HomemainpageContainerScreen extends StatefulWidget {
   final String? course;
   final String? semester;
 
-  HomemainpageContainerScreen({
+  const HomemainpageContainerScreen({super.key, 
     this.university,
     this.degree,
     this.course,
@@ -125,7 +125,7 @@ class _HomemainpageContainerScreenState
     print('semester: $selectedsemester');
 
     final screens = [
-      HomemainpagePage(),
+      const HomemainpagePage(),
       MyCoursePage(
         university: selecteduniversity,
         degree: selecteddegree,
@@ -137,7 +137,7 @@ class _HomemainpageContainerScreenState
         degree: selecteddegree,
         course: selectedcourse,
         semester: selectedsemester,),
-      ProfilesPage(),
+      const ProfilesPage(),
     ];
     String imagePathHome = 'assets/images/home_image';
     bool isKeyboardOpen = MediaQuery.of(context).viewInsets.bottom != 0.0;
@@ -147,7 +147,7 @@ class _HomemainpageContainerScreenState
       bottomNavigationBar: Visibility(
         visible: !isKeyboardOpen,
         child: CurvedNavigationBar(
-          buttonBackgroundColor: Color.fromARGB(255, 59, 131, 255),
+          buttonBackgroundColor: const Color.fromARGB(255, 59, 131, 255),
           items: <Widget>[
             _buildIcon(0, 'assets/images/home_image/HomeScreen.svg',
                 '$imagePathHome/img_nav_homeNot.svg'),
@@ -161,7 +161,7 @@ class _HomemainpageContainerScreenState
                 '$imagePathHome/img_nav_profile.svg'),
           ],
           backgroundColor: Colors.transparent,
-          color: Color.fromARGB(255, 60, 118, 218),
+          color: const Color.fromARGB(255, 60, 118, 218),
           height: 75,
           index: _currentIndex,
           onTap: (index) => setState(() {
@@ -187,7 +187,7 @@ class _HomemainpageContainerScreenState
 
   Widget _buildBody() {
     final screens = [
-      HomemainpagePage(),
+      const HomemainpagePage(),
       MyCoursePage(
         university: selecteduniversity,
         degree: selecteddegree,
@@ -199,7 +199,7 @@ class _HomemainpageContainerScreenState
         degree: selecteddegree,
         course: selectedcourse,
         semester: selectedsemester,),
-      ProfilesPage(),
+      const ProfilesPage(),
     ];
     return screens[_currentIndex];
   }
@@ -208,9 +208,9 @@ class _HomemainpageContainerScreenState
     String imagePathHome = 'assets/images/home_image';
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(75), // Adjust the height as needed
+          preferredSize: const Size.fromHeight(75), // Adjust the height as needed
           child: _buildNavigationBar(),
         ),
       ),
@@ -218,7 +218,7 @@ class _HomemainpageContainerScreenState
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: Visibility(
         child: CurvedNavigationBar(
-          buttonBackgroundColor: Color.fromARGB(255, 59, 131, 255),
+          buttonBackgroundColor: const Color.fromARGB(255, 59, 131, 255),
           items: <Widget>[
             _buildIcon(0, 'assets/images/home_image/HomeScreen.svg',
                 '$imagePathHome/img_nav_homeNot.svg'),
@@ -232,7 +232,7 @@ class _HomemainpageContainerScreenState
                 '$imagePathHome/img_nav_profile.svg'),
           ],
           backgroundColor: Colors.transparent,
-          color: Color.fromARGB(255, 60, 118, 218),
+          color: const Color.fromARGB(255, 60, 118, 218),
           height: 75,
           index: _currentIndex,
           onTap: (index) => setState(() {
@@ -246,7 +246,7 @@ class _HomemainpageContainerScreenState
   }
 
   Widget _buildIcon(int index, String selectedImage, String unselectedImage) {
-    return Container(
+    return SizedBox(
       height: 25,
       width: 25,
       child: SvgPicture.asset(

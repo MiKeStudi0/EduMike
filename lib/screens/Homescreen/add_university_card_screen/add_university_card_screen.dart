@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class AddUniversityCardScreen extends StatefulWidget {
-  AddUniversityCardScreen({Key? key}) : super(key: key);
+  const AddUniversityCardScreen({super.key});
 
   @override
   State<AddUniversityCardScreen> createState() =>
@@ -292,8 +292,8 @@ class _AddUniversityCardScreenState extends State<AddUniversityCardScreen> {
     Navigator.pushReplacement(
       context,
       PageRouteBuilder(
-        transitionDuration: Duration(milliseconds: 500), // Adjust as needed
-        pageBuilder: (_, __, ___) => HomemainpageContainerScreen(),
+        transitionDuration: const Duration(milliseconds: 500), // Adjust as needed
+        pageBuilder: (_, __, ___) => const HomemainpageContainerScreen(),
         transitionsBuilder: (_, animation, __, child) {
           // Apply a fade transition
           return FadeTransition(

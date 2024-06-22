@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreListView extends StatefulWidget {
+  const FirestoreListView({super.key});
+
   @override
   _FirestoreListViewState createState() => _FirestoreListViewState();
 }
@@ -198,7 +200,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
             ),
             if (_selectedPath != null) ...[
               const SizedBox(height: 20),
-              Text(
+              const Text(
                 'Select Semester:',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
@@ -254,7 +256,6 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                       _createSubcollection(path);
                     }
                   : null,
-              child: const Text('Create Subcollection'),
               style: ElevatedButton.styleFrom(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
@@ -264,6 +265,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
                 ),
                 foregroundColor: Colors.blue,
               ),
+              child: const Text('Create Subcollection'),
             ),
           ],
         ),
@@ -286,7 +288,7 @@ class _FirestoreListViewState extends State<FirestoreListView> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: FirestoreListView(),
   ));
 }

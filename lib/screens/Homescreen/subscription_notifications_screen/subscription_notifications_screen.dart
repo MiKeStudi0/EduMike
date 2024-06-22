@@ -9,7 +9,7 @@ import 'package:grouped_list/grouped_list.dart';
 
 // ignore_for_file: must_be_immutable
 class SubscriptionNotificationsScreen extends StatelessWidget {
-  SubscriptionNotificationsScreen({Key? key}) : super(key: key);
+  SubscriptionNotificationsScreen({super.key});
 
   List todaysectionlist2ItemList = [
     {'id': 1, 'groupBy': "Today"},
@@ -88,7 +88,7 @@ class SubscriptionNotificationsScreen extends StatelessWidget {
                       .copyWith(color: appTheme.blueGray90001)));
         },
         itemBuilder: (context, model) {
-          return Todaysectionlist2ItemWidget();
+          return const Todaysectionlist2ItemWidget();
         },
         separator: SizedBox(height: 12.v));
   }

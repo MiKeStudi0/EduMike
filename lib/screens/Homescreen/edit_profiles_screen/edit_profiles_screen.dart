@@ -14,7 +14,7 @@ import 'package:intl/intl.dart';
 
 // ignore_for_file: must_be_immutable
 class EditProfilesScreen extends StatefulWidget {
-  EditProfilesScreen({Key? key}) : super(key: key);
+  const EditProfilesScreen({super.key});
 
   @override
   State<EditProfilesScreen> createState() => _FillYourProfileScreenState();
@@ -53,14 +53,14 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _selectdate() async {
-    DateTime? _picked = await showDatePicker(
+    DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),
         lastDate: DateTime(2500));
-    if (_picked != null) {
+    if (picked != null) {
       setState(() {
-        dateOfBirthController.text = DateFormat('yyyy-MM-dd').format(_picked);
+        dateOfBirthController.text = DateFormat('yyyy-MM-dd').format(picked);
       });
     }
   }
@@ -122,7 +122,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
   XFile? _selectedImage;
 
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
 
     // Show bottom sheet with options
     await showModalBottomSheet(
@@ -136,7 +136,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
               onTap: () async {
                 Navigator.of(context).pop();
                 final XFile? pickedImage =
-                    await _picker.pickImage(source: ImageSource.gallery);
+                    await picker.pickImage(source: ImageSource.gallery);
                 if (pickedImage != null) {
                   setState(() {
                     _selectedImage = pickedImage;
@@ -150,7 +150,7 @@ class _FillYourProfileScreenState extends State<EditProfilesScreen> {
               onTap: () async {
                 Navigator.of(context).pop();
                 final XFile? pickedImage =
-                    await _picker.pickImage(source: ImageSource.camera);
+                    await picker.pickImage(source: ImageSource.camera);
                 if (pickedImage != null) {
                   setState(() {
                     _selectedImage = pickedImage;

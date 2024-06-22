@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class CoursedetailsItemWidget extends StatelessWidget {
   CoursedetailsItemWidget({
-    Key? key,
+    super.key,
     this.onTapImgBookmarkImage1,
-  }) : super(
-          key: key,
-        );
+  });
 
   VoidCallback? onTapImgBookmarkImage1;
 

@@ -1,7 +1,6 @@
 import 'package:edumike/screens/loginscreen/fill_your_profile_screen.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 import 'package:edumike/widgets/app_bar/appbar_leading_image.dart';
@@ -10,11 +9,10 @@ import 'package:edumike/widgets/app_bar/custom_app_bar_home.dart';
 import 'package:edumike/widgets/custom_icon_button.dart';
 import 'package:edumike/widgets/custom_pin_code_text_field.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 class VerifyMailScreen extends StatefulWidget {
-  const VerifyMailScreen({Key? key}) : super(key: key);
+  const VerifyMailScreen({super.key});
 
   @override
   _VerifyMailScreenState createState() => _VerifyMailScreenState();
@@ -136,10 +134,10 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
                           Navigator.pushReplacement(
                             context,
                             PageRouteBuilder(
-                              transitionDuration: Duration(milliseconds: 500),
+                              transitionDuration: const Duration(milliseconds: 500),
                               pageBuilder:
                                   (context, animation, secondaryAnimation) =>
-                                      FillYourProfileScreen(),
+                                      const FillYourProfileScreen(),
                               transitionsBuilder: (context, animation,
                                   secondaryAnimation, child) {
                                 return SlideTransition(
@@ -226,7 +224,7 @@ class _VerifyMailScreenState extends State<VerifyMailScreen> {
                     color: theme.colorScheme.primary,
                     spreadRadius: 2.h,
                     blurRadius: 2.h,
-                    offset: Offset(
+                    offset: const Offset(
                       1,
                       2,
                     ),

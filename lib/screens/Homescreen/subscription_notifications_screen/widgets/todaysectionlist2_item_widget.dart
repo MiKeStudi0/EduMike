@@ -4,17 +4,14 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class Todaysectionlist2ItemWidget extends StatelessWidget {
-  const Todaysectionlist2ItemWidget({Key? key})
-      : super(
-          key: key,
-        );
+  const Todaysectionlist2ItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 0,
-      margin: EdgeInsets.all(0),
+      margin: const EdgeInsets.all(0),
       color: appTheme.blue50,
       shape: RoundedRectangleBorder(
         side: BorderSide(

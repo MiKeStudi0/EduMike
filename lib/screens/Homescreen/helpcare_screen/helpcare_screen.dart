@@ -8,7 +8,7 @@ import 'package:edumike/widgets/custom_outlined_button_home.dart';
 import 'package:flutter/material.dart';
 
 class HelpcareScreen extends StatelessWidget {
-  const HelpcareScreen({Key? key}) : super(key: key);
+  const HelpcareScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +185,7 @@ class HelpcareScreen extends StatelessWidget {
                         child: CustomIconButton(
                             height: 48.adaptSize,
                             width: 48.adaptSize,
-                            child: CustomImageView()))),
+                            child: const CustomImageView()))),
                 Align(
                     alignment: Alignment.center,
                     child: Container(

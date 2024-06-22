@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CategoryItemWidget extends StatelessWidget {
-  const CategoryItemWidget({Key? key})
-      : super(
-          key: key,
-        );
+  const CategoryItemWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 
 class CourseWidget extends StatefulWidget {
-  const CourseWidget({Key? key}) : super(key: key);
+  const CourseWidget({super.key});
 
   @override
   State<CourseWidget> createState() => _CourseWidgetState();
@@ -27,7 +27,7 @@ class _CourseWidgetState extends State<CourseWidget> {
           .get();
 
       // Store document IDs and field data in the list
-      snapshot.docs.forEach((QueryDocumentSnapshot<Object?> doc) {
+      for (var doc in snapshot.docs) {
         Map<String, dynamic> documentData =
             (doc.data() as Map<String, dynamic>);
         String documentId = doc.id;
@@ -36,7 +36,7 @@ class _CourseWidgetState extends State<CourseWidget> {
           'id': documentId,
           'courseCode': documentData,
         });
-      });
+      }
 
       // Force a rebuild after fetching the document data
       setState(() {});
@@ -97,7 +97,7 @@ class _CourseWidgetState extends State<CourseWidget> {
                                                         .withOpacity(0.08),
                                                     spreadRadius: 2.h,
                                                     blurRadius: 2.h,
-                                                    offset: Offset(0, 4))
+                                                    offset: const Offset(0, 4))
                                               ]))),
                                   Align(
                                     alignment: Alignment.topCenter,
@@ -209,7 +209,7 @@ class _CourseWidgetState extends State<CourseWidget> {
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: Scaffold(
       body: CourseWidget(),
     ),

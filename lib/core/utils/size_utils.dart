@@ -13,9 +13,9 @@ typedef ResponsiveBuild = Widget Function(
 
 class Sizer extends StatelessWidget {
   const Sizer({
-    Key? key,
+    super.key,
     required this.builder,
-  }) : super(key: key);
+  });
 
   /// Builds the widget whenever the orientation changes.
   final ResponsiveBuild builder;
@@ -103,7 +103,7 @@ extension ResponsiveExtension on num {
 extension FormatExtension on double {
   /// Return a [double] value with formatted according to provided fractionDigits
   double toDoubleValue({int fractionDigits = 2}) {
-    return double.parse(this.toStringAsFixed(fractionDigits));
+    return double.parse(toStringAsFixed(fractionDigits));
   }
 
   double isNonZero({num defaultValue = 0.0}) {

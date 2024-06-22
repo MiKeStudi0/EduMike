@@ -164,7 +164,7 @@ class NotificationDetailScreen extends StatelessWidget {
   final String title;
   final String content;
 
-  NotificationDetailScreen({required this.title, required this.content});
+  const NotificationDetailScreen({super.key, required this.title, required this.content});
 
   @override
   Widget build(BuildContext context) {

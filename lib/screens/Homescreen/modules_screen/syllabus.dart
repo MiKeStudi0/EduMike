@@ -12,7 +12,7 @@ class Syllabus extends StatelessWidget {
   final String courseName;
   final String category;
 
-  const Syllabus({
+  const Syllabus({super.key, 
     required this.university,
     required this.degree,
     required this.course,

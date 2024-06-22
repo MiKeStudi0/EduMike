@@ -6,8 +6,7 @@ class HelpFeedbackPage extends StatelessWidget {
   final List<QuestionAnswer> faq = [
     QuestionAnswer(
       question: 'How do I login?',
-      answer:
-          'To login, click on the login button and enter your credentials.',
+      answer: 'To login, click on the login button and enter your credentials.',
     ),
     QuestionAnswer(
       question: 'How do I reset my password?',
@@ -21,28 +20,33 @@ class HelpFeedbackPage extends StatelessWidget {
     ),
   ];
 
+  HelpFeedbackPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Help & Feedback'),
-         leading: IconButton(
-        icon:const Icon(Icons.arrow_back),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
       ),
-      ),
-      body:
-       Column(
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(padding: const EdgeInsets.only(left: 22),child:
-                    const Text('Popular help resources?',style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
-                      ),),),
-                    
+          Container(
+            padding: const EdgeInsets.only(left: 22),
+            child: const Text(
+              'Popular help resources?',
+              style: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
           ListView.builder(
             shrinkWrap: true,
             itemCount: faq.length,
@@ -55,21 +59,22 @@ class HelpFeedbackPage extends StatelessWidget {
             color: const Color.fromARGB(255, 194, 193, 193),
           ),
           const SizedBox(height: 10.0),
-
-          Container(padding: const EdgeInsets.only(left: 22),child:
-                    const Text('Need more help?',style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                      ),),),
-                     const SizedBox(height: 10.0),
-
-
-
-           GestureDetector(
+          Container(
+            padding: const EdgeInsets.only(left: 22),
+            child: const Text(
+              'Need more help?',
+              style: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10.0),
+          GestureDetector(
             onTap: () {
-             _launchEmail('flutteremperor@gmail.com');
+              _launchEmail('flutteremperor@gmail.com');
             },
-             child: Container(
+            child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 20.0),
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
@@ -78,9 +83,7 @@ class HelpFeedbackPage extends StatelessWidget {
               ),
               child: const Column(
                 children: [
-             
                   Row(
-                
                     children: [
                       Icon(Icons.email),
                       SizedBox(width: 20.0),
@@ -100,15 +103,14 @@ class HelpFeedbackPage extends StatelessWidget {
                   ),
                 ],
               ),
-                       ),
-           ),
-           const SizedBox(height: 10.0),
-         
+            ),
+          ),
+          const SizedBox(height: 10.0),
           GestureDetector(
-             onTap: () {
+            onTap: () {
               _launchEmail('flutteremperor@gmail.com');
             },
-             child: Container(
+            child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 20.0),
               padding: const EdgeInsets.all(10.0),
               decoration: BoxDecoration(
@@ -117,9 +119,7 @@ class HelpFeedbackPage extends StatelessWidget {
               ),
               child: const Column(
                 children: [
-             
                   Row(
-                
                     children: [
                       Icon(Icons.email),
                       SizedBox(width: 20.0),
@@ -139,14 +139,14 @@ class HelpFeedbackPage extends StatelessWidget {
                   ),
                 ],
               ),
-                       ),
-           ),
+            ),
+          ),
         ],
       ),
     );
-    
   }
-   void _launchEmail(String toEmail) async {
+
+  void _launchEmail(String toEmail) async {
     String emailUrl = 'mailto:$toEmail';
     if (await canLaunch(emailUrl)) {
       await launch(emailUrl);
@@ -166,7 +166,8 @@ class HelpFeedbackPage extends StatelessWidget {
             Expanded(
               child: Text(
                 questionAnswer.question,
-                style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    fontSize: 14.0, fontWeight: FontWeight.bold),
               ),
             ),
           ],

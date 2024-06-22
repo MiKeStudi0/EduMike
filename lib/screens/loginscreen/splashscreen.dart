@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 
 class Splashscreen extends StatelessWidget {
-  const Splashscreen({Key? key}) : super(key: key);
+  const Splashscreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class Splashscreen extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Color.fromARGB(255, 240, 240, 240),
+                        color: const Color.fromARGB(255, 240, 240, 240),
                         fontSize: theme.textTheme.titleSmall?.fontSize ?? 0),
                   ))
             ])),

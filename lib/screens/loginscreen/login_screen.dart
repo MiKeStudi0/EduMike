@@ -9,7 +9,7 @@ import 'package:edumike/widgets/custom_text_form_field.dart';
 
 // ignore_for_file: must_be_immutable
 class LoginScreen extends StatefulWidget {
-  LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool rememberMe = false;
   bool _obscureText = true;
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       margin: EdgeInsets.only(
                                           top: _showPasswordInfo ? 8.0 : 0.0),
                                       child: !_showPasswordInfo
-                                          ? SizedBox.shrink()
+                                          ? const SizedBox.shrink()
                                           : const Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -475,7 +475,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacementNamed(
             context, AppRoutes.homemainpageContainerScreen);
       }
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       Navigator.pop(context);
       signinErrorMessage('Please check your username and password', context);
     }

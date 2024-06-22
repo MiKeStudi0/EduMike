@@ -6,7 +6,7 @@ class CustomTextFormField extends StatelessWidget {
   final VoidCallback? onTap;
 
   CustomTextFormField({
-    Key? key,
+    super.key,
     this.onTap,
     this.alignment,
     this.width,
@@ -33,9 +33,7 @@ class CustomTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.onChanged,
     this.initialValue,
-  }) : super(
-          key: key,
-        );
+  });
 
   final Alignment? alignment;
   final IconButton? suffixIcon;

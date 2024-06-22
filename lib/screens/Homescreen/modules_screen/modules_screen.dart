@@ -11,7 +11,7 @@ class ModulesScreen extends StatelessWidget {
   final String? courseName;
   final String? category;
 
-  ModulesScreen({
+  const ModulesScreen({super.key, 
     this.university,
     this.degree,
     this.course,
@@ -79,7 +79,7 @@ class ModulesScreen extends StatelessWidget {
                     .snapshots(),
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
 
                   if (snapshot.hasError) {
@@ -87,7 +87,7 @@ class ModulesScreen extends StatelessWidget {
                   }
 
                   if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
-                    return Center(child: Text('No PDFs available.'));
+                    return const Center(child: Text('No PDFs available.'));
                   }
 
                   return Expanded(
@@ -130,9 +130,9 @@ class ModulesScreen extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text("Modules"),
+      title: const Text("Modules"),
     );
   }
 }
 
-void main() => runApp(MaterialApp(home: ModulesScreen()));
+void main() => runApp(const MaterialApp(home: ModulesScreen()));

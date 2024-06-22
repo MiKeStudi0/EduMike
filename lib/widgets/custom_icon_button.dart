@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 
 class CustomIconButton extends StatelessWidget {
-  CustomIconButton({
-    Key? key,
+  const CustomIconButton({
+    super.key,
     this.alignment,
     this.height,
     this.width,
@@ -11,9 +11,7 @@ class CustomIconButton extends StatelessWidget {
     this.decoration,
     this.child,
     this.onTap,
-  }) : super(
-          key: key,
-        );
+  });
 
   final Alignment? alignment;
 
@@ -81,7 +79,7 @@ extension IconButtonStyleHelper on CustomIconButton {
             color: theme.colorScheme.primary,
             spreadRadius: 2.h,
             blurRadius: 2.h,
-            offset: Offset(
+            offset: const Offset(
               1,
               2,
             ),

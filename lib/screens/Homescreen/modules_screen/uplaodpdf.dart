@@ -4,18 +4,20 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UploadScreen extends StatefulWidget {
+  const UploadScreen({super.key});
+
   @override
   _UploadScreenState createState() => _UploadScreenState();
 }
 
 class _UploadScreenState extends State<UploadScreen> {
-  TextEditingController _pdfNameController = TextEditingController();
+  final TextEditingController _pdfNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('PDF Upload'),
+        title: const Text('PDF Upload'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -24,9 +26,9 @@ class _UploadScreenState extends State<UploadScreen> {
           children: [
             TextField(
               controller: _pdfNameController,
-              decoration: InputDecoration(labelText: 'PDF Name'),
+              decoration: const InputDecoration(labelText: 'PDF Name'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
                 String pdfName = _pdfNameController.text.trim();
@@ -39,13 +41,13 @@ class _UploadScreenState extends State<UploadScreen> {
                   }
                 } else {
                   // Show an error message for an empty PDF name
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Please enter a PDF name.'),
                     duration: Duration(seconds: 2),
                   ));
                 }
               },
-              child: Text('Upload PDF'),
+              child: const Text('Upload PDF'),
             ),
           ],
         ),
@@ -70,7 +72,7 @@ class _UploadScreenState extends State<UploadScreen> {
     } catch (e) {
       print("Error uploading PDF: $e");
       // Show an error message to the user
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Error uploading PDF. Please try again.'),
         duration: Duration(seconds: 2),
       ));
@@ -78,4 +80,4 @@ class _UploadScreenState extends State<UploadScreen> {
   }
 }
 
-void main() => runApp(MaterialApp(home: UploadScreen()));
+void main() => runApp(const MaterialApp(home: UploadScreen()));

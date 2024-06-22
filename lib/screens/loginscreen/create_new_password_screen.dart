@@ -8,16 +8,13 @@ import 'package:edumike/widgets/custom_text_form_field.dart';
 
 // ignore: must_be_immutable
 class CreateNewPasswordScreen extends StatelessWidget {
-  CreateNewPasswordScreen({Key? key})
-      : super(
-          key: key,
-        );
+  CreateNewPasswordScreen({super.key});
 
   TextEditingController newpasswordController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +40,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       "Create Your New Password",
                       style: CustomTextStyles.titleMediumJostOnErrorContainer,
@@ -164,7 +161,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                     color: theme.colorScheme.primary,
                     spreadRadius: 2.h,
                     blurRadius: 2.h,
-                    offset: Offset(
+                    offset: const Offset(
                       1,
                       2,
                     ),

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class IndoxmainpagePage extends StatefulWidget {
-  const IndoxmainpagePage({Key? key}) : super(key: key);
+  const IndoxmainpagePage({super.key});
 
   @override
   _IndoxmainpagePageState createState() => _IndoxmainpagePageState();

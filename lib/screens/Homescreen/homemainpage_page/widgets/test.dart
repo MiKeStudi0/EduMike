@@ -62,6 +62,8 @@ class Course {
 }
 
 class CourseListBlock extends StatefulWidget {
+  const CourseListBlock({super.key});
+
   @override
   _CourseListBlockState createState() => _CourseListBlockState();
 }
@@ -293,7 +295,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
         //width: 415.v,
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: 50.h,
               child: ListView(
                 scrollDirection: Axis.horizontal,
@@ -315,7 +317,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                               : theme.colorScheme.primary,
                           labelStyle: TextStyle(
                             color: selectedCategory == category
-                                ? Color.fromARGB(255, 0, 94, 255)
+                                ? const Color.fromARGB(255, 0, 94, 255)
                                 : null,
                           ),
                         ),
@@ -479,7 +481,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                               imagePath: ImageConstant.imgSignal,
                               height: 11,
                               width: 12,
-                              margin: EdgeInsets.only(bottom: 2),
+                              margin: const EdgeInsets.only(bottom: 2),
                             ),
                             Text(course.courseCredit,
                                 style: theme.textTheme.labelMedium!
@@ -513,7 +515,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
   Widget _buildLoading() {
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: 45.h,
           child: ListView(
             scrollDirection: Axis.horizontal,
@@ -534,7 +536,7 @@ class _CourseListBlockState extends State<CourseListBlock> {
                     ))),
           ),
         ),
-        Container(
+        SizedBox(
           height: 245.h,
           child: ListView(
             scrollDirection: Axis.horizontal,

@@ -13,7 +13,7 @@ class CustomPinCodeTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
 
   const CustomPinCodeTextField({
-    Key? key,
+    super.key,
     required this.context,
     required this.onChanged,
     this.alignment,
@@ -21,7 +21,7 @@ class CustomPinCodeTextField extends StatelessWidget {
     this.textStyle,
     this.hintStyle,
     this.validator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +48,8 @@ class CustomPinCodeTextField extends StatelessWidget {
         borderWidth: 2, // Add border width for better visibility
         inactiveColor:
             appTheme.blue600, // Set inactive color to grey for visibility
-        activeColor: Color.fromARGB(0, 52, 116, 245),
-        selectedColor: Color.fromARGB(0, 69, 184, 237),
+        activeColor: const Color.fromARGB(0, 52, 116, 245),
+        selectedColor: const Color.fromARGB(0, 69, 184, 237),
       ),
       onChanged: (value) => onChanged(value),
       validator: validator,

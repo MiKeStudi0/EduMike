@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:edumike/core/app_export.dart';
 
 class IntroOneScreen extends StatelessWidget {
-  const IntroOneScreen({Key? key}) : super(key: key);
+  const IntroOneScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

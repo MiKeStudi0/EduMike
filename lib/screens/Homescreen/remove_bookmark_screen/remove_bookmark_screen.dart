@@ -17,7 +17,7 @@ class RemoveBookmarkScreen extends StatelessWidget {
   
 
 
-  RemoveBookmarkScreen({
+  const RemoveBookmarkScreen({super.key, 
     this.category,
     this.courseName,
     this.courseCode,
@@ -247,7 +247,7 @@ void _removeBookmark(BuildContext context) async {
         Navigator.pop(context);
 
         // Show a success message or perform any other action as needed
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text("Bookmark removed successfully"),
         ));
       }
@@ -255,7 +255,7 @@ void _removeBookmark(BuildContext context) async {
   } catch (e) {
     // Handle errors
     print('Error removing bookmark: $e');
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("Failed to remove bookmark"),
     ));
   }

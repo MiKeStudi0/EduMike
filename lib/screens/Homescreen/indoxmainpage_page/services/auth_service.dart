@@ -14,8 +14,8 @@ class AuthService extends ChangeNotifier{
       
       );
       return userCredential;
-    } on FirebaseAuthException catch (e) {
-      throw e;
+    } on FirebaseAuthException {
+      rethrow;
     }
   }
 }

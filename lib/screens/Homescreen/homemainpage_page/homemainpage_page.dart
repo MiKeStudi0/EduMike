@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class HomemainpagePage extends StatefulWidget {
-  HomemainpagePage({Key? key}) : super(key: key);
+  const HomemainpagePage({super.key});
 
   @override
   State<HomemainpagePage> createState() => _HomemainpagePageState();
@@ -193,7 +193,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                       padding: EdgeInsets.only(
                         left: 10.v,
                       ),
-                      child: CourseListBlock()),
+                      child: const CourseListBlock()),
                   SizedBox(height: 15.v),
                 ],
               ),
@@ -372,7 +372,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                             SizedBox(height: 7.v),
                             Row(
                               children: [
-                                Container(
+                                SizedBox(
                                   width: 150.h,
                                   child: Text(
                                     university!.toUpperCase(),
@@ -382,7 +382,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 38.h),
-                                  child: Container(
+                                  child: SizedBox(
                                     width: 60.h,
                                     child: Text(
                                       degree!.toUpperCase(),
@@ -401,7 +401,7 @@ class _HomemainpagePageState extends State<HomemainpagePage>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
+                                  SizedBox(
                                     width: 150.h,
                                     child: Text(
                                       course!.toUpperCase(),
@@ -580,10 +580,10 @@ class _HomemainpagePageState extends State<HomemainpagePage>
           borderRadius: const BorderRadius.vertical(top: Radius.circular(18.0)),
           child: FractionallySizedBox(
             heightFactor: 0.87,
-            child: Container(
+            child: SizedBox(
               // Set a specific height, you can adjust this value based on your needs
               height: MediaQuery.of(context).size.height * 0.87,
-              child: AddUniversityCardScreen(),
+              child: const AddUniversityCardScreen(),
             ),
           ),
         );
@@ -596,7 +596,6 @@ class _HomemainpagePageState extends State<HomemainpagePage>
     BuildContext context, {
     required String text,
     required String seeAll,
-    Function? onTapSeeAll,
   }) {
     return Row(children: [
       Text(text,

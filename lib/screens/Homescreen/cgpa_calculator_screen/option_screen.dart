@@ -2,6 +2,8 @@ import 'package:edumike/theme/theme_helper.dart';
 import 'package:flutter/material.dart';
 
 class GPAHomePage extends StatefulWidget {
+  const GPAHomePage({super.key});
+
   @override
   _GPAHomePageState createState() => _GPAHomePageState();
 }
@@ -59,7 +61,7 @@ class _GPAHomePageState extends State<GPAHomePage> {
           Expanded(
             child: IndexedStack(
               index: _selectedIndex,
-              children: [
+              children: const [
                 SGPCalculatorPage(),
                 CGPACalculatorPage(),
               ],
@@ -73,6 +75,8 @@ class _GPAHomePageState extends State<GPAHomePage> {
 
 
 class SGPCalculatorPage extends StatefulWidget {
+  const SGPCalculatorPage({super.key});
+
   @override
   _SGPCalculatorPageState createState() => _SGPCalculatorPageState();
 }
@@ -233,6 +237,8 @@ class _SGPCalculatorPageState extends State<SGPCalculatorPage> {
 
 
 class CGPACalculatorPage extends StatefulWidget {
+  const CGPACalculatorPage({super.key});
+
   @override
   _CGPACalculatorPageState createState() => _CGPACalculatorPageState();
 }

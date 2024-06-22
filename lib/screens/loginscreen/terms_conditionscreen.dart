@@ -2,6 +2,8 @@ import 'package:edumike/screens/Homescreen/homemainpage_container_screen/homemai
 import 'package:flutter/material.dart';
 
 class TermsAndConditionsPage extends StatefulWidget {
+  const TermsAndConditionsPage({super.key});
+
   @override
   _TermsAndConditionsPageState createState() => _TermsAndConditionsPageState();
 }
@@ -53,7 +55,7 @@ class _TermsAndConditionsPageState extends State<TermsAndConditionsPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
+                                const HomemainpageContainerScreen()), // Replace HomePage with your actual homepage widget
                       );
           // Navigate to the next page or perform any action
           // when the checkbox is checked and the button is pressed.
